@@ -133,6 +133,11 @@ build_arch() {
 </plist>
 PLIST
 
+  # Ad-hoc code sign (deep sign all nested binaries/frameworks)
+  echo "  Signing..."
+  codesign --force --deep --sign - "${APP_BUNDLE}"
+  echo "  Signed: $(codesign -dv "${APP_BUNDLE}" 2>&1 | grep 'Signature')"
+
   echo "  App bundle: ${APP_BUNDLE}"
 }
 
