@@ -1,0 +1,188 @@
+/* App */
+"app.name" = "TaskTick";
+
+/* Menu Bar */
+"menubar.open" = "打开 TaskTick";
+"menubar.no_tasks" = "暂无任务";
+"menubar.next_run" = "下次执行";
+
+/* Task List */
+"task.filter.all" = "全部";
+"task.filter.enabled" = "已启用";
+"task.filter.disabled" = "已禁用";
+"task.search.prompt" = "搜索任务...";
+"task.empty.title" = "还没有任务";
+"task.empty.description" = "点击 + 创建你的第一个定时任务";
+"task.select.title" = "选择一个任务";
+"task.select.description" = "从左侧列表选择任务查看详情，或点击 + 创建新任务";
+"task.interval.seconds" = "%d 秒";
+"task.status.enabled" = "已启用";
+"task.status.disabled" = "已禁用";
+
+/* Task Detail */
+"task.detail.enable" = "启用";
+"task.detail.disable" = "禁用";
+"task.detail.run" = "运行";
+"task.detail.edit" = "编辑";
+"task.detail.delete" = "删除";
+"task.detail.schedule" = "调度配置";
+"task.detail.script" = "脚本内容";
+"task.detail.cron_expression" = "Cron 表达式";
+"task.detail.interval" = "执行间隔";
+"task.detail.interval_value" = "%d 秒";
+"task.detail.next_run" = "下次执行";
+"task.detail.last_run" = "上次执行";
+"task.detail.shell" = "Shell";
+"task.detail.working_dir" = "工作目录";
+"task.detail.timeout" = "超时时间";
+"task.detail.timeout_value" = "%d 秒";
+"task.detail.recent_logs" = "最近执行";
+"task.detail.no_logs" = "暂无执行记录";
+"task.detail.view_all_logs" = "查看全部日志";
+
+/* Task Editor */
+"editor.title.new" = "新建任务";
+"editor.title.edit" = "编辑任务";
+"editor.cancel" = "取消";
+"editor.save" = "保存";
+"editor.section.basic" = "基本信息";
+"editor.name" = "任务名称";
+"editor.name.placeholder" = "输入任务名称";
+"editor.enabled" = "启用";
+"editor.section.schedule" = "调度方式";
+"editor.schedule_type" = "类型";
+"editor.interval" = "间隔";
+"editor.interval.seconds" = "秒";
+"editor.section.script" = "脚本";
+"editor.script.source" = "来源";
+"editor.script.source.inline" = "自定义脚本";
+"editor.script.source.file" = "本地文件";
+"editor.script.choose_file" = "选择文件...";
+"editor.script.file_path" = "文件路径";
+"editor.script.no_file" = "未选择文件";
+"editor.script.placeholder" = "输入要执行的 Shell 脚本";
+"editor.shell" = "Shell";
+"editor.working_dir" = "工作目录";
+"editor.working_dir.placeholder" = "可选的工作目录路径";
+"editor.timeout" = "超时时间";
+"editor.timeout.seconds" = "秒";
+"editor.section.notification" = "通知";
+"editor.notify_success" = "成功时通知";
+"editor.notify_failure" = "失败时通知";
+
+/* Cron Editor */
+"cron.preset" = "预设";
+"cron.custom" = "自定义...";
+"cron.every_minute" = "每分钟";
+"cron.every_5_minutes" = "每 5 分钟";
+"cron.every_15_minutes" = "每 15 分钟";
+"cron.every_30_minutes" = "每 30 分钟";
+"cron.every_hour" = "每小时";
+"cron.daily_midnight" = "每天零点";
+"cron.daily_8am" = "每天 8:00";
+"cron.weekly_monday" = "每周一 9:00";
+"cron.monthly_first" = "每月 1 日零点";
+"cron.next_run" = "下次: %@";
+"cron.cannot_compute" = "无法计算";
+"cron.expression.placeholder" = "分 时 日 月 周";
+
+/* Schedule Types */
+"schedule.cron" = "Cron 表达式";
+"schedule.interval" = "固定间隔";
+
+/* Execution Status */
+"status.running" = "运行中";
+"status.success" = "成功";
+"status.failure" = "失败";
+"status.timeout" = "超时";
+"status.cancelled" = "已取消";
+
+/* Logs */
+"log.title" = "执行日志";
+"log.select.title" = "选择一条日志";
+"log.select.description" = "从左侧列表选择一条执行日志查看详情";
+"log.filter.all" = "全部";
+"log.detail.title" = "执行详情";
+"log.detail.trigger" = "触发方式";
+"log.detail.trigger.manual" = "手动";
+"log.detail.trigger.schedule" = "定时";
+"log.detail.exit_code" = "退出码";
+"log.detail.duration" = "耗时";
+"log.detail.duration_ms" = "%d 毫秒";
+"log.detail.finished" = "结束时间";
+"log.detail.stdout" = "标准输出";
+"log.detail.stderr" = "错误输出";
+"log.unknown_task" = "未知任务";
+
+/* Settings */
+"settings.general" = "通用";
+"settings.general.language" = "语言";
+"settings.general.language.section" = "语言设置";
+"settings.general.language.restart_hint" = "切换语言后大部分界面会立即生效。";
+"settings.general.startup" = "启动";
+"settings.general.launch_at_login" = "开机自动启动";
+"settings.general.defaults" = "默认值";
+"settings.general.default_shell" = "默认 Shell";
+"settings.general.default_timeout" = "默认超时";
+"settings.general.seconds" = "秒";
+
+"settings.notifications" = "通知";
+"settings.notifications.section" = "通知设置";
+"settings.notifications.enable" = "启用通知";
+"settings.notifications.on_success" = "任务成功时通知";
+"settings.notifications.on_failure" = "任务失败时通知";
+
+"settings.logs" = "日志";
+"settings.logs.section" = "日志管理";
+"settings.logs.retention" = "保留期限";
+"settings.logs.retention.days" = "天";
+"settings.logs.cleanup" = "清理历史日志";
+
+"settings.updates" = "更新";
+"settings.updates.section" = "自动更新";
+"settings.updates.auto_check" = "自动检查更新";
+"settings.updates.frequency" = "检查频率";
+"settings.updates.frequency.12h" = "每 12 小时";
+"settings.updates.frequency.24h" = "每 24 小时";
+"settings.updates.frequency.3d" = "每 3 天";
+"settings.updates.frequency.1w" = "每周";
+"settings.updates.check_now" = "立即检查";
+"settings.updates.new_version" = "新版本可用: %@";
+
+"settings.about" = "关于";
+"settings.about.section" = "关于 TaskTick";
+"settings.about.version" = "版本";
+"settings.about.build" = "构建号";
+"settings.about.github" = "GitHub 主页";
+"settings.about.issues" = "报告问题";
+"settings.about.sponsor" = "赞助支持";
+"settings.about.copyright" = "© 2026 lifedever. MIT 许可证.";
+
+/* Commands */
+"command.about" = "关于 TaskTick";
+"command.check_updates" = "检查更新...";
+"command.new_task" = "新建任务";
+"command.import" = "导入任务...";
+"command.export" = "导出任务...";
+"command.task_menu" = "任务";
+"command.run_selected" = "运行选中任务";
+"command.stop_task" = "停止任务";
+"command.toggle_enabled" = "启用/禁用";
+"command.delete_task" = "删除任务";
+"command.show_logs" = "显示日志面板";
+"command.refresh" = "刷新";
+"command.github_home" = "GitHub 主页";
+"command.report_issue" = "报告问题";
+
+/* Delete Confirmation */
+"delete.title" = "确认删除";
+"delete.message" = "确定要删除「%@」吗？此操作不可撤销。";
+"delete.cancel" = "取消";
+"delete.confirm" = "删除";
+
+/* Cron Human Readable */
+"cron.human.every_minute" = "每分钟";
+"cron.human.every_hour" = "每小时";
+"cron.human.daily_midnight" = "每天零点";
+"cron.human.weekly_sunday" = "每周日零点";
+"cron.human.monthly_first" = "每月 1 日零点";

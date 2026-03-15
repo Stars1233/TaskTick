@@ -1,0 +1,188 @@
+/* App */
+"app.name" = "TaskTick";
+
+/* Menu Bar */
+"menubar.open" = "Open TaskTick";
+"menubar.no_tasks" = "No Tasks";
+"menubar.next_run" = "Next Run";
+
+/* Task List */
+"task.filter.all" = "All";
+"task.filter.enabled" = "Enabled";
+"task.filter.disabled" = "Disabled";
+"task.search.prompt" = "Search tasks...";
+"task.empty.title" = "No Tasks Yet";
+"task.empty.description" = "Click + to create your first scheduled task";
+"task.select.title" = "Select a Task";
+"task.select.description" = "Select a task from the sidebar to view details, or click + to create a new one";
+"task.interval.seconds" = "%d sec";
+"task.status.enabled" = "Enabled";
+"task.status.disabled" = "Disabled";
+
+/* Task Detail */
+"task.detail.enable" = "Enable";
+"task.detail.disable" = "Disable";
+"task.detail.run" = "Run";
+"task.detail.edit" = "Edit";
+"task.detail.delete" = "Delete";
+"task.detail.schedule" = "Schedule";
+"task.detail.script" = "Script";
+"task.detail.cron_expression" = "Cron Expression";
+"task.detail.interval" = "Interval";
+"task.detail.interval_value" = "%d seconds";
+"task.detail.next_run" = "Next Run";
+"task.detail.last_run" = "Last Run";
+"task.detail.shell" = "Shell";
+"task.detail.working_dir" = "Working Directory";
+"task.detail.timeout" = "Timeout";
+"task.detail.timeout_value" = "%d seconds";
+"task.detail.recent_logs" = "Recent Runs";
+"task.detail.no_logs" = "No execution logs yet";
+"task.detail.view_all_logs" = "View All Logs";
+
+/* Task Editor */
+"editor.title.new" = "New Task";
+"editor.title.edit" = "Edit Task";
+"editor.cancel" = "Cancel";
+"editor.save" = "Save";
+"editor.section.basic" = "Basic Info";
+"editor.name" = "Task Name";
+"editor.name.placeholder" = "Enter task name";
+"editor.enabled" = "Enabled";
+"editor.section.schedule" = "Schedule";
+"editor.schedule_type" = "Type";
+"editor.interval" = "Interval";
+"editor.interval.seconds" = "seconds";
+"editor.section.script" = "Script";
+"editor.script.source" = "Source";
+"editor.script.source.inline" = "Inline Script";
+"editor.script.source.file" = "Script File";
+"editor.script.choose_file" = "Choose File...";
+"editor.script.file_path" = "File Path";
+"editor.script.no_file" = "No file selected";
+"editor.script.placeholder" = "Enter shell script to execute";
+"editor.shell" = "Shell";
+"editor.working_dir" = "Working Directory";
+"editor.working_dir.placeholder" = "Optional working directory path";
+"editor.timeout" = "Timeout";
+"editor.timeout.seconds" = "seconds";
+"editor.section.notification" = "Notifications";
+"editor.notify_success" = "Notify on Success";
+"editor.notify_failure" = "Notify on Failure";
+
+/* Cron Editor */
+"cron.preset" = "Preset";
+"cron.custom" = "Custom...";
+"cron.every_minute" = "Every Minute";
+"cron.every_5_minutes" = "Every 5 Minutes";
+"cron.every_15_minutes" = "Every 15 Minutes";
+"cron.every_30_minutes" = "Every 30 Minutes";
+"cron.every_hour" = "Every Hour";
+"cron.daily_midnight" = "Daily at Midnight";
+"cron.daily_8am" = "Daily at 8:00 AM";
+"cron.weekly_monday" = "Monday at 9:00 AM";
+"cron.monthly_first" = "1st of Month at Midnight";
+"cron.next_run" = "Next: %@";
+"cron.cannot_compute" = "Cannot compute";
+"cron.expression.placeholder" = "min hour day month weekday";
+
+/* Schedule Types */
+"schedule.cron" = "Cron Expression";
+"schedule.interval" = "Fixed Interval";
+
+/* Execution Status */
+"status.running" = "Running";
+"status.success" = "Success";
+"status.failure" = "Failed";
+"status.timeout" = "Timed Out";
+"status.cancelled" = "Cancelled";
+
+/* Logs */
+"log.title" = "Execution Logs";
+"log.select.title" = "Select a Log";
+"log.select.description" = "Select a log entry from the sidebar to view details";
+"log.filter.all" = "All";
+"log.detail.title" = "Execution Details";
+"log.detail.trigger" = "Trigger";
+"log.detail.trigger.manual" = "Manual";
+"log.detail.trigger.schedule" = "Scheduled";
+"log.detail.exit_code" = "Exit Code";
+"log.detail.duration" = "Duration";
+"log.detail.duration_ms" = "%d ms";
+"log.detail.finished" = "Finished";
+"log.detail.stdout" = "Standard Output";
+"log.detail.stderr" = "Error Output";
+"log.unknown_task" = "Unknown Task";
+
+/* Settings */
+"settings.general" = "General";
+"settings.general.language" = "Language";
+"settings.general.language.section" = "Language";
+"settings.general.language.restart_hint" = "Changing language takes effect immediately for most UI elements.";
+"settings.general.startup" = "Startup";
+"settings.general.launch_at_login" = "Launch at Login";
+"settings.general.defaults" = "Defaults";
+"settings.general.default_shell" = "Default Shell";
+"settings.general.default_timeout" = "Default Timeout";
+"settings.general.seconds" = "seconds";
+
+"settings.notifications" = "Notifications";
+"settings.notifications.section" = "Notification Settings";
+"settings.notifications.enable" = "Enable Notifications";
+"settings.notifications.on_success" = "Notify on Task Success";
+"settings.notifications.on_failure" = "Notify on Task Failure";
+
+"settings.logs" = "Logs";
+"settings.logs.section" = "Log Management";
+"settings.logs.retention" = "Retention Period";
+"settings.logs.retention.days" = "days";
+"settings.logs.cleanup" = "Clean Up Old Logs";
+
+"settings.updates" = "Updates";
+"settings.updates.section" = "Automatic Updates";
+"settings.updates.auto_check" = "Check for Updates Automatically";
+"settings.updates.frequency" = "Check Frequency";
+"settings.updates.frequency.12h" = "Every 12 Hours";
+"settings.updates.frequency.24h" = "Every 24 Hours";
+"settings.updates.frequency.3d" = "Every 3 Days";
+"settings.updates.frequency.1w" = "Every Week";
+"settings.updates.check_now" = "Check Now";
+"settings.updates.new_version" = "New version available: %@";
+
+"settings.about" = "About";
+"settings.about.section" = "About TaskTick";
+"settings.about.version" = "Version";
+"settings.about.build" = "Build";
+"settings.about.github" = "GitHub Repository";
+"settings.about.issues" = "Report an Issue";
+"settings.about.sponsor" = "Sponsor";
+"settings.about.copyright" = "© 2026 lifedever. MIT License.";
+
+/* Commands */
+"command.about" = "About TaskTick";
+"command.check_updates" = "Check for Updates...";
+"command.new_task" = "New Task";
+"command.import" = "Import Tasks...";
+"command.export" = "Export Tasks...";
+"command.task_menu" = "Task";
+"command.run_selected" = "Run Selected Task";
+"command.stop_task" = "Stop Task";
+"command.toggle_enabled" = "Enable/Disable";
+"command.delete_task" = "Delete Task";
+"command.show_logs" = "Show Logs";
+"command.refresh" = "Refresh";
+"command.github_home" = "GitHub Repository";
+"command.report_issue" = "Report an Issue";
+
+/* Delete Confirmation */
+"delete.title" = "Confirm Delete";
+"delete.message" = "Are you sure you want to delete \"%@\"? This action cannot be undone.";
+"delete.cancel" = "Cancel";
+"delete.confirm" = "Delete";
+
+/* Cron Human Readable */
+"cron.human.every_minute" = "Every minute";
+"cron.human.every_hour" = "Every hour";
+"cron.human.daily_midnight" = "Daily at midnight";
+"cron.human.weekly_sunday" = "Sunday at midnight";
+"cron.human.monthly_first" = "1st of month at midnight";
