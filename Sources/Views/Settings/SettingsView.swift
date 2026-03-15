@@ -6,11 +6,10 @@ struct SettingsView: View {
     @AppStorage("launchAtLogin") private var launchAtLogin = false
     @AppStorage("defaultShell") private var defaultShell = "/bin/zsh"
     @AppStorage("defaultTimeout") private var defaultTimeout = 300
+    @AppStorage("appearanceMode") private var appearanceMode = "system"
 
     // Notifications
     @AppStorage("notificationsEnabled") private var notificationsEnabled = true
-    @AppStorage("notifyOnSuccess") private var notifyOnSuccess = false
-    @AppStorage("notifyOnFailure") private var notifyOnFailure = true
 
     // Logs
     @AppStorage("logRetentionDays") private var logRetentionDays = 30
@@ -26,9 +25,6 @@ struct SettingsView: View {
         TabView {
             generalTab
                 .tabItem { Label(L10n.tr("settings.general"), systemImage: "gear") }
-
-            notificationsTab
-                .tabItem { Label(L10n.tr("settings.notifications"), systemImage: "bell") }
 
             logsTab
                 .tabItem { Label(L10n.tr("settings.logs"), systemImage: "doc.text") }
@@ -47,6 +43,17 @@ struct SettingsView: View {
 
     private var generalTab: some View {
         Form {
+            Section(L10n.tr("settings.appearance")) {
+                Picker(L10n.tr("settings.appearance"), selection: $appearanceMode) {
+                    Text(L10n.tr("settings.appearance.system")).tag("system")
+                    Text(L10n.tr("settings.appearance.light")).tag("light")
+                    Text(L10n.tr("settings.appearance.dark")).tag("dark")
+                }
+                .onChange(of: appearanceMode) { _, newValue in
+                    applyAppearance(newValue)
+                }
+            }
+
             Section(L10n.tr("settings.general.language.section")) {
                 Picker(L10n.tr("settings.general.language"), selection: $languageManager.current) {
                     ForEach(AppLanguage.allCases) { lang in
@@ -66,6 +73,14 @@ struct SettingsView: View {
                     }
             }
 
+            Section(L10n.tr("settings.notifications")) {
+                Toggle(L10n.tr("settings.notifications.enable"), isOn: $notificationsEnabled)
+
+                Text(L10n.tr("settings.notifications.hint"))
+                    .font(.caption)
+                    .foregroundStyle(.tertiary)
+            }
+
             Section(L10n.tr("settings.general.defaults")) {
                 Picker(L10n.tr("settings.general.default_shell"), selection: $defaultShell) {
                     Text("/bin/zsh").tag("/bin/zsh")
@@ -83,23 +98,6 @@ struct SettingsView: View {
                             .foregroundStyle(.secondary)
                     }
                 }
-            }
-        }
-        .formStyle(.grouped)
-    }
-
-    // MARK: - Notifications
-
-    private var notificationsTab: some View {
-        Form {
-            Section(L10n.tr("settings.notifications.section")) {
-                Toggle(L10n.tr("settings.notifications.enable"), isOn: $notificationsEnabled)
-
-                Toggle(L10n.tr("settings.notifications.on_success"), isOn: $notifyOnSuccess)
-                    .disabled(!notificationsEnabled)
-
-                Toggle(L10n.tr("settings.notifications.on_failure"), isOn: $notifyOnFailure)
-                    .disabled(!notificationsEnabled)
             }
         }
         .formStyle(.grouped)
@@ -147,7 +145,7 @@ struct SettingsView: View {
 
                 HStack(spacing: 12) {
                     Button(L10n.tr("settings.updates.check_now")) {
-                        Task { await updateChecker.checkForUpdates() }
+                        Task { await updateChecker.checkForUpdates(userInitiated: true) }
                     }
                     .disabled(updateChecker.isChecking)
                     .pointerCursor()
@@ -200,6 +198,17 @@ struct SettingsView: View {
             }
         }
         .formStyle(.grouped)
+    }
+
+    private func applyAppearance(_ mode: String) {
+        switch mode {
+        case "light":
+            NSApp.appearance = NSAppearance(named: .aqua)
+        case "dark":
+            NSApp.appearance = NSAppearance(named: .darkAqua)
+        default:
+            NSApp.appearance = nil // follow system
+        }
     }
 
     private func toggleLaunchAtLogin(_ enabled: Bool) {

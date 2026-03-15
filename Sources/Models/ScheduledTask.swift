@@ -11,8 +11,15 @@ enum RepeatType: String, Codable, CaseIterable, Sendable {
     case every30Minutes = "every30Minutes"
     case hourly = "hourly"
     case daily = "daily"
+    case weekdays = "weekdays"
+    case weekends = "weekends"
     case weekly = "weekly"
+    case biweekly = "biweekly"
     case monthly = "monthly"
+    case every3Months = "every3Months"
+    case every6Months = "every6Months"
+    case yearly = "yearly"
+    case custom = "custom"
 
     var displayName: String {
         switch self {
@@ -23,8 +30,15 @@ enum RepeatType: String, Codable, CaseIterable, Sendable {
         case .every30Minutes: L10n.tr("repeat.every_30_minutes")
         case .hourly: L10n.tr("repeat.hourly")
         case .daily: L10n.tr("repeat.daily")
+        case .weekdays: L10n.tr("repeat.weekdays")
+        case .weekends: L10n.tr("repeat.weekends")
         case .weekly: L10n.tr("repeat.weekly")
+        case .biweekly: L10n.tr("repeat.biweekly")
         case .monthly: L10n.tr("repeat.monthly")
+        case .every3Months: L10n.tr("repeat.every_3_months")
+        case .every6Months: L10n.tr("repeat.every_6_months")
+        case .yearly: L10n.tr("repeat.yearly")
+        case .custom: L10n.tr("repeat.custom")
         }
     }
 
@@ -37,9 +51,43 @@ enum RepeatType: String, Codable, CaseIterable, Sendable {
         case .every15Minutes: (.minute, 15)
         case .every30Minutes: (.minute, 30)
         case .hourly: (.hour, 1)
-        case .daily: (.day, 1)
+        case .daily, .weekdays, .weekends: (.day, 1)
         case .weekly: (.weekOfYear, 1)
+        case .biweekly: (.weekOfYear, 2)
         case .monthly: (.month, 1)
+        case .every3Months: (.month, 3)
+        case .every6Months: (.month, 6)
+        case .yearly: (.year, 1)
+        case .custom: nil // handled separately with customInterval fields
+        }
+    }
+}
+
+/// Unit for custom repeat interval
+enum CustomRepeatUnit: String, Codable, CaseIterable, Sendable {
+    case hour = "hour"
+    case day = "day"
+    case week = "week"
+    case month = "month"
+    case year = "year"
+
+    var displayName: String {
+        switch self {
+        case .hour: L10n.tr("repeat.unit.hour")
+        case .day: L10n.tr("repeat.unit.day")
+        case .week: L10n.tr("repeat.unit.week")
+        case .month: L10n.tr("repeat.unit.month")
+        case .year: L10n.tr("repeat.unit.year")
+        }
+    }
+
+    var calendarComponent: Calendar.Component {
+        switch self {
+        case .hour: .hour
+        case .day: .day
+        case .week: .weekOfYear
+        case .month: .month
+        case .year: .year
         }
     }
 }
@@ -79,6 +127,7 @@ enum ScheduleType: String, Codable, CaseIterable, Sendable {
 @Model
 final class ScheduledTask {
     var id: UUID
+    var serialNumber: Int = 0
     var name: String
     var scriptBody: String
     var scriptFilePath: String?
@@ -96,6 +145,8 @@ final class ScheduledTask {
     var endRepeatDate: Date?
     var endRepeatCount: Int?
     var executionCount: Int = 0
+    var customIntervalValue: Int = 1
+    var customIntervalUnitRaw: String = CustomRepeatUnit.day.rawValue
 
     var isEnabled: Bool
     var createdAt: Date
@@ -128,6 +179,9 @@ final class ScheduledTask {
         notifyOnFailure: Bool = true
     ) {
         self.id = UUID()
+        let nextSerial = UserDefaults.standard.integer(forKey: "taskSerialCounter") + 1
+        UserDefaults.standard.set(nextSerial, forKey: "taskSerialCounter")
+        self.serialNumber = nextSerial
         self.name = name
         self.scriptBody = scriptBody
         self.shell = shell
@@ -167,6 +221,11 @@ final class ScheduledTask {
     var endRepeatType: EndRepeatType {
         get { EndRepeatType(rawValue: endRepeatTypeRaw) ?? .never }
         set { endRepeatTypeRaw = newValue.rawValue }
+    }
+
+    var customIntervalUnit: CustomRepeatUnit {
+        get { CustomRepeatUnit(rawValue: customIntervalUnitRaw) ?? .day }
+        set { customIntervalUnitRaw = newValue.rawValue }
     }
 
     var environmentVariables: [String: String]? {

@@ -3,8 +3,8 @@ import SwiftData
 
 struct MainWindowView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.openWindow) private var openWindow
     @State private var selectedTask: ScheduledTask?
-    @State private var showingEditor = false
     @Binding var showingCrontabImport: Bool
 
     var body: some View {
@@ -14,7 +14,8 @@ struct MainWindowView: View {
                 .toolbar {
                     ToolbarItem(placement: .primaryAction) {
                         Button {
-                            showingEditor = true
+                            EditorState.shared.openNew()
+                            openWindow(id: "editor")
                         } label: {
                             Image(systemName: "plus")
                         }
@@ -31,9 +32,6 @@ struct MainWindowView: View {
                     Text(L10n.tr("task.select.description"))
                 }
             }
-        }
-        .sheet(isPresented: $showingEditor) {
-            TaskEditorView(task: nil)
         }
         .sheet(isPresented: $showingCrontabImport) {
             CrontabImportView()

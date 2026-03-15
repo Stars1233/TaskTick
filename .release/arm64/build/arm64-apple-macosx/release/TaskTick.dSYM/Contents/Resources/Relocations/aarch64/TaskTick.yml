@@ -1,0 +1,5 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick'
+relocations:     []
+...

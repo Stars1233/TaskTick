@@ -24,6 +24,8 @@ struct TaskListView: View {
     @State private var searchText = ""
     @State private var taskToDelete: ScheduledTask?
     @State private var showingDeleteAlert = false
+    @State private var taskToClearLogs: ScheduledTask?
+    @State private var showingClearLogsAlert = false
     @StateObject private var scheduler = TaskScheduler.shared
 
     var filteredTasks: [ScheduledTask] {
@@ -85,6 +87,11 @@ struct TaskListView: View {
                                 }
                             }
                             Divider()
+                            Button(L10n.tr("clear_logs.title"), systemImage: "trash.circle") {
+                                taskToClearLogs = task
+                                showingClearLogsAlert = true
+                            }
+                            .disabled(task.executionLogs.isEmpty)
                             Button(L10n.tr("task.detail.delete"), role: .destructive) {
                                 taskToDelete = task
                                 showingDeleteAlert = true
@@ -93,6 +100,22 @@ struct TaskListView: View {
                     }
                 }
                 .listStyle(.sidebar)
+                .alert(L10n.tr("clear_logs.title"), isPresented: $showingClearLogsAlert) {
+                    Button(L10n.tr("clear_logs.cancel"), role: .cancel) {}
+                    Button(L10n.tr("clear_logs.confirm"), role: .destructive) {
+                        if let task = taskToClearLogs {
+                            for log in task.executionLogs {
+                                modelContext.delete(log)
+                            }
+                            task.executionCount = 0
+                            task.nextRunAt = TaskScheduler.shared.computeNextRunDate(for: task)
+                            try? modelContext.save()
+                            TaskScheduler.shared.rebuildSchedule()
+                        }
+                    }
+                } message: {
+                    Text(L10n.tr("clear_logs.message", taskToClearLogs?.name ?? ""))
+                }
                 .alert(L10n.tr("delete.title"), isPresented: $showingDeleteAlert) {
                     Button(L10n.tr("delete.cancel"), role: .cancel) {}
                     Button(L10n.tr("delete.confirm"), role: .destructive) {

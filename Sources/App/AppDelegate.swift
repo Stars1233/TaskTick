@@ -4,8 +4,15 @@ import SwiftUI
 final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        // Request notification permission
         NotificationManager.shared.requestPermission()
+
+        // Apply saved appearance mode
+        let mode = UserDefaults.standard.string(forKey: "appearanceMode") ?? "system"
+        switch mode {
+        case "light": NSApp.appearance = NSAppearance(named: .aqua)
+        case "dark": NSApp.appearance = NSAppearance(named: .darkAqua)
+        default: NSApp.appearance = nil
+        }
     }
 
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {

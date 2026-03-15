@@ -1,0 +1,1392 @@
+{
+  "builtTestProducts" : [
+    {
+      "binaryPath" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTickPackageTests.xctest/Contents/MacOS/TaskTickPackageTests",
+      "packagePath" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app",
+      "productName" : "TaskTickPackageTests"
+    }
+  ],
+  "copyCommands" : {
+    "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick_TaskTick.bundle/Info.plist" : {
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/Info.plist"
+        }
+      ],
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick_TaskTick.bundle/Info.plist"
+        }
+      ]
+    },
+    "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick_TaskTick.bundle/en.lproj/Localizable.strings" : {
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Localization/en.lproj/Localizable.strings"
+        }
+      ],
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick_TaskTick.bundle/en.lproj/Localizable.strings"
+        }
+      ]
+    },
+    "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick_TaskTick.bundle/zh-hans.lproj/Localizable.strings" : {
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Localization/zh-Hans.lproj/Localizable.strings"
+        }
+      ],
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick_TaskTick.bundle/zh-hans.lproj/Localizable.strings"
+        }
+      ]
+    }
+  },
+  "explicitTargetDependencyImportCheckingMode" : {
+    "none" : {
+
+    }
+  },
+  "generatedSourceTargetSet" : [
+
+  ],
+  "pluginDescriptions" : [
+
+  ],
+  "swiftCommands" : {
+    "C.TaskTick-arm64-apple-macosx26.0-release.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/sources",
+      "importPath" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/App/AppDelegate.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/App/Localization.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/App/TaskTickApp.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Engine/CrontabImporter.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Engine/NotificationManager.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Engine/ScriptExecutor.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Engine/TaskExporter.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Engine/TaskScheduler.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Engine/UpdateChecker.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Models/CronExpression.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Models/ExecutionLog.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Models/ScheduledTask.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Components/GlassCard.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Components/PointerCursor.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Components/StatusBadge.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Editor/CronEditorView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Editor/EditorState.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Editor/ScriptEditorView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Editor/TaskEditorView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Logs/LogDetailView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Logs/LogListView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Main/CrontabImportView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Main/MainWindowView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Main/TaskDetailView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Main/TaskListView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Main/TaskLogsView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Main/UpdateDialogView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/MenuBar/MenuBarView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Settings/SettingsView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/DerivedSources/resource_bundle_accessor.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "virtual",
+          "name" : "<TaskTick-arm64-apple-macosx26.0-release.module-resources>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/sources"
+        }
+      ],
+      "isLibrary" : false,
+      "moduleName" : "TaskTick",
+      "moduleOutputPath" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/Modules/TaskTick.swiftmodule",
+      "objects" : [
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/AppDelegate.swift.o",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/Localization.swift.o",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/TaskTickApp.swift.o",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/CrontabImporter.swift.o",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/NotificationManager.swift.o",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/ScriptExecutor.swift.o",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/TaskExporter.swift.o",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/TaskScheduler.swift.o",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/UpdateChecker.swift.o",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/CronExpression.swift.o",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/ExecutionLog.swift.o",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/ScheduledTask.swift.o",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/GlassCard.swift.o",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/PointerCursor.swift.o",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/StatusBadge.swift.o",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/CronEditorView.swift.o",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/EditorState.swift.o",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/ScriptEditorView.swift.o",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/TaskEditorView.swift.o",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/LogDetailView.swift.o",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/LogListView.swift.o",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/CrontabImportView.swift.o",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/MainWindowView.swift.o",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/TaskDetailView.swift.o",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/TaskListView.swift.o",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/TaskLogsView.swift.o",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/UpdateDialogView.swift.o",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/MenuBarView.swift.o",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/SettingsView.swift.o",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/resource_bundle_accessor.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx15.0",
+        "-whole-module-optimization",
+        "-num-threads",
+        "12",
+        "-serialize-diagnostics",
+        "-O",
+        "-j12",
+        "-DSWIFT_PACKAGE",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_AVAILABLE",
+        "-module-cache-path",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/ModuleCache",
+        "-parseable-output",
+        "-Xfrontend",
+        "-entry-point-function-name",
+        "-Xfrontend",
+        "TaskTick_main",
+        "-swift-version",
+        "6",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "tasktick_app"
+      ],
+      "outputFileMapPath" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/AppDelegate.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/Localization.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/TaskTickApp.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/CrontabImporter.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/NotificationManager.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/ScriptExecutor.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/TaskExporter.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/TaskScheduler.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/UpdateChecker.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/CronExpression.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/ExecutionLog.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/ScheduledTask.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/GlassCard.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/PointerCursor.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/StatusBadge.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/CronEditorView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/EditorState.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/ScriptEditorView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/TaskEditorView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/LogDetailView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/LogListView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/CrontabImportView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/MainWindowView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/TaskDetailView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/TaskListView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/TaskLogsView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/UpdateDialogView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/MenuBarView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/SettingsView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/resource_bundle_accessor.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/Modules/TaskTick.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/App/AppDelegate.swift",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/App/Localization.swift",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/App/TaskTickApp.swift",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Engine/CrontabImporter.swift",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Engine/NotificationManager.swift",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Engine/ScriptExecutor.swift",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Engine/TaskExporter.swift",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Engine/TaskScheduler.swift",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Engine/UpdateChecker.swift",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Models/CronExpression.swift",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Models/ExecutionLog.swift",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Models/ScheduledTask.swift",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Components/GlassCard.swift",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Components/PointerCursor.swift",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Components/StatusBadge.swift",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Editor/CronEditorView.swift",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Editor/EditorState.swift",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Editor/ScriptEditorView.swift",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Editor/TaskEditorView.swift",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Logs/LogDetailView.swift",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Logs/LogListView.swift",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Main/CrontabImportView.swift",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Main/MainWindowView.swift",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Main/TaskDetailView.swift",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Main/TaskListView.swift",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Main/TaskLogsView.swift",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Main/UpdateDialogView.swift",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/MenuBar/MenuBarView.swift",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Settings/SettingsView.swift",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/DerivedSources/resource_bundle_accessor.swift"
+      ],
+      "tempsPath" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build",
+      "wholeModuleOptimization" : true
+    },
+    "C.TaskTickPackageTests-arm64-apple-macosx26.0-release.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTickPackageTests.build/sources",
+      "importPath" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTickPackageTests.derived/runner.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/Modules/TaskTickTests.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTickPackageTests.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "TaskTickPackageTests",
+      "moduleOutputPath" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/Modules/TaskTickPackageTests.swiftmodule",
+      "objects" : [
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTickPackageTests.build/runner.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx15.0",
+        "-whole-module-optimization",
+        "-num-threads",
+        "12",
+        "-serialize-diagnostics",
+        "-O",
+        "-enable-testing",
+        "-Xfrontend",
+        "-enable-cross-import-overlays",
+        "-j12",
+        "-DSWIFT_PACKAGE",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTickPackageTests.build/include/TaskTickPackageTests-Swift.h",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "tasktick_app"
+      ],
+      "outputFileMapPath" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTickPackageTests.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTickPackageTests.build/runner.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/Modules/TaskTickPackageTests.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTickPackageTests.derived/runner.swift"
+      ],
+      "tempsPath" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTickPackageTests.build",
+      "wholeModuleOptimization" : true
+    },
+    "C.TaskTickTests-arm64-apple-macosx26.0-release.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTickTests.build/sources",
+      "importPath" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Tests/CronExpressionTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Tests/ScriptExecutorTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Tests/TaskSchedulerTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTickTests.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "TaskTickTests",
+      "moduleOutputPath" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/Modules/TaskTickTests.swiftmodule",
+      "objects" : [
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTickTests.build/CronExpressionTests.swift.o",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTickTests.build/ScriptExecutorTests.swift.o",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTickTests.build/TaskSchedulerTests.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx15.0",
+        "-whole-module-optimization",
+        "-num-threads",
+        "12",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/index/store",
+        "-O",
+        "-enable-testing",
+        "-Xfrontend",
+        "-enable-cross-import-overlays",
+        "-j12",
+        "-DSWIFT_PACKAGE",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-swift-version",
+        "6",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "tasktick_app"
+      ],
+      "outputFileMapPath" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTickTests.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTickTests.build/CronExpressionTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTickTests.build/ScriptExecutorTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTickTests.build/TaskSchedulerTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/Modules/TaskTickTests.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Tests/CronExpressionTests.swift",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Tests/ScriptExecutorTests.swift",
+        "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Tests/TaskSchedulerTests.swift"
+      ],
+      "tempsPath" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTickTests.build",
+      "wholeModuleOptimization" : true
+    }
+  },
+  "swiftFrontendCommands" : {
+
+  },
+  "swiftTargetScanArgs" : {
+    "TaskTick" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "TaskTick",
+      "-package-name",
+      "tasktick_app",
+      "-c",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/App/AppDelegate.swift",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/App/Localization.swift",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/App/TaskTickApp.swift",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Engine/CrontabImporter.swift",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Engine/NotificationManager.swift",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Engine/ScriptExecutor.swift",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Engine/TaskExporter.swift",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Engine/TaskScheduler.swift",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Engine/UpdateChecker.swift",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Models/CronExpression.swift",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Models/ExecutionLog.swift",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Models/ScheduledTask.swift",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Components/GlassCard.swift",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Components/PointerCursor.swift",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Components/StatusBadge.swift",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Editor/CronEditorView.swift",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Editor/EditorState.swift",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Editor/ScriptEditorView.swift",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Editor/TaskEditorView.swift",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Logs/LogDetailView.swift",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Logs/LogListView.swift",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Main/CrontabImportView.swift",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Main/MainWindowView.swift",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Main/TaskDetailView.swift",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Main/TaskListView.swift",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Main/TaskLogsView.swift",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Main/UpdateDialogView.swift",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/MenuBar/MenuBarView.swift",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Settings/SettingsView.swift",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/DerivedSources/resource_bundle_accessor.swift",
+      "-I",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/Modules",
+      "-target",
+      "arm64-apple-macosx15.0",
+      "-whole-module-optimization",
+      "-num-threads",
+      "12",
+      "-serialize-diagnostics",
+      "-O",
+      "-j12",
+      "-DSWIFT_PACKAGE",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_AVAILABLE",
+      "-module-cache-path",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/ModuleCache",
+      "-parseable-output",
+      "-Xfrontend",
+      "-entry-point-function-name",
+      "-Xfrontend",
+      "TaskTick_main",
+      "-swift-version",
+      "6",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "tasktick_app",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ],
+    "TaskTickPackageTests" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "TaskTickPackageTests",
+      "-package-name",
+      "tasktick_app",
+      "-c",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTickPackageTests.derived/runner.swift",
+      "-I",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/Modules",
+      "-target",
+      "arm64-apple-macosx15.0",
+      "-whole-module-optimization",
+      "-num-threads",
+      "12",
+      "-serialize-diagnostics",
+      "-O",
+      "-enable-testing",
+      "-Xfrontend",
+      "-enable-cross-import-overlays",
+      "-j12",
+      "-DSWIFT_PACKAGE",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-emit-objc-header",
+      "-emit-objc-header-path",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTickPackageTests.build/include/TaskTickPackageTests-Swift.h",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "tasktick_app",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ],
+    "TaskTickTests" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "TaskTickTests",
+      "-package-name",
+      "tasktick_app",
+      "-c",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Tests/CronExpressionTests.swift",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Tests/ScriptExecutorTests.swift",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Tests/TaskSchedulerTests.swift",
+      "-I",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/Modules",
+      "-target",
+      "arm64-apple-macosx15.0",
+      "-whole-module-optimization",
+      "-num-threads",
+      "12",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/index/store",
+      "-O",
+      "-enable-testing",
+      "-Xfrontend",
+      "-enable-cross-import-overlays",
+      "-j12",
+      "-DSWIFT_PACKAGE",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-swift-version",
+      "6",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "tasktick_app",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ]
+  },
+  "targetDependencyMap" : {
+    "TaskTick" : [
+
+    ],
+    "TaskTickPackageTests" : [
+      "TaskTickTests",
+      "TaskTick"
+    ],
+    "TaskTickTests" : [
+      "TaskTick"
+    ]
+  },
+  "testDiscoveryCommands" : {
+
+  },
+  "testEntryPointCommands" : {
+    "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTickPackageTests.derived/runner.swift" : {
+      "inputs" : [
+
+      ],
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTickPackageTests.derived/runner.swift"
+        }
+      ]
+    }
+  },
+  "traitConfiguration" : {
+    "default" : {
+
+    }
+  },
+  "writeCommands" : {
+    "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/App/AppDelegate.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/App/Localization.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/App/TaskTickApp.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Engine/CrontabImporter.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Engine/NotificationManager.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Engine/ScriptExecutor.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Engine/TaskExporter.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Engine/TaskScheduler.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Engine/UpdateChecker.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Models/CronExpression.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Models/ExecutionLog.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Models/ScheduledTask.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Components/GlassCard.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Components/PointerCursor.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Components/StatusBadge.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Editor/CronEditorView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Editor/EditorState.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Editor/ScriptEditorView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Editor/TaskEditorView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Logs/LogDetailView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Logs/LogListView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Main/CrontabImportView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Main/MainWindowView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Main/TaskDetailView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Main/TaskListView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Main/TaskLogsView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Main/UpdateDialogView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/MenuBar/MenuBarView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Settings/SettingsView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/DerivedSources/resource_bundle_accessor.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/sources"
+    },
+    "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.product/Objects.LinkFileList" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<link-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/AppDelegate.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/CronEditorView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/CronExpression.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/CrontabImportView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/CrontabImporter.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/EditorState.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/ExecutionLog.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/GlassCard.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/Localization.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/LogDetailView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/LogListView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/MainWindowView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/MenuBarView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/NotificationManager.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/PointerCursor.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/ScheduledTask.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/ScriptEditorView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/ScriptExecutor.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/SettingsView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/StatusBadge.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/TaskDetailView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/TaskEditorView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/TaskExporter.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/TaskListView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/TaskLogsView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/TaskScheduler.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/TaskTickApp.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/UpdateChecker.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/UpdateDialogView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/resource_bundle_accessor.swift.o"
+        }
+      ],
+      "outputFilePath" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.product/Objects.LinkFileList"
+    },
+    "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTickPackageTests.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTickPackageTests.derived/runner.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTickPackageTests.build/sources"
+    },
+    "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTickPackageTests.product/Objects.LinkFileList" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<link-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/AppDelegate.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/CronEditorView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/CronExpression.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/CrontabImportView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/CrontabImporter.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/EditorState.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/ExecutionLog.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/GlassCard.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/Localization.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/LogDetailView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/LogListView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/MainWindowView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/MenuBarView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/NotificationManager.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/PointerCursor.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/ScheduledTask.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/ScriptEditorView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/ScriptExecutor.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/SettingsView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/StatusBadge.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/TaskDetailView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/TaskEditorView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/TaskExporter.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/TaskListView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/TaskLogsView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/TaskScheduler.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/TaskTickApp.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/UpdateChecker.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/UpdateDialogView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTick.build/resource_bundle_accessor.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTickPackageTests.build/runner.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTickTests.build/CronExpressionTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTickTests.build/ScriptExecutorTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTickTests.build/TaskSchedulerTests.swift.o"
+        }
+      ],
+      "outputFilePath" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTickPackageTests.product/Objects.LinkFileList"
+    },
+    "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTickTests.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Tests/CronExpressionTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Tests/ScriptExecutorTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Tests/TaskSchedulerTests.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/TaskTickTests.build/sources"
+    },
+    "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/swift-version--58304C5D6DBC2206.txt" : {
+      "alwaysOutOfDate" : true,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<swift-get-version>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+        }
+      ],
+      "outputFilePath" : "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/arm64/build/arm64-apple-macosx/release/swift-version--58304C5D6DBC2206.txt"
+    }
+  }
+}

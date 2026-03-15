@@ -68,16 +68,24 @@ final class ScriptExecutor: ObservableObject {
 
         try? modelContext.save()
 
-        // Send notification if configured
-        if task.notifyOnFailure && result.status != .success {
+        // Send notification if configured (respects global switch)
+        let globalNotificationsEnabled = UserDefaults.standard.object(forKey: "notificationsEnabled") as? Bool ?? true
+        let durationText = log.durationMs.map { "\(L10n.tr("notification.duration")) \($0)ms" } ?? ""
+
+        if globalNotificationsEnabled && task.notifyOnFailure && result.status != .success {
+            let exitInfo = "Exit code: \(result.exitCode ?? -1)"
+            let stderrLine = result.stderr.isEmpty ? "" : (result.stderr.components(separatedBy: .newlines).first ?? "")
+            let body = [exitInfo, durationText, stderrLine].filter { !$0.isEmpty }.joined(separator: " · ")
             NotificationManager.shared.sendNotification(
-                title: "任务失败: \(task.name)",
-                body: "退出码: \(result.exitCode ?? -1)"
+                title: "[\(L10n.tr("notification.failed"))] \(task.name)",
+                body: body
             )
-        } else if task.notifyOnSuccess && result.status == .success {
+        } else if globalNotificationsEnabled && task.notifyOnSuccess && result.status == .success {
+            let stdoutLine = result.stdout.isEmpty ? "" : (result.stdout.components(separatedBy: .newlines).first ?? "")
+            let body = [durationText, stdoutLine].filter { !$0.isEmpty }.joined(separator: " · ")
             NotificationManager.shared.sendNotification(
-                title: "任务完成: \(task.name)",
-                body: "执行成功"
+                title: "[\(L10n.tr("notification.succeeded"))] \(task.name)",
+                body: body.isEmpty ? L10n.tr("notification.success") : body
             )
         }
 

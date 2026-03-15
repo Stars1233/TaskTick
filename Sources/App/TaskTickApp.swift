@@ -30,6 +30,9 @@ struct TaskTickApp: App {
         Window(L10n.tr("app.name"), id: "main") {
             MainWindowView(showingCrontabImport: $showingCrontabImport)
                 .localized()
+                .sheet(isPresented: $updateChecker.showUpdateDialog) {
+                    UpdateDialogView(updater: updateChecker)
+                }
                 .onAppear {
                     NSApp.setActivationPolicy(.regular)
                     seedDefaultTask(context: sharedModelContainer.mainContext)
@@ -63,6 +66,15 @@ struct TaskTickApp: App {
         }
         .modelContainer(sharedModelContainer)
 
+        // Editor window
+        Window(EditorState.shared.taskToEdit != nil ? L10n.tr("editor.title.edit") : L10n.tr("editor.title.new"), id: "editor") {
+            TaskEditorView()
+                .localized()
+        }
+        .modelContainer(sharedModelContainer)
+        .defaultSize(width: 500, height: 560)
+        .windowResizability(.contentSize)
+
         // Logs window
         Window(L10n.tr("log.title"), id: "logs") {
             LogListView()
@@ -92,13 +104,14 @@ struct TaskTickApp: App {
 
         CommandGroup(after: .appInfo) {
             Button(L10n.tr("command.check_updates")) {
-                Task { await updateChecker.checkForUpdates() }
+                Task { await updateChecker.checkForUpdates(userInitiated: true) }
             }
         }
 
         CommandGroup(replacing: .newItem) {
             Button(L10n.tr("command.new_task")) {
-                openWindow(id: "main")
+                EditorState.shared.openNew()
+                openWindow(id: "editor")
             }
             .keyboardShortcut("n", modifiers: .command)
 

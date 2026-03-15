@@ -1,0 +1,26 @@
+{
+  "": {
+    "swift-dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTickTests.build/master.swiftdeps"
+  },
+  "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Tests/CronExpressionTests.swift": {
+    "dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTickTests.build/CronExpressionTests.d",
+    "object": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTickTests.build/CronExpressionTests.swift.o",
+    "swiftmodule": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTickTests.build/CronExpressionTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTickTests.build/CronExpressionTests.swiftdeps",
+    "diagnostics": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTickTests.build/CronExpressionTests.dia"
+  },
+  "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Tests/ScriptExecutorTests.swift": {
+    "dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTickTests.build/ScriptExecutorTests.d",
+    "object": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTickTests.build/ScriptExecutorTests.swift.o",
+    "swiftmodule": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTickTests.build/ScriptExecutorTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTickTests.build/ScriptExecutorTests.swiftdeps",
+    "diagnostics": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTickTests.build/ScriptExecutorTests.dia"
+  },
+  "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Tests/TaskSchedulerTests.swift": {
+    "dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTickTests.build/TaskSchedulerTests.d",
+    "object": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTickTests.build/TaskSchedulerTests.swift.o",
+    "swiftmodule": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTickTests.build/TaskSchedulerTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTickTests.build/TaskSchedulerTests.swiftdeps",
+    "diagnostics": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTickTests.build/TaskSchedulerTests.dia"
+  }
+}

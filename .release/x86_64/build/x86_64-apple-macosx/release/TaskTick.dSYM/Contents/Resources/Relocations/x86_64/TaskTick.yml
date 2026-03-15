@@ -1,0 +1,5 @@
+---
+triple:          'x86_64-apple-darwin'
+binary-path:     '/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/x86_64/build/x86_64-apple-macosx/release/TaskTick'
+relocations:     []
+...

@@ -33,8 +33,9 @@ struct TaskLogsView: View {
                 .tag(log)
                 .padding(.vertical, 2)
             }
-            .frame(minWidth: 220)
-            .navigationTitle("\(task.name) — \(L10n.tr("log.title"))")
+            .frame(minWidth: 240)
+            .navigationTitle(task.name)
+            .navigationSubtitle("\(sortedLogs.count) \(L10n.tr("log.count_suffix"))")
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(L10n.tr("editor.cancel")) { dismiss() }
@@ -52,7 +53,7 @@ struct TaskLogsView: View {
                 )
             }
         }
-        .frame(minWidth: 700, minHeight: 450)
+        .frame(minWidth: 750, minHeight: 480)
     }
 }
 
@@ -62,7 +63,6 @@ private struct LogDetailContent: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                // Info rows
                 GlassCard {
                     VStack(spacing: 8) {
                         row(L10n.tr("log.detail.trigger"), value: log.triggeredBy == .manual ? L10n.tr("log.detail.trigger.manual") : L10n.tr("log.detail.trigger.schedule"))
@@ -81,7 +81,6 @@ private struct LogDetailContent: View {
                     }
                 }
 
-                // Stdout
                 if let stdout = log.stdout, !stdout.isEmpty {
                     VStack(alignment: .leading, spacing: 6) {
                         Label(L10n.tr("log.detail.stdout"), systemImage: "text.alignleft")
@@ -96,7 +95,6 @@ private struct LogDetailContent: View {
                     }
                 }
 
-                // Stderr
                 if let stderr = log.stderr, !stderr.isEmpty {
                     VStack(alignment: .leading, spacing: 6) {
                         Label(L10n.tr("log.detail.stderr"), systemImage: "exclamationmark.triangle")

@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6c8aff"/>
+      <stop offset="50%" stop-color="#8b7cf7"/>
+      <stop offset="100%" stop-color="#a78bfa"/>
+    </linearGradient>
+    <linearGradient id="shine" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.3)"/>
+      <stop offset="50%" stop-color="rgba(255,255,255,0.05)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="#4a5adb" flood-opacity="0.3"/>
+    </filter>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background rounded square -->
+  <rect x="100" y="100" width="824" height="824" rx="185" ry="185" fill="url(#bg)"/>
+  <rect x="100" y="100" width="824" height="824" rx="185" ry="185" fill="url(#shine)"/>
+
+  <!-- Clock body - cute cartoon style -->
+  <circle cx="512" cy="496" r="310" fill="white" opacity="0.95" filter="url(#shadow)"/>
+  <circle cx="512" cy="496" r="290" fill="white"/>
+
+  <!-- Clock face decorative ring -->
+  <circle cx="512" cy="496" r="276" fill="none" stroke="#e8e8f4" stroke-width="5"/>
+
+  <!-- Hour markers - dots -->
+  <circle cx="512" cy="236" r="16" fill="#6c8aff"/><!-- 12 -->
+  <circle cx="652" cy="264" r="12" fill="#c4c4dd"/><!-- 1 -->
+  <circle cx="748" cy="356" r="12" fill="#c4c4dd"/><!-- 2 -->
+  <circle cx="780" cy="496" r="16" fill="#8b7cf7"/><!-- 3 -->
+  <circle cx="748" cy="636" r="12" fill="#c4c4dd"/><!-- 4 -->
+  <circle cx="652" cy="728" r="12" fill="#c4c4dd"/><!-- 5 -->
+  <circle cx="512" cy="756" r="16" fill="#a78bfa"/><!-- 6 -->
+  <circle cx="372" cy="728" r="12" fill="#c4c4dd"/><!-- 7 -->
+  <circle cx="276" cy="636" r="12" fill="#c4c4dd"/><!-- 8 -->
+  <circle cx="244" cy="496" r="16" fill="#6c8aff"/><!-- 9 -->
+  <circle cx="276" cy="356" r="12" fill="#c4c4dd"/><!-- 10 -->
+  <circle cx="372" cy="264" r="12" fill="#c4c4dd"/><!-- 11 -->
+
+  <!-- Hour hand -->
+  <line x1="512" y1="496" x2="512" y2="340" stroke="#3a3a5c" stroke-width="20" stroke-linecap="round"/>
+
+  <!-- Minute hand -->
+  <line x1="512" y1="496" x2="660" y2="400" stroke="#6c8aff" stroke-width="14" stroke-linecap="round"/>
+
+  <!-- Center dot -->
+  <circle cx="512" cy="496" r="24" fill="#6c8aff"/>
+  <circle cx="512" cy="496" r="12" fill="white"/>
+
+  <!-- Checkmark badge -->
+  <circle cx="740" cy="740" r="124" fill="#22c55e" filter="url(#glow)"/>
+  <circle cx="740" cy="740" r="110" fill="#22c55e"/>
+  <polyline points="690,740 724,774 790,708" fill="none" stroke="white" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Cute sparkles -->
+  <g fill="#fbbf24" opacity="0.9">
+    <polygon points="260,200 268,224 292,224 272,240 280,264 260,248 240,264 248,240 228,224 252,224" transform="scale(0.7) translate(120,100)"/>
+    <polygon points="260,200 268,224 292,224 272,240 280,264 260,248 240,264 248,240 228,224 252,224" transform="scale(0.5) translate(1360,160)"/>
+  </g>
+</svg>

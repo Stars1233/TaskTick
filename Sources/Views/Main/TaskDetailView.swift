@@ -6,6 +6,7 @@ struct TaskDetailView: View {
     @Environment(\.openWindow) private var openWindow
     let task: ScheduledTask
     @State private var showingDeleteAlert = false
+    @State private var showingClearLogsAlert = false
     @State private var isScriptExpanded = false
     @State private var showingTaskLogs = false
     @StateObject private var scheduler = TaskScheduler.shared
@@ -40,6 +41,20 @@ struct TaskDetailView: View {
         .sheet(isPresented: $showingTaskLogs) {
             TaskLogsView(task: task)
         }
+        .alert(L10n.tr("clear_logs.title"), isPresented: $showingClearLogsAlert) {
+            Button(L10n.tr("clear_logs.cancel"), role: .cancel) {}
+            Button(L10n.tr("clear_logs.confirm"), role: .destructive) {
+                for log in task.executionLogs {
+                    modelContext.delete(log)
+                }
+                task.executionCount = 0
+                task.nextRunAt = TaskScheduler.shared.computeNextRunDate(for: task)
+                try? modelContext.save()
+                TaskScheduler.shared.rebuildSchedule()
+            }
+        } message: {
+            Text(L10n.tr("clear_logs.message", task.name))
+        }
         .alert(L10n.tr("delete.title"), isPresented: $showingDeleteAlert) {
             Button(L10n.tr("delete.cancel"), role: .cancel) {}
             Button(L10n.tr("delete.confirm"), role: .destructive) {
@@ -54,97 +69,107 @@ struct TaskDetailView: View {
     // MARK: - Header
 
     private var headerSection: some View {
-        HStack(alignment: .top, spacing: 16) {
-            // Task icon
-            RoundedRectangle(cornerRadius: 12)
-                .fill(task.isEnabled ? Color.accentColor.gradient : Color.gray.opacity(0.2).gradient)
-                .frame(width: 48, height: 48)
-                .overlay {
-                    Image(systemName: "terminal")
-                        .font(.title3)
-                        .foregroundStyle(task.isEnabled ? .white : .secondary)
-                }
-
-            VStack(alignment: .leading, spacing: 4) {
-                Text(task.name)
-                    .font(.title2)
-                    .fontWeight(.bold)
-
-                HStack(spacing: 12) {
-                    if task.serialNumber > 0 {
-                        Text("#\(task.serialNumber)")
-                            .font(.subheadline)
-                            .foregroundStyle(.tertiary)
-                            .monospacedDigit()
+        VStack(spacing: 8) {
+            HStack(alignment: .top, spacing: 16) {
+                // Task icon
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(task.isEnabled ? Color.accentColor.gradient : Color.gray.opacity(0.2).gradient)
+                    .frame(width: 48, height: 48)
+                    .overlay {
+                        Image(systemName: "terminal")
+                            .font(.title3)
+                            .foregroundStyle(task.isEnabled ? .white : .secondary)
                     }
 
-                    HStack(spacing: 4) {
-                        Circle()
-                            .fill(task.isEnabled ? .green : .gray.opacity(0.4))
-                            .frame(width: 8, height: 8)
-                        Text(task.isEnabled ? L10n.tr("task.status.enabled") : L10n.tr("task.status.disabled"))
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(task.name)
+                        .font(.title2)
+                        .fontWeight(.bold)
+
+                    HStack(spacing: 12) {
+                        if task.serialNumber > 0 {
+                            Text("#\(task.serialNumber)")
+                                .font(.subheadline)
+                                .foregroundStyle(.tertiary)
+                                .monospacedDigit()
+                        }
+
+                        HStack(spacing: 4) {
+                            Circle()
+                                .fill(task.isEnabled ? .green : .gray.opacity(0.4))
+                                .frame(width: 8, height: 8)
+                            Text(task.isEnabled ? L10n.tr("task.status.enabled") : L10n.tr("task.status.disabled"))
+                                .font(.subheadline)
+                                .foregroundStyle(.secondary)
+                        }
+
+                        Text("·")
+                            .foregroundStyle(.quaternary)
+
+                        Text(task.repeatType.displayName)
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
+
+                        Spacer()
+
+                        // Action buttons
+                        HStack(spacing: 8) {
+                            Button {
+                                task.isEnabled.toggle()
+                                task.updatedAt = Date()
+                                if task.isEnabled {
+                                    task.nextRunAt = TaskScheduler.shared.computeNextRunDate(for: task)
+                                } else {
+                                    task.nextRunAt = nil
+                                }
+                                try? modelContext.save()
+                                TaskScheduler.shared.rebuildSchedule()
+                            } label: {
+                                Label(
+                                    task.isEnabled ? L10n.tr("task.detail.disable") : L10n.tr("task.detail.enable"),
+                                    systemImage: task.isEnabled ? "pause.circle" : "play.circle"
+                                )
+                            }
+                            .tint(task.isEnabled ? .orange : .green)
+                            .pointerCursor()
+
+                            Button {
+                                Task {
+                                    _ = await ScriptExecutor.shared.execute(task: task, modelContext: modelContext)
+                                }
+                            } label: {
+                                Label(L10n.tr("task.detail.run"), systemImage: "play.fill")
+                            }
+                            .disabled(isRunning)
+                            .pointerCursor()
+
+                            Button {
+                                EditorState.shared.openEdit(task)
+                                openWindow(id: "editor")
+                            } label: {
+                                Label(L10n.tr("task.detail.edit"), systemImage: "pencil")
+                            }
+                            .pointerCursor()
+
+                            Button {
+                                showingClearLogsAlert = true
+                            } label: {
+                                Label(L10n.tr("clear_logs.title"), systemImage: "trash.circle")
+                            }
+                            .disabled(task.executionLogs.isEmpty)
+                            .pointerCursor()
+
+                            Button(role: .destructive) {
+                                showingDeleteAlert = true
+                            } label: {
+                                Label(L10n.tr("task.detail.delete"), systemImage: "trash")
+                            }
+                            .pointerCursor()
+                        }
+                        .controlSize(.regular)
                     }
-
-                    Text("·")
-                        .foregroundStyle(.quaternary)
-
-                    Text(task.repeatType.displayName)
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
                 }
             }
-
-            Spacer()
-
-            // Action buttons
-            HStack(spacing: 8) {
-                Button {
-                    task.isEnabled.toggle()
-                    task.updatedAt = Date()
-                    if task.isEnabled {
-                        task.nextRunAt = TaskScheduler.shared.computeNextRunDate(for: task)
-                    } else {
-                        task.nextRunAt = nil
-                    }
-                    try? modelContext.save()
-                    TaskScheduler.shared.rebuildSchedule()
-                } label: {
-                    Label(
-                        task.isEnabled ? L10n.tr("task.detail.disable") : L10n.tr("task.detail.enable"),
-                        systemImage: task.isEnabled ? "pause.circle" : "play.circle"
-                    )
-                }
-                .tint(task.isEnabled ? .orange : .green)
-                .pointerCursor()
-
-                Button {
-                    Task {
-                        _ = await ScriptExecutor.shared.execute(task: task, modelContext: modelContext)
-                    }
-                } label: {
-                    Label(L10n.tr("task.detail.run"), systemImage: "play.fill")
-                }
-                .disabled(isRunning)
-                .pointerCursor()
-
-                Button {
-                    EditorState.shared.openEdit(task)
-                    openWindow(id: "editor")
-                } label: {
-                    Label(L10n.tr("task.detail.edit"), systemImage: "pencil")
-                }
-                .pointerCursor()
-
-                Button(role: .destructive) {
-                    showingDeleteAlert = true
-                } label: {
-                    Label(L10n.tr("task.detail.delete"), systemImage: "trash")
-                }
-                .pointerCursor()
-            }
-            .controlSize(.regular)
         }
         .padding(.horizontal)
     }

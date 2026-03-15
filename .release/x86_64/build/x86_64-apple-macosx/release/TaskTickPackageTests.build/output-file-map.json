@@ -1,0 +1,13 @@
+{
+  "": {
+    "dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/x86_64/build/x86_64-apple-macosx/release/TaskTickPackageTests.build/TaskTickPackageTests.d",
+    "object": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/x86_64/build/x86_64-apple-macosx/release/TaskTickPackageTests.build/TaskTickPackageTests.o",
+    "swift-dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/x86_64/build/x86_64-apple-macosx/release/TaskTickPackageTests.build/master.swiftdeps"
+  },
+  "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/x86_64/build/x86_64-apple-macosx/release/TaskTickPackageTests.derived/runner.swift": {
+    "object": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/x86_64/build/x86_64-apple-macosx/release/TaskTickPackageTests.build/runner.swift.o",
+    "swiftmodule": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/x86_64/build/x86_64-apple-macosx/release/TaskTickPackageTests.build/runner~partial.swiftmodule",
+    "swift-dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/x86_64/build/x86_64-apple-macosx/release/TaskTickPackageTests.build/runner.swiftdeps",
+    "diagnostics": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.release/x86_64/build/x86_64-apple-macosx/release/TaskTickPackageTests.build/runner.dia"
+  }
+}

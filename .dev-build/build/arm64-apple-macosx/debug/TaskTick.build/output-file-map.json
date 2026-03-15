@@ -1,0 +1,215 @@
+{
+  "": {
+    "swift-dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/master.swiftdeps"
+  },
+  "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/App/AppDelegate.swift": {
+    "dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/AppDelegate.d",
+    "object": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/AppDelegate.swift.o",
+    "swiftmodule": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/AppDelegate~partial.swiftmodule",
+    "swift-dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/AppDelegate.swiftdeps",
+    "diagnostics": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/AppDelegate.dia"
+  },
+  "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/App/Localization.swift": {
+    "dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/Localization.d",
+    "object": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/Localization.swift.o",
+    "swiftmodule": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/Localization~partial.swiftmodule",
+    "swift-dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/Localization.swiftdeps",
+    "diagnostics": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/Localization.dia"
+  },
+  "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/App/TaskTickApp.swift": {
+    "dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/TaskTickApp.d",
+    "object": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/TaskTickApp.swift.o",
+    "swiftmodule": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/TaskTickApp~partial.swiftmodule",
+    "swift-dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/TaskTickApp.swiftdeps",
+    "diagnostics": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/TaskTickApp.dia"
+  },
+  "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Engine/CrontabImporter.swift": {
+    "dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/CrontabImporter.d",
+    "object": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/CrontabImporter.swift.o",
+    "swiftmodule": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/CrontabImporter~partial.swiftmodule",
+    "swift-dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/CrontabImporter.swiftdeps",
+    "diagnostics": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/CrontabImporter.dia"
+  },
+  "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Engine/NotificationManager.swift": {
+    "dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/NotificationManager.d",
+    "object": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/NotificationManager.swift.o",
+    "swiftmodule": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/NotificationManager~partial.swiftmodule",
+    "swift-dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/NotificationManager.swiftdeps",
+    "diagnostics": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/NotificationManager.dia"
+  },
+  "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Engine/ScriptExecutor.swift": {
+    "dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/ScriptExecutor.d",
+    "object": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/ScriptExecutor.swift.o",
+    "swiftmodule": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/ScriptExecutor~partial.swiftmodule",
+    "swift-dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/ScriptExecutor.swiftdeps",
+    "diagnostics": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/ScriptExecutor.dia"
+  },
+  "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Engine/TaskExporter.swift": {
+    "dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/TaskExporter.d",
+    "object": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/TaskExporter.swift.o",
+    "swiftmodule": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/TaskExporter~partial.swiftmodule",
+    "swift-dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/TaskExporter.swiftdeps",
+    "diagnostics": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/TaskExporter.dia"
+  },
+  "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Engine/TaskScheduler.swift": {
+    "dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/TaskScheduler.d",
+    "object": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/TaskScheduler.swift.o",
+    "swiftmodule": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/TaskScheduler~partial.swiftmodule",
+    "swift-dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/TaskScheduler.swiftdeps",
+    "diagnostics": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/TaskScheduler.dia"
+  },
+  "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Engine/UpdateChecker.swift": {
+    "dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/UpdateChecker.d",
+    "object": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/UpdateChecker.swift.o",
+    "swiftmodule": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/UpdateChecker~partial.swiftmodule",
+    "swift-dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/UpdateChecker.swiftdeps",
+    "diagnostics": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/UpdateChecker.dia"
+  },
+  "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Models/CronExpression.swift": {
+    "dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/CronExpression.d",
+    "object": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/CronExpression.swift.o",
+    "swiftmodule": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/CronExpression~partial.swiftmodule",
+    "swift-dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/CronExpression.swiftdeps",
+    "diagnostics": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/CronExpression.dia"
+  },
+  "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Models/ExecutionLog.swift": {
+    "dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/ExecutionLog.d",
+    "object": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/ExecutionLog.swift.o",
+    "swiftmodule": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/ExecutionLog~partial.swiftmodule",
+    "swift-dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/ExecutionLog.swiftdeps",
+    "diagnostics": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/ExecutionLog.dia"
+  },
+  "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Models/ScheduledTask.swift": {
+    "dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/ScheduledTask.d",
+    "object": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/ScheduledTask.swift.o",
+    "swiftmodule": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/ScheduledTask~partial.swiftmodule",
+    "swift-dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/ScheduledTask.swiftdeps",
+    "diagnostics": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/ScheduledTask.dia"
+  },
+  "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Components/GlassCard.swift": {
+    "dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/GlassCard.d",
+    "object": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/GlassCard.swift.o",
+    "swiftmodule": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/GlassCard~partial.swiftmodule",
+    "swift-dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/GlassCard.swiftdeps",
+    "diagnostics": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/GlassCard.dia"
+  },
+  "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Components/PointerCursor.swift": {
+    "dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/PointerCursor.d",
+    "object": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/PointerCursor.swift.o",
+    "swiftmodule": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/PointerCursor~partial.swiftmodule",
+    "swift-dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/PointerCursor.swiftdeps",
+    "diagnostics": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/PointerCursor.dia"
+  },
+  "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Components/StatusBadge.swift": {
+    "dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/StatusBadge.d",
+    "object": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/StatusBadge.swift.o",
+    "swiftmodule": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/StatusBadge~partial.swiftmodule",
+    "swift-dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/StatusBadge.swiftdeps",
+    "diagnostics": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/StatusBadge.dia"
+  },
+  "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Editor/CronEditorView.swift": {
+    "dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/CronEditorView.d",
+    "object": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/CronEditorView.swift.o",
+    "swiftmodule": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/CronEditorView~partial.swiftmodule",
+    "swift-dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/CronEditorView.swiftdeps",
+    "diagnostics": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/CronEditorView.dia"
+  },
+  "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Editor/EditorState.swift": {
+    "dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/EditorState.d",
+    "object": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/EditorState.swift.o",
+    "swiftmodule": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/EditorState~partial.swiftmodule",
+    "swift-dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/EditorState.swiftdeps",
+    "diagnostics": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/EditorState.dia"
+  },
+  "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Editor/ScriptEditorView.swift": {
+    "dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/ScriptEditorView.d",
+    "object": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/ScriptEditorView.swift.o",
+    "swiftmodule": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/ScriptEditorView~partial.swiftmodule",
+    "swift-dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/ScriptEditorView.swiftdeps",
+    "diagnostics": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/ScriptEditorView.dia"
+  },
+  "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Editor/TaskEditorView.swift": {
+    "dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/TaskEditorView.d",
+    "object": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/TaskEditorView.swift.o",
+    "swiftmodule": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/TaskEditorView~partial.swiftmodule",
+    "swift-dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/TaskEditorView.swiftdeps",
+    "diagnostics": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/TaskEditorView.dia"
+  },
+  "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Logs/LogDetailView.swift": {
+    "dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/LogDetailView.d",
+    "object": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/LogDetailView.swift.o",
+    "swiftmodule": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/LogDetailView~partial.swiftmodule",
+    "swift-dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/LogDetailView.swiftdeps",
+    "diagnostics": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/LogDetailView.dia"
+  },
+  "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Logs/LogListView.swift": {
+    "dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/LogListView.d",
+    "object": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/LogListView.swift.o",
+    "swiftmodule": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/LogListView~partial.swiftmodule",
+    "swift-dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/LogListView.swiftdeps",
+    "diagnostics": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/LogListView.dia"
+  },
+  "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Main/CrontabImportView.swift": {
+    "dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/CrontabImportView.d",
+    "object": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/CrontabImportView.swift.o",
+    "swiftmodule": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/CrontabImportView~partial.swiftmodule",
+    "swift-dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/CrontabImportView.swiftdeps",
+    "diagnostics": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/CrontabImportView.dia"
+  },
+  "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Main/MainWindowView.swift": {
+    "dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/MainWindowView.d",
+    "object": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/MainWindowView.swift.o",
+    "swiftmodule": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/MainWindowView~partial.swiftmodule",
+    "swift-dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/MainWindowView.swiftdeps",
+    "diagnostics": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/MainWindowView.dia"
+  },
+  "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Main/TaskDetailView.swift": {
+    "dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/TaskDetailView.d",
+    "object": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/TaskDetailView.swift.o",
+    "swiftmodule": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/TaskDetailView~partial.swiftmodule",
+    "swift-dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/TaskDetailView.swiftdeps",
+    "diagnostics": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/TaskDetailView.dia"
+  },
+  "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Main/TaskListView.swift": {
+    "dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/TaskListView.d",
+    "object": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/TaskListView.swift.o",
+    "swiftmodule": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/TaskListView~partial.swiftmodule",
+    "swift-dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/TaskListView.swiftdeps",
+    "diagnostics": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/TaskListView.dia"
+  },
+  "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Main/TaskLogsView.swift": {
+    "dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/TaskLogsView.d",
+    "object": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/TaskLogsView.swift.o",
+    "swiftmodule": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/TaskLogsView~partial.swiftmodule",
+    "swift-dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/TaskLogsView.swiftdeps",
+    "diagnostics": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/TaskLogsView.dia"
+  },
+  "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Main/UpdateDialogView.swift": {
+    "dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/UpdateDialogView.d",
+    "object": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/UpdateDialogView.swift.o",
+    "swiftmodule": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/UpdateDialogView~partial.swiftmodule",
+    "swift-dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/UpdateDialogView.swiftdeps",
+    "diagnostics": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/UpdateDialogView.dia"
+  },
+  "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/MenuBar/MenuBarView.swift": {
+    "dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/MenuBarView.d",
+    "object": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/MenuBarView.swift.o",
+    "swiftmodule": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/MenuBarView~partial.swiftmodule",
+    "swift-dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/MenuBarView.swiftdeps",
+    "diagnostics": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/MenuBarView.dia"
+  },
+  "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/Sources/Views/Settings/SettingsView.swift": {
+    "dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/SettingsView.d",
+    "object": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/SettingsView.swift.o",
+    "swiftmodule": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/SettingsView~partial.swiftmodule",
+    "swift-dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/SettingsView.swiftdeps",
+    "diagnostics": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/SettingsView.dia"
+  },
+  "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/DerivedSources/resource_bundle_accessor.swift": {
+    "dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/resource_bundle_accessor.d",
+    "object": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/resource_bundle_accessor.swift.o",
+    "swiftmodule": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/resource_bundle_accessor~partial.swiftmodule",
+    "swift-dependencies": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/resource_bundle_accessor.swiftdeps",
+    "diagnostics": "/Users/gefangshuai/Documents/Dev/myspace/TaskTick-app/.dev-build/build/arm64-apple-macosx/debug/TaskTick.build/resource_bundle_accessor.dia"
+  }
+}
