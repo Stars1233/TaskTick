@@ -52,7 +52,12 @@ final class UpdateChecker: ObservableObject {
         }
     }
 
+    private var isDev: Bool {
+        Bundle.main.bundleIdentifier?.hasSuffix(".dev") == true
+    }
+
     func checkForUpdates(userInitiated: Bool = false) async {
+        if isDev { return }
         isChecking = true
 
         do {
