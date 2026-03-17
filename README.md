@@ -19,7 +19,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/lifedever/TaskTick/releases/latest">⬇️ <strong>Download Latest</strong></a> ｜ <a href="https://lifedever.github.io/sponsor/">💖 <strong>Sponsor</strong></a>
+  <a href="https://github.com/lifedever/TaskTick/releases/latest">⬇️ <strong>Download Latest</strong></a> ｜ <a href="https://www.lifedever.com/sponsor/">💖 <strong>Sponsor</strong></a>
 </p>
 
 <p align="center">
@@ -97,7 +97,7 @@ swift run
 
 ## Sponsor
 
-If TaskTick is useful to you, consider [sponsoring](https://lifedever.github.io/sponsor/) the developer to support ongoing maintenance.
+If TaskTick is useful to you, consider [sponsoring](https://www.lifedever.com/sponsor/) the developer to support ongoing maintenance.
 
 ## License
 

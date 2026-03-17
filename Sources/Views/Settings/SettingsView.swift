@@ -189,7 +189,7 @@ struct SettingsView: View {
                     .pointerCursor()
                 Link(L10n.tr("settings.about.issues"), destination: URL(string: "https://github.com/lifedever/TaskTick/issues")!)
                     .pointerCursor()
-                Link(L10n.tr("settings.about.sponsor"), destination: URL(string: "https://lifedever.github.io/sponsor/")!)
+                Link(L10n.tr("settings.about.sponsor"), destination: URL(string: "https://www.lifedever.com/sponsor/")!)
                     .pointerCursor()
 
                 Text(L10n.tr("settings.about.copyright"))

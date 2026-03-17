@@ -140,7 +140,7 @@ struct TaskListView: View {
         .safeAreaInset(edge: .bottom) {
             VStack(spacing: 0) {
                 Divider()
-                Link(destination: URL(string: "https://lifedever.github.io/sponsor/")!) {
+                Link(destination: URL(string: "https://www.lifedever.com/sponsor/")!) {
                     HStack(spacing: 4) {
                         Image(systemName: "heart")
                             .font(.caption2)

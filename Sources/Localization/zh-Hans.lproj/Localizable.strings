@@ -108,6 +108,7 @@
 "schedule.times" = "次";
 "schedule.until" = "截止 %@";
 "schedule.after_n_times" = "%d 次";
+"schedule.run_missed" = "补执行错过的任务";
 
 /* Repeat Types */
 "repeat.never" = "永不";

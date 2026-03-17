@@ -49,6 +49,9 @@ struct TaskEditorView: View {
     @State private var customIntervalUnit: CustomRepeatUnit = .day
     @State private var showingCustomRepeat = false
 
+    // Missed execution
+    @State private var runMissedExecution = false
+
     // Notification
     @State private var notifyOnSuccess = false
     @State private var notifyOnFailure = true
@@ -228,6 +231,10 @@ struct TaskEditorView: View {
                                     .foregroundStyle(.secondary)
                             }
                         }
+                    }
+
+                    Toggle(isOn: $runMissedExecution) {
+                        Label(L10n.tr("schedule.run_missed"), systemImage: "clock.arrow.2.circlepath")
                     }
                 }
             }
@@ -676,6 +683,7 @@ struct TaskEditorView: View {
         scriptFilePath = ""
         workingDirectory = ""
         timeoutSeconds = 300
+        runMissedExecution = false
         notifyOnSuccess = false
         notifyOnFailure = true
         selectedTab = 0
@@ -707,6 +715,7 @@ struct TaskEditorView: View {
         endRepeatCount = task.endRepeatCount ?? 10
         customIntervalValue = task.customIntervalValue
         customIntervalUnit = task.customIntervalUnit
+        runMissedExecution = task.runMissedExecution
 
         if let date = task.scheduledDate {
             scheduledDate = date
@@ -742,6 +751,7 @@ struct TaskEditorView: View {
         target.endRepeatCount = endRepeatType == .afterCount ? endRepeatCount : nil
         target.customIntervalValue = customIntervalValue
         target.customIntervalUnit = customIntervalUnit
+        target.runMissedExecution = runMissedExecution
 
         target.cronExpression = nil
         target.intervalSeconds = nil

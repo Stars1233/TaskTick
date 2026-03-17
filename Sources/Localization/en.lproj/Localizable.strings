@@ -108,6 +108,7 @@
 "schedule.times" = "times";
 "schedule.until" = "Until %@";
 "schedule.after_n_times" = "%d times";
+"schedule.run_missed" = "Run Missed Execution";
 
 /* Repeat Types */
 "repeat.never" = "Never";

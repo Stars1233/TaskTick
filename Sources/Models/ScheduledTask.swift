@@ -158,6 +158,7 @@ final class ScheduledTask {
     var timeoutSeconds: Int
     var notifyOnSuccess: Bool
     var notifyOnFailure: Bool
+    var runMissedExecution: Bool = false
 
     @Relationship(deleteRule: .cascade, inverse: \ExecutionLog.task)
     var executionLogs: [ExecutionLog]

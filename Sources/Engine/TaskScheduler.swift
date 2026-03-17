@@ -68,8 +68,18 @@ final class TaskScheduler: ObservableObject {
         for task in tasks {
             guard let nextRun = task.nextRunAt else { continue }
             if nextRun <= now {
-                // Task is overdue, execute it now
-                fireTask(task)
+                if task.runMissedExecution {
+                    // Task is overdue, execute it now
+                    fireTask(task)
+                } else {
+                    // Skip missed execution, advance to next run date
+                    let nextDate = computeNextRunDate(for: task, after: now)
+                    task.nextRunAt = nextDate
+                    try? modelContext.save()
+                    if let nextDate, (earliest == nil || nextDate < earliest!) {
+                        earliest = nextDate
+                    }
+                }
                 continue
             }
             if earliest == nil || nextRun < earliest! {
@@ -100,7 +110,14 @@ final class TaskScheduler: ObservableObject {
 
         for task in tasks {
             if let nextRun = task.nextRunAt, nextRun <= now {
-                fireTask(task)
+                if task.runMissedExecution {
+                    fireTask(task)
+                } else {
+                    // Skip missed execution, advance to next run date
+                    let nextDate = computeNextRunDate(for: task, after: now)
+                    task.nextRunAt = nextDate
+                    try? modelContext.save()
+                }
             }
         }
 

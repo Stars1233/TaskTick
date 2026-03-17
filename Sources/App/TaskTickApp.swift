@@ -130,7 +130,7 @@ struct TaskTickApp: App {
             Divider()
 
             Button {
-                if let url = URL(string: "https://lifedever.github.io/sponsor/") {
+                if let url = URL(string: "https://www.lifedever.com/sponsor/") {
                     NSWorkspace.shared.open(url)
                 }
             } label: {

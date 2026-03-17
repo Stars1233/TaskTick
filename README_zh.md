@@ -19,7 +19,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/lifedever/TaskTick/releases/latest">⬇️ <strong>点击下载最新版本</strong></a> ｜ <a href="https://lifedever.github.io/sponsor/">💖 <strong>捐赠支持</strong></a>
+  <a href="https://github.com/lifedever/TaskTick/releases/latest">⬇️ <strong>点击下载最新版本</strong></a> ｜ <a href="https://www.lifedever.com/sponsor/">💖 <strong>捐赠支持</strong></a>
 </p>
 
 <p align="center">
@@ -97,7 +97,7 @@ swift run
 
 ## 捐赠支持
 
-如果 TaskTick 对你有帮助，欢迎[捐赠支持](https://lifedever.github.io/sponsor/)开发者持续维护。
+如果 TaskTick 对你有帮助，欢迎[捐赠支持](https://www.lifedever.com/sponsor/)开发者持续维护。
 
 ## 开源协议
 
