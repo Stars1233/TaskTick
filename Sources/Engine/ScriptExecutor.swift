@@ -128,7 +128,7 @@ final class ScriptExecutor: ObservableObject {
                 let stderrPipe = Pipe()
 
                 process.executableURL = URL(fileURLWithPath: shell)
-                process.arguments = ["-c", script]
+                process.arguments = ["-l", "-c", script]
                 process.standardOutput = stdoutPipe
                 process.standardError = stderrPipe
 
