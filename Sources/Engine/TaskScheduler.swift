@@ -24,6 +24,7 @@ final class TaskScheduler: ObservableObject {
 
     func start() {
         guard let modelContext else { return }
+        guard !isRunning else { return }
         isRunning = true
 
         // Compute nextRunAt for all enabled tasks that don't have one

@@ -121,6 +121,14 @@ struct MenuBarView: View {
             .padding(.vertical, 4)
         }
         .frame(width: 300)
+        .onAppear {
+            // Ensure scheduler is running even if main window hasn't appeared
+            // (e.g. after update-and-restart where app launches into menu bar mode)
+            if !scheduler.isRunning {
+                scheduler.configure(modelContext: modelContext)
+                scheduler.start()
+            }
+        }
     }
 }
 
