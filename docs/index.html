@@ -36,7 +36,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(24px) s
 .nav-right{display:flex;align-items:center;gap:6px}
 .nav-right a{color:var(--text2);text-decoration:none;font-size:.84rem;font-weight:500;padding:6px 14px;border-radius:8px;transition:color .2s}
 .nav-right a:hover{color:var(--text)}
-.lang-switch{cursor:pointer;font-size:.78rem;padding:5px 12px;border:1px solid var(--border);border-radius:6px;color:var(--text3);background:transparent;transition:all .2s;font-family:var(--font)}
+.lang-switch{cursor:pointer;font-size:.78rem;padding:5px 12px;border:1px solid var(--border);border-radius:6px;color:var(--text3);background:transparent;transition:all .2s;font-family:var(--font);appearance:none;-webkit-appearance:none;outline:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23a1a1aa'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;padding-right:24px}
 .lang-switch:hover{border-color:var(--text2);color:var(--text2)}
 .nav-sponsor{color:#f472b6!important;font-weight:600!important}
 .nav-sponsor:hover{opacity:.8!important}
@@ -174,14 +174,11 @@ footer .right a:hover{color:var(--text)}
   .feature-card{background:var(--bg2)}
   .feature-card:hover{background:rgba(255,255,255,.03)}
   .install-card{background:var(--bg2)}
+  .lang-switch{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%2352525b'/%3E%3C/svg%3E")}
 }
-
-/* ── i18n ── */
-[data-lang="zh"] [data-i18n-en]{display:none}
-[data-lang="en"] [data-i18n-zh]{display:none}
 </style>
 </head>
-<body data-lang="en">
+<body>
 
 <!-- Nav -->
 <nav>
@@ -191,14 +188,24 @@ footer .right a:hover{color:var(--text)}
       TaskTick
     </a>
     <div class="nav-right">
-      <a href="#features" data-i18n-en>Features</a><a href="#features" data-i18n-zh>功能</a>
-      <a href="#install" data-i18n-en>Install</a><a href="#install" data-i18n-zh>安装</a>
+      <a href="#features" data-i18n="nav_features">Features</a>
+      <a href="#install" data-i18n="nav_install">Install</a>
       <a href="https://github.com/lifedever/TaskTick">GitHub</a>
-      <a href="https://www.lifedever.com/sponsor/" class="nav-sponsor">💖 <span data-i18n-en>Sponsor</span><span data-i18n-zh>捐赠</span></a>
-      <button class="lang-switch" onclick="toggleLang()">中 / EN</button>
-      <a href="https://github.com/lifedever/TaskTick/releases" class="nav-cta">
-        <span data-i18n-en>Download</span><span data-i18n-zh>下载</span>
-      </a>
+      <a href="https://www.lifedever.com/sponsor/" class="nav-sponsor">💖 <span data-i18n="nav_sponsor">Sponsor</span></a>
+      <select class="lang-switch" onchange="setLang(this.value)" id="langSelect">
+        <option value="zh-Hans">简体中文</option>
+        <option value="zh-Hant">繁體中文</option>
+        <option value="en">English</option>
+        <option value="ja">日本語</option>
+        <option value="ko">한국어</option>
+        <option value="fr">Français</option>
+        <option value="de">Deutsch</option>
+        <option value="it">Italiano</option>
+        <option value="es">Español</option>
+        <option value="ru">Русский</option>
+        <option value="id">Bahasa Indonesia</option>
+      </select>
+      <a href="https://github.com/lifedever/TaskTick/releases" class="nav-cta" data-i18n="nav_download">Download</a>
     </div>
   </div>
 </nav>
@@ -209,16 +216,14 @@ footer .right a:hover{color:var(--text)}
     <div class="hero-icon fade-in"><img src="icon.svg" alt="TaskTick"></div>
     <div class="hero-badge fade-in fade-d1">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
-      <span data-i18n-en>Native macOS App</span><span data-i18n-zh>macOS 原生应用</span>
+      <span data-i18n="hero_badge">Native macOS App</span>
     </div>
-    <h1 class="fade-in fade-d2" data-i18n-en>Schedule tasks,<br>not <span class="gradient">headaches</span>.</h1>
-    <h1 class="fade-in fade-d2" data-i18n-zh>定时任务，<br><span class="gradient">轻松掌控</span>。</h1>
-    <p class="sub fade-in fade-d3" data-i18n-en>No crontab. No launchd. Create, schedule, and forget. Built with SwiftUI for macOS 14+.</p>
-    <p class="sub fade-in fade-d3" data-i18n-zh>无需 crontab，无需 launchd。创建、调度，然后忘掉它。基于 SwiftUI 构建，支持 macOS 14+。</p>
+    <h1 class="fade-in fade-d2" data-i18n="hero_title" data-i18n-html>Schedule tasks,<br>not <span class="gradient">headaches</span>.</h1>
+    <p class="sub fade-in fade-d3" data-i18n="hero_sub">No crontab. No launchd. Create, schedule, and forget. Built with SwiftUI for macOS 14+.</p>
     <div class="hero-actions fade-in fade-d4">
       <a href="https://github.com/lifedever/TaskTick/releases" class="btn btn-primary">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        <span data-i18n-en>Download for macOS</span><span data-i18n-zh>下载 macOS 版</span>
+        <span data-i18n="hero_download">Download for macOS</span>
       </a>
       <a href="https://github.com/lifedever/TaskTick" class="btn btn-ghost">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
@@ -232,22 +237,18 @@ footer .right a:hover{color:var(--text)}
 <section class="screenshots-section" id="screenshots">
   <div class="container">
     <div class="section-header reveal">
-      <h2 data-i18n-en>Clean & Powerful</h2>
-      <h2 data-i18n-zh>简洁优雅，功能强大</h2>
-      <p data-i18n-en>Native SwiftUI interface, perfectly integrated with macOS.</p>
-      <p data-i18n-zh>原生 SwiftUI 打造，完美融入 macOS 生态。</p>
+      <h2 data-i18n="screenshots_title">Clean & Powerful</h2>
+      <p data-i18n="screenshots_sub">Native SwiftUI interface, perfectly integrated with macOS.</p>
     </div>
     <div class="screenshots-track">
       <div class="screenshots-scroll" id="screenshotsScroll">
         <div class="screenshot-item">
           <img src="https://cdn.jsdelivr.net/gh/lifedever/images@master/uPic/2026/03/CS2026-03-16-12.47.53@2x.png" alt="Task Dashboard">
-          <div class="screenshot-label" data-i18n-en>Task Dashboard</div>
-          <div class="screenshot-label" data-i18n-zh>任务面板</div>
+          <div class="screenshot-label" data-i18n="screenshot_dashboard">Task Dashboard</div>
         </div>
         <div class="screenshot-item">
           <img src="https://cdn.jsdelivr.net/gh/lifedever/images@master/uPic/2026/03/CS2026-03-16-12.12.03@2x.png" alt="Template Manager">
-          <div class="screenshot-label" data-i18n-en>Template Manager</div>
-          <div class="screenshot-label" data-i18n-zh>模板管理器</div>
+          <div class="screenshot-label" data-i18n="screenshot_template">Template Manager</div>
         </div>
       </div>
       <div class="screenshots-nav">
@@ -262,15 +263,13 @@ footer .right a:hover{color:var(--text)}
 <section class="highlight">
   <div class="highlight-inner reveal">
     <div class="highlight-text">
-      <h3 data-i18n-en>Script Templates,<br>ready to go.</h3>
-      <h3 data-i18n-zh>脚本模板，<br>开箱即用。</h3>
-      <p data-i18n-en>Start with built-in templates for database backup, log cleanup, health checks, Docker management, and more. Save your own scripts as reusable templates with categories and notes.</p>
-      <p data-i18n-zh>内置数据库备份、日志清理、健康检查、Docker 管理等常用模板。也可以将自己的脚本保存为模板，支持分类和备注，方便复用。</p>
+      <h3 data-i18n="highlight_title" data-i18n-html>Script Templates,<br>ready to go.</h3>
+      <p data-i18n="highlight_desc">Start with built-in templates for database backup, log cleanup, health checks, Docker management, and more. Save your own scripts as reusable templates with categories and notes.</p>
       <div class="highlight-tags">
         <span class="highlight-tag">MySQL / PostgreSQL / MongoDB</span>
-        <span class="highlight-tag" data-i18n-en>Log Cleanup</span><span class="highlight-tag" data-i18n-zh>日志清理</span>
-        <span class="highlight-tag" data-i18n-en>Health Check</span><span class="highlight-tag" data-i18n-zh>健康检查</span>
-        <span class="highlight-tag" data-i18n-en>SSL Certificate</span><span class="highlight-tag" data-i18n-zh>SSL 证书</span>
+        <span class="highlight-tag" data-i18n="tag_log_cleanup">Log Cleanup</span>
+        <span class="highlight-tag" data-i18n="tag_health_check">Health Check</span>
+        <span class="highlight-tag" data-i18n="tag_ssl">SSL Certificate</span>
         <span class="highlight-tag">Docker</span>
         <span class="highlight-tag">Git Sync</span>
         <span class="highlight-tag">Rsync</span>
@@ -287,65 +286,54 @@ footer .right a:hover{color:var(--text)}
 <section id="features" class="features">
   <div class="container">
     <div class="section-header reveal">
-      <h2 data-i18n-en>Everything you need.</h2>
-      <h2 data-i18n-zh>你需要的，都在这里。</h2>
-      <p data-i18n-en>Built for developers who want scheduled tasks without the complexity.</p>
-      <p data-i18n-zh>为不想折腾系统守护进程的开发者而生。</p>
+      <h2 data-i18n="features_title">Everything you need.</h2>
+      <p data-i18n="features_sub">Built for developers who want scheduled tasks without the complexity.</p>
     </div>
     <div class="features-grid reveal">
       <div class="feature-card">
         <div class="feature-icon fi-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg></div>
-        <h3 data-i18n-en>Menu Bar Resident</h3><h3 data-i18n-zh>菜单栏常驻</h3>
-        <p data-i18n-en>Runs silently in background. Close the window, tasks keep running.</p>
-        <p data-i18n-zh>后台静默运行，关闭窗口也不影响任务执行。</p>
+        <h3 data-i18n="feat_menubar_title">Menu Bar Resident</h3>
+        <p data-i18n="feat_menubar_desc">Runs silently in background. Close the window, tasks keep running.</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon fi-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-        <h3 data-i18n-en>Flexible Scheduling</h3><h3 data-i18n-zh>灵活调度</h3>
-        <p data-i18n-en>Date, time, repeat cycles — intuitive UI like Reminders.</p>
-        <p data-i18n-zh>日期、时间、重复周期，类似提醒事项的直觉体验。</p>
+        <h3 data-i18n="feat_schedule_title">Flexible Scheduling</h3>
+        <p data-i18n="feat_schedule_desc">Date, time, repeat cycles — intuitive UI like Reminders.</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon fi-purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg></div>
-        <h3 data-i18n-en>Script Execution</h3><h3 data-i18n-zh>脚本执行</h3>
-        <p data-i18n-en>Bash, Python, Ruby, Node.js — inline or from file.</p>
-        <p data-i18n-zh>Bash、Python、Ruby、Node.js — 内联或文件。</p>
+        <h3 data-i18n="feat_script_title">Script Execution</h3>
+        <p data-i18n="feat_script_desc">Bash, Python, Ruby, Node.js — inline or from file.</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon fi-orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M8 13h2"/><path d="M8 17h2"/></svg></div>
-        <h3 data-i18n-en>Script Templates</h3><h3 data-i18n-zh>脚本模板</h3>
-        <p data-i18n-en>Built-in templates for common tasks. Create, edit, and organize your own.</p>
-        <p data-i18n-zh>内置常用任务模板，支持自定义创建、编辑和分类管理。</p>
+        <h3 data-i18n="feat_template_title">Script Templates</h3>
+        <p data-i18n="feat_template_desc">Built-in templates for common tasks. Create, edit, and organize your own.</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon fi-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
-        <h3 data-i18n-en>Execution Logs</h3><h3 data-i18n-zh>执行日志</h3>
-        <p data-i18n-en>stdout, stderr, exit codes, duration — all captured.</p>
-        <p data-i18n-zh>标准输出、错误、退出码、耗时 — 全部记录。</p>
+        <h3 data-i18n="feat_logs_title">Execution Logs</h3>
+        <p data-i18n="feat_logs_desc">stdout, stderr, exit codes, duration — all captured.</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon fi-pink"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div>
-        <h3 data-i18n-en>Notifications</h3><h3 data-i18n-zh>系统通知</h3>
-        <p data-i18n-en>macOS native alerts on success or failure, per task.</p>
-        <p data-i18n-zh>任务成功或失败时推送 macOS 原生通知。</p>
+        <h3 data-i18n="feat_notify_title">Notifications</h3>
+        <p data-i18n="feat_notify_desc">macOS native alerts on success or failure, per task.</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon fi-slate"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></div>
-        <h3 data-i18n-en>Crontab Import</h3><h3 data-i18n-zh>Crontab 导入</h3>
-        <p data-i18n-en>Import from system crontab with one click.</p>
-        <p data-i18n-zh>一键导入系统 crontab 任务。</p>
+        <h3 data-i18n="feat_crontab_title">Crontab Import</h3>
+        <p data-i18n="feat_crontab_desc">Import from system crontab with one click.</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon fi-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div>
-        <h3 data-i18n-en>EN & 中文</h3><h3 data-i18n-zh>中英双语</h3>
-        <p data-i18n-en>Full bilingual interface, switch anytime.</p>
-        <p data-i18n-zh>完整中英文界面，一键切换。</p>
+        <h3 data-i18n="feat_i18n_title">11 Languages</h3>
+        <p data-i18n="feat_i18n_desc">Full multilingual interface, switch anytime.</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon fi-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
-        <h3 data-i18n-en>macOS 26 Ready</h3><h3 data-i18n-zh>macOS 26 就绪</h3>
-        <p data-i18n-en>Liquid glass effects on supported systems, graceful fallback.</p>
-        <p data-i18n-zh>液态玻璃特效，旧系统优雅降级。</p>
+        <h3 data-i18n="feat_macos26_title">macOS 26 Ready</h3>
+        <p data-i18n="feat_macos26_desc">Liquid glass effects on supported systems, graceful fallback.</p>
       </div>
     </div>
   </div>
@@ -354,18 +342,15 @@ footer .right a:hover{color:var(--text)}
 <!-- Install -->
 <section id="install" class="install">
   <div class="container">
-    <h2 class="reveal" data-i18n-en>Get started in seconds.</h2>
-    <h2 class="reveal" data-i18n-zh>几秒钟即可开始。</h2>
+    <h2 class="reveal" data-i18n="install_title">Get started in seconds.</h2>
     <div class="install-methods reveal">
       <div class="install-card">
         <div class="label">Homebrew</div>
         <code><span>brew</span> tap lifedever/tap<br><span>brew</span> install --cask task-tick</code>
       </div>
       <div class="install-card">
-        <div class="label" data-i18n-en>Manual Download</div>
-        <div class="label" data-i18n-zh>手动下载</div>
-        <code data-i18n-en>Download <span>.dmg</span> from<br><a href="https://github.com/lifedever/TaskTick/releases" style="color:var(--accent);text-decoration:none">GitHub Releases</a></code>
-        <code data-i18n-zh>从 <a href="https://github.com/lifedever/TaskTick/releases" style="color:var(--accent);text-decoration:none">GitHub Releases</a><br>下载 <span>.dmg</span> 安装包</code>
+        <div class="label" data-i18n="install_manual">Manual Download</div>
+        <code data-i18n="install_manual_desc" data-i18n-html>Download <span>.dmg</span> from<br><a href="https://github.com/lifedever/TaskTick/releases" style="color:var(--accent);text-decoration:none">GitHub Releases</a></code>
       </div>
     </div>
   </div>
@@ -375,10 +360,8 @@ footer .right a:hover{color:var(--text)}
 <section class="cta">
   <div class="container">
     <div class="reveal">
-      <h2 data-i18n-en>Open source. Free forever.</h2>
-      <h2 data-i18n-zh>开源免费，永久使用。</h2>
-      <p class="sub" data-i18n-en>Built with SwiftUI & SwiftData. GPL-3.0 licensed.</p>
-      <p class="sub" data-i18n-zh>基于 SwiftUI & SwiftData 构建。GPL-3.0 开源协议。</p>
+      <h2 data-i18n="cta_title">Open source. Free forever.</h2>
+      <p class="sub" data-i18n="cta_sub">Built with SwiftUI & SwiftData. GPL-3.0 licensed.</p>
       <div class="cta-actions">
         <a href="https://github.com/lifedever/TaskTick" class="btn btn-primary">
           <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
@@ -386,7 +369,7 @@ footer .right a:hover{color:var(--text)}
         </a>
         <a href="https://www.lifedever.com/sponsor/" class="btn btn-ghost btn-sponsor">
           <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-          <span data-i18n-en>Sponsor</span><span data-i18n-zh>赞助</span>
+          <span data-i18n="nav_sponsor">Sponsor</span>
         </a>
       </div>
     </div>
@@ -404,10 +387,533 @@ footer .right a:hover{color:var(--text)}
 </footer>
 
 <script>
-function setLang(lang){document.body.setAttribute('data-lang',lang);localStorage.setItem('tasktick-lang',lang)}
-function toggleLang(){setLang(document.body.getAttribute('data-lang')==='zh'?'en':'zh')}
-const saved=localStorage.getItem('tasktick-lang');
-if(saved){setLang(saved)}else{setLang(navigator.language.startsWith('zh')?'zh':'en')}
+const T = {
+  'zh-Hans': {
+    nav_features: '功能',
+    nav_install: '安装',
+    nav_sponsor: '捐赠',
+    nav_download: '下载',
+    hero_badge: 'macOS 原生应用',
+    hero_title: '定时任务，<br><span class="gradient">轻松掌控</span>。',
+    hero_sub: '无需 crontab，无需 launchd。创建、调度，然后忘掉它。基于 SwiftUI 构建，支持 macOS 14+。',
+    hero_download: '下载 macOS 版',
+    screenshots_title: '简洁优雅，功能强大',
+    screenshots_sub: '原生 SwiftUI 打造，完美融入 macOS 生态。',
+    screenshot_dashboard: '任务面板',
+    screenshot_template: '模板管理器',
+    highlight_title: '脚本模板，<br>开箱即用。',
+    highlight_desc: '内置数据库备份、日志清理、健康检查、Docker 管理等常用模板。也可以将自己的脚本保存为模板，支持分类和备注，方便复用。',
+    tag_log_cleanup: '日志清理',
+    tag_health_check: '健康检查',
+    tag_ssl: 'SSL 证书',
+    features_title: '你需要的，都在这里。',
+    features_sub: '为不想折腾系统守护进程的开发者而生。',
+    feat_menubar_title: '菜单栏常驻',
+    feat_menubar_desc: '后台静默运行，关闭窗口也不影响任务执行。',
+    feat_schedule_title: '灵活调度',
+    feat_schedule_desc: '日期、时间、重复周期，类似提醒事项的直觉体验。',
+    feat_script_title: '脚本执行',
+    feat_script_desc: 'Bash、Python、Ruby、Node.js — 内联或文件。',
+    feat_template_title: '脚本模板',
+    feat_template_desc: '内置常用任务模板，支持自定义创建、编辑和分类管理。',
+    feat_logs_title: '执行日志',
+    feat_logs_desc: '标准输出、错误、退出码、耗时 — 全部记录。',
+    feat_notify_title: '系统通知',
+    feat_notify_desc: '任务成功或失败时推送 macOS 原生通知。',
+    feat_crontab_title: 'Crontab 导入',
+    feat_crontab_desc: '一键导入系统 crontab 任务。',
+    feat_i18n_title: '11种语言',
+    feat_i18n_desc: '完整多语言界面，随时切换。',
+    feat_macos26_title: 'macOS 26 就绪',
+    feat_macos26_desc: '液态玻璃特效，旧系统优雅降级。',
+    install_title: '几秒钟即可开始。',
+    install_manual: '手动下载',
+    install_manual_desc: '从 <a href="https://github.com/lifedever/TaskTick/releases" style="color:var(--accent);text-decoration:none">GitHub Releases</a><br>下载 <span>.dmg</span> 安装包',
+    cta_title: '开源免费，永久使用。',
+    cta_sub: '基于 SwiftUI & SwiftData 构建。GPL-3.0 开源协议。',
+  },
+  'zh-Hant': {
+    nav_features: '功能',
+    nav_install: '安裝',
+    nav_sponsor: '贊助',
+    nav_download: '下載',
+    hero_badge: 'macOS 原生應用',
+    hero_title: '定時任務，<br><span class="gradient">輕鬆掌控</span>。',
+    hero_sub: '無需 crontab，無需 launchd。建立、排程，然後忘掉它。基於 SwiftUI 構建，支援 macOS 14+。',
+    hero_download: '下載 macOS 版',
+    screenshots_title: '簡潔優雅，功能強大',
+    screenshots_sub: '原生 SwiftUI 打造，完美融入 macOS 生態。',
+    screenshot_dashboard: '任務面板',
+    screenshot_template: '模板管理器',
+    highlight_title: '腳本模板，<br>開箱即用。',
+    highlight_desc: '內建資料庫備份、日誌清理、健康檢查、Docker 管理等常用模板。也可以將自己的腳本儲存為模板，支援分類和備註，方便複用。',
+    tag_log_cleanup: '日誌清理',
+    tag_health_check: '健康檢查',
+    tag_ssl: 'SSL 憑證',
+    features_title: '你需要的，都在這裡。',
+    features_sub: '為不想折騰系統守護程序的開發者而生。',
+    feat_menubar_title: '選單列常駐',
+    feat_menubar_desc: '背景靜默執行，關閉視窗也不影響任務執行。',
+    feat_schedule_title: '靈活排程',
+    feat_schedule_desc: '日期、時間、重複週期，類似提醒事項的直覺體驗。',
+    feat_script_title: '腳本執行',
+    feat_script_desc: 'Bash、Python、Ruby、Node.js — 內嵌或檔案。',
+    feat_template_title: '腳本模板',
+    feat_template_desc: '內建常用任務模板，支援自訂建立、編輯和分類管理。',
+    feat_logs_title: '執行日誌',
+    feat_logs_desc: '標準輸出、錯誤、退出碼、耗時 — 全部記錄。',
+    feat_notify_title: '系統通知',
+    feat_notify_desc: '任務成功或失敗時推送 macOS 原生通知。',
+    feat_crontab_title: 'Crontab 匯入',
+    feat_crontab_desc: '一鍵匯入系統 crontab 任務。',
+    feat_i18n_title: '11種語言',
+    feat_i18n_desc: '完整多語言介面，隨時切換。',
+    feat_macos26_title: 'macOS 26 就緒',
+    feat_macos26_desc: '液態玻璃特效，舊系統優雅降級。',
+    install_title: '幾秒鐘即可開始。',
+    install_manual: '手動下載',
+    install_manual_desc: '從 <a href="https://github.com/lifedever/TaskTick/releases" style="color:var(--accent);text-decoration:none">GitHub Releases</a><br>下載 <span>.dmg</span> 安裝包',
+    cta_title: '開源免費，永久使用。',
+    cta_sub: '基於 SwiftUI & SwiftData 構建。GPL-3.0 開源協議。',
+  },
+  en: {
+    nav_features: 'Features',
+    nav_install: 'Install',
+    nav_sponsor: 'Sponsor',
+    nav_download: 'Download',
+    hero_badge: 'Native macOS App',
+    hero_title: 'Schedule tasks,<br>not <span class="gradient">headaches</span>.',
+    hero_sub: 'No crontab. No launchd. Create, schedule, and forget. Built with SwiftUI for macOS 14+.',
+    hero_download: 'Download for macOS',
+    screenshots_title: 'Clean & Powerful',
+    screenshots_sub: 'Native SwiftUI interface, perfectly integrated with macOS.',
+    screenshot_dashboard: 'Task Dashboard',
+    screenshot_template: 'Template Manager',
+    highlight_title: 'Script Templates,<br>ready to go.',
+    highlight_desc: 'Start with built-in templates for database backup, log cleanup, health checks, Docker management, and more. Save your own scripts as reusable templates with categories and notes.',
+    tag_log_cleanup: 'Log Cleanup',
+    tag_health_check: 'Health Check',
+    tag_ssl: 'SSL Certificate',
+    features_title: 'Everything you need.',
+    features_sub: 'Built for developers who want scheduled tasks without the complexity.',
+    feat_menubar_title: 'Menu Bar Resident',
+    feat_menubar_desc: 'Runs silently in background. Close the window, tasks keep running.',
+    feat_schedule_title: 'Flexible Scheduling',
+    feat_schedule_desc: 'Date, time, repeat cycles — intuitive UI like Reminders.',
+    feat_script_title: 'Script Execution',
+    feat_script_desc: 'Bash, Python, Ruby, Node.js — inline or from file.',
+    feat_template_title: 'Script Templates',
+    feat_template_desc: 'Built-in templates for common tasks. Create, edit, and organize your own.',
+    feat_logs_title: 'Execution Logs',
+    feat_logs_desc: 'stdout, stderr, exit codes, duration — all captured.',
+    feat_notify_title: 'Notifications',
+    feat_notify_desc: 'macOS native alerts on success or failure, per task.',
+    feat_crontab_title: 'Crontab Import',
+    feat_crontab_desc: 'Import from system crontab with one click.',
+    feat_i18n_title: '11 Languages',
+    feat_i18n_desc: 'Full multilingual interface, switch anytime.',
+    feat_macos26_title: 'macOS 26 Ready',
+    feat_macos26_desc: 'Liquid glass effects on supported systems, graceful fallback.',
+    install_title: 'Get started in seconds.',
+    install_manual: 'Manual Download',
+    install_manual_desc: 'Download <span>.dmg</span> from<br><a href="https://github.com/lifedever/TaskTick/releases" style="color:var(--accent);text-decoration:none">GitHub Releases</a>',
+    cta_title: 'Open source. Free forever.',
+    cta_sub: 'Built with SwiftUI & SwiftData. GPL-3.0 licensed.',
+  },
+  ja: {
+    nav_features: '機能',
+    nav_install: 'インストール',
+    nav_sponsor: 'スポンサー',
+    nav_download: 'ダウンロード',
+    hero_badge: 'macOS ネイティブアプリ',
+    hero_title: 'タスクをスケジュール、<br><span class="gradient">悩みは不要</span>。',
+    hero_sub: 'crontab不要、launchd不要。作成、スケジュール、あとはお任せ。SwiftUIでmacOS 14+対応。',
+    hero_download: 'macOS版をダウンロード',
+    screenshots_title: 'シンプルで強力',
+    screenshots_sub: 'ネイティブSwiftUIインターフェース、macOSに完全統合。',
+    screenshot_dashboard: 'タスクダッシュボード',
+    screenshot_template: 'テンプレートマネージャー',
+    highlight_title: 'スクリプトテンプレート、<br>すぐに使える。',
+    highlight_desc: 'データベースバックアップ、ログクリーンアップ、ヘルスチェック、Docker管理などの組み込みテンプレートで始めましょう。独自のスクリプトをカテゴリとメモ付きで再利用可能なテンプレートとして保存できます。',
+    tag_log_cleanup: 'ログクリーンアップ',
+    tag_health_check: 'ヘルスチェック',
+    tag_ssl: 'SSL証明書',
+    features_title: '必要なものがすべて揃う。',
+    features_sub: '複雑さなしでタスクをスケジュールしたい開発者のために。',
+    feat_menubar_title: 'メニューバー常駐',
+    feat_menubar_desc: 'バックグラウンドで静かに動作。ウィンドウを閉じてもタスクは継続。',
+    feat_schedule_title: '柔軟なスケジューリング',
+    feat_schedule_desc: '日付、時間、繰り返し周期 — リマインダーのような直感的UI。',
+    feat_script_title: 'スクリプト実行',
+    feat_script_desc: 'Bash、Python、Ruby、Node.js — インラインまたはファイルから。',
+    feat_template_title: 'スクリプトテンプレート',
+    feat_template_desc: '一般的なタスク用の組み込みテンプレート。独自に作成・編集・整理。',
+    feat_logs_title: '実行ログ',
+    feat_logs_desc: '標準出力、エラー、終了コード、実行時間 — すべて記録。',
+    feat_notify_title: '通知',
+    feat_notify_desc: 'タスクの成功・失敗時にmacOSネイティブ通知を送信。',
+    feat_crontab_title: 'Crontabインポート',
+    feat_crontab_desc: 'システムのcrontabをワンクリックでインポート。',
+    feat_i18n_title: '11言語対応',
+    feat_i18n_desc: '完全な多言語インターフェース、いつでも切替可能。',
+    feat_macos26_title: 'macOS 26対応',
+    feat_macos26_desc: 'リキッドグラスエフェクト対応、旧システムは自動フォールバック。',
+    install_title: '数秒で始められる。',
+    install_manual: '手動ダウンロード',
+    install_manual_desc: '<a href="https://github.com/lifedever/TaskTick/releases" style="color:var(--accent);text-decoration:none">GitHub Releases</a>から<br><span>.dmg</span>をダウンロード',
+    cta_title: 'オープンソース。永久無料。',
+    cta_sub: 'SwiftUI & SwiftDataで構築。GPL-3.0ライセンス。',
+  },
+  ko: {
+    nav_features: '기능',
+    nav_install: '설치',
+    nav_sponsor: '후원',
+    nav_download: '다운로드',
+    hero_badge: 'macOS 네이티브 앱',
+    hero_title: '작업을 예약하세요,<br><span class="gradient">골치 아픔 없이</span>.',
+    hero_sub: 'crontab 불필요. launchd 불필요. 생성, 예약, 그리고 잊으세요. SwiftUI로 구축, macOS 14+ 지원.',
+    hero_download: 'macOS용 다운로드',
+    screenshots_title: '깔끔하고 강력한',
+    screenshots_sub: '네이티브 SwiftUI 인터페이스, macOS와 완벽 통합.',
+    screenshot_dashboard: '작업 대시보드',
+    screenshot_template: '템플릿 관리자',
+    highlight_title: '스크립트 템플릿,<br>바로 사용 가능.',
+    highlight_desc: '데이터베이스 백업, 로그 정리, 상태 점검, Docker 관리 등 내장 템플릿으로 시작하세요. 자신의 스크립트를 카테고리와 메모와 함께 재사용 가능한 템플릿으로 저장하세요.',
+    tag_log_cleanup: '로그 정리',
+    tag_health_check: '상태 점검',
+    tag_ssl: 'SSL 인증서',
+    features_title: '필요한 모든 것.',
+    features_sub: '복잡함 없이 예약 작업을 원하는 개발자를 위해.',
+    feat_menubar_title: '메뉴 바 상주',
+    feat_menubar_desc: '백그라운드에서 조용히 실행. 창을 닫아도 작업은 계속.',
+    feat_schedule_title: '유연한 스케줄링',
+    feat_schedule_desc: '날짜, 시간, 반복 주기 — 미리 알림처럼 직관적인 UI.',
+    feat_script_title: '스크립트 실행',
+    feat_script_desc: 'Bash, Python, Ruby, Node.js — 인라인 또는 파일.',
+    feat_template_title: '스크립트 템플릿',
+    feat_template_desc: '일반 작업용 내장 템플릿. 직접 생성, 편집, 정리 가능.',
+    feat_logs_title: '실행 로그',
+    feat_logs_desc: 'stdout, stderr, 종료 코드, 소요 시간 — 모두 기록.',
+    feat_notify_title: '알림',
+    feat_notify_desc: '작업 성공 또는 실패 시 macOS 네이티브 알림.',
+    feat_crontab_title: 'Crontab 가져오기',
+    feat_crontab_desc: '시스템 crontab을 원클릭으로 가져오기.',
+    feat_i18n_title: '11개 언어',
+    feat_i18n_desc: '완전한 다국어 인터페이스, 언제든 전환.',
+    feat_macos26_title: 'macOS 26 지원',
+    feat_macos26_desc: '리퀴드 글래스 효과, 구형 시스템은 자동 폴백.',
+    install_title: '몇 초면 시작할 수 있습니다.',
+    install_manual: '수동 다운로드',
+    install_manual_desc: '<a href="https://github.com/lifedever/TaskTick/releases" style="color:var(--accent);text-decoration:none">GitHub Releases</a>에서<br><span>.dmg</span> 다운로드',
+    cta_title: '오픈 소스. 영원히 무료.',
+    cta_sub: 'SwiftUI & SwiftData로 구축. GPL-3.0 라이선스.',
+  },
+  fr: {
+    nav_features: 'Fonctions',
+    nav_install: 'Installer',
+    nav_sponsor: 'Sponsoriser',
+    nav_download: 'Télécharger',
+    hero_badge: 'App macOS native',
+    hero_title: 'Planifiez vos tâches,<br>pas des <span class="gradient">migraines</span>.',
+    hero_sub: 'Sans crontab. Sans launchd. Créez, planifiez, et oubliez. Conçu avec SwiftUI pour macOS 14+.',
+    hero_download: 'Télécharger pour macOS',
+    screenshots_title: 'Épuré et puissant',
+    screenshots_sub: 'Interface SwiftUI native, parfaitement intégrée à macOS.',
+    screenshot_dashboard: 'Tableau de bord',
+    screenshot_template: 'Gestionnaire de modèles',
+    highlight_title: 'Modèles de scripts,<br>prêts à l\'emploi.',
+    highlight_desc: 'Commencez avec des modèles intégrés pour la sauvegarde de bases de données, le nettoyage de logs, les vérifications de santé, la gestion Docker, et plus. Enregistrez vos propres scripts comme modèles réutilisables.',
+    tag_log_cleanup: 'Nettoyage de logs',
+    tag_health_check: 'Vérification santé',
+    tag_ssl: 'Certificat SSL',
+    features_title: 'Tout ce qu\'il vous faut.',
+    features_sub: 'Conçu pour les développeurs qui veulent des tâches planifiées sans complexité.',
+    feat_menubar_title: 'Barre de menus',
+    feat_menubar_desc: 'Fonctionne silencieusement en arrière-plan. Fermez la fenêtre, les tâches continuent.',
+    feat_schedule_title: 'Planification flexible',
+    feat_schedule_desc: 'Date, heure, cycles de répétition — interface intuitive comme Rappels.',
+    feat_script_title: 'Exécution de scripts',
+    feat_script_desc: 'Bash, Python, Ruby, Node.js — en ligne ou depuis un fichier.',
+    feat_template_title: 'Modèles de scripts',
+    feat_template_desc: 'Modèles intégrés pour les tâches courantes. Créez, éditez et organisez les vôtres.',
+    feat_logs_title: 'Journaux d\'exécution',
+    feat_logs_desc: 'stdout, stderr, codes de sortie, durée — tout est capturé.',
+    feat_notify_title: 'Notifications',
+    feat_notify_desc: 'Alertes macOS natives en cas de succès ou d\'échec, par tâche.',
+    feat_crontab_title: 'Import Crontab',
+    feat_crontab_desc: 'Importez depuis le crontab système en un clic.',
+    feat_i18n_title: '11 langues',
+    feat_i18n_desc: 'Interface multilingue complète, changez à tout moment.',
+    feat_macos26_title: 'macOS 26 Ready',
+    feat_macos26_desc: 'Effets Liquid Glass sur les systèmes compatibles, repli élégant.',
+    install_title: 'Démarrez en quelques secondes.',
+    install_manual: 'Téléchargement manuel',
+    install_manual_desc: 'Téléchargez le <span>.dmg</span> depuis<br><a href="https://github.com/lifedever/TaskTick/releases" style="color:var(--accent);text-decoration:none">GitHub Releases</a>',
+    cta_title: 'Open source. Gratuit pour toujours.',
+    cta_sub: 'Conçu avec SwiftUI & SwiftData. Licence GPL-3.0.',
+  },
+  de: {
+    nav_features: 'Funktionen',
+    nav_install: 'Installieren',
+    nav_sponsor: 'Sponsern',
+    nav_download: 'Download',
+    hero_badge: 'Native macOS-App',
+    hero_title: 'Aufgaben planen,<br>nicht <span class="gradient">Kopfschmerzen</span>.',
+    hero_sub: 'Kein crontab. Kein launchd. Erstellen, planen, vergessen. Gebaut mit SwiftUI für macOS 14+.',
+    hero_download: 'Für macOS herunterladen',
+    screenshots_title: 'Klar und leistungsstark',
+    screenshots_sub: 'Native SwiftUI-Oberfläche, perfekt in macOS integriert.',
+    screenshot_dashboard: 'Aufgaben-Dashboard',
+    screenshot_template: 'Vorlagen-Manager',
+    highlight_title: 'Skript-Vorlagen,<br>sofort einsatzbereit.',
+    highlight_desc: 'Starten Sie mit integrierten Vorlagen für Datenbank-Backup, Log-Bereinigung, Health-Checks, Docker-Management und mehr. Speichern Sie eigene Skripte als wiederverwendbare Vorlagen mit Kategorien und Notizen.',
+    tag_log_cleanup: 'Log-Bereinigung',
+    tag_health_check: 'Health-Check',
+    tag_ssl: 'SSL-Zertifikat',
+    features_title: 'Alles, was Sie brauchen.',
+    features_sub: 'Für Entwickler, die geplante Aufgaben ohne Komplexität möchten.',
+    feat_menubar_title: 'Menüleisten-Resident',
+    feat_menubar_desc: 'Läuft still im Hintergrund. Fenster schließen, Aufgaben laufen weiter.',
+    feat_schedule_title: 'Flexible Planung',
+    feat_schedule_desc: 'Datum, Uhrzeit, Wiederholungszyklen — intuitive UI wie Erinnerungen.',
+    feat_script_title: 'Skript-Ausführung',
+    feat_script_desc: 'Bash, Python, Ruby, Node.js — inline oder aus Datei.',
+    feat_template_title: 'Skript-Vorlagen',
+    feat_template_desc: 'Integrierte Vorlagen für gängige Aufgaben. Eigene erstellen, bearbeiten und organisieren.',
+    feat_logs_title: 'Ausführungsprotokolle',
+    feat_logs_desc: 'stdout, stderr, Exit-Codes, Dauer — alles erfasst.',
+    feat_notify_title: 'Benachrichtigungen',
+    feat_notify_desc: 'Nativ macOS-Benachrichtigungen bei Erfolg oder Fehler, pro Aufgabe.',
+    feat_crontab_title: 'Crontab-Import',
+    feat_crontab_desc: 'System-Crontab mit einem Klick importieren.',
+    feat_i18n_title: '11 Sprachen',
+    feat_i18n_desc: 'Vollständige mehrsprachige Oberfläche, jederzeit wechselbar.',
+    feat_macos26_title: 'macOS 26 Ready',
+    feat_macos26_desc: 'Liquid-Glass-Effekte auf unterstützten Systemen, eleganter Fallback.',
+    install_title: 'In Sekunden loslegen.',
+    install_manual: 'Manueller Download',
+    install_manual_desc: '<span>.dmg</span> herunterladen von<br><a href="https://github.com/lifedever/TaskTick/releases" style="color:var(--accent);text-decoration:none">GitHub Releases</a>',
+    cta_title: 'Open Source. Für immer kostenlos.',
+    cta_sub: 'Gebaut mit SwiftUI & SwiftData. GPL-3.0 Lizenz.',
+  },
+  it: {
+    nav_features: 'Funzioni',
+    nav_install: 'Installa',
+    nav_sponsor: 'Sponsorizza',
+    nav_download: 'Scarica',
+    hero_badge: 'App macOS nativa',
+    hero_title: 'Pianifica i task,<br>non i <span class="gradient">grattacapi</span>.',
+    hero_sub: 'Niente crontab. Niente launchd. Crea, pianifica e dimentica. Costruito con SwiftUI per macOS 14+.',
+    hero_download: 'Scarica per macOS',
+    screenshots_title: 'Pulito e potente',
+    screenshots_sub: 'Interfaccia SwiftUI nativa, perfettamente integrata con macOS.',
+    screenshot_dashboard: 'Dashboard attività',
+    screenshot_template: 'Gestore modelli',
+    highlight_title: 'Modelli di script,<br>pronti all\'uso.',
+    highlight_desc: 'Inizia con modelli integrati per backup database, pulizia log, health check, gestione Docker e altro. Salva i tuoi script come modelli riutilizzabili con categorie e note.',
+    tag_log_cleanup: 'Pulizia log',
+    tag_health_check: 'Health check',
+    tag_ssl: 'Certificato SSL',
+    features_title: 'Tutto ciò che serve.',
+    features_sub: 'Per sviluppatori che vogliono task pianificati senza complessità.',
+    feat_menubar_title: 'Barra dei menu',
+    feat_menubar_desc: 'Funziona silenziosamente in background. Chiudi la finestra, i task continuano.',
+    feat_schedule_title: 'Pianificazione flessibile',
+    feat_schedule_desc: 'Data, ora, cicli di ripetizione — UI intuitiva come Promemoria.',
+    feat_script_title: 'Esecuzione script',
+    feat_script_desc: 'Bash, Python, Ruby, Node.js — inline o da file.',
+    feat_template_title: 'Modelli di script',
+    feat_template_desc: 'Modelli integrati per task comuni. Crea, modifica e organizza i tuoi.',
+    feat_logs_title: 'Log di esecuzione',
+    feat_logs_desc: 'stdout, stderr, codici di uscita, durata — tutto registrato.',
+    feat_notify_title: 'Notifiche',
+    feat_notify_desc: 'Avvisi macOS nativi per successo o errore, per ogni task.',
+    feat_crontab_title: 'Importa Crontab',
+    feat_crontab_desc: 'Importa dal crontab di sistema con un clic.',
+    feat_i18n_title: '11 lingue',
+    feat_i18n_desc: 'Interfaccia multilingue completa, cambia in qualsiasi momento.',
+    feat_macos26_title: 'macOS 26 Ready',
+    feat_macos26_desc: 'Effetti Liquid Glass sui sistemi supportati, fallback elegante.',
+    install_title: 'Inizia in pochi secondi.',
+    install_manual: 'Download manuale',
+    install_manual_desc: 'Scarica il <span>.dmg</span> da<br><a href="https://github.com/lifedever/TaskTick/releases" style="color:var(--accent);text-decoration:none">GitHub Releases</a>',
+    cta_title: 'Open source. Gratis per sempre.',
+    cta_sub: 'Costruito con SwiftUI & SwiftData. Licenza GPL-3.0.',
+  },
+  es: {
+    nav_features: 'Funciones',
+    nav_install: 'Instalar',
+    nav_sponsor: 'Patrocinar',
+    nav_download: 'Descargar',
+    hero_badge: 'App nativa de macOS',
+    hero_title: 'Programa tareas,<br>no <span class="gradient">dolores de cabeza</span>.',
+    hero_sub: 'Sin crontab. Sin launchd. Crea, programa y olvídate. Construido con SwiftUI para macOS 14+.',
+    hero_download: 'Descargar para macOS',
+    screenshots_title: 'Limpio y potente',
+    screenshots_sub: 'Interfaz SwiftUI nativa, perfectamente integrada con macOS.',
+    screenshot_dashboard: 'Panel de tareas',
+    screenshot_template: 'Gestor de plantillas',
+    highlight_title: 'Plantillas de scripts,<br>listas para usar.',
+    highlight_desc: 'Comienza con plantillas integradas para respaldos de bases de datos, limpieza de logs, verificaciones de salud, gestión de Docker y más. Guarda tus propios scripts como plantillas reutilizables con categorías y notas.',
+    tag_log_cleanup: 'Limpieza de logs',
+    tag_health_check: 'Verificación de salud',
+    tag_ssl: 'Certificado SSL',
+    features_title: 'Todo lo que necesitas.',
+    features_sub: 'Para desarrolladores que quieren tareas programadas sin complejidad.',
+    feat_menubar_title: 'Barra de menú',
+    feat_menubar_desc: 'Se ejecuta silenciosamente en segundo plano. Cierra la ventana, las tareas siguen.',
+    feat_schedule_title: 'Programación flexible',
+    feat_schedule_desc: 'Fecha, hora, ciclos de repetición — UI intuitiva como Recordatorios.',
+    feat_script_title: 'Ejecución de scripts',
+    feat_script_desc: 'Bash, Python, Ruby, Node.js — en línea o desde archivo.',
+    feat_template_title: 'Plantillas de scripts',
+    feat_template_desc: 'Plantillas integradas para tareas comunes. Crea, edita y organiza las tuyas.',
+    feat_logs_title: 'Registros de ejecución',
+    feat_logs_desc: 'stdout, stderr, códigos de salida, duración — todo capturado.',
+    feat_notify_title: 'Notificaciones',
+    feat_notify_desc: 'Alertas nativas de macOS en éxito o fallo, por tarea.',
+    feat_crontab_title: 'Importar Crontab',
+    feat_crontab_desc: 'Importa desde el crontab del sistema con un clic.',
+    feat_i18n_title: '11 idiomas',
+    feat_i18n_desc: 'Interfaz multilingüe completa, cambia en cualquier momento.',
+    feat_macos26_title: 'macOS 26 Ready',
+    feat_macos26_desc: 'Efectos Liquid Glass en sistemas compatibles, degradación elegante.',
+    install_title: 'Empieza en segundos.',
+    install_manual: 'Descarga manual',
+    install_manual_desc: 'Descarga el <span>.dmg</span> desde<br><a href="https://github.com/lifedever/TaskTick/releases" style="color:var(--accent);text-decoration:none">GitHub Releases</a>',
+    cta_title: 'Código abierto. Gratis para siempre.',
+    cta_sub: 'Construido con SwiftUI & SwiftData. Licencia GPL-3.0.',
+  },
+  ru: {
+    nav_features: 'Функции',
+    nav_install: 'Установка',
+    nav_sponsor: 'Спонсор',
+    nav_download: 'Скачать',
+    hero_badge: 'Нативное приложение macOS',
+    hero_title: 'Планируйте задачи,<br>а не <span class="gradient">головную боль</span>.',
+    hero_sub: 'Без crontab. Без launchd. Создайте, запланируйте и забудьте. Построено на SwiftUI для macOS 14+.',
+    hero_download: 'Скачать для macOS',
+    screenshots_title: 'Чисто и мощно',
+    screenshots_sub: 'Нативный интерфейс SwiftUI, идеально интегрированный с macOS.',
+    screenshot_dashboard: 'Панель задач',
+    screenshot_template: 'Менеджер шаблонов',
+    highlight_title: 'Шаблоны скриптов,<br>готовые к работе.',
+    highlight_desc: 'Начните со встроенных шаблонов для резервного копирования баз данных, очистки логов, проверки работоспособности, управления Docker и многого другого. Сохраняйте свои скрипты как многоразовые шаблоны с категориями и заметками.',
+    tag_log_cleanup: 'Очистка логов',
+    tag_health_check: 'Проверка здоровья',
+    tag_ssl: 'SSL-сертификат',
+    features_title: 'Всё, что вам нужно.',
+    features_sub: 'Для разработчиков, которым нужны запланированные задачи без сложностей.',
+    feat_menubar_title: 'В строке меню',
+    feat_menubar_desc: 'Работает тихо в фоне. Закройте окно — задачи продолжат работу.',
+    feat_schedule_title: 'Гибкое планирование',
+    feat_schedule_desc: 'Дата, время, циклы повторения — интуитивный UI как у Напоминаний.',
+    feat_script_title: 'Выполнение скриптов',
+    feat_script_desc: 'Bash, Python, Ruby, Node.js — встроенные или из файла.',
+    feat_template_title: 'Шаблоны скриптов',
+    feat_template_desc: 'Встроенные шаблоны для типовых задач. Создавайте, редактируйте и организуйте свои.',
+    feat_logs_title: 'Журналы выполнения',
+    feat_logs_desc: 'stdout, stderr, коды выхода, длительность — всё записывается.',
+    feat_notify_title: 'Уведомления',
+    feat_notify_desc: 'Нативные уведомления macOS при успехе или ошибке для каждой задачи.',
+    feat_crontab_title: 'Импорт Crontab',
+    feat_crontab_desc: 'Импорт из системного crontab одним кликом.',
+    feat_i18n_title: '11 языков',
+    feat_i18n_desc: 'Полный многоязычный интерфейс, переключение в любой момент.',
+    feat_macos26_title: 'macOS 26 Ready',
+    feat_macos26_desc: 'Эффекты Liquid Glass на поддерживаемых системах, плавный откат.',
+    install_title: 'Начните за секунды.',
+    install_manual: 'Ручная загрузка',
+    install_manual_desc: 'Скачайте <span>.dmg</span> с<br><a href="https://github.com/lifedever/TaskTick/releases" style="color:var(--accent);text-decoration:none">GitHub Releases</a>',
+    cta_title: 'Открытый код. Бесплатно навсегда.',
+    cta_sub: 'Построено на SwiftUI & SwiftData. Лицензия GPL-3.0.',
+  },
+  id: {
+    nav_features: 'Fitur',
+    nav_install: 'Instal',
+    nav_sponsor: 'Sponsor',
+    nav_download: 'Unduh',
+    hero_badge: 'Aplikasi macOS Native',
+    hero_title: 'Jadwalkan tugas,<br>bukan <span class="gradient">sakit kepala</span>.',
+    hero_sub: 'Tanpa crontab. Tanpa launchd. Buat, jadwalkan, dan lupakan. Dibangun dengan SwiftUI untuk macOS 14+.',
+    hero_download: 'Unduh untuk macOS',
+    screenshots_title: 'Bersih & Powerful',
+    screenshots_sub: 'Antarmuka SwiftUI native, terintegrasi sempurna dengan macOS.',
+    screenshot_dashboard: 'Dashboard Tugas',
+    screenshot_template: 'Manajer Template',
+    highlight_title: 'Template Skrip,<br>siap digunakan.',
+    highlight_desc: 'Mulai dengan template bawaan untuk backup database, pembersihan log, health check, manajemen Docker, dan lainnya. Simpan skrip Anda sendiri sebagai template yang dapat digunakan kembali dengan kategori dan catatan.',
+    tag_log_cleanup: 'Pembersihan Log',
+    tag_health_check: 'Health Check',
+    tag_ssl: 'Sertifikat SSL',
+    features_title: 'Semua yang Anda butuhkan.',
+    features_sub: 'Dibuat untuk developer yang menginginkan tugas terjadwal tanpa kerumitan.',
+    feat_menubar_title: 'Menu Bar Resident',
+    feat_menubar_desc: 'Berjalan diam di latar belakang. Tutup jendela, tugas tetap berjalan.',
+    feat_schedule_title: 'Penjadwalan Fleksibel',
+    feat_schedule_desc: 'Tanggal, waktu, siklus pengulangan — UI intuitif seperti Pengingat.',
+    feat_script_title: 'Eksekusi Skrip',
+    feat_script_desc: 'Bash, Python, Ruby, Node.js — inline atau dari file.',
+    feat_template_title: 'Template Skrip',
+    feat_template_desc: 'Template bawaan untuk tugas umum. Buat, edit, dan atur milik Anda.',
+    feat_logs_title: 'Log Eksekusi',
+    feat_logs_desc: 'stdout, stderr, kode keluar, durasi — semua tercatat.',
+    feat_notify_title: 'Notifikasi',
+    feat_notify_desc: 'Peringatan native macOS saat berhasil atau gagal, per tugas.',
+    feat_crontab_title: 'Impor Crontab',
+    feat_crontab_desc: 'Impor dari crontab sistem dengan satu klik.',
+    feat_i18n_title: '11 Bahasa',
+    feat_i18n_desc: 'Antarmuka multibahasa lengkap, ganti kapan saja.',
+    feat_macos26_title: 'macOS 26 Ready',
+    feat_macos26_desc: 'Efek Liquid Glass pada sistem yang didukung, fallback yang elegan.',
+    install_title: 'Mulai dalam hitungan detik.',
+    install_manual: 'Unduh Manual',
+    install_manual_desc: 'Unduh <span>.dmg</span> dari<br><a href="https://github.com/lifedever/TaskTick/releases" style="color:var(--accent);text-decoration:none">GitHub Releases</a>',
+    cta_title: 'Open source. Gratis selamanya.',
+    cta_sub: 'Dibangun dengan SwiftUI & SwiftData. Lisensi GPL-3.0.',
+  },
+};
+
+function setLang(lang) {
+  if (!T[lang]) lang = 'en';
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (T[lang][key] !== undefined) {
+      if (el.hasAttribute('data-i18n-html')) {
+        el.innerHTML = T[lang][key];
+      } else {
+        el.textContent = T[lang][key];
+      }
+    }
+  });
+  document.getElementById('langSelect').value = lang;
+  document.documentElement.lang = lang.startsWith('zh') ? lang.split('-')[0] : lang;
+  localStorage.setItem('tasktick-lang', lang);
+}
+
+(function initLang() {
+  const saved = localStorage.getItem('tasktick-lang');
+  if (saved && T[saved]) { setLang(saved); return; }
+  const nav = navigator.language || '';
+  const langMap = [
+    ['zh-Hans', /^zh.*(CN|SG|Hans)/i],
+    ['zh-Hant', /^zh/i],
+    ['ja', /^ja/i],
+    ['ko', /^ko/i],
+    ['fr', /^fr/i],
+    ['de', /^de/i],
+    ['it', /^it/i],
+    ['es', /^es/i],
+    ['ru', /^ru/i],
+    ['id', /^id/i],
+    ['en', /^en/i],
+  ];
+  let detected = 'en';
+  for (const [code, re] of langMap) {
+    if (re.test(nav)) { detected = code; break; }
+  }
+  setLang(detected);
+})();
 
 function scrollScreenshots(dir){
   const el=document.getElementById('screenshotsScroll');
