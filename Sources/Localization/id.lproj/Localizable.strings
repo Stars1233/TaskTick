@@ -1,0 +1,388 @@
+/* App */
+"app.name" = "TaskTick";
+
+/* Menu Bar */
+"menubar.open" = "Buka";
+"menubar.no_tasks" = "Tidak Ada Tugas";
+"menubar.next_run" = "Eksekusi Berikutnya";
+"menubar.upcoming" = "Tugas Mendatang";
+"menubar.quit" = "Keluar";
+
+/* Task List */
+"task.filter.all" = "Semua";
+"task.filter.enabled" = "Aktif";
+"task.filter.disabled" = "Nonaktif";
+"task.search.prompt" = "Cari tugas...";
+"task.empty.title" = "Belum Ada Tugas";
+"task.empty.description" = "Klik + untuk membuat tugas terjadwal pertama Anda";
+"task.select.title" = "Pilih Tugas";
+"task.select.description" = "Pilih tugas dari bilah sisi untuk melihat detail, atau klik + untuk membuat yang baru";
+"task.interval.seconds" = "%d dtk";
+"task.status.enabled" = "Aktif";
+"task.status.disabled" = "Nonaktif";
+"task.duplicate" = "Duplikat";
+"task.duplicate.name" = "%@ (Salinan)";
+
+/* Task Detail */
+"task.detail.enable" = "Aktifkan";
+"task.detail.disable" = "Nonaktifkan";
+"task.detail.run" = "Jalankan";
+"task.detail.edit" = "Edit";
+"task.detail.delete" = "Hapus";
+"task.detail.schedule" = "Jadwal";
+"task.detail.script" = "Skrip";
+"task.detail.cron_expression" = "Ekspresi Cron";
+"task.detail.interval" = "Interval";
+"task.detail.interval_value" = "%d detik";
+"task.detail.next_run" = "Eksekusi Berikutnya";
+"task.detail.last_run" = "Eksekusi Terakhir";
+"task.detail.shell" = "Shell";
+"task.detail.working_dir" = "Direktori Kerja";
+"task.detail.timeout" = "Batas Waktu";
+"task.detail.timeout_value" = "%d detik";
+"task.detail.recent_logs" = "Eksekusi Terakhir";
+"task.detail.no_logs" = "Belum ada log eksekusi";
+"task.detail.view_logs" = "Lihat Log";
+"task.detail.show_full_script" = "Tampilkan Skrip Lengkap";
+"task.detail.collapse_script" = "Ciutkan";
+
+/* Task Editor Tabs */
+"editor.tab.basic" = "Dasar";
+"editor.tab.schedule" = "Jadwal";
+"editor.tab.script" = "Skrip";
+"editor.tab.notification" = "Notifikasi";
+
+/* Task Editor */
+"editor.title.new" = "Tugas Baru";
+"editor.title.edit" = "Edit Tugas";
+"editor.cancel" = "Batal";
+"editor.save" = "Simpan";
+"editor.section.basic" = "Info Dasar";
+"editor.name" = "Nama Tugas";
+"editor.name.placeholder" = "Masukkan nama tugas";
+"editor.enabled" = "Aktif";
+"editor.section.schedule" = "Jadwal";
+"editor.schedule_type" = "Tipe";
+"editor.interval" = "Interval";
+"editor.interval.seconds" = "detik";
+"editor.section.script" = "Skrip";
+"editor.script.source" = "Sumber";
+"editor.script.source.inline" = "Skrip Langsung";
+"editor.script.source.file" = "File Skrip";
+"editor.script.choose_file" = "Pilih File...";
+"editor.script.file_path" = "Lokasi File";
+"editor.script.no_file" = "Belum ada file dipilih";
+"editor.script.placeholder" = "Masukkan skrip shell untuk dieksekusi";
+"editor.script.expand" = "Perluas Editor";
+"editor.script.collapse" = "Selesai";
+"editor.script.validate" = "Validasi Skrip";
+"editor.script.validating" = "Memvalidasi...";
+"editor.script.valid" = "Sintaks OK";
+"editor.script.invalid" = "Kesalahan Sintaks";
+"editor.shell" = "Shell";
+"editor.working_dir" = "Direktori Kerja";
+"editor.working_dir.placeholder" = "Jalur direktori kerja (opsional)";
+"editor.working_dir.choose" = "Pilih Direktori";
+"editor.timeout" = "Batas Waktu";
+"editor.timeout.seconds" = "detik";
+"editor.section.notification" = "Notifikasi";
+"editor.notify_success" = "Notifikasi saat Berhasil";
+"editor.notify_failure" = "Notifikasi saat Gagal";
+"editor.notify_hint" = "Notifikasi dikirim melalui notifikasi sistem macOS saat tugas selesai.";
+"editor.strong_reminder" = "Pengingat Kuat saat Berhasil";
+"editor.strong_reminder_hint" = "Tampilkan panel mengambang dengan output lengkap saat tugas berhasil.";
+"editor.strong_reminder_short" = " Pengingat Kuat";
+"strong_reminder.dismiss" = "OK";
+"notify.success_short" = "Berhasil";
+"notify.failure_short" = "Gagal";
+"notify.both_short" = "Semua";
+"notify.off" = "Mati";
+
+/* Schedule */
+"schedule.cron" = "Ekspresi Cron";
+"schedule.interval" = "Interval Tetap";
+"schedule.date" = "Tanggal";
+"schedule.time" = "Waktu";
+"schedule.date_time" = "Tanggal & Waktu";
+"schedule.repeat" = "Ulang";
+"schedule.repeat_section" = "Ulang";
+"schedule.end_repeat" = "Akhir Pengulangan";
+"schedule.end_date" = "Tanggal Berakhir";
+"schedule.end_count" = "Jumlah Pengulangan";
+"schedule.times" = "kali";
+"schedule.until" = "Hingga %@";
+"schedule.after_n_times" = "%d kali";
+"schedule.run_missed" = "Jalankan Eksekusi yang Terlewat";
+
+/* Repeat Types */
+"repeat.never" = "Tidak Pernah";
+"repeat.every_minute" = "Setiap Menit";
+"repeat.every_5_minutes" = "Setiap 5 Menit";
+"repeat.every_15_minutes" = "Setiap 15 Menit";
+"repeat.every_30_minutes" = "Setiap 30 Menit";
+"repeat.hourly" = "Setiap Jam";
+"repeat.daily" = "Setiap Hari";
+"repeat.weekdays" = "Hari Kerja";
+"repeat.weekends" = "Akhir Pekan";
+"repeat.weekly" = "Setiap Minggu";
+"repeat.biweekly" = "Setiap 2 Minggu";
+"repeat.monthly" = "Setiap Bulan";
+"repeat.every_3_months" = "Setiap 3 Bulan";
+"repeat.every_6_months" = "Setiap 6 Bulan";
+"repeat.yearly" = "Setiap Tahun";
+"repeat.custom" = "Kustom";
+"repeat.unit.hour" = "Jam";
+"repeat.unit.day" = "Hari";
+"repeat.unit.week" = "Minggu";
+"repeat.unit.month" = "Bulan";
+"repeat.unit.year" = "Tahun";
+"repeat.frequency" = "Frekuensi";
+"repeat.every" = "Setiap";
+"repeat.ok" = "OK";
+
+/* End Repeat Types */
+"end_repeat.never" = "Tidak Pernah";
+"end_repeat.on_date" = "Pada Tanggal";
+"end_repeat.after_count" = "Setelah Hitungan";
+
+/* Cron (legacy) */
+"cron.preset" = "Prasetel";
+"cron.custom" = "Kustom...";
+"cron.every_minute" = "Setiap Menit";
+"cron.every_5_minutes" = "Setiap 5 Menit";
+"cron.every_15_minutes" = "Setiap 15 Menit";
+"cron.every_30_minutes" = "Setiap 30 Menit";
+"cron.every_hour" = "Setiap Jam";
+"cron.daily_midnight" = "Setiap Hari Tengah Malam";
+"cron.daily_8am" = "Setiap Hari Pukul 08:00";
+"cron.weekly_monday" = "Senin Pukul 09:00";
+"cron.monthly_first" = "Tanggal 1 Tengah Malam";
+"cron.next_run" = "Berikutnya: %@";
+"cron.cannot_compute" = "Tidak dapat dihitung";
+"cron.expression.placeholder" = "menit jam hari bulan hari-minggu";
+
+/* Execution Status */
+"status.running" = "Berjalan";
+"status.success" = "Berhasil";
+"status.failure" = "Gagal";
+"status.timeout" = "Waktu Habis";
+"status.cancelled" = "Dibatalkan";
+
+/* Logs */
+"notification.duration" = "Durasi:";
+"notification.success" = "Berhasil diselesaikan";
+"notification.succeeded" = "Berhasil";
+"notification.failed" = "Gagal";
+
+"log.title" = "Log Eksekusi";
+"log.count_suffix" = "catatan";
+"log.select.title" = "Pilih Log";
+"log.select.description" = "Pilih entri log dari bilah sisi untuk melihat detail";
+"log.filter.all" = "Semua";
+"log.detail.title" = "Detail Eksekusi";
+"log.detail.trigger" = "Pemicu";
+"log.detail.trigger.manual" = "Manual";
+"log.detail.trigger.schedule" = "Terjadwal";
+"log.detail.exit_code" = "Kode Keluar";
+"log.detail.duration" = "Durasi";
+"log.detail.duration_ms" = "%d md";
+"log.detail.finished" = "Selesai";
+"log.detail.stdout" = "Output Standar";
+"log.detail.stderr" = "Output Kesalahan";
+"log.unknown_task" = "Tugas Tidak Dikenal";
+
+/* Settings */
+"settings.general" = "Umum";
+"settings.appearance" = "Tampilan";
+"settings.appearance.system" = "Sistem";
+"settings.appearance.light" = "Terang";
+"settings.appearance.dark" = "Gelap";
+"settings.general.language" = "Bahasa";
+"settings.general.language.section" = "Bahasa";
+"settings.general.language.restart_hint" = "Perubahan bahasa langsung berlaku untuk sebagian besar elemen antarmuka.";
+"settings.general.startup" = "Mulai Otomatis";
+"settings.general.launch_at_login" = "Jalankan saat Login";
+"settings.general.defaults" = "Bawaan";
+"settings.general.default_shell" = "Shell Bawaan";
+"settings.general.default_timeout" = "Batas Waktu Bawaan";
+"settings.general.seconds" = "detik";
+
+"settings.notifications" = "Notifikasi";
+"settings.notifications.section" = "Pengaturan Notifikasi";
+"settings.notifications.enable" = "Aktifkan Notifikasi";
+"settings.notifications.on_success" = "Notifikasi saat Tugas Berhasil";
+"settings.notifications.on_failure" = "Notifikasi saat Tugas Gagal";
+"settings.notifications.hint" = "Ini adalah pengaturan global. Jika dinonaktifkan, tidak ada notifikasi tugas yang akan dikirim meskipun tugas individual memiliki notifikasi yang diaktifkan.";
+
+"settings.logs" = "Log";
+"settings.logs.section" = "Manajemen Log";
+"settings.logs.retention" = "Periode Penyimpanan";
+"settings.logs.retention.days" = "hari";
+"settings.logs.cleanup" = "Bersihkan Log Lama";
+
+"settings.updates" = "Pembaruan";
+"settings.updates.section" = "Pembaruan Otomatis";
+"settings.updates.auto_check" = "Periksa Pembaruan Otomatis";
+"settings.updates.frequency" = "Frekuensi Pemeriksaan";
+"settings.updates.frequency.12h" = "Setiap 12 Jam";
+"settings.updates.frequency.24h" = "Setiap 24 Jam";
+"settings.updates.frequency.3d" = "Setiap 3 Hari";
+"settings.updates.frequency.1w" = "Setiap Minggu";
+"settings.updates.check_now" = "Periksa Sekarang";
+"settings.updates.new_version" = "Versi baru tersedia: %@";
+
+"settings.about" = "Tentang";
+"settings.about.section" = "Tentang TaskTick";
+"settings.about.version" = "Versi";
+"settings.about.build" = "Build";
+"settings.about.github" = "Repositori GitHub";
+"settings.about.issues" = "Laporkan Masalah";
+"settings.about.sponsor" = "Sponsor";
+"settings.about.copyright" = "© 2026 lifedever. Lisensi GPL-3.0.";
+"settings.about.description" = "Aplikasi macOS native untuk mengelola tugas terjadwal. Tanpa crontab, tanpa launchd — cukup TaskTick.";
+
+/* Commands */
+"command.about" = "Tentang TaskTick";
+"command.check_updates" = "Periksa Pembaruan...";
+"command.new_task" = "Tugas Baru";
+"command.import" = "Impor Tugas...";
+"command.export" = "Ekspor Tugas...";
+"command.task_menu" = "Tugas";
+"command.run_selected" = "Jalankan Tugas Terpilih";
+"command.stop_task" = "Hentikan Tugas";
+"command.toggle_enabled" = "Aktifkan/Nonaktifkan";
+"command.delete_task" = "Hapus Tugas";
+"command.show_logs" = "Tampilkan Log";
+"command.refresh" = "Segarkan";
+"command.github_home" = "Repositori GitHub";
+"command.report_issue" = "Laporkan Masalah";
+"command.sponsor" = "Dukung Pengembang";
+
+/* Clear Logs Confirmation */
+"clear_logs.title" = "Hapus Log";
+"clear_logs.message" = "Apakah Anda yakin ingin menghapus semua log eksekusi untuk \"%@\"? Jumlah eksekusi akan direset. Tindakan ini tidak dapat dibatalkan.";
+"clear_logs.cancel" = "Batal";
+"clear_logs.confirm" = "Hapus";
+
+/* Delete Confirmation */
+"delete.title" = "Konfirmasi Hapus";
+"delete.message" = "Apakah Anda yakin ingin menghapus \"%@\"? Tindakan ini tidak dapat dibatalkan.";
+"delete.cancel" = "Batal";
+"delete.confirm" = "Hapus";
+
+/* Crontab Import */
+"command.import_crontab" = "Impor dari Crontab Sistem...";
+"crontab.import.title" = "Impor dari Crontab";
+"crontab.import.description" = "Pilih entri crontab untuk diimpor sebagai tugas TaskTick.";
+"crontab.import.empty" = "Tidak Ada Entri Crontab";
+"crontab.import.empty_description" = "Tidak ditemukan entri aktif di crontab sistem Anda.";
+"crontab.import.select_all" = "Pilih Semua";
+"crontab.import.action" = "Impor yang Dipilih";
+"crontab.import.success" = "%d tugas berhasil diimpor.";
+"crontab.import.done" = "Selesai";
+"crontab.comment.title" = "Komentari Entri yang Diimpor?";
+"crontab.comment.message" = "Entri yang diimpor akan dikomentari (tidak dihapus) di crontab sistem Anda untuk menghindari eksekusi ganda.";
+"crontab.comment.yes" = "Komentari";
+"crontab.comment.no" = "Biarkan";
+
+/* Update Dialog */
+"update.available.title" = "Versi baru TaskTick tersedia!";
+"update.available.message" = "TaskTick %@ tersedia — Anda memiliki %@. Apakah Anda ingin mengunduhnya sekarang?";
+"update.skip" = "Lewati Versi Ini";
+"update.remind_later" = "Ingatkan Nanti";
+"update.install" = "Pasang Pembaruan";
+"update.downloading.title" = "Memperbarui TaskTick";
+"update.downloading" = "Mengunduh pembaruan...";
+"update.ready" = "Siap dipasang";
+"update.install_restart" = "Pasang dan Mulai Ulang";
+"update.cancel" = "Batal";
+"update.check_failed" = "Pemeriksaan Pembaruan Gagal";
+"update.check_failed.hint" = "Tidak dapat terhubung ke server pembaruan. Periksa koneksi jaringan Anda dan coba lagi.";
+"update.no_updates" = "Anda sudah menggunakan versi terbaru!";
+"update.no_updates.message" = "TaskTick %@ adalah versi terbaru.";
+"update.download_error" = "Unduhan Gagal";
+"update.dmg_error" = "Pembaruan Gagal";
+"update.dmg_error.message" = "Disk image yang diunduh rusak. Silakan coba unduh pembaruan lagi.";
+
+/* Script Templates */
+"template.menu" = "Templat";
+"template.save_as" = "Simpan sebagai Templat";
+"template.my_templates" = "Templat Saya";
+"template.builtin" = "Templat Bawaan";
+"template.add" = "Templat Baru";
+"template.manage" = "Kelola Templat...";
+"template.save.title" = "Simpan sebagai Templat";
+"template.save.name_placeholder" = "Nama templat";
+"template.overwrite.title" = "Ganti Skrip?";
+"template.overwrite.message" = "Skrip saat ini akan diganti dengan konten templat.";
+"template.overwrite.confirm" = "Ganti";
+"template.edit.title" = "Edit Templat";
+"template.manage.title" = "Manajer Templat";
+"template.manage.empty" = "Pilih Templat";
+"template.manage.empty_description" = "Pilih templat dari bilah sisi untuk melihat pratinjau kontennya.";
+"template.manage.select_hint" = "Pilih templat dari bilah sisi untuk melihat pratinjau kontennya.";
+"template.manage.rename" = "Ubah Nama";
+"template.manage.delete" = "Hapus";
+"template.manage.delete_confirm" = "Hapus templat ini?";
+"template.info" = "Info";
+"template.created_at" = "Dibuat";
+"template.category" = "Kategori";
+"template.category.none" = "Tanpa Kategori";
+"template.category.new" = "Kategori Baru";
+"template.category.new_placeholder" = "Masukkan nama kategori";
+"template.notes" = "Catatan";
+"template.updated_at" = "Diubah";
+"template.create_task" = "Buat Tugas";
+"template.restore_defaults" = "Pulihkan Templat Bawaan";
+"template.import_file" = "Impor File...";
+"template.script_hint" = "Tulis skrip langsung atau impor dari file lokal.";
+"editor.script.source.template" = "Dari Templat";
+
+/* Default Template Names & Notes */
+"default_template.category.database" = "Cadangan Database";
+"default_template.category.logs" = "Pembersihan Log";
+"default_template.category.git" = "Sinkronisasi Git";
+"default_template.category.health" = "Pemeriksaan Kesehatan";
+"default_template.category.file_watch" = "Pemantauan File";
+"default_template.category.docker" = "Docker";
+"default_template.mysql_backup.name" = "Cadangan MySQL";
+"default_template.mysql_backup.notes" = "Dump database MySQL ke file SQL terkompres gzip. Otomatis membersihkan cadangan lebih dari 7 hari. Edit DB_HOST, DB_USER, DB_PASS, DB_NAME sebelum digunakan.";
+"default_template.pg_backup.name" = "Cadangan PostgreSQL";
+"default_template.pg_backup.notes" = "Dump database PostgreSQL menggunakan pg_dump. Kompres dengan gzip, hapus cadangan lebih dari 7 hari.";
+"default_template.log_cleanup.name" = "Pembersihan Log";
+"default_template.log_cleanup.notes" = "Hapus file .log, .log.gz, dan file log yang dirotasi. Penyimpanan bawaan: 30 hari. Sesuaikan DAYS dan LOG_DIR sesuai kebutuhan.";
+"default_template.git_sync.name" = "Git Pull & Sinkronisasi";
+"default_template.git_sync.notes" = "Ambil semua remote, pangkas cabang yang sudah tidak ada, dan rebase-pull dari main. Atur REPO_DIR ke jalur repositori Anda.";
+"default_template.health_check.name" = "Pemeriksaan Kesehatan HTTP";
+"default_template.health_check.notes" = "Periksa apakah URL mengembalikan HTTP 200. Keluar dengan kode 1 jika gagal — berguna untuk memicu notifikasi kegagalan.";
+"default_template.disk_monitor.name" = "Monitor Penggunaan Disk";
+"default_template.disk_monitor.notes" = "Pantau penggunaan partisi root. Keluar dengan kode 1 jika penggunaan melebihi ambang batas (bawaan 80%).";
+"default_template.docker_cleanup.name" = "Pembersihan Docker";
+"default_template.docker_cleanup.notes" = "Bersihkan semua kontainer, image, volume, dan jaringan Docker yang tidak digunakan. Menampilkan ringkasan penggunaan disk setelah pembersihan.";
+"default_template.category.backup" = "Cadangan & Sinkronisasi";
+"default_template.category.notification" = "Notifikasi";
+"default_template.dir_backup.name" = "Cadangan Direktori";
+"default_template.dir_backup.notes" = "Kompres direktori ke tar.gz. Otomatis membersihkan cadangan lebih dari 30 hari. Edit SOURCE_DIR dan BACKUP_DIR.";
+"default_template.redis_backup.name" = "Cadangan Redis";
+"default_template.redis_backup.notes" = "Picu Redis BGSAVE dan salin file dump.rdb. Membersihkan cadangan lebih dari 7 hari.";
+"default_template.mongodb_backup.name" = "Cadangan MongoDB";
+"default_template.mongodb_backup.notes" = "Dump database MongoDB dengan mongodump, kompres ke tar.gz. Membersihkan cadangan lebih dari 7 hari.";
+"default_template.ssl_check.name" = "Pemeriksaan Sertifikat SSL";
+"default_template.ssl_check.notes" = "Periksa masa berlaku sertifikat SSL untuk sebuah domain. Keluar dengan kode 1 jika kedaluwarsa dalam 30 hari.";
+"default_template.process_monitor.name" = "Monitor Proses";
+"default_template.process_monitor.notes" = "Periksa apakah proses tertentu sedang berjalan. Keluar dengan kode 1 jika tidak ditemukan — berguna dengan notifikasi kegagalan.";
+"default_template.port_check.name" = "Pemeriksaan Port";
+"default_template.port_check.notes" = "Periksa apakah port TCP dapat dijangkau. Keluar dengan kode 1 jika tidak dapat dijangkau.";
+"default_template.memory_monitor.name" = "Monitor Penggunaan Memori";
+"default_template.memory_monitor.notes" = "Pantau penggunaan memori macOS. Keluar dengan kode 1 jika penggunaan melebihi ambang batas (bawaan 80%).";
+"default_template.rsync.name" = "Sinkronisasi Direktori Rsync";
+"default_template.rsync.notes" = "Sinkronkan direktori lokal ke tujuan cadangan menggunakan rsync. Mendukung pembaruan inkremental dengan --delete.";
+"default_template.webhook.name" = "Notifikasi Webhook";
+"default_template.webhook.notes" = "Kirim pesan ke URL webhook Slack/Discord. Berguna sebagai langkah notifikasi pasca-tugas.";
+
+/* Cron Human Readable */
+"cron.human.every_minute" = "Setiap menit";
+"cron.human.every_hour" = "Setiap jam";
+"cron.human.daily_midnight" = "Setiap hari tengah malam";
+"cron.human.weekly_sunday" = "Minggu tengah malam";
+"cron.human.monthly_first" = "Tanggal 1 tengah malam";

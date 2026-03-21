@@ -1,0 +1,388 @@
+/* App */
+"app.name" = "TaskTick";
+
+/* Menu Bar */
+"menubar.open" = "Открыть";
+"menubar.no_tasks" = "Нет задач";
+"menubar.next_run" = "Следующий запуск";
+"menubar.upcoming" = "Предстоящие задачи";
+"menubar.quit" = "Выход";
+
+/* Task List */
+"task.filter.all" = "Все";
+"task.filter.enabled" = "Активные";
+"task.filter.disabled" = "Отключённые";
+"task.search.prompt" = "Поиск задач...";
+"task.empty.title" = "Задач пока нет";
+"task.empty.description" = "Нажмите +, чтобы создать первую задачу по расписанию";
+"task.select.title" = "Выберите задачу";
+"task.select.description" = "Выберите задачу в боковой панели для просмотра или нажмите +, чтобы создать новую";
+"task.interval.seconds" = "%d сек";
+"task.status.enabled" = "Активна";
+"task.status.disabled" = "Отключена";
+"task.duplicate" = "Дублировать";
+"task.duplicate.name" = "%@ (Копия)";
+
+/* Task Detail */
+"task.detail.enable" = "Включить";
+"task.detail.disable" = "Отключить";
+"task.detail.run" = "Запустить";
+"task.detail.edit" = "Редактировать";
+"task.detail.delete" = "Удалить";
+"task.detail.schedule" = "Расписание";
+"task.detail.script" = "Скрипт";
+"task.detail.cron_expression" = "Cron-выражение";
+"task.detail.interval" = "Интервал";
+"task.detail.interval_value" = "%d секунд";
+"task.detail.next_run" = "Следующий запуск";
+"task.detail.last_run" = "Последний запуск";
+"task.detail.shell" = "Shell";
+"task.detail.working_dir" = "Рабочая директория";
+"task.detail.timeout" = "Тайм-аут";
+"task.detail.timeout_value" = "%d секунд";
+"task.detail.recent_logs" = "Последние запуски";
+"task.detail.no_logs" = "Журнал выполнения пуст";
+"task.detail.view_logs" = "Просмотр журнала";
+"task.detail.show_full_script" = "Показать скрипт полностью";
+"task.detail.collapse_script" = "Свернуть";
+
+/* Task Editor Tabs */
+"editor.tab.basic" = "Основное";
+"editor.tab.schedule" = "Расписание";
+"editor.tab.script" = "Скрипт";
+"editor.tab.notification" = "Уведомления";
+
+/* Task Editor */
+"editor.title.new" = "Новая задача";
+"editor.title.edit" = "Редактирование задачи";
+"editor.cancel" = "Отмена";
+"editor.save" = "Сохранить";
+"editor.section.basic" = "Основная информация";
+"editor.name" = "Название задачи";
+"editor.name.placeholder" = "Введите название задачи";
+"editor.enabled" = "Активна";
+"editor.section.schedule" = "Расписание";
+"editor.schedule_type" = "Тип";
+"editor.interval" = "Интервал";
+"editor.interval.seconds" = "секунд";
+"editor.section.script" = "Скрипт";
+"editor.script.source" = "Источник";
+"editor.script.source.inline" = "Встроенный скрипт";
+"editor.script.source.file" = "Файл скрипта";
+"editor.script.choose_file" = "Выбрать файл...";
+"editor.script.file_path" = "Путь к файлу";
+"editor.script.no_file" = "Файл не выбран";
+"editor.script.placeholder" = "Введите shell-скрипт для выполнения";
+"editor.script.expand" = "Развернуть редактор";
+"editor.script.collapse" = "Готово";
+"editor.script.validate" = "Проверить скрипт";
+"editor.script.validating" = "Проверка...";
+"editor.script.valid" = "Синтаксис верный";
+"editor.script.invalid" = "Синтаксическая ошибка";
+"editor.shell" = "Shell";
+"editor.working_dir" = "Рабочая директория";
+"editor.working_dir.placeholder" = "Необязательный путь к рабочей директории";
+"editor.working_dir.choose" = "Выбрать директорию";
+"editor.timeout" = "Тайм-аут";
+"editor.timeout.seconds" = "секунд";
+"editor.section.notification" = "Уведомления";
+"editor.notify_success" = "Уведомлять при успехе";
+"editor.notify_failure" = "Уведомлять при ошибке";
+"editor.notify_hint" = "Уведомления отправляются через системные уведомления macOS по завершении задачи.";
+"editor.strong_reminder" = "Усиленное напоминание при успехе";
+"editor.strong_reminder_hint" = "Показать плавающую панель с полным выводом при успешном выполнении задачи.";
+"editor.strong_reminder_short" = " Усиленное напоминание";
+"strong_reminder.dismiss" = "ОК";
+"notify.success_short" = "Успех";
+"notify.failure_short" = "Ошибка";
+"notify.both_short" = "Все";
+"notify.off" = "Выкл.";
+
+/* Schedule */
+"schedule.cron" = "Cron-выражение";
+"schedule.interval" = "Фиксированный интервал";
+"schedule.date" = "Дата";
+"schedule.time" = "Время";
+"schedule.date_time" = "Дата и время";
+"schedule.repeat" = "Повтор";
+"schedule.repeat_section" = "Повтор";
+"schedule.end_repeat" = "Окончание повтора";
+"schedule.end_date" = "Дата окончания";
+"schedule.end_count" = "Количество повторов";
+"schedule.times" = "раз";
+"schedule.until" = "До %@";
+"schedule.after_n_times" = "%d раз";
+"schedule.run_missed" = "Выполнить пропущенный запуск";
+
+/* Repeat Types */
+"repeat.never" = "Никогда";
+"repeat.every_minute" = "Каждую минуту";
+"repeat.every_5_minutes" = "Каждые 5 минут";
+"repeat.every_15_minutes" = "Каждые 15 минут";
+"repeat.every_30_minutes" = "Каждые 30 минут";
+"repeat.hourly" = "Каждый час";
+"repeat.daily" = "Ежедневно";
+"repeat.weekdays" = "По будням";
+"repeat.weekends" = "По выходным";
+"repeat.weekly" = "Еженедельно";
+"repeat.biweekly" = "Раз в две недели";
+"repeat.monthly" = "Ежемесячно";
+"repeat.every_3_months" = "Каждые 3 месяца";
+"repeat.every_6_months" = "Каждые 6 месяцев";
+"repeat.yearly" = "Ежегодно";
+"repeat.custom" = "Другой";
+"repeat.unit.hour" = "Час";
+"repeat.unit.day" = "День";
+"repeat.unit.week" = "Неделя";
+"repeat.unit.month" = "Месяц";
+"repeat.unit.year" = "Год";
+"repeat.frequency" = "Частота";
+"repeat.every" = "Каждые";
+"repeat.ok" = "ОК";
+
+/* End Repeat Types */
+"end_repeat.never" = "Никогда";
+"end_repeat.on_date" = "По дате";
+"end_repeat.after_count" = "После количества";
+
+/* Cron (legacy) */
+"cron.preset" = "Шаблон";
+"cron.custom" = "Другой...";
+"cron.every_minute" = "Каждую минуту";
+"cron.every_5_minutes" = "Каждые 5 минут";
+"cron.every_15_minutes" = "Каждые 15 минут";
+"cron.every_30_minutes" = "Каждые 30 минут";
+"cron.every_hour" = "Каждый час";
+"cron.daily_midnight" = "Ежедневно в полночь";
+"cron.daily_8am" = "Ежедневно в 8:00";
+"cron.weekly_monday" = "Понедельник в 9:00";
+"cron.monthly_first" = "1-е число месяца в полночь";
+"cron.next_run" = "Следующий: %@";
+"cron.cannot_compute" = "Невозможно вычислить";
+"cron.expression.placeholder" = "мин час день месяц день_недели";
+
+/* Execution Status */
+"status.running" = "Выполняется";
+"status.success" = "Успешно";
+"status.failure" = "Ошибка";
+"status.timeout" = "Превышен тайм-аут";
+"status.cancelled" = "Отменено";
+
+/* Logs */
+"notification.duration" = "Длительность:";
+"notification.success" = "Выполнено успешно";
+"notification.succeeded" = "Успешно";
+"notification.failed" = "Ошибка";
+
+"log.title" = "Журнал выполнения";
+"log.count_suffix" = "записей";
+"log.select.title" = "Выберите запись";
+"log.select.description" = "Выберите запись в боковой панели для просмотра подробностей";
+"log.filter.all" = "Все";
+"log.detail.title" = "Подробности выполнения";
+"log.detail.trigger" = "Способ запуска";
+"log.detail.trigger.manual" = "Вручную";
+"log.detail.trigger.schedule" = "По расписанию";
+"log.detail.exit_code" = "Код завершения";
+"log.detail.duration" = "Длительность";
+"log.detail.duration_ms" = "%d мс";
+"log.detail.finished" = "Завершено";
+"log.detail.stdout" = "Стандартный вывод";
+"log.detail.stderr" = "Вывод ошибок";
+"log.unknown_task" = "Неизвестная задача";
+
+/* Settings */
+"settings.general" = "Основные";
+"settings.appearance" = "Оформление";
+"settings.appearance.system" = "Системное";
+"settings.appearance.light" = "Светлое";
+"settings.appearance.dark" = "Тёмное";
+"settings.general.language" = "Язык";
+"settings.general.language.section" = "Язык";
+"settings.general.language.restart_hint" = "Смена языка вступает в силу немедленно для большинства элементов интерфейса.";
+"settings.general.startup" = "Запуск";
+"settings.general.launch_at_login" = "Запускать при входе в систему";
+"settings.general.defaults" = "Значения по умолчанию";
+"settings.general.default_shell" = "Shell по умолчанию";
+"settings.general.default_timeout" = "Тайм-аут по умолчанию";
+"settings.general.seconds" = "секунд";
+
+"settings.notifications" = "Уведомления";
+"settings.notifications.section" = "Настройки уведомлений";
+"settings.notifications.enable" = "Включить уведомления";
+"settings.notifications.on_success" = "Уведомлять при успехе";
+"settings.notifications.on_failure" = "Уведомлять при ошибке";
+"settings.notifications.hint" = "Это глобальный переключатель. При отключении уведомления не будут отправляться, даже если они включены для отдельных задач.";
+
+"settings.logs" = "Журнал";
+"settings.logs.section" = "Управление журналом";
+"settings.logs.retention" = "Срок хранения";
+"settings.logs.retention.days" = "дней";
+"settings.logs.cleanup" = "Очистить старые записи";
+
+"settings.updates" = "Обновления";
+"settings.updates.section" = "Автоматические обновления";
+"settings.updates.auto_check" = "Автоматически проверять обновления";
+"settings.updates.frequency" = "Частота проверки";
+"settings.updates.frequency.12h" = "Каждые 12 часов";
+"settings.updates.frequency.24h" = "Каждые 24 часа";
+"settings.updates.frequency.3d" = "Каждые 3 дня";
+"settings.updates.frequency.1w" = "Каждую неделю";
+"settings.updates.check_now" = "Проверить сейчас";
+"settings.updates.new_version" = "Доступна новая версия: %@";
+
+"settings.about" = "О программе";
+"settings.about.section" = "О TaskTick";
+"settings.about.version" = "Версия";
+"settings.about.build" = "Сборка";
+"settings.about.github" = "Репозиторий GitHub";
+"settings.about.issues" = "Сообщить о проблеме";
+"settings.about.sponsor" = "Поддержать";
+"settings.about.copyright" = "© 2026 lifedever. Лицензия GPL-3.0.";
+"settings.about.description" = "Нативное приложение macOS для управления задачами по расписанию. Без crontab, без launchd — только TaskTick.";
+
+/* Commands */
+"command.about" = "О TaskTick";
+"command.check_updates" = "Проверить обновления...";
+"command.new_task" = "Новая задача";
+"command.import" = "Импортировать задачи...";
+"command.export" = "Экспортировать задачи...";
+"command.task_menu" = "Задача";
+"command.run_selected" = "Запустить выбранную задачу";
+"command.stop_task" = "Остановить задачу";
+"command.toggle_enabled" = "Включить/Отключить";
+"command.delete_task" = "Удалить задачу";
+"command.show_logs" = "Показать журнал";
+"command.refresh" = "Обновить";
+"command.github_home" = "Репозиторий GitHub";
+"command.report_issue" = "Сообщить о проблеме";
+"command.sponsor" = "Поддержать разработчика";
+
+/* Clear Logs Confirmation */
+"clear_logs.title" = "Очистить журнал";
+"clear_logs.message" = "Вы уверены, что хотите очистить все записи о выполнении задачи «%@»? Счётчик выполнений будет сброшен. Это действие нельзя отменить.";
+"clear_logs.cancel" = "Отмена";
+"clear_logs.confirm" = "Очистить";
+
+/* Delete Confirmation */
+"delete.title" = "Подтвердите удаление";
+"delete.message" = "Вы уверены, что хотите удалить «%@»? Это действие нельзя отменить.";
+"delete.cancel" = "Отмена";
+"delete.confirm" = "Удалить";
+
+/* Crontab Import */
+"command.import_crontab" = "Импорт из системного crontab...";
+"crontab.import.title" = "Импорт из crontab";
+"crontab.import.description" = "Выберите записи crontab для импорта в TaskTick.";
+"crontab.import.empty" = "Записей crontab не найдено";
+"crontab.import.empty_description" = "В вашем системном crontab нет активных записей.";
+"crontab.import.select_all" = "Выбрать все";
+"crontab.import.action" = "Импортировать выбранные";
+"crontab.import.success" = "Успешно импортировано задач: %d.";
+"crontab.import.done" = "Готово";
+"crontab.comment.title" = "Закомментировать импортированные записи?";
+"crontab.comment.message" = "Импортированные записи будут закомментированы (не удалены) в вашем системном crontab, чтобы избежать двойного выполнения.";
+"crontab.comment.yes" = "Закомментировать";
+"crontab.comment.no" = "Оставить";
+
+/* Update Dialog */
+"update.available.title" = "Доступна новая версия TaskTick!";
+"update.available.message" = "Доступна версия TaskTick %@ — у вас установлена %@. Хотите загрузить её сейчас?";
+"update.skip" = "Пропустить эту версию";
+"update.remind_later" = "Напомнить позже";
+"update.install" = "Установить обновление";
+"update.downloading.title" = "Обновление TaskTick";
+"update.downloading" = "Загрузка обновления...";
+"update.ready" = "Готово к установке";
+"update.install_restart" = "Установить и перезапустить";
+"update.cancel" = "Отмена";
+"update.check_failed" = "Не удалось проверить обновления";
+"update.check_failed.hint" = "Не удалось подключиться к серверу обновлений. Проверьте подключение к сети и попробуйте снова.";
+"update.no_updates" = "У вас последняя версия!";
+"update.no_updates.message" = "TaskTick %@ — это последняя версия.";
+"update.download_error" = "Ошибка загрузки";
+"update.dmg_error" = "Ошибка обновления";
+"update.dmg_error.message" = "Загруженный образ диска повреждён. Попробуйте загрузить обновление ещё раз.";
+
+/* Script Templates */
+"template.menu" = "Шаблоны";
+"template.save_as" = "Сохранить как шаблон";
+"template.my_templates" = "Мои шаблоны";
+"template.builtin" = "Встроенные шаблоны";
+"template.add" = "Новый шаблон";
+"template.manage" = "Управление шаблонами...";
+"template.save.title" = "Сохранить как шаблон";
+"template.save.name_placeholder" = "Название шаблона";
+"template.overwrite.title" = "Заменить скрипт?";
+"template.overwrite.message" = "Текущий скрипт будет заменён содержимым шаблона.";
+"template.overwrite.confirm" = "Заменить";
+"template.edit.title" = "Редактирование шаблона";
+"template.manage.title" = "Менеджер шаблонов";
+"template.manage.empty" = "Выберите шаблон";
+"template.manage.empty_description" = "Выберите шаблон в боковой панели для предварительного просмотра.";
+"template.manage.select_hint" = "Выберите шаблон в боковой панели для предварительного просмотра.";
+"template.manage.rename" = "Переименовать";
+"template.manage.delete" = "Удалить";
+"template.manage.delete_confirm" = "Удалить этот шаблон?";
+"template.info" = "Информация";
+"template.created_at" = "Создан";
+"template.category" = "Категория";
+"template.category.none" = "Без категории";
+"template.category.new" = "Новая категория";
+"template.category.new_placeholder" = "Введите название категории";
+"template.notes" = "Заметки";
+"template.updated_at" = "Изменён";
+"template.create_task" = "Создать задачу";
+"template.restore_defaults" = "Восстановить шаблоны по умолчанию";
+"template.import_file" = "Импортировать файл...";
+"template.script_hint" = "Напишите скрипт напрямую или импортируйте из локального файла.";
+"editor.script.source.template" = "Из шаблона";
+
+/* Default Template Names & Notes */
+"default_template.category.database" = "Резервное копирование БД";
+"default_template.category.logs" = "Очистка логов";
+"default_template.category.git" = "Синхронизация Git";
+"default_template.category.health" = "Проверка состояния";
+"default_template.category.file_watch" = "Мониторинг файлов";
+"default_template.category.docker" = "Docker";
+"default_template.mysql_backup.name" = "Резервное копирование MySQL";
+"default_template.mysql_backup.notes" = "Дамп базы данных MySQL в сжатый SQL-файл. Автоматически удаляет резервные копии старше 7 дней. Укажите DB_HOST, DB_USER, DB_PASS, DB_NAME перед использованием.";
+"default_template.pg_backup.name" = "Резервное копирование PostgreSQL";
+"default_template.pg_backup.notes" = "Дамп базы данных PostgreSQL с помощью pg_dump. Сжимает gzip, удаляет резервные копии старше 7 дней.";
+"default_template.log_cleanup.name" = "Очистка логов";
+"default_template.log_cleanup.notes" = "Удаление старых файлов .log, .log.gz и ротированных логов. Срок хранения по умолчанию: 30 дней. Настройте DAYS и LOG_DIR по необходимости.";
+"default_template.git_sync.name" = "Git Pull и синхронизация";
+"default_template.git_sync.notes" = "Получение со всех удалённых серверов, удаление устаревших веток и rebase-pull из main. Укажите путь к репозиторию в REPO_DIR.";
+"default_template.health_check.name" = "HTTP-проверка доступности";
+"default_template.health_check.notes" = "Проверяет, возвращает ли URL код HTTP 200. Завершается с кодом 1 при ошибке — удобно для уведомлений об ошибках.";
+"default_template.disk_monitor.name" = "Мониторинг диска";
+"default_template.disk_monitor.notes" = "Мониторинг использования корневого раздела. Завершается с кодом 1 при превышении порога (по умолчанию 80%).";
+"default_template.docker_cleanup.name" = "Очистка Docker";
+"default_template.docker_cleanup.notes" = "Удаление всех неиспользуемых контейнеров, образов, томов и сетей Docker. Показывает сводку использования диска после очистки.";
+"default_template.category.backup" = "Резервное копирование и синхронизация";
+"default_template.category.notification" = "Уведомления";
+"default_template.dir_backup.name" = "Резервное копирование директории";
+"default_template.dir_backup.notes" = "Сжатие директории в tar.gz. Автоматически удаляет резервные копии старше 30 дней. Укажите SOURCE_DIR и BACKUP_DIR.";
+"default_template.redis_backup.name" = "Резервное копирование Redis";
+"default_template.redis_backup.notes" = "Запуск Redis BGSAVE и копирование файла dump.rdb. Удаляет резервные копии старше 7 дней.";
+"default_template.mongodb_backup.name" = "Резервное копирование MongoDB";
+"default_template.mongodb_backup.notes" = "Дамп базы данных MongoDB с помощью mongodump, сжатие в tar.gz. Удаляет резервные копии старше 7 дней.";
+"default_template.ssl_check.name" = "Проверка SSL-сертификата";
+"default_template.ssl_check.notes" = "Проверка срока действия SSL-сертификата для домена. Завершается с кодом 1, если сертификат истекает в течение 30 дней.";
+"default_template.process_monitor.name" = "Мониторинг процессов";
+"default_template.process_monitor.notes" = "Проверка, запущен ли определённый процесс. Завершается с кодом 1, если процесс не найден — удобно с уведомлениями об ошибках.";
+"default_template.port_check.name" = "Проверка порта";
+"default_template.port_check.notes" = "Проверка доступности TCP-порта. Завершается с кодом 1, если порт недоступен.";
+"default_template.memory_monitor.name" = "Мониторинг памяти";
+"default_template.memory_monitor.notes" = "Мониторинг использования памяти macOS. Завершается с кодом 1 при превышении порога (по умолчанию 80%).";
+"default_template.rsync.name" = "Синхронизация директорий через Rsync";
+"default_template.rsync.notes" = "Синхронизация локальной директории с местом назначения через rsync. Поддерживает инкрементальное обновление с --delete.";
+"default_template.webhook.name" = "Уведомление через Webhook";
+"default_template.webhook.notes" = "Отправка сообщения на URL Slack/Discord webhook. Удобно как шаг уведомления после выполнения задачи.";
+
+/* Cron Human Readable */
+"cron.human.every_minute" = "Каждую минуту";
+"cron.human.every_hour" = "Каждый час";
+"cron.human.daily_midnight" = "Ежедневно в полночь";
+"cron.human.weekly_sunday" = "Воскресенье в полночь";
+"cron.human.monthly_first" = "1-е число месяца в полночь";

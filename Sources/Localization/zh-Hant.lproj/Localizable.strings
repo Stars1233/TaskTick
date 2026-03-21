@@ -1,0 +1,388 @@
+/* App */
+"app.name" = "TaskTick";
+
+/* Menu Bar */
+"menubar.open" = "開啟";
+"menubar.no_tasks" = "暫無任務";
+"menubar.next_run" = "下次執行";
+"menubar.upcoming" = "即將執行";
+"menubar.quit" = "結束";
+
+/* Task List */
+"task.filter.all" = "全部";
+"task.filter.enabled" = "已啟用";
+"task.filter.disabled" = "已停用";
+"task.search.prompt" = "搜尋任務...";
+"task.empty.title" = "還沒有任務";
+"task.empty.description" = "點擊 + 建立你的第一個排程任務";
+"task.select.title" = "選擇一個任務";
+"task.select.description" = "從左側列表選擇任務檢視詳情，或點擊 + 建立新任務";
+"task.interval.seconds" = "%d 秒";
+"task.status.enabled" = "已啟用";
+"task.status.disabled" = "已停用";
+"task.duplicate" = "複製";
+"task.duplicate.name" = "%@（副本）";
+
+/* Task Detail */
+"task.detail.enable" = "啟用";
+"task.detail.disable" = "停用";
+"task.detail.run" = "執行";
+"task.detail.edit" = "編輯";
+"task.detail.delete" = "刪除";
+"task.detail.schedule" = "排程設定";
+"task.detail.script" = "腳本內容";
+"task.detail.cron_expression" = "Cron 表達式";
+"task.detail.interval" = "執行間隔";
+"task.detail.interval_value" = "%d 秒";
+"task.detail.next_run" = "下次執行";
+"task.detail.last_run" = "上次執行";
+"task.detail.shell" = "Shell";
+"task.detail.working_dir" = "工作目錄";
+"task.detail.timeout" = "逾時時間";
+"task.detail.timeout_value" = "%d 秒";
+"task.detail.recent_logs" = "最近執行";
+"task.detail.no_logs" = "暫無執行紀錄";
+"task.detail.view_logs" = "檢視日誌";
+"task.detail.show_full_script" = "檢視全部";
+"task.detail.collapse_script" = "收起";
+
+/* Task Editor Tabs */
+"editor.tab.basic" = "基本";
+"editor.tab.schedule" = "排程";
+"editor.tab.script" = "腳本";
+"editor.tab.notification" = "通知";
+
+/* Task Editor */
+"editor.title.new" = "新增任務";
+"editor.title.edit" = "編輯任務";
+"editor.cancel" = "取消";
+"editor.save" = "儲存";
+"editor.section.basic" = "基本資訊";
+"editor.name" = "任務名稱";
+"editor.name.placeholder" = "輸入任務名稱";
+"editor.enabled" = "啟用";
+"editor.section.schedule" = "排程方式";
+"editor.schedule_type" = "類型";
+"editor.interval" = "間隔";
+"editor.interval.seconds" = "秒";
+"editor.section.script" = "腳本";
+"editor.script.source" = "來源";
+"editor.script.source.inline" = "自訂腳本";
+"editor.script.source.file" = "本機檔案";
+"editor.script.choose_file" = "選擇檔案...";
+"editor.script.file_path" = "檔案路徑";
+"editor.script.no_file" = "未選擇檔案";
+"editor.script.placeholder" = "輸入要執行的 Shell 腳本";
+"editor.script.expand" = "展開編輯器";
+"editor.script.collapse" = "完成";
+"editor.script.validate" = "驗證腳本";
+"editor.script.validating" = "驗證中...";
+"editor.script.valid" = "語法正確";
+"editor.script.invalid" = "語法錯誤";
+"editor.shell" = "Shell";
+"editor.working_dir" = "工作目錄";
+"editor.working_dir.placeholder" = "可選的工作目錄路徑";
+"editor.working_dir.choose" = "選擇目錄";
+"editor.timeout" = "逾時時間";
+"editor.timeout.seconds" = "秒";
+"editor.section.notification" = "通知";
+"editor.notify_success" = "成功時通知";
+"editor.notify_failure" = "失敗時通知";
+"editor.notify_hint" = "任務完成時透過 macOS 系統通知推播。";
+"editor.strong_reminder" = "成功時強提醒";
+"editor.strong_reminder_hint" = "任務成功後彈出浮動面板，顯示完整輸出內容。";
+"editor.strong_reminder_short" = "強提醒";
+"strong_reminder.dismiss" = "我知道了";
+"notify.success_short" = "成功";
+"notify.failure_short" = "失敗";
+"notify.both_short" = "全部";
+"notify.off" = "關閉";
+
+/* Schedule */
+"schedule.cron" = "Cron 表達式";
+"schedule.interval" = "固定間隔";
+"schedule.date" = "日期";
+"schedule.time" = "時間";
+"schedule.date_time" = "日期與時間";
+"schedule.repeat" = "重複";
+"schedule.repeat_section" = "重複";
+"schedule.end_repeat" = "結束重複";
+"schedule.end_date" = "結束日期";
+"schedule.end_count" = "重複次數";
+"schedule.times" = "次";
+"schedule.until" = "截止 %@";
+"schedule.after_n_times" = "%d 次";
+"schedule.run_missed" = "補執行錯過的任務";
+
+/* Repeat Types */
+"repeat.never" = "永不";
+"repeat.every_minute" = "每分鐘";
+"repeat.every_5_minutes" = "每 5 分鐘";
+"repeat.every_15_minutes" = "每 15 分鐘";
+"repeat.every_30_minutes" = "每 30 分鐘";
+"repeat.hourly" = "每小時";
+"repeat.daily" = "每天";
+"repeat.weekdays" = "工作日";
+"repeat.weekends" = "週末";
+"repeat.weekly" = "每週";
+"repeat.biweekly" = "每兩週";
+"repeat.monthly" = "每月";
+"repeat.every_3_months" = "每 3 個月";
+"repeat.every_6_months" = "每 6 個月";
+"repeat.yearly" = "每年";
+"repeat.custom" = "自訂";
+"repeat.unit.hour" = "小時";
+"repeat.unit.day" = "天";
+"repeat.unit.week" = "週";
+"repeat.unit.month" = "月";
+"repeat.unit.year" = "年";
+"repeat.frequency" = "頻率";
+"repeat.every" = "每";
+"repeat.ok" = "好";
+
+/* End Repeat Types */
+"end_repeat.never" = "永不";
+"end_repeat.on_date" = "指定日期";
+"end_repeat.after_count" = "指定次數";
+
+/* Cron (legacy) */
+"cron.preset" = "預設";
+"cron.custom" = "自訂...";
+"cron.every_minute" = "每分鐘";
+"cron.every_5_minutes" = "每 5 分鐘";
+"cron.every_15_minutes" = "每 15 分鐘";
+"cron.every_30_minutes" = "每 30 分鐘";
+"cron.every_hour" = "每小時";
+"cron.daily_midnight" = "每天零點";
+"cron.daily_8am" = "每天 8:00";
+"cron.weekly_monday" = "每週一 9:00";
+"cron.monthly_first" = "每月 1 日零點";
+"cron.next_run" = "下次: %@";
+"cron.cannot_compute" = "無法計算";
+"cron.expression.placeholder" = "分 時 日 月 週";
+
+/* Execution Status */
+"status.running" = "執行中";
+"status.success" = "成功";
+"status.failure" = "失敗";
+"status.timeout" = "逾時";
+"status.cancelled" = "已取消";
+
+/* Logs */
+"notification.duration" = "耗時:";
+"notification.success" = "執行成功";
+"notification.succeeded" = "成功";
+"notification.failed" = "失敗";
+
+"log.title" = "執行日誌";
+"log.count_suffix" = "筆紀錄";
+"log.select.title" = "選擇一筆日誌";
+"log.select.description" = "從左側列表選擇一筆執行日誌檢視詳情";
+"log.filter.all" = "全部";
+"log.detail.title" = "執行詳情";
+"log.detail.trigger" = "觸發方式";
+"log.detail.trigger.manual" = "手動";
+"log.detail.trigger.schedule" = "排程";
+"log.detail.exit_code" = "結束碼";
+"log.detail.duration" = "耗時";
+"log.detail.duration_ms" = "%d 毫秒";
+"log.detail.finished" = "結束時間";
+"log.detail.stdout" = "標準輸出";
+"log.detail.stderr" = "錯誤輸出";
+"log.unknown_task" = "未知任務";
+
+/* Settings */
+"settings.general" = "一般";
+"settings.appearance" = "外觀";
+"settings.appearance.system" = "跟隨系統";
+"settings.appearance.light" = "淺色模式";
+"settings.appearance.dark" = "深色模式";
+"settings.general.language" = "語言";
+"settings.general.language.section" = "語言設定";
+"settings.general.language.restart_hint" = "切換語言後大部分介面會立即生效。";
+"settings.general.startup" = "啟動";
+"settings.general.launch_at_login" = "開機自動啟動";
+"settings.general.defaults" = "預設值";
+"settings.general.default_shell" = "預設 Shell";
+"settings.general.default_timeout" = "預設逾時";
+"settings.general.seconds" = "秒";
+
+"settings.notifications" = "通知";
+"settings.notifications.section" = "通知設定";
+"settings.notifications.enable" = "啟用通知";
+"settings.notifications.on_success" = "任務成功時通知";
+"settings.notifications.on_failure" = "任務失敗時通知";
+"settings.notifications.hint" = "這是全域開關。關閉後，即使任務單獨開啟了通知，也不會傳送提醒。";
+
+"settings.logs" = "日誌";
+"settings.logs.section" = "日誌管理";
+"settings.logs.retention" = "保留期限";
+"settings.logs.retention.days" = "天";
+"settings.logs.cleanup" = "清理歷史日誌";
+
+"settings.updates" = "更新";
+"settings.updates.section" = "自動更新";
+"settings.updates.auto_check" = "自動檢查更新";
+"settings.updates.frequency" = "檢查頻率";
+"settings.updates.frequency.12h" = "每 12 小時";
+"settings.updates.frequency.24h" = "每 24 小時";
+"settings.updates.frequency.3d" = "每 3 天";
+"settings.updates.frequency.1w" = "每週";
+"settings.updates.check_now" = "立即檢查";
+"settings.updates.new_version" = "新版本可用: %@";
+
+"settings.about" = "關於";
+"settings.about.section" = "關於 TaskTick";
+"settings.about.version" = "版本";
+"settings.about.build" = "建構號";
+"settings.about.github" = "GitHub 首頁";
+"settings.about.issues" = "回報問題";
+"settings.about.sponsor" = "贊助支持";
+"settings.about.copyright" = "© 2026 lifedever. GPL-3.0 授權條款.";
+"settings.about.description" = "一款原生 macOS 排程任務管理應用程式。無需 crontab，無需 launchd，交給 TaskTick。";
+
+/* Commands */
+"command.about" = "關於 TaskTick";
+"command.check_updates" = "檢查更新...";
+"command.new_task" = "新增任務";
+"command.import" = "匯入任務...";
+"command.export" = "匯出任務...";
+"command.task_menu" = "任務";
+"command.run_selected" = "執行選取的任務";
+"command.stop_task" = "停止任務";
+"command.toggle_enabled" = "啟用/停用";
+"command.delete_task" = "刪除任務";
+"command.show_logs" = "顯示日誌面板";
+"command.refresh" = "重新整理";
+"command.github_home" = "GitHub 首頁";
+"command.report_issue" = "回報問題";
+"command.sponsor" = "支持開發者";
+
+/* Clear Logs Confirmation */
+"clear_logs.title" = "清空日誌";
+"clear_logs.message" = "確定要清空「%@」的所有執行日誌嗎？執行次數將重置。此操作無法復原。";
+"clear_logs.cancel" = "取消";
+"clear_logs.confirm" = "清空";
+
+/* Delete Confirmation */
+"delete.title" = "確認刪除";
+"delete.message" = "確定要刪除「%@」嗎？此操作無法復原。";
+"delete.cancel" = "取消";
+"delete.confirm" = "刪除";
+
+/* Crontab Import */
+"command.import_crontab" = "從系統 Crontab 匯入...";
+"crontab.import.title" = "匯入系統 Crontab";
+"crontab.import.description" = "選擇要匯入為 TaskTick 任務的 crontab 項目。";
+"crontab.import.empty" = "無 Crontab 項目";
+"crontab.import.empty_description" = "系統 crontab 中沒有找到活躍的排程任務。";
+"crontab.import.select_all" = "全選";
+"crontab.import.action" = "匯入選取";
+"crontab.import.success" = "成功匯入 %d 個任務。";
+"crontab.import.done" = "完成";
+"crontab.comment.title" = "是否註解已匯入的項目？";
+"crontab.comment.message" = "已匯入的項目將在系統 crontab 中被註解掉（不會刪除），以避免重複執行。";
+"crontab.comment.yes" = "註解掉";
+"crontab.comment.no" = "保留";
+
+/* Update Dialog */
+"update.available.title" = "新版本的 TaskTick 已經發佈";
+"update.available.message" = "TaskTick %@ 可供下載，您目前的版本是 %@。要現在下載嗎？";
+"update.skip" = "略過這個版本";
+"update.remind_later" = "稍後提醒我";
+"update.install" = "安裝更新";
+"update.downloading.title" = "正在更新 TaskTick";
+"update.downloading" = "正在下載更新...";
+"update.ready" = "可以開始安裝了";
+"update.install_restart" = "安裝並重新啟動應用程式";
+"update.cancel" = "取消";
+"update.check_failed" = "檢查更新失敗";
+"update.check_failed.hint" = "無法連線至更新伺服器，請檢查網路連線後重試。";
+"update.no_updates" = "已是最新版本！";
+"update.no_updates.message" = "TaskTick %@ 是目前最新版本。";
+"update.download_error" = "下載失敗";
+"update.dmg_error" = "更新失敗";
+"update.dmg_error.message" = "下載的磁碟映像檔已損壞，請重新下載更新。";
+
+/* Script Templates */
+"template.menu" = "範本";
+"template.save_as" = "儲存為範本";
+"template.my_templates" = "我的範本";
+"template.builtin" = "內建範本";
+"template.add" = "新增範本";
+"template.manage" = "管理範本...";
+"template.save.title" = "儲存為範本";
+"template.save.name_placeholder" = "範本名稱";
+"template.overwrite.title" = "取代腳本？";
+"template.overwrite.message" = "目前的腳本內容將被範本內容取代。";
+"template.overwrite.confirm" = "取代";
+"template.edit.title" = "編輯範本";
+"template.manage.title" = "範本管理";
+"template.manage.empty" = "選擇一個範本";
+"template.manage.empty_description" = "從左側列表選擇範本預覽內容。";
+"template.manage.select_hint" = "從左側列表選擇範本預覽內容。";
+"template.manage.rename" = "重新命名";
+"template.manage.delete" = "刪除";
+"template.manage.delete_confirm" = "確定要刪除該範本嗎？";
+"template.info" = "資訊";
+"template.created_at" = "建立時間";
+"template.category" = "分類";
+"template.category.none" = "未分類";
+"template.category.new" = "新增分類";
+"template.category.new_placeholder" = "輸入分類名稱";
+"template.notes" = "備註";
+"template.updated_at" = "修改時間";
+"template.create_task" = "用此範本建立任務";
+"template.restore_defaults" = "恢復預設範本";
+"template.import_file" = "匯入檔案...";
+"template.script_hint" = "直接編寫腳本，或從本機檔案匯入。";
+"editor.script.source.template" = "從範本";
+
+/* Default Template Names & Notes */
+"default_template.category.database" = "資料庫備份";
+"default_template.category.logs" = "日誌清理";
+"default_template.category.git" = "Git 同步";
+"default_template.category.health" = "健康檢查";
+"default_template.category.file_watch" = "檔案監控";
+"default_template.category.docker" = "Docker";
+"default_template.mysql_backup.name" = "MySQL 備份";
+"default_template.mysql_backup.notes" = "將 MySQL 資料庫匯出為 gzip 壓縮的 SQL 檔案，自動清理 7 天前的備份。使用前需修改 DB_HOST、DB_USER、DB_PASS、DB_NAME。";
+"default_template.pg_backup.name" = "PostgreSQL 備份";
+"default_template.pg_backup.notes" = "使用 pg_dump 匯出 PostgreSQL 資料庫，gzip 壓縮，自動清理 7 天前的備份。";
+"default_template.log_cleanup.name" = "日誌清理";
+"default_template.log_cleanup.notes" = "清理 .log、.log.gz 及輪替日誌檔案，預設保留 30 天。可調整 DAYS 和 LOG_DIR。";
+"default_template.git_sync.name" = "Git 拉取同步";
+"default_template.git_sync.notes" = "拉取所有遠端分支，清理過期參照，rebase 合併 main 分支。使用前設定 REPO_DIR。";
+"default_template.health_check.name" = "HTTP 健康檢查";
+"default_template.health_check.notes" = "檢查 URL 是否回傳 HTTP 200。失敗時結束碼為 1，可配合失敗通知使用。";
+"default_template.disk_monitor.name" = "磁碟用量監控";
+"default_template.disk_monitor.notes" = "監控根分割區磁碟使用率，超過閾值（預設 80%）時結束碼為 1。";
+"default_template.docker_cleanup.name" = "Docker 清理";
+"default_template.docker_cleanup.notes" = "清理所有未使用的 Docker 容器、映像檔、卷和網路，清理後顯示磁碟佔用。";
+"default_template.category.backup" = "備份與同步";
+"default_template.category.notification" = "通知";
+"default_template.dir_backup.name" = "目錄備份";
+"default_template.dir_backup.notes" = "將目錄壓縮為 tar.gz 歸檔檔案，自動清理 30 天前的備份。修改 SOURCE_DIR 和 BACKUP_DIR 後使用。";
+"default_template.redis_backup.name" = "Redis 備份";
+"default_template.redis_backup.notes" = "觸發 Redis BGSAVE 並複製 dump.rdb 檔案，自動清理 7 天前的備份。";
+"default_template.mongodb_backup.name" = "MongoDB 備份";
+"default_template.mongodb_backup.notes" = "使用 mongodump 匯出 MongoDB 資料庫並壓縮為 tar.gz，自動清理 7 天前的備份。";
+"default_template.ssl_check.name" = "SSL 憑證檢查";
+"default_template.ssl_check.notes" = "檢查網域 SSL 憑證到期時間，30 天內到期則結束碼為 1。";
+"default_template.process_monitor.name" = "程序監控";
+"default_template.process_monitor.notes" = "檢查指定程序是否正在執行，未執行時結束碼為 1，可配合失敗通知使用。";
+"default_template.port_check.name" = "連接埠檢查";
+"default_template.port_check.notes" = "檢查 TCP 連接埠是否可達，不可達時結束碼為 1。";
+"default_template.memory_monitor.name" = "記憶體用量監控";
+"default_template.memory_monitor.notes" = "監控 macOS 記憶體使用率，超過閾值（預設 80%）時結束碼為 1。";
+"default_template.rsync.name" = "Rsync 目錄同步";
+"default_template.rsync.notes" = "使用 rsync 將本機目錄同步到備份目標，支援增量更新和 --delete 刪除多餘檔案。";
+"default_template.webhook.name" = "Webhook 通知";
+"default_template.webhook.notes" = "向 Slack/Discord 等 Webhook URL 傳送訊息，可作為任務完成後的通知步驟。";
+
+/* Cron Human Readable */
+"cron.human.every_minute" = "每分鐘";
+"cron.human.every_hour" = "每小時";
+"cron.human.daily_midnight" = "每天零點";
+"cron.human.weekly_sunday" = "每週日零點";
+"cron.human.monthly_first" = "每月 1 日零點";

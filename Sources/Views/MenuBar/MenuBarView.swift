@@ -102,6 +102,23 @@ struct MenuBarView: View {
 
                 Divider().padding(.horizontal, 12)
 
+                // Check for updates
+                Button(action: {
+                    Task { await UpdateChecker.shared.checkForUpdates(userInitiated: true) }
+                }) {
+                    HStack {
+                        Text(L10n.tr("command.check_updates"))
+                        Spacer()
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 6)
+                    .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .pointerCursor()
+
+                Divider().padding(.horizontal, 12)
+
                 // Quit
                 Button(action: {
                     AppDelegate.shouldReallyQuit = true
