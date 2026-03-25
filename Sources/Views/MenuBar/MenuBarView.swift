@@ -142,8 +142,10 @@ struct MenuBarView: View {
 }
 
 struct MenuBarTaskRow: View {
+    @Environment(\.modelContext) private var modelContext
     let task: ScheduledTask
     let isRunning: Bool
+    @State private var isHovering = false
 
     var body: some View {
         HStack(spacing: 10) {
@@ -160,6 +162,21 @@ struct MenuBarTaskRow: View {
             if isRunning {
                 ProgressView()
                     .controlSize(.mini)
+            } else if isHovering {
+                Button {
+                    let taskId = task.id
+                    TaskScheduler.shared.runningTaskIDs.insert(taskId)
+                    Task {
+                        _ = await ScriptExecutor.shared.execute(task: task, modelContext: modelContext)
+                        TaskScheduler.shared.runningTaskIDs.remove(taskId)
+                    }
+                } label: {
+                    Image(systemName: "play.fill")
+                        .font(.caption)
+                        .foregroundColor(.accentColor)
+                }
+                .buttonStyle(.plain)
+                .pointerCursor()
             } else if let nextRun = task.nextRunAt {
                 Text(nextRun, style: .relative)
                     .font(.caption)
@@ -171,7 +188,10 @@ struct MenuBarTaskRow: View {
         .padding(.vertical, 6)
         .background(
             RoundedRectangle(cornerRadius: 6)
-                .fill(.primary.opacity(0.00001))
+                .fill(Color.primary.opacity(isHovering ? 0.05 : 0.00001))
         )
+        .onHover { hovering in
+            isHovering = hovering
+        }
     }
 }
