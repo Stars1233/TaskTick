@@ -69,11 +69,12 @@ final class TaskScheduler: ObservableObject {
         for task in tasks {
             guard let nextRun = task.nextRunAt else { continue }
             if nextRun <= now {
-                if task.runMissedExecution {
-                    // Task is overdue, execute it now
+                let overdueSeconds = now.timeIntervalSince(nextRun)
+                if overdueSeconds <= 60 || task.runMissedExecution {
+                    // On-time (within 60s tolerance) or missed with runMissedExecution enabled
                     fireTask(task)
                 } else {
-                    // Skip missed execution, advance to next run date
+                    // Missed execution without runMissedExecution, skip to next
                     let nextDate = computeNextRunDate(for: task, after: now)
                     task.nextRunAt = nextDate
                     try? modelContext.save()
@@ -111,10 +112,11 @@ final class TaskScheduler: ObservableObject {
 
         for task in tasks {
             if let nextRun = task.nextRunAt, nextRun <= now {
-                if task.runMissedExecution {
+                let overdueSeconds = now.timeIntervalSince(nextRun)
+                if overdueSeconds <= 60 || task.runMissedExecution {
                     fireTask(task)
                 } else {
-                    // Skip missed execution, advance to next run date
+                    // Missed execution without runMissedExecution, skip to next
                     let nextDate = computeNextRunDate(for: task, after: now)
                     task.nextRunAt = nextDate
                     try? modelContext.save()
