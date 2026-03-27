@@ -201,7 +201,14 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 
   # Check if tag exists
   if git rev-parse "${TAG}" >/dev/null 2>&1; then
-    echo "  Tag ${TAG} already exists, using it."
+    TAG_COMMIT=$(git rev-list -n 1 "${TAG}")
+    HEAD_COMMIT=$(git rev-parse HEAD)
+    if [ "${TAG_COMMIT}" != "${HEAD_COMMIT}" ]; then
+      echo "  ERROR: Tag ${TAG} exists but points to ${TAG_COMMIT:0:7}, not HEAD (${HEAD_COMMIT:0:7})."
+      echo "  Delete the old tag first:  git tag -d ${TAG} && git push origin :refs/tags/${TAG}"
+      exit 1
+    fi
+    echo "  Tag ${TAG} already exists and points to HEAD."
   else
     echo "  Creating tag ${TAG}..."
     git tag -a "${TAG}" -m "Release ${TAG}"
