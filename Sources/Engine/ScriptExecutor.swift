@@ -28,6 +28,11 @@ final class ScriptExecutor: ObservableObject {
         let timeoutSeconds = task.timeoutSeconds
         let taskId = task.id
         let ignoreExitCode = task.ignoreExitCode
+        let taskName = task.name
+        let notifyOnSuccess = task.notifyOnSuccess
+        let notifyOnFailure = task.notifyOnFailure
+        let strongReminder = task.strongReminder
+        let logId = log.id
 
         // Resolve script: inline body or file content
         let scriptBody: String
@@ -58,52 +63,63 @@ final class ScriptExecutor: ObservableObject {
         )
 
         let endTime = Date()
+        let durationMs = Int(endTime.timeIntervalSince(startTime) * 1000)
 
-        log.stdout = ExecutionLog.truncateOutput(result.stdout)
-        log.stderr = ExecutionLog.truncateOutput(result.stderr)
-        log.exitCode = result.exitCode
-        log.status = result.status
-        log.finishedAt = endTime
-        log.durationMs = Int(endTime.timeIntervalSince(startTime) * 1000)
+        // After await, task or log may have been deleted (user deleted task during execution).
+        // Re-fetch from context to check they still exist before writing.
+        let logDescriptor = FetchDescriptor<ExecutionLog>(predicate: #Predicate { $0.id == logId })
+        let taskDescriptor = FetchDescriptor<ScheduledTask>(predicate: #Predicate { $0.id == taskId })
+        let fetchedLog = try? modelContext.fetch(logDescriptor).first
+        let fetchedTask = try? modelContext.fetch(taskDescriptor).first
 
-        task.lastRunAt = endTime
-        task.updatedAt = endTime
+        if let fetchedLog {
+            fetchedLog.stdout = ExecutionLog.truncateOutput(result.stdout)
+            fetchedLog.stderr = ExecutionLog.truncateOutput(result.stderr)
+            fetchedLog.exitCode = result.exitCode
+            fetchedLog.status = result.status
+            fetchedLog.finishedAt = endTime
+            fetchedLog.durationMs = durationMs
+        }
+
+        if let fetchedTask {
+            fetchedTask.lastRunAt = endTime
+            fetchedTask.updatedAt = endTime
+        }
 
         try? modelContext.save()
 
-        // Send notification if configured (respects global switch)
+        // Send notification using pre-captured properties (safe even if task was deleted)
         let globalNotificationsEnabled = UserDefaults.standard.object(forKey: "notificationsEnabled") as? Bool ?? true
-        let durationText = log.durationMs.map { "\(L10n.tr("notification.duration")) \($0)ms" } ?? ""
+        let durationText = "\(L10n.tr("notification.duration")) \(durationMs)ms"
 
-        if globalNotificationsEnabled && task.notifyOnFailure && result.status != .success {
+        if globalNotificationsEnabled && notifyOnFailure && result.status != .success {
             let exitInfo = "Exit code: \(result.exitCode ?? -1)"
             let stderrLine = result.stderr.components(separatedBy: .newlines).first(where: { !$0.trimmingCharacters(in: .whitespaces).isEmpty }) ?? ""
             let body = [exitInfo, durationText, stderrLine].filter { !$0.isEmpty }.joined(separator: " · ")
             NotificationManager.shared.sendNotification(
-                title: "[\(L10n.tr("notification.failed"))] \(task.name)",
+                title: "[\(L10n.tr("notification.failed"))] \(taskName)",
                 body: body
             )
-        } else if globalNotificationsEnabled && task.notifyOnSuccess && result.status == .success {
+        } else if globalNotificationsEnabled && notifyOnSuccess && result.status == .success {
             let stdoutLine = result.stdout.components(separatedBy: .newlines).first(where: {
                 let trimmed = $0.trimmingCharacters(in: .whitespaces)
                 guard !trimmed.isEmpty else { return false }
-                // Skip decorative separator lines (─, ═, -, =, *, etc.)
                 let stripped = trimmed.filter { !("─═—–-=_*#~".contains($0)) }
                 return !stripped.isEmpty
             }) ?? ""
             let body = [durationText, stdoutLine].filter { !$0.isEmpty }.joined(separator: " · ")
             NotificationManager.shared.sendNotification(
-                title: "[\(L10n.tr("notification.succeeded"))] \(task.name)",
+                title: "[\(L10n.tr("notification.succeeded"))] \(taskName)",
                 body: body.isEmpty ? L10n.tr("notification.success") : body
             )
         }
 
         // Strong reminder: show floating panel with full output
-        if result.status == .success && task.strongReminder {
+        if result.status == .success && strongReminder {
             StrongReminderPanel.shared.show(
-                taskName: task.name,
+                taskName: taskName,
                 output: result.stdout,
-                durationMs: log.durationMs
+                durationMs: durationMs
             )
         }
 

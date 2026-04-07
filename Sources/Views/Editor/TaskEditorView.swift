@@ -133,7 +133,9 @@ struct TaskEditorView: View {
             }
         }
         .onAppear { loadTask() }
-        .onChange(of: editorState.taskToEdit?.id) { _, _ in
+        .onChange(of: editorState.openTrigger) { _, _ in
+            loadedForNew = false
+            loadedTaskId = nil
             loadTask()
         }
     }
