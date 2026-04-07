@@ -94,6 +94,7 @@
 "editor.strong_reminder_hint" = "タスク成功時に出力全文を表示するフローティングパネルを表示します。";
 "editor.strong_reminder_short" = " 強調リマインダー";
 "strong_reminder.dismiss" = "OK";
+"strong_reminder.output" = "出力";
 "notify.success_short" = "成功";
 "notify.failure_short" = "失敗";
 "notify.both_short" = "すべて";

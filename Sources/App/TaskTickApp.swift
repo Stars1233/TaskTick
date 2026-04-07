@@ -27,15 +27,42 @@ struct TaskTickApp: App {
         let bundleId = Bundle.main.bundleIdentifier ?? "com.lifedever.TaskTick"
         let dbName = bundleId.hasSuffix(".dev") ? "tasktick-dev" : "default"
         let storeURL = URL.applicationSupportDirectory.appendingPathComponent("\(dbName).store")
+
+        // Backup database before opening to prevent data loss
+        DatabaseBackup.backupBeforeOpen(storeURL: storeURL)
+
         let modelConfiguration = ModelConfiguration(
             schema: schema,
             url: storeURL,
             allowsSave: true
         )
+
+        // Try to open the store normally
         do {
             return try ModelContainer(for: schema, configurations: [modelConfiguration])
         } catch {
-            fatalError("Could not create ModelContainer: \(error)")
+            NSLog("⚠️ ModelContainer failed: \(error). Attempting restore from backup...")
+
+            // Try to restore from backup and retry
+            if DatabaseBackup.restoreFromLatestBackup(storeURL: storeURL) {
+                do {
+                    return try ModelContainer(for: schema, configurations: [modelConfiguration])
+                } catch {
+                    NSLog("⚠️ ModelContainer still failed after restore: \(error)")
+                }
+            }
+
+            // Last resort: rename corrupt file and start fresh
+            let corruptURL = storeURL.deletingLastPathComponent()
+                .appendingPathComponent("\(dbName)-corrupt-\(Int(Date().timeIntervalSince1970)).store")
+            try? FileManager.default.moveItem(at: storeURL, to: corruptURL)
+            NSLog("⚠️ Moved corrupt store to \(corruptURL.path). Starting with empty database.")
+
+            do {
+                return try ModelContainer(for: schema, configurations: [modelConfiguration])
+            } catch {
+                fatalError("Could not create ModelContainer even after recovery: \(error)")
+            }
         }
     }()
 

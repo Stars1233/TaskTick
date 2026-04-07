@@ -94,6 +94,7 @@
 "editor.strong_reminder_hint" = "Показать плавающую панель с полным выводом при успешном выполнении задачи.";
 "editor.strong_reminder_short" = " Усиленное напоминание";
 "strong_reminder.dismiss" = "ОК";
+"strong_reminder.output" = "Вывод";
 "notify.success_short" = "Успех";
 "notify.failure_short" = "Ошибка";
 "notify.both_short" = "Все";

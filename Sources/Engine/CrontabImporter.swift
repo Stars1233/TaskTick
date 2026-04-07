@@ -186,7 +186,8 @@ struct CrontabImporter {
 
         do {
             try writeProcess.run()
-            inputPipe.fileHandleForWriting.write(content.data(using: .utf8)!)
+            guard let data = content.data(using: .utf8) else { return false }
+            inputPipe.fileHandleForWriting.write(data)
             inputPipe.fileHandleForWriting.closeFile()
             writeProcess.waitUntilExit()
             return writeProcess.terminationStatus == 0

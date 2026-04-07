@@ -86,6 +86,7 @@
 "editor.strong_reminder_hint" = "Afficher un panneau flottant avec la sortie complete lorsque la tache reussit.";
 "editor.strong_reminder_short" = " Rappel fort";
 "strong_reminder.dismiss" = "OK";
+"strong_reminder.output" = "Sortie";
 "notify.success_short" = "Succes";
 "notify.failure_short" = "Echec";
 "notify.both_short" = "Tous";

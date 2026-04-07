@@ -94,6 +94,7 @@
 "editor.strong_reminder_hint" = "Zeigt ein schwebendes Fenster mit der vollständigen Ausgabe an, wenn die Aufgabe erfolgreich ist.";
 "editor.strong_reminder_short" = " Starke Erinnerung";
 "strong_reminder.dismiss" = "OK";
+"strong_reminder.output" = "Ausgabe";
 "notify.success_short" = "Erfolg";
 "notify.failure_short" = "Fehler";
 "notify.both_short" = "Alle";

@@ -94,6 +94,7 @@
 "editor.strong_reminder_hint" = "任务成功后弹出浮动面板，显示完整输出内容。";
 "editor.strong_reminder_short" = "强提醒";
 "strong_reminder.dismiss" = "我知道了";
+"strong_reminder.output" = "输出";
 "notify.success_short" = "成功";
 "notify.failure_short" = "失败";
 "notify.both_short" = "全部";

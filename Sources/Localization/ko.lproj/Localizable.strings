@@ -89,6 +89,7 @@
 "editor.strong_reminder_hint" = "작업 성공 시 전체 출력이 포함된 플로팅 패널을 표시합니다.";
 "editor.strong_reminder_short" = " 강조 알림";
 "strong_reminder.dismiss" = "확인";
+"strong_reminder.output" = "출력";
 "notify.success_short" = "성공";
 "notify.failure_short" = "실패";
 "notify.both_short" = "전체";

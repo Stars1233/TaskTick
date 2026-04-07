@@ -92,6 +92,7 @@
 "editor.strong_reminder_hint" = "Mostrar un panel flotante con la salida completa cuando la tarea se ejecuta correctamente.";
 "editor.strong_reminder_short" = " Recordatorio destacado";
 "strong_reminder.dismiss" = "Aceptar";
+"strong_reminder.output" = "Salida";
 "notify.success_short" = "Completada";
 "notify.failure_short" = "Fallida";
 "notify.both_short" = "Todas";

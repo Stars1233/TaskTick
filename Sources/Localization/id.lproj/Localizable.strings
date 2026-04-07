@@ -94,6 +94,7 @@
 "editor.strong_reminder_hint" = "Tampilkan panel mengambang dengan output lengkap saat tugas berhasil.";
 "editor.strong_reminder_short" = " Pengingat Kuat";
 "strong_reminder.dismiss" = "OK";
+"strong_reminder.output" = "Output";
 "notify.success_short" = "Berhasil";
 "notify.failure_short" = "Gagal";
 "notify.both_short" = "Semua";

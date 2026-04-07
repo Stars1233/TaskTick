@@ -142,7 +142,7 @@ struct CronExpression: Sendable {
         guard var candidate = calendar.date(from: components) else { return nil }
 
         // Search up to 4 years ahead
-        let limit = calendar.date(byAdding: .year, value: 4, to: date)!
+        guard let limit = calendar.date(byAdding: .year, value: 4, to: date) else { return nil }
 
         while candidate < limit {
             let comps = calendar.dateComponents([.minute, .hour, .day, .month, .weekday], from: candidate)
@@ -162,7 +162,8 @@ struct CronExpression: Sendable {
             }
 
             // Advance by 1 minute
-            candidate = calendar.date(byAdding: .minute, value: 1, to: candidate)!
+            guard let next = calendar.date(byAdding: .minute, value: 1, to: candidate) else { return nil }
+            candidate = next
         }
 
         return nil

@@ -78,13 +78,13 @@ final class TaskScheduler: ObservableObject {
                     let nextDate = computeNextRunDate(for: task, after: now)
                     task.nextRunAt = nextDate
                     try? modelContext.save()
-                    if let nextDate, (earliest == nil || nextDate < earliest!) {
+                    if let nextDate, nextDate < (earliest ?? .distantFuture) {
                         earliest = nextDate
                     }
                 }
                 continue
             }
-            if earliest == nil || nextRun < earliest! {
+            if nextRun < (earliest ?? .distantFuture) {
                 earliest = nextRun
             }
         }

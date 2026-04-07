@@ -94,6 +94,7 @@
 "editor.strong_reminder_hint" = "Mostra un pannello mobile con l'output completo quando l'attivita ha successo.";
 "editor.strong_reminder_short" = " Promemoria forte";
 "strong_reminder.dismiss" = "OK";
+"strong_reminder.output" = "Output";
 "notify.success_short" = "Successo";
 "notify.failure_short" = "Errore";
 "notify.both_short" = "Tutti";
