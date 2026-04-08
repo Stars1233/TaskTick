@@ -201,6 +201,32 @@
 "settings.notifications.on_success" = "작업 성공 시 알림";
 "settings.notifications.on_failure" = "작업 실패 시 알림";
 "settings.notifications.hint" = "전역 스위치입니다. 비활성화하면 개별 작업에서 알림이 활성화되어 있어도 알림이 전송되지 않습니다.";
+/* Backup */
+"settings.backup" = "백업";
+"settings.backup.section" = "자동 백업";
+"settings.backup.enable" = "예약 백업 활성화";
+"settings.backup.frequency" = "백업 주기";
+"settings.backup.frequency.1h" = "매시간";
+"settings.backup.frequency.6h" = "6시간마다";
+"settings.backup.frequency.12h" = "12시간마다";
+"settings.backup.frequency.24h" = "24시간마다";
+"settings.backup.max_count" = "최대 백업 수";
+"settings.backup.directory" = "백업 디렉토리";
+"settings.backup.choose_directory" = "선택...";
+"settings.backup.backup_now" = "지금 백업";
+"settings.backup.open_directory" = "Finder에서 열기";
+"settings.backup.list" = "백업 목록";
+"settings.backup.no_backups" = "아직 백업이 없습니다";
+"settings.backup.restore" = "복원";
+"settings.backup.restore_confirm.title" = "백업에서 복원하시겠습니까?";
+"settings.backup.restore_confirm.message" = "현재 데이터베이스가 이 백업으로 대체됩니다. 복원 후 앱이 재시작됩니다.";
+"settings.backup.restore_confirm.cancel" = "취소";
+"settings.backup.restore_confirm.confirm" = "복원";
+"settings.backup.restore_success" = "복원 성공";
+"settings.backup.restore_success.message" = "데이터베이스가 복원되었습니다. 앱이 재시작됩니다.";
+"settings.backup.restore_failed" = "복원 실패";
+"settings.backup.restore_failed.message" = "이 백업에서 복원하지 못했습니다. 백업 파일이 손상되었을 수 있습니다.";
+
 "settings.logs" = "로그";
 "settings.logs.section" = "로그 관리";
 "settings.logs.retention" = "보관 기간";

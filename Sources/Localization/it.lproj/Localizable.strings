@@ -216,6 +216,32 @@
 "settings.notifications.on_failure" = "Notifica in caso di errore";
 "settings.notifications.hint" = "Questo e un interruttore globale. Se disattivato, nessuna notifica verra inviata anche se le singole attivita hanno le notifiche abilitate.";
 
+/* Backup */
+"settings.backup" = "Backup";
+"settings.backup.section" = "Backup automatico";
+"settings.backup.enable" = "Abilita backup programmato";
+"settings.backup.frequency" = "Frequenza di backup";
+"settings.backup.frequency.1h" = "Ogni ora";
+"settings.backup.frequency.6h" = "Ogni 6 ore";
+"settings.backup.frequency.12h" = "Ogni 12 ore";
+"settings.backup.frequency.24h" = "Ogni 24 ore";
+"settings.backup.max_count" = "Numero massimo di backup";
+"settings.backup.directory" = "Directory di backup";
+"settings.backup.choose_directory" = "Scegli...";
+"settings.backup.backup_now" = "Esegui backup ora";
+"settings.backup.open_directory" = "Apri nel Finder";
+"settings.backup.list" = "Backup";
+"settings.backup.no_backups" = "Nessun backup presente";
+"settings.backup.restore" = "Ripristina";
+"settings.backup.restore_confirm.title" = "Ripristinare dal backup?";
+"settings.backup.restore_confirm.message" = "Il database attuale verra sostituito con questo backup. L'app si riavviera dopo il ripristino.";
+"settings.backup.restore_confirm.cancel" = "Annulla";
+"settings.backup.restore_confirm.confirm" = "Ripristina";
+"settings.backup.restore_success" = "Ripristino riuscito";
+"settings.backup.restore_success.message" = "Il database e stato ripristinato. L'app si riavviera ora.";
+"settings.backup.restore_failed" = "Ripristino non riuscito";
+"settings.backup.restore_failed.message" = "Impossibile ripristinare da questo backup. Il file di backup potrebbe essere danneggiato.";
+
 "settings.logs" = "Registri";
 "settings.logs.section" = "Gestione registri";
 "settings.logs.retention" = "Periodo di conservazione";

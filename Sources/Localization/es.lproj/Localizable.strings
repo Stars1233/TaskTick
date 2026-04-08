@@ -211,6 +211,32 @@
 "settings.notifications.on_success" = "Notificar al completar tarea";
 "settings.notifications.on_failure" = "Notificar al fallar tarea";
 "settings.notifications.hint" = "Este es un interruptor global. Cuando está desactivado, no se enviarán notificaciones de ninguna tarea, incluso si las tareas individuales tienen las notificaciones activadas.";
+/* Backup */
+"settings.backup" = "Copia de seguridad";
+"settings.backup.section" = "Copia de seguridad automática";
+"settings.backup.enable" = "Activar copia de seguridad programada";
+"settings.backup.frequency" = "Frecuencia de copia";
+"settings.backup.frequency.1h" = "Cada hora";
+"settings.backup.frequency.6h" = "Cada 6 horas";
+"settings.backup.frequency.12h" = "Cada 12 horas";
+"settings.backup.frequency.24h" = "Cada 24 horas";
+"settings.backup.max_count" = "Máximo de copias";
+"settings.backup.directory" = "Directorio de copias";
+"settings.backup.choose_directory" = "Elegir...";
+"settings.backup.backup_now" = "Hacer copia ahora";
+"settings.backup.open_directory" = "Abrir en Finder";
+"settings.backup.list" = "Copias de seguridad";
+"settings.backup.no_backups" = "Aún no hay copias";
+"settings.backup.restore" = "Restaurar";
+"settings.backup.restore_confirm.title" = "¿Restaurar desde la copia de seguridad?";
+"settings.backup.restore_confirm.message" = "La base de datos actual será reemplazada por esta copia de seguridad. La aplicación se reiniciará después de la restauración.";
+"settings.backup.restore_confirm.cancel" = "Cancelar";
+"settings.backup.restore_confirm.confirm" = "Restaurar";
+"settings.backup.restore_success" = "Restauración exitosa";
+"settings.backup.restore_success.message" = "La base de datos ha sido restaurada. La aplicación se reiniciará ahora.";
+"settings.backup.restore_failed" = "Error en la restauración";
+"settings.backup.restore_failed.message" = "No se pudo restaurar desde esta copia de seguridad. El archivo puede estar dañado.";
+
 "settings.logs" = "Registros";
 "settings.logs.section" = "Gestión de registros";
 "settings.logs.retention" = "Período de retención";

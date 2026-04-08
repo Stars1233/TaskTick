@@ -216,6 +216,32 @@
 "settings.notifications.on_failure" = "タスク失敗時に通知";
 "settings.notifications.hint" = "これはグローバルスイッチです。無効にすると、個別タスクで通知が有効でも通知は送信されません。";
 
+/* Backup */
+"settings.backup" = "バックアップ";
+"settings.backup.section" = "自動バックアップ";
+"settings.backup.enable" = "定期バックアップを有効にする";
+"settings.backup.frequency" = "バックアップ頻度";
+"settings.backup.frequency.1h" = "1時間ごと";
+"settings.backup.frequency.6h" = "6時間ごと";
+"settings.backup.frequency.12h" = "12時間ごと";
+"settings.backup.frequency.24h" = "24時間ごと";
+"settings.backup.max_count" = "最大バックアップ数";
+"settings.backup.directory" = "バックアップ先";
+"settings.backup.choose_directory" = "選択...";
+"settings.backup.backup_now" = "今すぐバックアップ";
+"settings.backup.open_directory" = "Finderで開く";
+"settings.backup.list" = "バックアップ一覧";
+"settings.backup.no_backups" = "バックアップはまだありません";
+"settings.backup.restore" = "復元";
+"settings.backup.restore_confirm.title" = "バックアップから復元しますか？";
+"settings.backup.restore_confirm.message" = "現在のデータベースはこのバックアップで置き換えられます。復元後、アプリは再起動します。";
+"settings.backup.restore_confirm.cancel" = "キャンセル";
+"settings.backup.restore_confirm.confirm" = "復元";
+"settings.backup.restore_success" = "復元成功";
+"settings.backup.restore_success.message" = "データベースが復元されました。アプリを再起動します。";
+"settings.backup.restore_failed" = "復元失敗";
+"settings.backup.restore_failed.message" = "このバックアップからの復元に失敗しました。バックアップファイルが破損している可能性があります。";
+
 "settings.logs" = "ログ";
 "settings.logs.section" = "ログ管理";
 "settings.logs.retention" = "保持期間";

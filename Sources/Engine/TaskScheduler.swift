@@ -37,7 +37,7 @@ final class TaskScheduler: ObservableObject {
                     task.nextRunAt = computeNextRunDate(for: task)
                 }
             }
-            try? modelContext.save()
+            do { try modelContext.save() } catch { NSLog("⚠️ TaskScheduler save failed: \(error)") }
         }
 
         rebuildSchedule()
@@ -77,7 +77,7 @@ final class TaskScheduler: ObservableObject {
                     // Missed execution without runMissedExecution, skip to next
                     let nextDate = computeNextRunDate(for: task, after: now)
                     task.nextRunAt = nextDate
-                    try? modelContext.save()
+                    do { try modelContext.save() } catch { NSLog("⚠️ TaskScheduler save failed: \(error)") }
                     if let nextDate, nextDate < (earliest ?? .distantFuture) {
                         earliest = nextDate
                     }
@@ -119,7 +119,7 @@ final class TaskScheduler: ObservableObject {
                     // Missed execution without runMissedExecution, skip to next
                     let nextDate = computeNextRunDate(for: task, after: now)
                     task.nextRunAt = nextDate
-                    try? modelContext.save()
+                    do { try modelContext.save() } catch { NSLog("⚠️ TaskScheduler save failed: \(error)") }
                 }
             }
         }
@@ -142,22 +142,19 @@ final class TaskScheduler: ObservableObject {
            task.executionCount >= maxCount {
             task.nextRunAt = nil
             task.isEnabled = false
-            try? modelContext.save()
-
-            Task {
-                await ScriptExecutor.shared.execute(task: task, triggeredBy: .schedule, modelContext: modelContext)
-                runningTaskIDs.remove(taskId)
-                rebuildSchedule()
-            }
-            return
+        } else {
+            // Compute next run date
+            let nextDate = computeNextRunDate(for: task, after: Date())
+            task.nextRunAt = nextDate
         }
 
-        // Compute next run date
-        let nextDate = computeNextRunDate(for: task, after: Date())
-        task.nextRunAt = nextDate
-        try? modelContext.save()
+        do {
+            try modelContext.save()
+        } catch {
+            NSLog("⚠️ Failed to save before task execution: \(error)")
+        }
 
-        Task {
+        Task { @MainActor in
             await ScriptExecutor.shared.execute(task: task, triggeredBy: .schedule, modelContext: modelContext)
             runningTaskIDs.remove(taskId)
             rebuildSchedule()

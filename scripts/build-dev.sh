@@ -133,6 +133,9 @@ echo "── Done ──"
 echo "  ${APP_BUNDLE}"
 echo ""
 
-# Kill existing dev app and relaunch
+# Install to /Applications and launch
+INSTALL_PATH="/Applications/${DEV_APP_NAME}.app"
 pkill -f "${DEV_APP_NAME}" 2>/dev/null && sleep 0.5
-open "${APP_BUNDLE}"
+rm -rf "${INSTALL_PATH}"
+cp -R "${APP_BUNDLE}" "${INSTALL_PATH}"
+open "${INSTALL_PATH}"

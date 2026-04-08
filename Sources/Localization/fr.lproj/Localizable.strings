@@ -191,6 +191,32 @@
 "settings.notifications.on_success" = "Notifier en cas de succes";
 "settings.notifications.on_failure" = "Notifier en cas d'echec";
 "settings.notifications.hint" = "Ceci est un parametre global. Lorsqu'il est desactive, aucune notification ne sera envoyee meme si des taches individuelles ont les notifications activees.";
+/* Backup */
+"settings.backup" = "Sauvegarde";
+"settings.backup.section" = "Sauvegarde automatique";
+"settings.backup.enable" = "Activer la sauvegarde programmee";
+"settings.backup.frequency" = "Frequence de sauvegarde";
+"settings.backup.frequency.1h" = "Toutes les heures";
+"settings.backup.frequency.6h" = "Toutes les 6 heures";
+"settings.backup.frequency.12h" = "Toutes les 12 heures";
+"settings.backup.frequency.24h" = "Toutes les 24 heures";
+"settings.backup.max_count" = "Nombre max de sauvegardes";
+"settings.backup.directory" = "Repertoire de sauvegarde";
+"settings.backup.choose_directory" = "Choisir...";
+"settings.backup.backup_now" = "Sauvegarder maintenant";
+"settings.backup.open_directory" = "Ouvrir dans le Finder";
+"settings.backup.list" = "Sauvegardes";
+"settings.backup.no_backups" = "Aucune sauvegarde";
+"settings.backup.restore" = "Restaurer";
+"settings.backup.restore_confirm.title" = "Restaurer depuis la sauvegarde ?";
+"settings.backup.restore_confirm.message" = "La base de donnees actuelle sera remplacee par cette sauvegarde. L'application redemarrera apres la restauration.";
+"settings.backup.restore_confirm.cancel" = "Annuler";
+"settings.backup.restore_confirm.confirm" = "Restaurer";
+"settings.backup.restore_success" = "Restauration reussie";
+"settings.backup.restore_success.message" = "La base de donnees a ete restauree. L'application va redemarrer.";
+"settings.backup.restore_failed" = "Echec de la restauration";
+"settings.backup.restore_failed.message" = "Impossible de restaurer depuis cette sauvegarde. Le fichier de sauvegarde est peut-etre corrompu.";
+
 "settings.logs" = "Journaux";
 "settings.logs.section" = "Gestion des journaux";
 "settings.logs.retention" = "Periode de conservation";

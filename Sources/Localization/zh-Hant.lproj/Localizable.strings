@@ -216,6 +216,32 @@
 "settings.notifications.on_failure" = "任務失敗時通知";
 "settings.notifications.hint" = "這是全域開關。關閉後，即使任務單獨開啟了通知，也不會傳送提醒。";
 
+/* Backup */
+"settings.backup" = "備份";
+"settings.backup.section" = "自動備份";
+"settings.backup.enable" = "啟用定時備份";
+"settings.backup.frequency" = "備份頻率";
+"settings.backup.frequency.1h" = "每小時";
+"settings.backup.frequency.6h" = "每 6 小時";
+"settings.backup.frequency.12h" = "每 12 小時";
+"settings.backup.frequency.24h" = "每 24 小時";
+"settings.backup.max_count" = "最大備份數";
+"settings.backup.directory" = "備份目錄";
+"settings.backup.choose_directory" = "選擇...";
+"settings.backup.backup_now" = "立即備份";
+"settings.backup.open_directory" = "在 Finder 中開啟";
+"settings.backup.list" = "備份列表";
+"settings.backup.no_backups" = "尚無備份";
+"settings.backup.restore" = "還原";
+"settings.backup.restore_confirm.title" = "確定要從備份還原嗎？";
+"settings.backup.restore_confirm.message" = "目前的資料庫將被此備份取代。還原後應用程式將重新啟動。";
+"settings.backup.restore_confirm.cancel" = "取消";
+"settings.backup.restore_confirm.confirm" = "還原";
+"settings.backup.restore_success" = "還原成功";
+"settings.backup.restore_success.message" = "資料庫已還原。應用程式即將重新啟動。";
+"settings.backup.restore_failed" = "還原失敗";
+"settings.backup.restore_failed.message" = "無法從此備份還原。備份檔案可能已損壞。";
+
 "settings.logs" = "日誌";
 "settings.logs.section" = "日誌管理";
 "settings.logs.retention" = "保留期限";

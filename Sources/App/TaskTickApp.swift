@@ -15,21 +15,26 @@ struct TaskTickApp: App {
         let scheduler = TaskScheduler.shared
         scheduler.configure(modelContext: container.mainContext)
         scheduler.start()
+
+        let backup = DatabaseBackup.shared
+        backup.configure(storeURL: Self._storeURL)
+        backup.startScheduledBackups()
     }
 
     var sharedModelContainer: ModelContainer { Self._sharedModelContainer }
+
+    static let _storeURL: URL = {
+        let bundleId = Bundle.main.bundleIdentifier ?? "com.lifedever.TaskTick"
+        let dbName = bundleId.hasSuffix(".dev") ? "tasktick-dev" : "default"
+        return URL.applicationSupportDirectory.appendingPathComponent("\(dbName).store")
+    }()
 
     private static let _sharedModelContainer: ModelContainer = {
         let schema = Schema([
             ScheduledTask.self,
             ExecutionLog.self,
         ])
-        let bundleId = Bundle.main.bundleIdentifier ?? "com.lifedever.TaskTick"
-        let dbName = bundleId.hasSuffix(".dev") ? "tasktick-dev" : "default"
-        let storeURL = URL.applicationSupportDirectory.appendingPathComponent("\(dbName).store")
-
-        // Backup database before opening to prevent data loss
-        DatabaseBackup.backupBeforeOpen(storeURL: storeURL)
+        let storeURL = _storeURL
 
         let modelConfiguration = ModelConfiguration(
             schema: schema,
@@ -37,14 +42,15 @@ struct TaskTickApp: App {
             allowsSave: true
         )
 
-        // Try to open the store normally
         do {
             return try ModelContainer(for: schema, configurations: [modelConfiguration])
         } catch {
             NSLog("⚠️ ModelContainer failed: \(error). Attempting restore from backup...")
 
-            // Try to restore from backup and retry
-            if DatabaseBackup.restoreFromLatestBackup(storeURL: storeURL) {
+            // Configure backup with store URL for restore attempt
+            let backup = DatabaseBackup.shared
+            backup.configure(storeURL: storeURL)
+            if backup.restoreFromLatestBackup() {
                 do {
                     return try ModelContainer(for: schema, configurations: [modelConfiguration])
                 } catch {
@@ -52,17 +58,8 @@ struct TaskTickApp: App {
                 }
             }
 
-            // Last resort: rename corrupt file and start fresh
-            let corruptURL = storeURL.deletingLastPathComponent()
-                .appendingPathComponent("\(dbName)-corrupt-\(Int(Date().timeIntervalSince1970)).store")
-            try? FileManager.default.moveItem(at: storeURL, to: corruptURL)
-            NSLog("⚠️ Moved corrupt store to \(corruptURL.path). Starting with empty database.")
-
-            do {
-                return try ModelContainer(for: schema, configurations: [modelConfiguration])
-            } catch {
-                fatalError("Could not create ModelContainer even after recovery: \(error)")
-            }
+            // Never delete user data. Crash and preserve the database file for manual recovery.
+            fatalError("Could not create ModelContainer: \(error). Database at \(storeURL.path) preserved for manual recovery.")
         }
     }()
 

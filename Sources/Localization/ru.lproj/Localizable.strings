@@ -216,6 +216,32 @@
 "settings.notifications.on_failure" = "Уведомлять при ошибке";
 "settings.notifications.hint" = "Это глобальный переключатель. При отключении уведомления не будут отправляться, даже если они включены для отдельных задач.";
 
+/* Backup */
+"settings.backup" = "Резервное копирование";
+"settings.backup.section" = "Автоматическое резервное копирование";
+"settings.backup.enable" = "Включить резервное копирование по расписанию";
+"settings.backup.frequency" = "Частота копирования";
+"settings.backup.frequency.1h" = "Каждый час";
+"settings.backup.frequency.6h" = "Каждые 6 часов";
+"settings.backup.frequency.12h" = "Каждые 12 часов";
+"settings.backup.frequency.24h" = "Каждые 24 часа";
+"settings.backup.max_count" = "Макс. количество копий";
+"settings.backup.directory" = "Каталог резервных копий";
+"settings.backup.choose_directory" = "Выбрать...";
+"settings.backup.backup_now" = "Создать копию сейчас";
+"settings.backup.open_directory" = "Открыть в Finder";
+"settings.backup.list" = "Резервные копии";
+"settings.backup.no_backups" = "Резервных копий пока нет";
+"settings.backup.restore" = "Восстановить";
+"settings.backup.restore_confirm.title" = "Восстановить из резервной копии?";
+"settings.backup.restore_confirm.message" = "Текущая база данных будет заменена этой резервной копией. После восстановления приложение перезапустится.";
+"settings.backup.restore_confirm.cancel" = "Отмена";
+"settings.backup.restore_confirm.confirm" = "Восстановить";
+"settings.backup.restore_success" = "Восстановление выполнено";
+"settings.backup.restore_success.message" = "База данных восстановлена. Приложение сейчас перезапустится.";
+"settings.backup.restore_failed" = "Ошибка восстановления";
+"settings.backup.restore_failed.message" = "Не удалось восстановить из этой резервной копии. Файл резервной копии может быть повреждён.";
+
 "settings.logs" = "Журнал";
 "settings.logs.section" = "Управление журналом";
 "settings.logs.retention" = "Срок хранения";

@@ -17,7 +17,7 @@ final class ScriptExecutor: ObservableObject {
     func execute(task: ScheduledTask, triggeredBy: TriggerType = .manual, modelContext: ModelContext) async -> ExecutionLog {
         let log = ExecutionLog(task: task, triggeredBy: triggeredBy)
         modelContext.insert(log)
-        try? modelContext.save()
+        do { try modelContext.save() } catch { NSLog("⚠️ ScriptExecutor save failed: \(error)") }
 
         let startTime = Date()
 
@@ -45,7 +45,7 @@ final class ScriptExecutor: ObservableObject {
                 log.stderr = "Cannot read script file: \(filePath)"
                 log.finishedAt = Date()
                 log.durationMs = 0
-                try? modelContext.save()
+                do { try modelContext.save() } catch { NSLog("⚠️ ScriptExecutor save failed: \(error)") }
                 return log
             }
         } else {
@@ -86,7 +86,7 @@ final class ScriptExecutor: ObservableObject {
             fetchedTask.updatedAt = endTime
         }
 
-        try? modelContext.save()
+        do { try modelContext.save() } catch { NSLog("⚠️ ScriptExecutor save failed: \(error)") }
 
         // Send notification using pre-captured properties (safe even if task was deleted)
         let globalNotificationsEnabled = UserDefaults.standard.object(forKey: "notificationsEnabled") as? Bool ?? true

@@ -21,10 +21,23 @@ struct SettingsView: View {
     @StateObject private var updateChecker = UpdateChecker.shared
     @ObservedObject private var languageManager = LanguageManager.shared
 
+    @StateObject private var backupManager = DatabaseBackup.shared
+    @State private var backupToRestore: DatabaseBackup.BackupEntry?
+    @State private var showRestoreConfirm = false
+    @State private var showRestoreResult = false
+    @State private var restoreSuccess = false
+    @State private var showBackupList = false
+    @State private var backupToDelete: DatabaseBackup.BackupEntry?
+    @State private var showDeleteConfirm = false
+    @State private var showBackupSuccess = false
+
     var body: some View {
         TabView {
             generalTab
                 .tabItem { Label(L10n.tr("settings.general"), systemImage: "gear") }
+
+            backupTab
+                .tabItem { Label(L10n.tr("settings.backup"), systemImage: "externaldrive.badge.timemachine") }
 
             logsTab
                 .tabItem { Label(L10n.tr("settings.logs"), systemImage: "doc.text") }
@@ -96,6 +109,211 @@ struct SettingsView: View {
             }
         }
         .formStyle(.grouped)
+    }
+
+    // MARK: - Backup
+
+    private var backupTab: some View {
+        Form {
+            Section {
+                Toggle(L10n.tr("settings.backup.enable"), isOn: $backupManager.isEnabled)
+                    .onChange(of: backupManager.isEnabled) { _, _ in
+                        backupManager.startScheduledBackups()
+                    }
+
+                if let lastDate = backupManager.lastBackupDate {
+                    LabeledContent(L10n.tr("settings.backup.last_backup"), value: formatBackupDate(lastDate))
+                }
+
+                if backupManager.isEnabled, let nextDate = backupManager.nextBackupDate {
+                    LabeledContent(L10n.tr("settings.backup.next_backup"), value: formatBackupDate(nextDate))
+                }
+
+                Picker(L10n.tr("settings.backup.frequency"), selection: $backupManager.intervalHours) {
+                    Text(L10n.tr("settings.backup.frequency.1h")).tag(1)
+                    Text(L10n.tr("settings.backup.frequency.6h")).tag(6)
+                    Text(L10n.tr("settings.backup.frequency.12h")).tag(12)
+                    Text(L10n.tr("settings.backup.frequency.24h")).tag(24)
+                }
+                .disabled(!backupManager.isEnabled)
+                .onChange(of: backupManager.intervalHours) { _, _ in
+                    backupManager.startScheduledBackups()
+                }
+
+                Picker(L10n.tr("settings.backup.max_count"), selection: $backupManager.maxBackups) {
+                    ForEach(1...10, id: \.self) { count in
+                        Text("\(count)").tag(count)
+                    }
+                }
+                .disabled(!backupManager.isEnabled)
+
+                LabeledContent(L10n.tr("settings.backup.directory")) {
+                    HStack(spacing: 6) {
+                        Text(backupManager.customDirectory)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                            .lineLimit(1)
+                            .truncationMode(.middle)
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+                        Button(L10n.tr("settings.backup.choose_directory")) {
+                            chooseBackupDirectory()
+                        }
+                        .pointerCursor()
+                    }
+                }
+                .disabled(!backupManager.isEnabled)
+
+                HStack(spacing: 12) {
+                    Button(L10n.tr("settings.backup.backup_now")) {
+                        if backupManager.performBackup() {
+                            showBackupSuccess = true
+                        }
+                    }
+                    .disabled(!backupManager.isEnabled)
+                    .pointerCursor()
+
+                    Button(L10n.tr("settings.backup.open_directory")) {
+                        NSWorkspace.shared.open(URL(fileURLWithPath: backupManager.customDirectory))
+                    }
+                    .pointerCursor()
+
+                    Button(L10n.tr("settings.backup.list")) {
+                        showBackupList = true
+                    }
+                    .pointerCursor()
+                }
+            } header: {
+                Text(L10n.tr("settings.backup.section"))
+            }
+        }
+        .formStyle(.grouped)
+        .alert(L10n.tr("settings.backup.success"), isPresented: $showBackupSuccess) {
+            Button("OK") {}
+        } message: {
+            Text(L10n.tr("settings.backup.success.message"))
+        }
+        .sheet(isPresented: $showBackupList) {
+            backupListSheet
+        }
+        .alert(L10n.tr("settings.backup.restore_confirm.title"), isPresented: $showRestoreConfirm) {
+            Button(L10n.tr("settings.backup.restore_confirm.cancel"), role: .cancel) {}
+            Button(L10n.tr("settings.backup.restore_confirm.confirm"), role: .destructive) {
+                if let backup = backupToRestore {
+                    restoreSuccess = backupManager.restoreFrom(backupName: backup.name)
+                    showRestoreResult = true
+                }
+            }
+        } message: {
+            Text(L10n.tr("settings.backup.restore_confirm.message"))
+        }
+        .alert(restoreSuccess ? L10n.tr("settings.backup.restore_success") : L10n.tr("settings.backup.restore_failed"), isPresented: $showRestoreResult) {
+            Button("OK") {
+                if restoreSuccess {
+                    // Restart app to reload database
+                    let appURL = Bundle.main.bundleURL
+                    let process = Process()
+                    process.executableURL = URL(fileURLWithPath: "/usr/bin/open")
+                    process.arguments = ["-n", appURL.path]
+                    try? process.run()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        NSApp.terminate(nil)
+                    }
+                }
+            }
+        } message: {
+            Text(restoreSuccess ? L10n.tr("settings.backup.restore_success.message") : L10n.tr("settings.backup.restore_failed.message"))
+        }
+    }
+
+    private var backupListSheet: some View {
+        VStack(spacing: 0) {
+            HStack {
+                Text(L10n.tr("settings.backup.list"))
+                    .font(.headline)
+                Spacer()
+                Button(L10n.tr("editor.cancel")) {
+                    showBackupList = false
+                }
+                .pointerCursor()
+            }
+            .padding()
+
+            Divider()
+
+            let backups = backupManager.listBackups()
+            if backups.isEmpty {
+                VStack(spacing: 8) {
+                    Spacer()
+                    Text(L10n.tr("settings.backup.no_backups"))
+                        .foregroundStyle(.secondary)
+                    Spacer()
+                }
+            } else {
+                List(backups) { entry in
+                    HStack {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(formatBackupDate(entry.date))
+                                .font(.body)
+                            Text(formatFileSize(entry.sizeBytes))
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                        Spacer()
+                        Button(L10n.tr("settings.backup.restore")) {
+                            backupToRestore = entry
+                            showBackupList = false
+                            showRestoreConfirm = true
+                        }
+                        .controlSize(.small)
+                        .pointerCursor()
+                        Button(role: .destructive) {
+                            backupToDelete = entry
+                            showDeleteConfirm = true
+                        } label: {
+                            Image(systemName: "trash")
+                        }
+                        .controlSize(.small)
+                        .pointerCursor()
+                    }
+                    .padding(.vertical, 2)
+                }
+            }
+        }
+        .frame(width: 400, height: 320)
+        .alert(L10n.tr("settings.backup.delete_confirm.title"), isPresented: $showDeleteConfirm) {
+            Button(L10n.tr("settings.backup.restore_confirm.cancel"), role: .cancel) {}
+            Button(L10n.tr("delete.confirm"), role: .destructive) {
+                if let backup = backupToDelete {
+                    backupManager.deleteBackup(backup)
+                }
+            }
+        } message: {
+            Text(L10n.tr("settings.backup.delete_confirm.message"))
+        }
+    }
+
+    private func chooseBackupDirectory() {
+        let panel = NSOpenPanel()
+        panel.canChooseFiles = false
+        panel.canChooseDirectories = true
+        panel.canCreateDirectories = true
+        panel.allowsMultipleSelection = false
+        if panel.runModal() == .OK, let url = panel.url {
+            backupManager.customDirectory = url.path
+        }
+    }
+
+    private func formatBackupDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .medium
+        return formatter.string(from: date)
+    }
+
+    private func formatFileSize(_ bytes: Int) -> String {
+        let formatter = ByteCountFormatter()
+        formatter.countStyle = .file
+        return formatter.string(fromByteCount: Int64(bytes))
     }
 
     // MARK: - Logs

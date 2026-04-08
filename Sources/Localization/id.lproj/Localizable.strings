@@ -216,6 +216,32 @@
 "settings.notifications.on_failure" = "Notifikasi saat Tugas Gagal";
 "settings.notifications.hint" = "Ini adalah pengaturan global. Jika dinonaktifkan, tidak ada notifikasi tugas yang akan dikirim meskipun tugas individual memiliki notifikasi yang diaktifkan.";
 
+/* Backup */
+"settings.backup" = "Cadangan";
+"settings.backup.section" = "Pencadangan Otomatis";
+"settings.backup.enable" = "Aktifkan Pencadangan Terjadwal";
+"settings.backup.frequency" = "Frekuensi Pencadangan";
+"settings.backup.frequency.1h" = "Setiap Jam";
+"settings.backup.frequency.6h" = "Setiap 6 Jam";
+"settings.backup.frequency.12h" = "Setiap 12 Jam";
+"settings.backup.frequency.24h" = "Setiap 24 Jam";
+"settings.backup.max_count" = "Jumlah Cadangan Maksimum";
+"settings.backup.directory" = "Direktori Cadangan";
+"settings.backup.choose_directory" = "Pilih...";
+"settings.backup.backup_now" = "Cadangkan Sekarang";
+"settings.backup.open_directory" = "Buka di Finder";
+"settings.backup.list" = "Daftar Cadangan";
+"settings.backup.no_backups" = "Belum ada cadangan";
+"settings.backup.restore" = "Pulihkan";
+"settings.backup.restore_confirm.title" = "Pulihkan dari Cadangan?";
+"settings.backup.restore_confirm.message" = "Database saat ini akan diganti dengan cadangan ini. Aplikasi akan dimulai ulang setelah pemulihan.";
+"settings.backup.restore_confirm.cancel" = "Batal";
+"settings.backup.restore_confirm.confirm" = "Pulihkan";
+"settings.backup.restore_success" = "Pemulihan Berhasil";
+"settings.backup.restore_success.message" = "Database telah dipulihkan. Aplikasi akan dimulai ulang sekarang.";
+"settings.backup.restore_failed" = "Pemulihan Gagal";
+"settings.backup.restore_failed.message" = "Gagal memulihkan dari cadangan ini. File cadangan mungkin rusak.";
+
 "settings.logs" = "Log";
 "settings.logs.section" = "Manajemen Log";
 "settings.logs.retention" = "Periode Penyimpanan";

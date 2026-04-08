@@ -216,6 +216,38 @@
 "settings.notifications.on_failure" = "任务失败时通知";
 "settings.notifications.hint" = "这是全局开关。关闭后，即使任务单独开启了通知，也不会发送提醒。";
 
+/* 备份 */
+"settings.backup" = "备份";
+"settings.backup.section" = "自动备份";
+"settings.backup.enable" = "启用定时备份";
+"settings.backup.frequency" = "备份频率";
+"settings.backup.frequency.1h" = "每小时";
+"settings.backup.frequency.6h" = "每 6 小时";
+"settings.backup.frequency.12h" = "每 12 小时";
+"settings.backup.frequency.24h" = "每 24 小时";
+"settings.backup.max_count" = "最大备份数";
+"settings.backup.directory" = "备份目录";
+"settings.backup.choose_directory" = "选择...";
+"settings.backup.backup_now" = "立即备份";
+"settings.backup.open_directory" = "在 Finder 中打开";
+"settings.backup.list" = "备份列表";
+"settings.backup.no_backups" = "暂无备份";
+"settings.backup.restore" = "恢复";
+"settings.backup.restore_confirm.title" = "从备份恢复？";
+"settings.backup.restore_confirm.message" = "当前数据库将被替换为此备份。恢复后应用将重启。";
+"settings.backup.restore_confirm.cancel" = "取消";
+"settings.backup.restore_confirm.confirm" = "恢复";
+"settings.backup.restore_success" = "恢复成功";
+"settings.backup.restore_success.message" = "数据库已恢复，应用即将重启。";
+"settings.backup.restore_failed" = "恢复失败";
+"settings.backup.restore_failed.message" = "无法从此备份恢复，备份文件可能已损坏。";
+"settings.backup.delete_confirm.title" = "删除备份？";
+"settings.backup.delete_confirm.message" = "此备份将被永久删除，此操作不可撤销。";
+"settings.backup.success" = "备份成功";
+"settings.backup.success.message" = "数据库已成功备份。";
+"settings.backup.last_backup" = "上次备份";
+"settings.backup.next_backup" = "下次备份";
+
 "settings.logs" = "日志";
 "settings.logs.section" = "日志管理";
 "settings.logs.retention" = "保留期限";
