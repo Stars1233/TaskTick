@@ -374,7 +374,11 @@ struct TaskEditorView: View {
                     }
                 }
 
-                Toggle(L10n.tr("editor.ignore_exit_code"), isOn: $ignoreExitCode)
+                Section {
+                    Toggle(L10n.tr("editor.ignore_exit_code"), isOn: $ignoreExitCode)
+                } footer: {
+                    Text(L10n.tr("editor.ignore_exit_code.hint"))
+                }
             }
         }
         .formStyle(.grouped)

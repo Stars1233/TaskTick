@@ -162,7 +162,18 @@ final class ScriptExecutor: ObservableObject {
                 let stderrPipe = Pipe()
 
                 process.executableURL = URL(fileURLWithPath: shell)
-                process.arguments = ["-l", "-c", script]
+                // Use login shell (-l) for .zprofile, then source .zshrc/.bashrc
+                // for user environment variables without full interactive mode
+                // (which would load oh-my-zsh etc. and slow down execution).
+                let rcFile: String
+                if shell.hasSuffix("zsh") {
+                    rcFile = "[ -f ~/.zshrc ] && source ~/.zshrc 2>/dev/null; "
+                } else if shell.hasSuffix("bash") {
+                    rcFile = "[ -f ~/.bashrc ] && source ~/.bashrc 2>/dev/null; "
+                } else {
+                    rcFile = ""
+                }
+                process.arguments = ["-l", "-c", rcFile + script]
                 process.standardOutput = stdoutPipe
                 process.standardError = stderrPipe
 

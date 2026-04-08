@@ -86,6 +86,7 @@
 "editor.timeout" = "Timeout";
 "editor.timeout.seconds" = "seconds";
 "editor.ignore_exit_code" = "Ignore Exit Code";
+"editor.ignore_exit_code.hint" = "When enabled, the task is treated as successful regardless of the script's exit code. Useful for scripts that return non-zero codes on normal completion.";
 "editor.section.notification" = "Notifications";
 "editor.notify_success" = "Notify on Success";
 "editor.notify_failure" = "Notify on Failure";
