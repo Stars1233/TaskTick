@@ -47,33 +47,8 @@ if [ -n "${RESOURCE_BUNDLE}" ]; then
 fi
 
 if [ -f "${ICON_PATH}" ]; then
-  # Create grayscale dev icon
-  TEMP_PNG="${BUILD_DIR}/icon_temp.png"
-  DEV_ICON="${BUILD_DIR}/DevIcon.icns"
-  ICONSET="${BUILD_DIR}/DevIcon.iconset"
-
-  # Convert icns to PNG, then desaturate with sips
-  sips -s format png "${ICON_PATH}" --out "${TEMP_PNG}" &>/dev/null
-  sips -m "/System/Library/ColorSync/Profiles/Generic Gray Gamma 2.2 Profile.icc" "${TEMP_PNG}" --out "${TEMP_PNG}" &>/dev/null
-
-  if [ -f "${TEMP_PNG}" ]; then
-    mkdir -p "${ICONSET}"
-    for size in 16 32 128 256 512; do
-      sips -z $size $size "${TEMP_PNG}" --out "${ICONSET}/icon_${size}x${size}.png" &>/dev/null
-      double=$((size * 2))
-      sips -z $double $double "${TEMP_PNG}" --out "${ICONSET}/icon_${size}x${size}@2x.png" &>/dev/null
-    done
-    iconutil -c icns "${ICONSET}" -o "${DEV_ICON}" 2>/dev/null
-    rm -rf "${ICONSET}" "${TEMP_PNG}"
-  fi
-
-  if [ -f "${DEV_ICON}" ]; then
-    cp "${DEV_ICON}" "${APP_BUNDLE}/Contents/Resources/AppIcon.icns"
-    echo "  Icon: grayscale dev icon"
-  else
-    cp "${ICON_PATH}" "${APP_BUNDLE}/Contents/Resources/AppIcon.icns"
-    echo "  Icon: original (grayscale conversion failed)"
-  fi
+  cp "${ICON_PATH}" "${APP_BUNDLE}/Contents/Resources/AppIcon.icns"
+  echo "  Icon: copied"
 fi
 
 # Info.plist with dev bundle ID

@@ -375,6 +375,13 @@ final class DownloadDelegate: NSObject, URLSessionDownloadDelegate, Sendable {
     }
 
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
+        // Check HTTP status code — treat non-2xx as download error to trigger fallback
+        if let httpResponse = downloadTask.response as? HTTPURLResponse,
+           !(200..<300).contains(httpResponse.statusCode) {
+            onError("HTTP \(httpResponse.statusCode)")
+            return
+        }
+
         let dest = FileManager.default.temporaryDirectory.appendingPathComponent("TaskTick-update.dmg")
         try? FileManager.default.removeItem(at: dest)
 
@@ -399,7 +406,7 @@ final class DownloadDelegate: NSObject, URLSessionDownloadDelegate, Sendable {
            fileSize != expectedSize {
             // File size mismatch — download likely incomplete
             try? FileManager.default.removeItem(at: dest)
-            onComplete(dest) // will fail at DMG verification stage
+            onError("Download incomplete: \(fileSize)/\(expectedSize) bytes")
             return
         }
 
