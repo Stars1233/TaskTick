@@ -92,7 +92,9 @@ struct TaskTickApp: App {
                     }
 
                     Task {
-                        await updateChecker.checkForUpdates()
+                        if UserDefaults.standard.object(forKey: "autoCheckUpdates") as? Bool ?? true {
+                            await updateChecker.checkForUpdates()
+                        }
                         updateChecker.startPeriodicChecks()
                     }
                 }
