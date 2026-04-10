@@ -52,7 +52,17 @@ enum ScriptValidator {
 
         let process = Process()
         process.executableURL = URL(fileURLWithPath: shell)
-        process.arguments = ["-c", checkScript]
+        // Load user environment (same as ScriptExecutor) so user-installed
+        // commands like php, node, etc. are found during validation.
+        let rcFile: String
+        if shell.hasSuffix("zsh") {
+            rcFile = "[ -f ~/.zshrc ] && source ~/.zshrc 2>/dev/null; "
+        } else if shell.hasSuffix("bash") {
+            rcFile = "[ -f ~/.bashrc ] && source ~/.bashrc 2>/dev/null; "
+        } else {
+            rcFile = ""
+        }
+        process.arguments = ["-l", "-c", rcFile + checkScript]
         let outPipe = Pipe()
         process.standardOutput = outPipe
         process.standardError = FileHandle.nullDevice
