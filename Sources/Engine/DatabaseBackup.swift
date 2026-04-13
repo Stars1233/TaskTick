@@ -113,9 +113,15 @@ final class DatabaseBackup: ObservableObject {
             return false
         }
 
-        // Flush pending writes to disk before copying files
+        // Flush pending writes to disk before copying files. Abort on failure —
+        // otherwise we'd stamp lastBackupDate with a stale snapshot.
         if let modelContext {
-            try? modelContext.save()
+            do {
+                try modelContext.save()
+            } catch {
+                Self.logger.error("Pre-backup save failed, skipping backup: \(error.localizedDescription)")
+                return false
+            }
         }
 
         let fm = FileManager.default

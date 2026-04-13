@@ -101,7 +101,7 @@ struct TaskListView: View {
                                 taskToClearLogs = task
                                 showingClearLogsAlert = true
                             }
-                            .disabled(task.executionCount == 0)
+                            .disabled(task.executionLogs.filter { $0.modelContext != nil }.isEmpty)
                             Button(L10n.tr("task.detail.delete"), systemImage: "trash", role: .destructive) {
                                 taskToDelete = task
                                 showingDeleteAlert = true
@@ -118,9 +118,12 @@ struct TaskListView: View {
                             for log in Array(task.executionLogs) {
                                 modelContext.delete(log)
                             }
+                            // Save deletions first so to-many relationship reflects the empty state
+                            // before computeNextRunDate reads executionLogs.count.
+                            do { try modelContext.save() } catch { NSLog("⚠️ clear logs save failed: \(error)") }
                             task.executionCount = 0
                             task.nextRunAt = TaskScheduler.shared.computeNextRunDate(for: task)
-                            try? modelContext.save()
+                            do { try modelContext.save() } catch { NSLog("⚠️ clear logs post-save failed: \(error)") }
                             TaskScheduler.shared.rebuildSchedule()
                         }
                     }

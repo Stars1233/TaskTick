@@ -341,6 +341,10 @@
 "update.download_error" = "Download Failed";
 "update.dmg_error" = "Update Failed";
 "update.dmg_error.message" = "The downloaded disk image is corrupted. Please try downloading the update again.";
+"update.save_failed.title" = "Couldn't Save Data";
+"update.save_failed.message" = "Your recent changes couldn't be saved before updating: %@\n\nContinuing will install the update with possibly unsaved data.";
+"update.save_failed.continue" = "Continue Update";
+"update.save_failed.cancel" = "Cancel";
 
 /* Script Templates */
 "template.menu" = "Templates";

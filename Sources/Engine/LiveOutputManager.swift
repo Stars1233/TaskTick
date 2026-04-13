@@ -18,6 +18,9 @@ final class LiveOutputManager: ObservableObject {
 
     /// Append stdout chunk for a task (called from background thread via DispatchQueue.main)
     func appendStdout(taskId: UUID, data: Data) {
+        // Drop late chunks that land after stopTracking — otherwise they resurrect a buffer
+        // that the next execution of the same task would inherit as "ghost" output.
+        guard liveOutputs[taskId] != nil else { return }
         let str = String(decoding: data, as: UTF8.self)
         guard !str.isEmpty else { return }
         var output = pendingUpdates[taskId] ?? liveOutputs[taskId] ?? LiveOutput()
@@ -32,6 +35,7 @@ final class LiveOutputManager: ObservableObject {
 
     /// Append stderr chunk for a task (called from background thread via DispatchQueue.main)
     func appendStderr(taskId: UUID, data: Data) {
+        guard liveOutputs[taskId] != nil else { return }
         let str = String(decoding: data, as: UTF8.self)
         guard !str.isEmpty else { return }
         var output = pendingUpdates[taskId] ?? liveOutputs[taskId] ?? LiveOutput()

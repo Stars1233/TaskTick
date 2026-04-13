@@ -133,8 +133,9 @@ final class TaskScheduler: ObservableObject {
 
         runningTaskIDs.insert(taskId)
 
-        // Sync executionCount with actual log count
-        task.executionCount = task.executionLogs.count + 1 // +1 for current execution
+        // Sync executionCount with actual log count, skipping invalidated references
+        let validLogCount = task.executionLogs.filter { $0.modelContext != nil }.count
+        task.executionCount = validLogCount + 1 // +1 for current execution
 
         // Check end repeat count directly before computing next date
         if task.endRepeatType == .afterCount,
@@ -166,7 +167,7 @@ final class TaskScheduler: ObservableObject {
         // Use executionLogs.count as source of truth for completed executions
         if task.endRepeatType == .afterCount,
            let maxCount = task.endRepeatCount,
-           task.executionLogs.count >= maxCount {
+           task.executionLogs.filter({ $0.modelContext != nil }).count >= maxCount {
             return nil
         }
         if task.endRepeatType == .onDate,
@@ -260,7 +261,8 @@ final class TaskScheduler: ObservableObject {
             }
             return candidate
         case .afterCount:
-            if let maxCount = task.endRepeatCount, task.executionLogs.count >= maxCount {
+            if let maxCount = task.endRepeatCount,
+               task.executionLogs.filter({ $0.modelContext != nil }).count >= maxCount {
                 return nil
             }
             return candidate

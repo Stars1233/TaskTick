@@ -52,9 +52,12 @@ struct TaskDetailView: View {
                 for log in Array(task.executionLogs) {
                     modelContext.delete(log)
                 }
+                // Save deletions first so the to-many relationship reflects the empty state
+                // before computeNextRunDate reads executionLogs.count.
+                do { try modelContext.save() } catch { NSLog("⚠️ clear logs save failed: \(error)") }
                 task.executionCount = 0
                 task.nextRunAt = TaskScheduler.shared.computeNextRunDate(for: task)
-                try? modelContext.save()
+                do { try modelContext.save() } catch { NSLog("⚠️ clear logs post-save failed: \(error)") }
                 TaskScheduler.shared.rebuildSchedule()
             }
         } message: {
@@ -161,7 +164,7 @@ struct TaskDetailView: View {
                             } label: {
                                 Label(L10n.tr("clear_logs.title"), systemImage: "trash.circle")
                             }
-                            .disabled(task.executionCount == 0)
+                            .disabled(task.executionLogs.filter { $0.modelContext != nil }.isEmpty)
                             .pointerCursor()
 
                             Button(role: .destructive) {
@@ -351,7 +354,7 @@ struct TaskDetailView: View {
                     .pointerCursor()
                 }
 
-                let allLogs = Array(task.executionLogs)
+                let allLogs = task.executionLogs.filter { $0.modelContext != nil }
                 let logs = allLogs
                     .sorted { $0.startedAt > $1.startedAt }
                     .prefix(10)

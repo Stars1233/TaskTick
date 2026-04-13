@@ -341,6 +341,10 @@
 "update.download_error" = "下载失败";
 "update.dmg_error" = "更新失败";
 "update.dmg_error.message" = "下载的磁盘映像已损坏，请重新下载更新。";
+"update.save_failed.title" = "数据未能保存";
+"update.save_failed.message" = "更新前无法保存最近的修改：%@\n\n继续更新可能会丢失未保存的数据。";
+"update.save_failed.continue" = "继续更新";
+"update.save_failed.cancel" = "取消";
 
 /* Script Templates */
 "template.menu" = "模板";

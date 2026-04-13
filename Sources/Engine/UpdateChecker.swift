@@ -270,9 +270,22 @@ final class UpdateChecker: ObservableObject {
             process.arguments = [scriptPath]
             try process.run()
 
-            // Force backup and flush database before quitting
+            // Force backup and flush database before quitting. If save fails, ask the user
+            // whether to continue — otherwise updating silently drops recent edits.
             DatabaseBackup.shared.performBackup()
-            try? TaskTickApp._sharedModelContainer.mainContext.save()
+            do {
+                try TaskTickApp._sharedModelContainer.mainContext.save()
+            } catch {
+                let alert = NSAlert()
+                alert.messageText = L10n.tr("update.save_failed.title")
+                alert.informativeText = L10n.tr("update.save_failed.message", error.localizedDescription)
+                alert.alertStyle = .warning
+                alert.addButton(withTitle: L10n.tr("update.save_failed.continue"))
+                alert.addButton(withTitle: L10n.tr("update.save_failed.cancel"))
+                if alert.runModal() != .alertFirstButtonReturn {
+                    return
+                }
+            }
 
             AppDelegate.shouldReallyQuit = true
             NSApp.terminate(nil)

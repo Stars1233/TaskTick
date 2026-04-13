@@ -9,7 +9,7 @@ struct TaskLogsView: View {
     @State private var selectedLog: ExecutionLog?
 
     var sortedLogs: [ExecutionLog] {
-        Array(task.executionLogs).sorted { $0.startedAt > $1.startedAt }
+        task.executionLogs.filter { $0.modelContext != nil }.sorted { $0.startedAt > $1.startedAt }
     }
 
     var body: some View {

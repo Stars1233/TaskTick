@@ -156,6 +156,11 @@ final class ScriptExecutor: ObservableObject {
         if let fetchedTask {
             fetchedTask.lastRunAt = endTime
             fetchedTask.updatedAt = endTime
+            // Keep executionCount in sync for both manual and scheduled runs so the UI
+            // badge and any downstream checks reflect actual completed executions.
+            fetchedTask.executionCount = fetchedTask.executionLogs
+                .filter { $0.modelContext != nil }
+                .count
         }
 
         do { try modelContext.save() } catch { NSLog("⚠️ ScriptExecutor save failed: \(error)") }
@@ -378,17 +383,26 @@ final class ScriptExecutor: ObservableObject {
                     self.runningProcesses[taskId] = process
                 }
 
-                // Timeout handling
+                // Timeout handling: send SIGTERM first, then SIGKILL 3s later if still alive.
+                // Prevents scripts that ignore SIGTERM from blocking waitUntilExit forever,
+                // which would leak the execution semaphore slot.
                 let timeoutWorkItem = DispatchWorkItem {
                     if process.isRunning {
                         process.terminate()
                     }
                 }
+                let killWorkItem = DispatchWorkItem {
+                    if process.isRunning {
+                        kill(process.processIdentifier, SIGKILL)
+                    }
+                }
                 DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(timeoutSeconds), execute: timeoutWorkItem)
+                DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(timeoutSeconds + 3), execute: killWorkItem)
 
                 // Wait for process to finish (on background thread — won't block UI)
                 process.waitUntilExit()
                 timeoutWorkItem.cancel()
+                killWorkItem.cancel()
 
                 // Drain remaining pipe data after process exits
                 stdoutHandle.readabilityHandler = nil
