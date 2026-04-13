@@ -183,6 +183,8 @@
 "log.count_suffix" = "条记录";
 "log.select.title" = "选择一条日志";
 "log.select.description" = "从左侧列表选择一条执行日志查看详情";
+"log.empty.title" = "暂无日志";
+"log.empty.description" = "运行任务后这里会显示执行记录。";
 "log.filter.all" = "全部";
 "log.detail.title" = "执行详情";
 "log.detail.trigger" = "触发方式";
@@ -345,6 +347,17 @@
 "update.save_failed.message" = "更新前无法保存最近的修改：%@\n\n继续更新可能会丢失未保存的数据。";
 "update.save_failed.continue" = "继续更新";
 "update.save_failed.cancel" = "取消";
+
+"error.save_failed.title" = "保存失败";
+"error.save_failed.message" = "保存修改时出错：\n%@";
+"error.export_failed.title" = "导出失败";
+"error.export_failed.message" = "无法写入导出文件：\n%@";
+"error.import_failed.title" = "导入失败";
+"error.import_read_failed" = "无法读取所选文件：\n%@";
+"error.import_decode_failed" = "文件不是有效的 TaskTick 导出文件：\n%@";
+"error.import_save_failed" = "导入的任务无法保存：\n%@";
+"error.delete_failed.title" = "删除失败";
+"error.delete_failed.message" = "项目已从界面移除，但更改未能保存。重启后可能会重新出现。\n\n%@";
 
 /* Script Templates */
 "template.menu" = "模板";

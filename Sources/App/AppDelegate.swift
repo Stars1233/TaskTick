@@ -1,6 +1,18 @@
 import AppKit
 import SwiftUI
 
+/// Show a modal warning alert for a non-fatal error. Use at sites where we previously
+/// swallowed errors with `try?` and the user needs to know the action didn't take effect.
+@MainActor
+func presentErrorAlert(titleKey: String, messageKey: String, error: Error) {
+    let alert = NSAlert()
+    alert.messageText = L10n.tr(titleKey)
+    alert.informativeText = L10n.tr(messageKey, error.localizedDescription)
+    alert.alertStyle = .warning
+    alert.addButton(withTitle: "OK")
+    alert.runModal()
+}
+
 final class AppDelegate: NSObject, NSApplicationDelegate {
 
     /// When true, `NSApp.terminate` actually quits. Otherwise Cmd+Q just closes windows.
@@ -53,7 +65,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationWillTerminate(_ notification: Notification) {
         TaskScheduler.shared.stop()
-        // Flush pending SwiftData writes to ensure database is consistent on disk
-        try? TaskTickApp._sharedModelContainer.mainContext.save()
+        // Flush pending SwiftData writes to ensure database is consistent on disk.
+        // We can't block termination for user input here, but logging gives a trail
+        // when a user later reports "my edits vanished after I quit".
+        do {
+            try TaskTickApp._sharedModelContainer.mainContext.save()
+        } catch {
+            NSLog("⚠️ Final save on terminate failed: \(error.localizedDescription)")
+        }
     }
 }

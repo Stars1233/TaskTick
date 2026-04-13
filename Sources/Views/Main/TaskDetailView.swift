@@ -67,7 +67,13 @@ struct TaskDetailView: View {
             Button(L10n.tr("delete.cancel"), role: .cancel) {}
             Button(L10n.tr("delete.confirm"), role: .destructive) {
                 modelContext.delete(task)
-                try? modelContext.save()
+                do {
+                    try modelContext.save()
+                } catch {
+                    presentErrorAlert(titleKey: "error.delete_failed.title",
+                                      messageKey: "error.delete_failed.message",
+                                      error: error)
+                }
             }
         } message: {
             Text(L10n.tr("delete.message", task.name))
@@ -123,6 +129,12 @@ struct TaskDetailView: View {
                         // Action buttons
                         HStack(spacing: 8) {
                             Button {
+                                // Snapshot all three fields so a save failure can restore the
+                                // exact persisted state, not a recomputed approximation.
+                                let prevEnabled = task.isEnabled
+                                let prevNextRunAt = task.nextRunAt
+                                let prevUpdatedAt = task.updatedAt
+
                                 task.isEnabled.toggle()
                                 task.updatedAt = Date()
                                 if task.isEnabled {
@@ -130,8 +142,17 @@ struct TaskDetailView: View {
                                 } else {
                                     task.nextRunAt = nil
                                 }
-                                try? modelContext.save()
-                                TaskScheduler.shared.rebuildSchedule()
+                                do {
+                                    try modelContext.save()
+                                    TaskScheduler.shared.rebuildSchedule()
+                                } catch {
+                                    task.isEnabled = prevEnabled
+                                    task.nextRunAt = prevNextRunAt
+                                    task.updatedAt = prevUpdatedAt
+                                    presentErrorAlert(titleKey: "error.save_failed.title",
+                                                      messageKey: "error.save_failed.message",
+                                                      error: error)
+                                }
                             } label: {
                                 Label(
                                     task.isEnabled ? L10n.tr("task.detail.disable") : L10n.tr("task.detail.enable"),

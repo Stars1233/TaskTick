@@ -125,7 +125,14 @@ struct CrontabImportView: View {
 
     private func performImport() {
         let selected = entries.filter { selectedEntries.contains($0.originalLine) }
-        importedCount = CrontabImporter.importEntries(selected, into: modelContext)
+        do {
+            importedCount = try CrontabImporter.importEntries(selected, into: modelContext)
+        } catch {
+            presentErrorAlert(titleKey: "error.import_failed.title",
+                              messageKey: "error.import_save_failed",
+                              error: error)
+            return
+        }
         importedEntries = selected
         TaskScheduler.shared.rebuildSchedule()
 

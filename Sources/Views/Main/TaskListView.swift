@@ -136,7 +136,13 @@ struct TaskListView: View {
                         if let task = taskToDelete {
                             if selectedTask == task { selectedTask = nil }
                             modelContext.delete(task)
-                            try? modelContext.save()
+                            do {
+                                try modelContext.save()
+                            } catch {
+                                presentErrorAlert(titleKey: "error.delete_failed.title",
+                                                  messageKey: "error.delete_failed.message",
+                                                  error: error)
+                            }
                         }
                     }
                 } message: {
@@ -194,8 +200,15 @@ struct TaskListView: View {
         copy.customIntervalValue = task.customIntervalValue
         copy.customIntervalUnit = task.customIntervalUnit
         modelContext.insert(copy)
-        try? modelContext.save()
-        selectedTask = copy
+        do {
+            try modelContext.save()
+            selectedTask = copy
+        } catch {
+            modelContext.delete(copy)
+            presentErrorAlert(titleKey: "error.save_failed.title",
+                              messageKey: "error.save_failed.message",
+                              error: error)
+        }
     }
 }
 

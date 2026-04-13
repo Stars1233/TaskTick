@@ -202,8 +202,14 @@ struct SettingsView: View {
             Button(L10n.tr("settings.backup.restore_confirm.cancel"), role: .cancel) {}
             Button(L10n.tr("settings.backup.restore_confirm.confirm"), role: .destructive) {
                 if let backup = backupToRestore {
-                    // Flush pending writes before replacing database files
-                    try? TaskTickApp._sharedModelContainer.mainContext.save()
+                    // Flush pending writes before replacing database files. A failure here
+                    // is non-blocking (restore overwrites the store anyway) but worth logging
+                    // since any unsaved edits will be discarded by the restore.
+                    do {
+                        try TaskTickApp._sharedModelContainer.mainContext.save()
+                    } catch {
+                        NSLog("⚠️ Pre-restore save failed (unsaved edits will be lost): \(error.localizedDescription)")
+                    }
 
                     let success = backupManager.restoreFrom(backupName: backup.name)
                     if success {

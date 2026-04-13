@@ -115,9 +115,12 @@ struct CrontabImporter {
         }
     }
 
-    /// Import crontab entries as ScheduledTask objects
-    static func importEntries(_ entries: [CrontabEntry], into context: ModelContext) -> Int {
+    /// Import crontab entries as ScheduledTask objects.
+    /// Throws the underlying save error so the caller can present UI;
+    /// this keeps the importer free of AppKit/UI dependencies.
+    static func importEntries(_ entries: [CrontabEntry], into context: ModelContext) throws -> Int {
         var imported = 0
+        var insertedTasks: [ScheduledTask] = []
         for entry in entries {
             let (repeatType, date) = cronToRepeatType(entry.cronExpression)
 
@@ -139,9 +142,19 @@ struct CrontabImporter {
             task.schedule = .cron
 
             context.insert(task)
+            insertedTasks.append(task)
             imported += 1
         }
-        try? context.save()
+        do {
+            try context.save()
+        } catch {
+            // Surgically delete the pending inserts rather than calling rollback(),
+            // which would also revert unrelated concurrent edits on the same context.
+            for task in insertedTasks {
+                context.delete(task)
+            }
+            throw error
+        }
         return imported
     }
 

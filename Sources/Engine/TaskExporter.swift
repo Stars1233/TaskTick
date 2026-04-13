@@ -63,8 +63,13 @@ struct TaskExporter {
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
         encoder.dateEncodingStrategy = .iso8601
 
-        if let data = try? encoder.encode(exported) {
-            try? data.write(to: url)
+        do {
+            let data = try encoder.encode(exported)
+            try data.write(to: url)
+        } catch {
+            presentErrorAlert(titleKey: "error.export_failed.title",
+                              messageKey: "error.export_failed.message",
+                              error: error)
         }
     }
 
@@ -76,14 +81,32 @@ struct TaskExporter {
         panel.title = "Import Tasks"
 
         guard panel.runModal() == .OK, let url = panel.url else { return 0 }
-        guard let data = try? Data(contentsOf: url) else { return 0 }
+
+        let data: Data
+        do {
+            data = try Data(contentsOf: url)
+        } catch {
+            presentErrorAlert(titleKey: "error.import_failed.title",
+                              messageKey: "error.import_read_failed",
+                              error: error)
+            return 0
+        }
 
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
 
-        guard let exported = try? decoder.decode([ExportedTask].self, from: data) else { return 0 }
+        let exported: [ExportedTask]
+        do {
+            exported = try decoder.decode([ExportedTask].self, from: data)
+        } catch {
+            presentErrorAlert(titleKey: "error.import_failed.title",
+                              messageKey: "error.import_decode_failed",
+                              error: error)
+            return 0
+        }
 
         var count = 0
+        var insertedTasks: [ScheduledTask] = []
         for item in exported {
             let task = ScheduledTask(
                 name: item.name,
@@ -109,10 +132,22 @@ struct TaskExporter {
             }
 
             context.insert(task)
+            insertedTasks.append(task)
             count += 1
         }
 
-        try? context.save()
+        do {
+            try context.save()
+        } catch {
+            // Roll back unsaved inserts so the UI doesn't flash phantom tasks.
+            for task in insertedTasks {
+                context.delete(task)
+            }
+            presentErrorAlert(titleKey: "error.import_failed.title",
+                              messageKey: "error.import_save_failed",
+                              error: error)
+            return 0
+        }
         TaskScheduler.shared.rebuildSchedule()
         return count
     }

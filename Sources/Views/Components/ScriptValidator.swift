@@ -76,7 +76,9 @@ enum ScriptValidator {
             if !output.isEmpty {
                 return .error(output)
             }
-        } catch {}
+        } catch {
+            NSLog("⚠️ ScriptValidator process failed to run: \(error.localizedDescription)")
+        }
 
         return .success
     }

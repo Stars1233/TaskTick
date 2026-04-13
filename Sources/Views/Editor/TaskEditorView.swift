@@ -792,7 +792,18 @@ struct TaskEditorView: View {
             modelContext.insert(target)
         }
 
-        try? modelContext.save()
+        do {
+            try modelContext.save()
+        } catch {
+            // Keep window open so the user can retry or copy out their edits.
+            if task == nil {
+                modelContext.delete(target)
+            }
+            presentErrorAlert(titleKey: "error.save_failed.title",
+                              messageKey: "error.save_failed.message",
+                              error: error)
+            return
+        }
         TaskScheduler.shared.rebuildSchedule()
         EditorState.shared.lastSavedTask = target
         closeWindow()

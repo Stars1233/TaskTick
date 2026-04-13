@@ -13,6 +13,42 @@ struct TaskLogsView: View {
     }
 
     var body: some View {
+        Group {
+            if sortedLogs.isEmpty {
+                emptyView
+            } else {
+                splitView
+            }
+        }
+        .frame(minWidth: 750, minHeight: 480)
+        .onAppear {
+            if selectedLog == nil {
+                if let targetId = initialSelectedLogId {
+                    selectedLog = sortedLogs.first { $0.id == targetId }
+                }
+                if selectedLog == nil {
+                    selectedLog = sortedLogs.first
+                }
+            }
+        }
+    }
+
+    private var emptyView: some View {
+        ContentUnavailableView(
+            L10n.tr("log.empty.title"),
+            systemImage: "tray",
+            description: Text(L10n.tr("log.empty.description"))
+        )
+        .navigationTitle(task.name)
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+                Button(L10n.tr("editor.cancel")) { dismiss() }
+                    .pointerCursor()
+            }
+        }
+    }
+
+    private var splitView: some View {
         NavigationSplitView {
             List(sortedLogs, selection: $selectedLog) { log in
                 HStack(spacing: 8) {
@@ -52,17 +88,6 @@ struct TaskLogsView: View {
                     systemImage: "doc.text.magnifyingglass",
                     description: Text(L10n.tr("log.select.description"))
                 )
-            }
-        }
-        .frame(minWidth: 750, minHeight: 480)
-        .onAppear {
-            if selectedLog == nil {
-                if let targetId = initialSelectedLogId {
-                    selectedLog = sortedLogs.first { $0.id == targetId }
-                }
-                if selectedLog == nil {
-                    selectedLog = sortedLogs.first
-                }
             }
         }
     }
@@ -126,16 +151,13 @@ private struct LogDetailContent: View {
                     VStack(alignment: .leading, spacing: 6) {
                         Label(L10n.tr("log.detail.stdout"), systemImage: "text.alignleft")
                             .font(.headline)
-                        ScrollView([.horizontal]) {
-                            Text(stdout)
-                                .font(.system(.caption, design: .monospaced))
-                                .textSelection(.enabled)
-                                .padding(12)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                        }
-                        .frame(maxHeight: 400)
-                        .background(RoundedRectangle(cornerRadius: 8).fill(.black.opacity(0.04)))
-                        .overlay(RoundedRectangle(cornerRadius: 8).stroke(.separator, lineWidth: 0.5))
+                        Text(stdout)
+                            .font(.system(.caption, design: .monospaced))
+                            .textSelection(.enabled)
+                            .padding(12)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .background(RoundedRectangle(cornerRadius: 8).fill(.black.opacity(0.04)))
+                            .overlay(RoundedRectangle(cornerRadius: 8).stroke(.separator, lineWidth: 0.5))
                     }
                 }
 
@@ -144,16 +166,13 @@ private struct LogDetailContent: View {
                         Label(L10n.tr("log.detail.stderr"), systemImage: "exclamationmark.triangle")
                             .font(.headline)
                             .foregroundStyle(.red)
-                        ScrollView([.horizontal]) {
-                            Text(stderr)
-                                .font(.system(.caption, design: .monospaced))
-                                .textSelection(.enabled)
-                                .padding(12)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                        }
-                        .frame(maxHeight: 400)
-                        .background(RoundedRectangle(cornerRadius: 8).fill(.red.opacity(0.04)))
-                        .overlay(RoundedRectangle(cornerRadius: 8).stroke(.red.opacity(0.2), lineWidth: 0.5))
+                        Text(stderr)
+                            .font(.system(.caption, design: .monospaced))
+                            .textSelection(.enabled)
+                            .padding(12)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .background(RoundedRectangle(cornerRadius: 8).fill(.red.opacity(0.04)))
+                            .overlay(RoundedRectangle(cornerRadius: 8).stroke(.red.opacity(0.2), lineWidth: 0.5))
                     }
                 }
             }

@@ -320,7 +320,13 @@ struct TaskTickApp: App {
             notifyOnFailure: true
         )
         context.insert(task)
-        try? context.save()
-        UserDefaults.standard.set(true, forKey: key)
+        // Only mark the seed as done if we actually persisted it, otherwise a transient
+        // save failure would prevent the welcome task from ever appearing.
+        do {
+            try context.save()
+            UserDefaults.standard.set(true, forKey: key)
+        } catch {
+            NSLog("⚠️ Seed default task save failed: \(error.localizedDescription)")
+        }
     }
 }

@@ -160,22 +160,19 @@ struct OutputSection: View {
                     .font(.headline)
                     .foregroundStyle(color == .primary ? .primary : color)
 
-                ScrollView([.horizontal, .vertical]) {
-                    Text(content)
-                        .font(.system(size: 12, design: .monospaced))
-                        .textSelection(.enabled)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
-                .frame(maxHeight: 300)
-                .padding(10)
-                .background(
-                    RoundedRectangle(cornerRadius: 6)
-                        .fill(.black.opacity(0.04))
-                )
-                .overlay(
-                    RoundedRectangle(cornerRadius: 6)
-                        .stroke(.separator, lineWidth: 0.5)
-                )
+                Text(content)
+                    .font(.system(size: 12, design: .monospaced))
+                    .textSelection(.enabled)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(10)
+                    .background(
+                        RoundedRectangle(cornerRadius: 6)
+                            .fill(.black.opacity(0.04))
+                    )
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 6)
+                            .stroke(.separator, lineWidth: 0.5)
+                    )
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         }

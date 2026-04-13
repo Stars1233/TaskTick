@@ -183,6 +183,8 @@
 "log.count_suffix" = "records";
 "log.select.title" = "Select a Log";
 "log.select.description" = "Select a log entry from the sidebar to view details";
+"log.empty.title" = "No Logs Yet";
+"log.empty.description" = "Run the task to generate execution logs.";
 "log.filter.all" = "All";
 "log.detail.title" = "Execution Details";
 "log.detail.trigger" = "Trigger";
@@ -345,6 +347,17 @@
 "update.save_failed.message" = "Your recent changes couldn't be saved before updating: %@\n\nContinuing will install the update with possibly unsaved data.";
 "update.save_failed.continue" = "Continue Update";
 "update.save_failed.cancel" = "Cancel";
+
+"error.save_failed.title" = "Couldn't Save";
+"error.save_failed.message" = "An error occurred while saving your changes:\n%@";
+"error.export_failed.title" = "Export Failed";
+"error.export_failed.message" = "Couldn't write the export file:\n%@";
+"error.import_failed.title" = "Import Failed";
+"error.import_read_failed" = "Couldn't read the selected file:\n%@";
+"error.import_decode_failed" = "The file doesn't appear to be a valid TaskTick export:\n%@";
+"error.import_save_failed" = "Imported tasks couldn't be saved:\n%@";
+"error.delete_failed.title" = "Couldn't Delete";
+"error.delete_failed.message" = "The item was removed but the change couldn't be saved. It may reappear on restart.\n\n%@";
 
 /* Script Templates */
 "template.menu" = "Templates";
