@@ -40,7 +40,7 @@ rm -rf "${APP_BUNDLE}"
 mkdir -p "${APP_BUNDLE}/Contents/MacOS"
 mkdir -p "${APP_BUNDLE}/Contents/Resources"
 
-cp "${BIN_PATH}" "${APP_BUNDLE}/Contents/MacOS/${APP_NAME}"
+cp "${BIN_PATH}" "${APP_BUNDLE}/Contents/MacOS/${DEV_APP_NAME}"
 
 if [ -n "${RESOURCE_BUNDLE}" ]; then
   cp -R "${RESOURCE_BUNDLE}" "${APP_BUNDLE}/"
@@ -70,7 +70,7 @@ cat > "${APP_BUNDLE}/Contents/Info.plist" <<PLIST
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleExecutable</key>
-    <string>${APP_NAME}</string>
+    <string>${DEV_APP_NAME}</string>
     <key>CFBundleIconFile</key>
     <string>AppIcon</string>
     <key>CFBundleIconName</key>
