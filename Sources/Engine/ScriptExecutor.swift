@@ -315,17 +315,29 @@ final class ScriptExecutor: ObservableObject {
                 // Use login shell (-l) for .zprofile, then source .zshrc/.bashrc
                 // for user environment variables without full interactive mode
                 // (which would load oh-my-zsh etc. and slow down execution).
+                //
+                // Also bootstrap Homebrew PATH regardless of which shell was picked.
+                // Without this, scripts invoking `python3`, `jq`, `gh`, etc. resolve
+                // to the system binaries (e.g. /usr/bin/python3 3.9) instead of the
+                // Homebrew versions on the user's interactive $PATH — the exact
+                // mismatch that manifested as "script output gets truncated" when
+                // the inline python3 hit a syntax feature newer than 3.9.
+                let brewPrefix: String
+                let fm = FileManager.default
+                if fm.isExecutableFile(atPath: "/opt/homebrew/bin/brew") {
+                    brewPrefix = "eval \"$(/opt/homebrew/bin/brew shellenv 2>/dev/null)\"; "
+                } else if fm.isExecutableFile(atPath: "/usr/local/bin/brew") {
+                    brewPrefix = "eval \"$(/usr/local/bin/brew shellenv 2>/dev/null)\"; "
+                } else {
+                    brewPrefix = ""
+                }
                 let rcFile: String
                 if shell.hasSuffix("zsh") {
-                    rcFile = "[ -f ~/.zshrc ] && source ~/.zshrc 2>/dev/null; "
+                    rcFile = brewPrefix + "[ -f ~/.zshrc ] && source ~/.zshrc 2>/dev/null; "
                 } else if shell.hasSuffix("bash") {
-                    // For Homebrew bash, ensure brew shellenv is loaded for PATH
-                    let brewPrefix = shell.hasPrefix("/opt/homebrew/")
-                        ? "eval $(/opt/homebrew/bin/brew shellenv 2>/dev/null); "
-                        : ""
                     rcFile = brewPrefix + "[ -f ~/.bashrc ] && source ~/.bashrc 2>/dev/null; "
                 } else {
-                    rcFile = ""
+                    rcFile = brewPrefix
                 }
                 process.arguments = ["-l", "-c", rcFile + script]
                 process.standardOutput = stdoutPipe
