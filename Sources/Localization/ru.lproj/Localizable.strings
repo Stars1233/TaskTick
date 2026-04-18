@@ -52,6 +52,8 @@
 "editor.tab.basic" = "Основное";
 "editor.tab.schedule" = "Расписание";
 "editor.tab.script" = "Скрипт";
+"editor.tab.content" = "Содержимое";
+"editor.tab.settings" = "Настройки";
 "editor.tab.notification" = "Уведомления";
 
 /* Task Editor */
@@ -88,6 +90,10 @@
 "editor.timeout" = "Тайм-аут";
 "editor.timeout.seconds" = "секунд";
 "editor.ignore_exit_code" = "Игнорировать код выхода";
+"editor.pre_run.section" = "Команда перед запуском";
+"editor.pre_run.enable" = "Включить команду перед запуском";
+"editor.pre_run.placeholder" = "Необязательно: команды, выполняемые перед скриптом";
+"editor.pre_run.hint" = "Выполняется перед скриптом в той же сессии shell. Удобно для настройки прокси, переменных окружения и т. п. Пример: export https_proxy=http://127.0.0.1:7890";
 "editor.section.notification" = "Уведомления";
 "editor.notify_success" = "Уведомлять при успехе";
 "editor.notify_failure" = "Уведомлять при ошибке";

@@ -197,6 +197,7 @@ struct TaskListView: View {
             notifyOnFailure: task.notifyOnFailure
         )
         copy.scriptFilePath = task.scriptFilePath
+        copy.preRunCommand = task.preRunCommand
         copy.customIntervalValue = task.customIntervalValue
         copy.customIntervalUnit = task.customIntervalUnit
         modelContext.insert(copy)

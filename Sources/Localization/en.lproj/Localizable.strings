@@ -52,6 +52,8 @@
 "editor.tab.basic" = "Basic";
 "editor.tab.schedule" = "Schedule";
 "editor.tab.script" = "Script";
+"editor.tab.content" = "Content";
+"editor.tab.settings" = "Settings";
 "editor.tab.notification" = "Notifications";
 
 /* Task Editor */
@@ -89,6 +91,10 @@
 "editor.timeout.seconds" = "seconds";
 "editor.ignore_exit_code" = "Ignore Exit Code";
 "editor.ignore_exit_code.hint" = "When enabled, the task is treated as successful regardless of the script's exit code. Useful for scripts that return non-zero codes on normal completion.";
+"editor.pre_run.section" = "Pre-Run Command";
+"editor.pre_run.enable" = "Enable Pre-Run Command";
+"editor.pre_run.placeholder" = "Optional: commands to run before the script";
+"editor.pre_run.hint" = "Runs before the script in the same shell session. Useful for setting proxies, environment variables, etc. Example: export https_proxy=http://127.0.0.1:7890";
 "editor.section.notification" = "Notifications";
 "editor.notify_success" = "Notify on Success";
 "editor.notify_failure" = "Notify on Failure";

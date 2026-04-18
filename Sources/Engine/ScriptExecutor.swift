@@ -90,6 +90,7 @@ final class ScriptExecutor: ObservableObject {
 
         // Capture task properties before going off main actor
         let shell = task.shell
+        let preRunCommand = task.preRunCommand
         let workingDirectory = task.workingDirectory
         let envVars = task.environmentVariables
         let timeoutSeconds = task.timeoutSeconds
@@ -123,10 +124,17 @@ final class ScriptExecutor: ObservableObject {
             effectiveShell = shell
         }
 
+        // Prepend pre-run commands (e.g. proxy exports) into the same shell invocation
+        // so exported env vars are visible to the script that follows.
+        let finalScript: String = {
+            let trimmed = preRunCommand.trimmingCharacters(in: .whitespacesAndNewlines)
+            return trimmed.isEmpty ? scriptBody : trimmed + "\n" + scriptBody
+        }()
+
         LiveOutputManager.shared.startTracking(taskId: taskId)
         let result = await runProcess(
             shell: effectiveShell,
-            script: scriptBody,
+            script: finalScript,
             workingDirectory: workingDirectory,
             environmentVariables: envVars,
             timeoutSeconds: timeoutSeconds,

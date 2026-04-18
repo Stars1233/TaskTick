@@ -41,6 +41,8 @@ struct TaskEditorView: View {
     @State private var scriptBody = ""
     @State private var scriptSource: ScriptSource = .inline
     @State private var scriptFilePath = ""
+    @State private var preRunCommand = ""
+    @State private var preRunEnabled = false
     @State private var workingDirectory = ""
     @State private var timeoutSeconds = 300
 
@@ -99,13 +101,17 @@ struct TaskEditorView: View {
                 .tabItem { Label(L10n.tr("editor.tab.schedule"), systemImage: "calendar.badge.clock") }
                 .tag(1)
 
-            scriptTab
-                .tabItem { Label(L10n.tr("editor.tab.script"), systemImage: "terminal") }
+            scriptContentTab
+                .tabItem { Label(L10n.tr("editor.tab.content"), systemImage: "terminal") }
                 .tag(2)
+
+            scriptSettingsTab
+                .tabItem { Label(L10n.tr("editor.tab.settings"), systemImage: "gearshape") }
+                .tag(3)
 
             notificationTab
                 .tabItem { Label(L10n.tr("editor.tab.notification"), systemImage: "bell") }
-                .tag(3)
+                .tag(4)
         }
         .frame(width: 500)
         .fixedSize(horizontal: true, vertical: true)
@@ -254,10 +260,27 @@ struct TaskEditorView: View {
         .formStyle(.grouped)
     }
 
-    // MARK: - Script Tab
+    // MARK: - Script Content Tab
 
-    private var scriptTab: some View {
+    private var scriptContentTab: some View {
         Form {
+            Section {
+                Toggle(L10n.tr("editor.pre_run.enable"), isOn: $preRunEnabled)
+                    .onChange(of: preRunEnabled) { _, on in
+                        if !on { preRunCommand = "" }
+                    }
+                if preRunEnabled {
+                    TextEditor(text: $preRunCommand)
+                        .font(.system(size: 12, design: .monospaced))
+                        .frame(minHeight: 60)
+                        .scrollContentBackground(.hidden)
+                }
+            } header: {
+                Text(L10n.tr("editor.pre_run.section"))
+            } footer: {
+                Text(L10n.tr("editor.pre_run.hint"))
+            }
+
             Section {
                 Picker(L10n.tr("editor.script.source"), selection: $scriptSource) {
                     ForEach(ScriptSource.allCases, id: \.self) { source in
@@ -351,6 +374,27 @@ struct TaskEditorView: View {
                 }
             }
 
+        }
+        .formStyle(.grouped)
+        .alert(L10n.tr("template.overwrite.title"), isPresented: $showingTemplateOverwriteConfirm) {
+            Button(L10n.tr("editor.cancel"), role: .cancel) {
+                pendingTemplate = nil
+            }
+            Button(L10n.tr("template.overwrite.confirm"), role: .destructive) {
+                if let template = pendingTemplate {
+                    applyTemplate(template)
+                }
+                pendingTemplate = nil
+            }
+        } message: {
+            Text(L10n.tr("template.overwrite.message"))
+        }
+    }
+
+    // MARK: - Script Settings Tab
+
+    private var scriptSettingsTab: some View {
+        Form {
             Section(L10n.tr("editor.section.script")) {
                 Picker(L10n.tr("editor.shell"), selection: $shell) {
                     ForEach(AvailableShells.load(including: shell), id: \.self) { s in
@@ -370,28 +414,15 @@ struct TaskEditorView: View {
                             .foregroundStyle(.secondary)
                     }
                 }
+            }
 
-                Section {
-                    Toggle(L10n.tr("editor.ignore_exit_code"), isOn: $ignoreExitCode)
-                } footer: {
-                    Text(L10n.tr("editor.ignore_exit_code.hint"))
-                }
+            Section {
+                Toggle(L10n.tr("editor.ignore_exit_code"), isOn: $ignoreExitCode)
+            } footer: {
+                Text(L10n.tr("editor.ignore_exit_code.hint"))
             }
         }
         .formStyle(.grouped)
-        .alert(L10n.tr("template.overwrite.title"), isPresented: $showingTemplateOverwriteConfirm) {
-            Button(L10n.tr("editor.cancel"), role: .cancel) {
-                pendingTemplate = nil
-            }
-            Button(L10n.tr("template.overwrite.confirm"), role: .destructive) {
-                if let template = pendingTemplate {
-                    applyTemplate(template)
-                }
-                pendingTemplate = nil
-            }
-        } message: {
-            Text(L10n.tr("template.overwrite.message"))
-        }
     }
 
     // MARK: - Template Picker
@@ -492,11 +523,15 @@ struct TaskEditorView: View {
     // MARK: - Script Validation
 
     private var currentScript: String {
+        let body: String
         if scriptSource == .file {
             if scriptFilePath.isEmpty { return "" }
-            return (try? String(contentsOfFile: scriptFilePath, encoding: .utf8)) ?? ""
+            body = (try? String(contentsOfFile: scriptFilePath, encoding: .utf8)) ?? ""
+        } else {
+            body = scriptBody
         }
-        return scriptBody
+        let trimmedPre = preRunCommand.trimmingCharacters(in: .whitespacesAndNewlines)
+        return trimmedPre.isEmpty ? body : trimmedPre + "\n" + body
     }
 
     private func validateScript() {
@@ -693,6 +728,8 @@ struct TaskEditorView: View {
         scriptBody = "#!/bin/zsh\n"
         scriptSource = .inline
         scriptFilePath = ""
+        preRunCommand = ""
+        preRunEnabled = false
         workingDirectory = ""
         timeoutSeconds = 300
         runMissedExecution = false
@@ -719,6 +756,8 @@ struct TaskEditorView: View {
         isEnabled = task.isEnabled
         shell = task.shell
         scriptBody = task.scriptBody
+        preRunCommand = task.preRunCommand
+        preRunEnabled = !task.preRunCommand.isEmpty
         workingDirectory = task.workingDirectory ?? ""
         timeoutSeconds = task.timeoutSeconds
         notifyOnSuccess = task.notifyOnSuccess
@@ -752,6 +791,7 @@ struct TaskEditorView: View {
 
         target.name = name.trimmingCharacters(in: .whitespaces)
         target.shell = shell
+        target.preRunCommand = preRunCommand
         target.workingDirectory = workingDirectory.isEmpty ? nil : workingDirectory
         target.timeoutSeconds = timeoutSeconds
         target.notifyOnSuccess = notifyOnSuccess

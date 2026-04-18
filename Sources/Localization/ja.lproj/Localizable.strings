@@ -52,6 +52,8 @@
 "editor.tab.basic" = "基本";
 "editor.tab.schedule" = "スケジュール";
 "editor.tab.script" = "スクリプト";
+"editor.tab.content" = "内容";
+"editor.tab.settings" = "設定";
 "editor.tab.notification" = "通知";
 
 /* Task Editor */
@@ -88,6 +90,10 @@
 "editor.timeout" = "タイムアウト";
 "editor.timeout.seconds" = "秒";
 "editor.ignore_exit_code" = "終了コードを無視";
+"editor.pre_run.section" = "事前実行コマンド";
+"editor.pre_run.enable" = "事前実行コマンドを有効にする";
+"editor.pre_run.placeholder" = "任意: スクリプトの前に実行するコマンド";
+"editor.pre_run.hint" = "スクリプトの前に同じシェルセッションで実行されます。プロキシや環境変数の設定などに便利です。例: export https_proxy=http://127.0.0.1:7890";
 "editor.section.notification" = "通知";
 "editor.notify_success" = "成功時に通知";
 "editor.notify_failure" = "失敗時に通知";

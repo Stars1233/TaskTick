@@ -11,6 +11,8 @@ struct TaskExporter {
         let name: String
         let scriptBody: String
         let scriptFilePath: String?
+        /// Optional so exports produced by older versions (without this field) still decode.
+        let preRunCommand: String?
         let shell: String
         let scheduledDate: Date?
         let repeatType: String
@@ -36,6 +38,7 @@ struct TaskExporter {
                 name: task.name,
                 scriptBody: task.scriptBody,
                 scriptFilePath: task.scriptFilePath,
+                preRunCommand: task.preRunCommand,
                 shell: task.shell,
                 scheduledDate: task.scheduledDate,
                 repeatType: task.repeatTypeRaw,
@@ -124,6 +127,7 @@ struct TaskExporter {
                 notifyOnFailure: item.notifyOnFailure
             )
             task.scriptFilePath = item.scriptFilePath
+            task.preRunCommand = item.preRunCommand ?? ""
             task.cronExpression = item.cronExpression
             task.intervalSeconds = item.intervalSeconds
 

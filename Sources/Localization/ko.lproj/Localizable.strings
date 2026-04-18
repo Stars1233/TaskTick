@@ -48,6 +48,8 @@
 "editor.tab.basic" = "기본";
 "editor.tab.schedule" = "일정";
 "editor.tab.script" = "스크립트";
+"editor.tab.content" = "내용";
+"editor.tab.settings" = "설정";
 "editor.tab.notification" = "알림";
 /* Task Editor */
 "editor.title.new" = "새 작업";
@@ -83,6 +85,10 @@
 "editor.timeout" = "시간 제한";
 "editor.timeout.seconds" = "초";
 "editor.ignore_exit_code" = "종료 코드 무시";
+"editor.pre_run.section" = "사전 실행 명령";
+"editor.pre_run.enable" = "사전 실행 명령 사용";
+"editor.pre_run.placeholder" = "선택 사항: 스크립트 실행 전에 실행할 명령";
+"editor.pre_run.hint" = "스크립트 실행 전에 동일한 셸 세션에서 실행됩니다. 프록시, 환경 변수 등을 설정할 때 유용합니다. 예: export https_proxy=http://127.0.0.1:7890";
 "editor.section.notification" = "알림";
 "editor.notify_success" = "성공 시 알림";
 "editor.notify_failure" = "실패 시 알림";

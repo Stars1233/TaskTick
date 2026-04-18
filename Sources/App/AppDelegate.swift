@@ -73,5 +73,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         } catch {
             NSLog("⚠️ Final save on terminate failed: \(error.localizedDescription)")
         }
+        // save() writes to the -wal sidecar but does NOT merge it into the main store.
+        // If the update installer replaces the .app right after this, a -wal left
+        // behind can be orphaned and its contents lost. Force a checkpoint now so
+        // the main store is self-contained.
+        StoreHardener.checkpoint(at: TaskTickApp._storeURL)
     }
 }

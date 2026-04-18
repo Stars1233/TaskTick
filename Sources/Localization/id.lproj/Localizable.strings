@@ -52,6 +52,8 @@
 "editor.tab.basic" = "Dasar";
 "editor.tab.schedule" = "Jadwal";
 "editor.tab.script" = "Skrip";
+"editor.tab.content" = "Konten";
+"editor.tab.settings" = "Pengaturan";
 "editor.tab.notification" = "Notifikasi";
 
 /* Task Editor */
@@ -88,6 +90,10 @@
 "editor.timeout" = "Batas Waktu";
 "editor.timeout.seconds" = "detik";
 "editor.ignore_exit_code" = "Abaikan Kode Keluar";
+"editor.pre_run.section" = "Perintah Pra-Jalankan";
+"editor.pre_run.enable" = "Aktifkan Perintah Pra-Jalankan";
+"editor.pre_run.placeholder" = "Opsional: perintah yang dijalankan sebelum skrip";
+"editor.pre_run.hint" = "Dijalankan sebelum skrip dalam sesi shell yang sama. Berguna untuk mengatur proxy, variabel lingkungan, dll. Contoh: export https_proxy=http://127.0.0.1:7890";
 "editor.section.notification" = "Notifikasi";
 "editor.notify_success" = "Notifikasi saat Berhasil";
 "editor.notify_failure" = "Notifikasi saat Gagal";

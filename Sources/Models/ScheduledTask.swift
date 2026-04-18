@@ -131,6 +131,9 @@ final class ScheduledTask {
     var name: String
     var scriptBody: String
     var scriptFilePath: String?
+    /// Commands to run before the main script body (e.g. `export` proxy vars).
+    /// Executed in the same shell invocation so env changes propagate to the script.
+    var preRunCommand: String = ""
     var shell: String
 
     // Legacy fields (kept for data migration)

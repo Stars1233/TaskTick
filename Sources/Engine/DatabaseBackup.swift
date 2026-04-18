@@ -265,6 +265,11 @@ final class DatabaseBackup: ObservableObject {
                 }
             }
 
+            // Backups can contain a large -wal. Merge it into the main store
+            // immediately so the data survives even if the next launch somehow
+            // can't replay the WAL (stale -shm salt, permission change, etc).
+            StoreHardener.checkpoint(at: storeURL)
+
             return true
         } catch {
             Self.logger.error("Failed to restore from backup \(backup.lastPathComponent): \(error.localizedDescription)")

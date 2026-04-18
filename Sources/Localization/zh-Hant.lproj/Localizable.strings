@@ -52,6 +52,8 @@
 "editor.tab.basic" = "基本";
 "editor.tab.schedule" = "排程";
 "editor.tab.script" = "腳本";
+"editor.tab.content" = "內容";
+"editor.tab.settings" = "設定";
 "editor.tab.notification" = "通知";
 
 /* Task Editor */
@@ -88,6 +90,10 @@
 "editor.timeout" = "逾時時間";
 "editor.timeout.seconds" = "秒";
 "editor.ignore_exit_code" = "忽略退出碼";
+"editor.pre_run.section" = "前置命令";
+"editor.pre_run.enable" = "啟用前置命令";
+"editor.pre_run.placeholder" = "可選：在指令碼之前執行的命令";
+"editor.pre_run.hint" = "在指令碼執行前執行，與指令碼共用同一個 Shell 工作階段。常用於設定代理、環境變數等。範例：export https_proxy=http://127.0.0.1:7890";
 "editor.section.notification" = "通知";
 "editor.notify_success" = "成功時通知";
 "editor.notify_failure" = "失敗時通知";

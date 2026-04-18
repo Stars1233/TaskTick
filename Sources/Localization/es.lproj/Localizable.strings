@@ -52,6 +52,8 @@
 "editor.tab.basic" = "Básico";
 "editor.tab.schedule" = "Programación";
 "editor.tab.script" = "Script";
+"editor.tab.content" = "Contenido";
+"editor.tab.settings" = "Ajustes";
 "editor.tab.notification" = "Notificaciones";
 "editor.title.new" = "Nueva tarea";
 "editor.title.edit" = "Editar tarea";
@@ -86,6 +88,10 @@
 "editor.timeout" = "Tiempo límite";
 "editor.timeout.seconds" = "segundos";
 "editor.ignore_exit_code" = "Ignorar código de salida";
+"editor.pre_run.section" = "Comando previo a la ejecución";
+"editor.pre_run.enable" = "Activar comando previo";
+"editor.pre_run.placeholder" = "Opcional: comandos que se ejecutan antes del script";
+"editor.pre_run.hint" = "Se ejecuta antes del script en la misma sesión del shell. Útil para configurar proxies, variables de entorno, etc. Ejemplo: export https_proxy=http://127.0.0.1:7890";
 "editor.section.notification" = "Notificaciones";
 "editor.notify_success" = "Notificar al completar";
 "editor.notify_failure" = "Notificar al fallar";

@@ -275,6 +275,11 @@ final class UpdateChecker: ObservableObject {
             DatabaseBackup.shared.performBackup()
             do {
                 try TaskTickApp._sharedModelContainer.mainContext.save()
+                // save() writes to the -wal sidecar. The installer is about to replace
+                // the app bundle and relaunch — if the new launch hits any open failure,
+                // a WAL left behind can be discarded. Merge it into the main store now
+                // so the new version sees a self-contained .store file.
+                StoreHardener.checkpoint(at: TaskTickApp._storeURL)
             } catch {
                 let alert = NSAlert()
                 alert.messageText = L10n.tr("update.save_failed.title")

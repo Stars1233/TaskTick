@@ -41,6 +41,12 @@ struct TaskTickApp: App {
         ])
         let storeURL = _storeURL
 
+        // Flush any WAL left by previous versions into the main store and switch the
+        // file to DELETE journal mode. Runs before ModelContainer opens so SQLite
+        // will honor the mode change. Any crash/kill between here and the next launch
+        // can no longer strand data in a -wal sidecar.
+        StoreHardener.hardenStore(at: storeURL)
+
         let modelConfiguration = ModelConfiguration(
             schema: schema,
             url: storeURL,
@@ -50,22 +56,13 @@ struct TaskTickApp: App {
         do {
             return try ModelContainer(for: schema, configurations: [modelConfiguration])
         } catch {
-            NSLog("⚠️ ModelContainer failed: \(error). Attempting restore from backup...")
-
-            // Configure backup with store URL for restore attempt
-            let backup = DatabaseBackup.shared
-            backup.configure(storeURL: storeURL)
-            if backup.restoreFromLatestBackup() {
-                do {
-                    return try ModelContainer(for: schema, configurations: [modelConfiguration])
-                } catch {
-                    NSLog("⚠️ ModelContainer still failed after restore: \(error)")
-                }
-            }
-
-            // Preserve corrupt database for manual recovery, start with a temporary in-memory store
-            // so the app can launch and user can restore from Settings > Backup
-            NSLog("⚠️ Using in-memory store as fallback. Corrupt database preserved at \(storeURL.path)")
+            // Do NOT overwrite the store from a backup here. An open failure can be
+            // transient (file lock held by a zombie process, permission flap, etc)
+            // and silently replacing the user's data with a days-old backup is the
+            // exact failure mode this version is shipping to fix. Fall back to an
+            // in-memory store, flag recovery mode, and let the user choose from
+            // Settings → Backup whether to restore.
+            NSLog("⚠️ ModelContainer failed: \(error). Falling back to in-memory; on-disk files left untouched at \(storeURL.path)")
             _needsRecovery = true
             let fallbackConfig = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)
             do {

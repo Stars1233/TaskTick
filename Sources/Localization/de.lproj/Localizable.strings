@@ -52,6 +52,8 @@
 "editor.tab.basic" = "Grundlagen";
 "editor.tab.schedule" = "Zeitplan";
 "editor.tab.script" = "Skript";
+"editor.tab.content" = "Inhalt";
+"editor.tab.settings" = "Einstellungen";
 "editor.tab.notification" = "Benachrichtigungen";
 
 /* Task Editor */
@@ -88,6 +90,10 @@
 "editor.timeout" = "Zeitlimit";
 "editor.timeout.seconds" = "Sekunden";
 "editor.ignore_exit_code" = "Exit-Code ignorieren";
+"editor.pre_run.section" = "Vor-Ausführungsbefehl";
+"editor.pre_run.enable" = "Vor-Ausführungsbefehl aktivieren";
+"editor.pre_run.placeholder" = "Optional: Befehle, die vor dem Skript ausgeführt werden";
+"editor.pre_run.hint" = "Wird vor dem Skript in derselben Shell-Sitzung ausgeführt. Nützlich zum Setzen von Proxys, Umgebungsvariablen usw. Beispiel: export https_proxy=http://127.0.0.1:7890";
 "editor.section.notification" = "Benachrichtigungen";
 "editor.notify_success" = "Bei Erfolg benachrichtigen";
 "editor.notify_failure" = "Bei Fehler benachrichtigen";
