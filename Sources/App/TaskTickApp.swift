@@ -28,11 +28,7 @@ struct TaskTickApp: App {
 
     var sharedModelContainer: ModelContainer { Self._sharedModelContainer }
 
-    static let _storeURL: URL = {
-        let bundleId = Bundle.main.bundleIdentifier ?? "com.lifedever.TaskTick"
-        let dbName = bundleId.hasSuffix(".dev") ? "tasktick-dev" : "default"
-        return URL.applicationSupportDirectory.appendingPathComponent("\(dbName).store")
-    }()
+    static let _storeURL: URL = StoreMigration.resolveStoreURL()
 
     static let _sharedModelContainer: ModelContainer = {
         let schema = Schema([

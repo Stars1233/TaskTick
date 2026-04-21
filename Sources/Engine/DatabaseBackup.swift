@@ -2,15 +2,34 @@ import Foundation
 import SwiftData
 import os
 
-/// Manages automatic database backups.
-/// Supports scheduled periodic backups with configurable directory and retention count.
+/// Manages automatic data backups.
+///
+/// Backups are written as a single self-contained JSON file per snapshot. This is
+/// deliberately decoupled from SwiftData's on-disk SQLite layout — earlier versions
+/// `cp`'d the raw `.store/.shm/.wal` files, which inherits every failure mode of the
+/// live database (WAL loss, fd/inode divergence on macOS 15, schema migration corruption).
+/// When the live store ever appeared empty, the very next scheduled backup would
+/// faithfully capture the empty state and overwrite previous good backups.
+///
+/// Going through `context.fetch` reads tasks via SwiftData's open file descriptor —
+/// which is the in-memory snapshot the user actually sees — so even if the on-disk
+/// `.store` file has been replaced underneath us, a JSON backup still captures the
+/// real data. Empty-data protection then refuses to overwrite a non-empty backup
+/// with a zero-task snapshot.
 @MainActor
 final class DatabaseBackup: ObservableObject {
     static let shared = DatabaseBackup()
 
     private static let logger = Logger(subsystem: "com.lifedever.TaskTick", category: "DatabaseBackup")
+    private static let fileExtension = "tasktickbackup"
+    /// Filenames look like `2026-04-21T10-30-45Z.tasktickbackup` so they sort lexically.
+    private static let timestampFormatter: ISO8601DateFormatter = {
+        let f = ISO8601DateFormatter()
+        f.formatOptions = [.withInternetDateTime]
+        return f
+    }()
+
     private var timer: Timer?
-    private var storeURL: URL?
     private var modelContext: ModelContext?
 
     // MARK: - Settings (persisted via UserDefaults)
@@ -18,7 +37,6 @@ final class DatabaseBackup: ObservableObject {
     @Published var isEnabled: Bool {
         didSet { UserDefaults.standard.set(isEnabled, forKey: "backupEnabled") }
     }
-    /// Backup interval in hours
     @Published var intervalHours: Int {
         didSet { UserDefaults.standard.set(intervalHours, forKey: "backupIntervalHours") }
     }
@@ -30,6 +48,10 @@ final class DatabaseBackup: ObservableObject {
     }
     @Published var lastBackupDate: Date?
     @Published var nextBackupDate: Date?
+    /// Set when the most recent automatic backup was skipped to protect against
+    /// overwriting good data. UI surfaces this so the user knows why their backup
+    /// list isn't growing.
+    @Published var lastSkipReason: String?
 
     private init() {
         self.isEnabled = UserDefaults.standard.object(forKey: "backupEnabled") as? Bool ?? true
@@ -43,8 +65,8 @@ final class DatabaseBackup: ObservableObject {
 
     // MARK: - Lifecycle
 
+    /// `storeURL` is no longer used (kept for API compat with the old call site).
     func configure(storeURL: URL, modelContext: ModelContext? = nil) {
-        self.storeURL = storeURL
         self.modelContext = modelContext
     }
 
@@ -57,8 +79,6 @@ final class DatabaseBackup: ObservableObject {
         }
 
         let interval = TimeInterval(intervalHours * 3600)
-
-        // Check when the last backup was made to avoid duplicate backups on restart
         let backups = listBackups()
         let lastBackup = backups.first
         lastBackupDate = lastBackup?.date
@@ -67,15 +87,12 @@ final class DatabaseBackup: ObservableObject {
         if let lastDate = lastBackup?.date {
             let elapsed = Date().timeIntervalSince(lastDate)
             if elapsed >= interval {
-                // Overdue: backup now
                 performBackup()
                 firstDelay = interval
             } else {
-                // Wait remaining time
                 firstDelay = interval - elapsed
             }
         } else {
-            // No backups yet: backup now
             performBackup()
             firstDelay = interval
         }
@@ -106,27 +123,68 @@ final class DatabaseBackup: ObservableObject {
 
     // MARK: - Backup
 
+    /// Writes a JSON backup. Returns true on success. Returns false (and sets
+    /// `lastSkipReason`) when a non-empty previous backup would be overwritten by
+    /// an empty snapshot — the safety guard that addresses the original bug.
     @discardableResult
     func performBackup() -> Bool {
-        guard let storeURL else {
-            Self.logger.warning("No store URL configured, skipping backup")
+        guard let modelContext else {
+            Self.logger.warning("No modelContext configured, skipping backup")
             return false
         }
 
-        // Flush pending writes to disk before copying files. Abort on failure —
-        // otherwise we'd stamp lastBackupDate with a stale snapshot.
-        if let modelContext {
-            do {
-                try modelContext.save()
-            } catch {
-                Self.logger.error("Pre-backup save failed, skipping backup: \(error.localizedDescription)")
-                return false
+        let tasks: [ScheduledTask]
+        do {
+            tasks = try modelContext.fetch(FetchDescriptor<ScheduledTask>())
+        } catch {
+            Self.logger.error("Pre-backup fetch failed, skipping: \(error.localizedDescription)")
+            return false
+        }
+
+        let templates = ScriptTemplateStore.shared.templates
+
+        // Empty-data protection: if we're about to write zero tasks but a previous
+        // backup might have data, refuse the overwrite. Treats unknown task counts
+        // (legacy `.store` dirs, partially-written JSON) as "possibly non-empty" so
+        // a corrupted live store can never silently clobber the last good snapshot.
+        if tasks.isEmpty {
+            let existing = listBackups()
+            if let latest = existing.first {
+                let mightHaveData = latest.taskCount.map { $0 > 0 } ?? true
+                if mightHaveData {
+                    let countDesc = latest.taskCount.map(String.init) ?? "unknown"
+                    let reason = "Live database has 0 tasks but most recent backup has \(countDesc). Refusing to overwrite."
+                    Self.logger.warning("\(reason)")
+                    lastSkipReason = reason
+                    return false
+                }
             }
         }
 
-        let fm = FileManager.default
-        guard fm.fileExists(atPath: storeURL.path) else { return false }
+        let exportedTasks = tasks.map(TaskExporter.makeExported)
+        let payload = BackupPayload(
+            format: BackupPayload.currentFormat,
+            appVersion: appVersion,
+            exportDate: Date(),
+            taskCount: exportedTasks.count,
+            templateCount: templates.count,
+            tasks: exportedTasks,
+            templates: templates
+        )
 
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+        encoder.dateEncodingStrategy = .iso8601
+
+        let data: Data
+        do {
+            data = try encoder.encode(payload)
+        } catch {
+            Self.logger.error("Backup encode failed: \(error.localizedDescription)")
+            return false
+        }
+
+        let fm = FileManager.default
         let backupDir = URL(fileURLWithPath: customDirectory)
         do {
             try fm.createDirectory(at: backupDir, withIntermediateDirectories: true)
@@ -135,100 +193,225 @@ final class DatabaseBackup: ObservableObject {
             return false
         }
 
-        let timestamp = ISO8601DateFormatter().string(from: Date())
+        let timestamp = Self.timestampFormatter.string(from: Date())
             .replacingOccurrences(of: ":", with: "-")
-        let backupSubdir = backupDir.appendingPathComponent(timestamp)
+        let fileURL = backupDir.appendingPathComponent("\(timestamp).\(Self.fileExtension)")
 
         do {
-            try fm.createDirectory(at: backupSubdir, withIntermediateDirectories: true)
-
-            let baseName = storeURL.lastPathComponent
-            let extensions = ["", "-shm", "-wal"]
-            for ext in extensions {
-                let sourceURL = storeURL.deletingLastPathComponent()
-                    .appendingPathComponent(baseName + ext)
-                if fm.fileExists(atPath: sourceURL.path) {
-                    let destURL = backupSubdir.appendingPathComponent(baseName + ext)
-                    try fm.copyItem(at: sourceURL, to: destURL)
-                }
-            }
-
-            Self.logger.info("Database backed up to \(backupSubdir.path)")
-            pruneOldBackups(backupDir: backupDir)
+            // Atomic write: data lands at a temp path then is renamed into place,
+            // so a crash mid-write never leaves a half-written .tasktickbackup behind.
+            try data.write(to: fileURL, options: .atomic)
+            Self.logger.info("Backup written to \(fileURL.path) (\(exportedTasks.count) tasks, \(templates.count) templates)")
+            pruneOldBackups(in: backupDir)
             lastBackupDate = Date()
+            lastSkipReason = nil
             return true
         } catch {
-            Self.logger.error("Failed to backup database: \(error.localizedDescription)")
+            Self.logger.error("Backup write failed: \(error.localizedDescription)")
             return false
         }
     }
 
     // MARK: - Restore
 
-    func restoreFromLatestBackup() -> Bool {
-        guard let storeURL else { return false }
-        let backups = listBackups()
-        for backup in backups {
-            if restoreFrom(backup: backup.url, storeURL: storeURL) {
-                Self.logger.info("Restored database from backup: \(backup.name)")
-                return true
+    enum RestoreResult {
+        case success(taskCount: Int, templateCount: Int)
+        case failed(message: String)
+    }
+
+    /// Restore from a backup file (or legacy directory). The SwiftData rewrite
+    /// runs on a detached background ModelContext so the UI thread never blocks —
+    /// even with a backup that wipes thousands of accumulated execution logs via
+    /// cascade delete. The main `mainContext` picks up the changes through the
+    /// shared ModelContainer once the background save commits.
+    @discardableResult
+    func restore(from entry: BackupEntry) async -> RestoreResult {
+        let payload: BackupPayload
+        switch entry.format {
+        case .json:
+            do {
+                payload = try Self.readPayload(at: entry.url)
+            } catch {
+                return .failed(message: "Cannot read backup file: \(error.localizedDescription)")
+            }
+        case .legacy:
+            // Legacy `.store` dirs predate the JSON format. Fall back to the old
+            // file-copy restore so users with backups from v1.4.0/v1.4.1 are not
+            // stranded after upgrading. Returns a sentinel that triggers an app
+            // restart (legacy restore swaps SQLite files under SwiftData, which
+            // can't be reloaded in-place).
+            return restoreLegacy(from: entry)
+        }
+
+        // Heavy SwiftData work off main: capture the container on main, then detach
+        // a task that builds its own ModelContext from it. Returning only the
+        // primitive RestoreResult keeps the SwiftData objects on their original actor.
+        let container = TaskTickApp._sharedModelContainer
+        let result: RestoreResult = await Task.detached(priority: .userInitiated) {
+            let bgContext = ModelContext(container)
+            return Self.applyPayloadOnBackground(payload, in: bgContext)
+        }.value
+
+        guard case .success = result else { return result }
+
+        // Post-save bookkeeping that must happen on main: templates (UserDefaults),
+        // serial counter (UserDefaults), nextRunAt computation (@MainActor scheduler),
+        // and final scheduler rebuild.
+        if !payload.templates.isEmpty {
+            ScriptTemplateStore.shared.replaceAll(payload.templates)
+        }
+        let maxSerial = payload.tasks.compactMap { $0.serialNumber }.max() ?? 0
+        let currentCounter = UserDefaults.standard.integer(forKey: "taskSerialCounter")
+        if maxSerial > currentCounter {
+            UserDefaults.standard.set(maxSerial, forKey: "taskSerialCounter")
+        }
+        // Restored tasks have no `nextRunAt` (we only persist user-authored config in
+        // backups). Without this, the scheduler skips them — they'd display in the
+        // list but never fire until the user toggled them off and back on.
+        if let mainContext = self.modelContext {
+            let descriptor = FetchDescriptor<ScheduledTask>(
+                predicate: #Predicate { $0.isEnabled && $0.nextRunAt == nil }
+            )
+            if let restoredTasks = try? mainContext.fetch(descriptor) {
+                for task in restoredTasks {
+                    task.nextRunAt = TaskScheduler.shared.computeNextRunDate(for: task)
+                }
+                try? mainContext.save()
             }
         }
-        Self.logger.error("All backup restoration attempts failed")
+        TaskScheduler.shared.rebuildSchedule()
+        return result
+    }
+
+    /// Restore the most recent JSON backup, used by Recovery Mode.
+    @discardableResult
+    func restoreFromLatestBackup() async -> Bool {
+        let backups = listBackups()
+        for backup in backups {
+            if case .success = await restore(from: backup) { return true }
+        }
         return false
     }
 
-    func restoreFrom(backupName: String) -> Bool {
-        guard let storeURL else { return false }
-        let backupDir = URL(fileURLWithPath: customDirectory)
-        let backupURL = backupDir.appendingPathComponent(backupName)
-        return restoreFrom(backup: backupURL, storeURL: storeURL)
+    /// Background-actor implementation. Runs entirely off the main queue using a
+    /// dedicated ModelContext bound to the shared container. SwiftData merges the
+    /// committed changes back into the main context via the container.
+    nonisolated private static func applyPayloadOnBackground(_ payload: BackupPayload, in context: ModelContext) -> RestoreResult {
+        let existingTasks: [ScheduledTask]
+        do {
+            existingTasks = try context.fetch(FetchDescriptor<ScheduledTask>())
+        } catch {
+            return .failed(message: "Failed to read existing tasks: \(error.localizedDescription)")
+        }
+
+        // Insert new first, then delete old. If save fails the rollback leaves the
+        // original data intact (vs. delete-then-insert which would wipe everything).
+        for item in payload.tasks {
+            let task = TaskExporter.makeTask(from: item)
+            context.insert(task)
+        }
+        for task in existingTasks {
+            context.delete(task)
+        }
+
+        do {
+            try context.save()
+        } catch {
+            context.rollback()
+            return .failed(message: "Save failed: \(error.localizedDescription)")
+        }
+
+        return .success(taskCount: payload.tasks.count, templateCount: payload.templates.count)
+    }
+
+    /// Legacy restore: same logic as the old DatabaseBackup did — copy the SQLite
+    /// files from the backup dir into the live store path. Returns a sentinel that
+    /// the UI translates to "restart now" because SwiftData cannot reload after the
+    /// underlying file changes.
+    private func restoreLegacy(from entry: BackupEntry) -> RestoreResult {
+        let storeURL = TaskTickApp._storeURL
+        let baseName = storeURL.lastPathComponent
+        let backupStore = entry.url.appendingPathComponent(baseName)
+        let fm = FileManager.default
+
+        guard fm.fileExists(atPath: backupStore.path) else {
+            return .failed(message: "Legacy backup is missing the main store file")
+        }
+
+        do {
+            // Since v1.4.2 the store lives in a bundleID-namespaced subdirectory.
+            // Make sure it exists before writing — on a fresh install that has
+            // never opened a store, the directory won't have been created yet.
+            let storeDir = storeURL.deletingLastPathComponent()
+            try fm.createDirectory(at: storeDir, withIntermediateDirectories: true)
+
+            let extensions = ["", "-shm", "-wal"]
+            for ext in extensions {
+                let fileURL = storeDir.appendingPathComponent(baseName + ext)
+                if fm.fileExists(atPath: fileURL.path) {
+                    try fm.removeItem(at: fileURL)
+                }
+            }
+            for ext in extensions {
+                let sourceURL = entry.url.appendingPathComponent(baseName + ext)
+                if fm.fileExists(atPath: sourceURL.path) {
+                    let destURL = storeDir.appendingPathComponent(baseName + ext)
+                    try fm.copyItem(at: sourceURL, to: destURL)
+                }
+            }
+            // Match the old behavior — flush WAL into the main file before the
+            // process restarts so the next launch sees a self-contained store.
+            StoreHardener.checkpoint(at: storeURL)
+        } catch {
+            return .failed(message: "Legacy restore failed: \(error.localizedDescription)")
+        }
+
+        // Caller (SettingsView) must trigger a restart for legacy restores.
+        return .success(taskCount: 0, templateCount: 0)
     }
 
     // MARK: - List Backups
 
     struct BackupEntry: Identifiable {
+        enum Format { case json, legacy }
         let id: String
         let name: String
         let date: Date
         let sizeBytes: Int
         let url: URL
+        let format: Format
+        /// Only populated for JSON backups (cheap to read from the meta header).
+        /// Nil for legacy entries — peeking into the SQLite file just to count rows
+        /// would require opening it under a read lock and isn't worth the complexity
+        /// for a deprecated format.
+        let taskCount: Int?
+        let templateCount: Int?
     }
 
     func listBackups() -> [BackupEntry] {
         let fm = FileManager.default
         let backupDir = URL(fileURLWithPath: customDirectory)
-
         guard let contents = try? fm.contentsOfDirectory(
             at: backupDir,
             includingPropertiesForKeys: [.creationDateKey, .totalFileAllocatedSizeKey]
         ) else { return [] }
 
-        let formatter = ISO8601DateFormatter()
-
-        return contents
-            .filter { $0.hasDirectoryPath }
-            .compactMap { url -> BackupEntry? in
-                let name = url.lastPathComponent
-                // Parse timestamp from directory name (format: 2026-04-08T01-39-56Z)
-                let dateStr = name.replacingOccurrences(of: "-", with: ":")
-                    .replacingFirstDashGroup()
-                let date = formatter.date(from: dateStr) ?? (try? fm.attributesOfItem(atPath: url.path))?[.creationDate] as? Date ?? Date.distantPast
-
-                // Calculate total size of backup files
-                var totalSize = 0
-                if let files = try? fm.contentsOfDirectory(at: url, includingPropertiesForKeys: nil) {
-                    for file in files {
-                        if let attrs = try? fm.attributesOfItem(atPath: file.path),
-                           let size = attrs[.size] as? Int {
-                            totalSize += size
-                        }
-                    }
+        var entries: [BackupEntry] = []
+        for url in contents {
+            if url.pathExtension == Self.fileExtension {
+                if let entry = makeJSONEntry(at: url) {
+                    entries.append(entry)
                 }
-
-                return BackupEntry(id: name, name: name, date: date, sizeBytes: totalSize, url: url)
+            } else if url.hasDirectoryPath {
+                if let entry = makeLegacyEntry(at: url) {
+                    entries.append(entry)
+                }
             }
-            .sorted { $0.name > $1.name }
+        }
+
+        // Newest first. JSON filenames sort lexically (ISO timestamps); legacy dirs
+        // share the same naming scheme so a single sort handles both.
+        return entries.sorted { $0.name > $1.name }
     }
 
     func deleteBackup(_ entry: BackupEntry) {
@@ -236,71 +419,114 @@ final class DatabaseBackup: ObservableObject {
         objectWillChange.send()
     }
 
-    // MARK: - Private
+    // MARK: - Private helpers
 
-    @discardableResult
-    private func restoreFrom(backup: URL, storeURL: URL) -> Bool {
+    private func makeJSONEntry(at url: URL) -> BackupEntry? {
         let fm = FileManager.default
-        let baseName = storeURL.lastPathComponent
-        let backupStore = backup.appendingPathComponent(baseName)
+        let attrs = try? fm.attributesOfItem(atPath: url.path)
+        let size = (attrs?[.size] as? Int) ?? 0
 
-        guard fm.fileExists(atPath: backupStore.path) else { return false }
+        // Try reading the meta. If the file is corrupt or partial, still surface it
+        // so the user can delete it from the UI.
+        let payload = try? Self.readPayload(at: url)
+        let date = payload?.exportDate ?? Self.parseDate(fromName: url.deletingPathExtension().lastPathComponent)
+                   ?? (attrs?[.creationDate] as? Date) ?? Date.distantPast
 
-        do {
-            let extensions = ["", "-shm", "-wal"]
-            for ext in extensions {
-                let fileURL = storeURL.deletingLastPathComponent()
-                    .appendingPathComponent(baseName + ext)
-                if fm.fileExists(atPath: fileURL.path) {
-                    try fm.removeItem(at: fileURL)
-                }
-            }
-
-            for ext in extensions {
-                let sourceURL = backup.appendingPathComponent(baseName + ext)
-                if fm.fileExists(atPath: sourceURL.path) {
-                    let destURL = storeURL.deletingLastPathComponent()
-                        .appendingPathComponent(baseName + ext)
-                    try fm.copyItem(at: sourceURL, to: destURL)
-                }
-            }
-
-            // Backups can contain a large -wal. Merge it into the main store
-            // immediately so the data survives even if the next launch somehow
-            // can't replay the WAL (stale -shm salt, permission change, etc).
-            StoreHardener.checkpoint(at: storeURL)
-
-            return true
-        } catch {
-            Self.logger.error("Failed to restore from backup \(backup.lastPathComponent): \(error.localizedDescription)")
-            return false
-        }
+        return BackupEntry(
+            id: url.lastPathComponent,
+            name: url.deletingPathExtension().lastPathComponent,
+            date: date,
+            sizeBytes: size,
+            url: url,
+            format: .json,
+            taskCount: payload?.taskCount,
+            templateCount: payload?.templateCount
+        )
     }
 
-    private func pruneOldBackups(backupDir: URL) {
+    private func makeLegacyEntry(at url: URL) -> BackupEntry? {
         let fm = FileManager.default
-        guard let backups = try? fm.contentsOfDirectory(at: backupDir, includingPropertiesForKeys: nil)
-            .filter({ $0.hasDirectoryPath })
-            .sorted(by: { $0.lastPathComponent > $1.lastPathComponent }) else { return }
+        let storeURL = TaskTickApp._storeURL
+        let baseName = storeURL.lastPathComponent
+        let backupStore = url.appendingPathComponent(baseName)
+        guard fm.fileExists(atPath: backupStore.path) else { return nil }
 
-        if backups.count > maxBackups {
-            for old in backups.dropFirst(maxBackups) {
+        var totalSize = 0
+        if let files = try? fm.contentsOfDirectory(at: url, includingPropertiesForKeys: nil) {
+            for file in files {
+                if let s = try? fm.attributesOfItem(atPath: file.path)[.size] as? Int {
+                    totalSize += s
+                }
+            }
+        }
+
+        let name = url.lastPathComponent
+        let date = Self.parseDate(fromName: name)
+            ?? (try? fm.attributesOfItem(atPath: url.path))?[.creationDate] as? Date
+            ?? Date.distantPast
+
+        return BackupEntry(
+            id: name,
+            name: name,
+            date: date,
+            sizeBytes: totalSize,
+            url: url,
+            format: .legacy,
+            taskCount: nil,
+            templateCount: nil
+        )
+    }
+
+    private static func parseDate(fromName name: String) -> Date? {
+        // Format: "2026-04-21T10-30-45Z" — colons replaced with dashes for filename safety.
+        guard let tIndex = name.firstIndex(of: "T") else { return nil }
+        let datePart = name[name.startIndex...tIndex]
+        let timePart = name[name.index(after: tIndex)...].replacingOccurrences(of: "-", with: ":")
+        let restored = String(datePart) + timePart
+        return timestampFormatter.date(from: restored)
+    }
+
+    private static func readPayload(at url: URL) throws -> BackupPayload {
+        let data = try Data(contentsOf: url)
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        return try decoder.decode(BackupPayload.self, from: data)
+    }
+
+    private func pruneOldBackups(in backupDir: URL) {
+        let fm = FileManager.default
+        // Prune both JSON files and legacy dirs together; the user picked maxBackups
+        // for "total slots", not "JSON only". Sort by name desc (ISO timestamps).
+        guard let entries = try? fm.contentsOfDirectory(at: backupDir, includingPropertiesForKeys: nil) else { return }
+        let sorted = entries
+            .filter { $0.pathExtension == Self.fileExtension || $0.hasDirectoryPath }
+            .sorted { $0.lastPathComponent > $1.lastPathComponent }
+
+        if sorted.count > maxBackups {
+            for old in sorted.dropFirst(maxBackups) {
                 try? fm.removeItem(at: old)
                 Self.logger.info("Pruned old backup: \(old.lastPathComponent)")
             }
         }
     }
+
+    private var appVersion: String {
+        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "unknown"
+    }
 }
 
-// Helper to parse backup directory name back to ISO8601
-private extension String {
-    /// Converts "2026-04-08T01-39-56Z" back to "2026-04-08T01:39:56Z"
-    func replacingFirstDashGroup() -> String {
-        // The date part uses dashes naturally; only the time part needs colon restoration
-        // Format: YYYY-MM-DDTHH-MM-SSZ → only replace dashes after T
-        guard let tIndex = self.firstIndex(of: "T") else { return self }
-        let datePart = self[self.startIndex...tIndex]
-        let timePart = self[self.index(after: tIndex)...]
-        return datePart + timePart.replacingOccurrences(of: "-", with: ":")
-    }
+// MARK: - Backup Payload
+
+/// On-disk format for a single JSON backup. Versioned via `format`; older readers
+/// reject unknown formats rather than silently mis-decoding.
+struct BackupPayload: Codable {
+    static let currentFormat = "tasktick-backup-v1"
+
+    let format: String
+    let appVersion: String
+    let exportDate: Date
+    let taskCount: Int
+    let templateCount: Int
+    let tasks: [TaskExporter.ExportedTask]
+    let templates: [ScriptTemplate]
 }

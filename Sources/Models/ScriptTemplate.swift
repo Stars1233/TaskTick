@@ -442,6 +442,16 @@ final class ScriptTemplateStore: ObservableObject {
         persist()
     }
 
+    /// Replace the entire template list. Used by backup restore to ensure
+    /// the post-restore state matches the backup exactly (no leftover items).
+    /// Marks `seededKey` so the default-template seeder doesn't re-add built-ins
+    /// on top of a restored set.
+    func replaceAll(_ newTemplates: [ScriptTemplate]) {
+        templates = newTemplates
+        persist()
+        UserDefaults.standard.set(true, forKey: seededKey)
+    }
+
     /// Restore default templates without overwriting existing ones.
     /// Compares by name to avoid duplicates.
     func restoreDefaults() {

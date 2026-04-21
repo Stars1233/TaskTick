@@ -251,7 +251,7 @@
 "settings.backup.restore_confirm.cancel" = "Cancel";
 "settings.backup.restore_confirm.confirm" = "Restore";
 "settings.backup.restore_success" = "Restore Successful";
-"settings.backup.restore_success.message" = "Database has been restored. The app will now restart.";
+"settings.backup.restore_success.message" = "Tasks and templates have been restored from the backup.";
 "settings.backup.restore_failed" = "Restore Failed";
 "settings.backup.restore_failed.message" = "Failed to restore from this backup. The backup file may be corrupted.";
 "settings.backup.delete_confirm.title" = "Delete Backup?";
@@ -260,12 +260,22 @@
 "settings.backup.success.message" = "Database has been backed up successfully.";
 "settings.backup.last_backup" = "Last Backup";
 "settings.backup.next_backup" = "Next Backup";
+"settings.backup.tasks_count" = "%d tasks";
+"settings.backup.format.legacy" = "Legacy";
+"settings.backup.skipped.title" = "Backup Skipped";
+"settings.backup.restoring" = "Restoring...";
 
 "settings.logs" = "Logs";
 "settings.logs.section" = "Log Management";
 "settings.logs.retention" = "Retention Period";
 "settings.logs.retention.days" = "days";
 "settings.logs.cleanup" = "Clean Up Old Logs";
+"settings.logs.cleanup.confirm.title" = "Clean Up Old Logs?";
+"settings.logs.cleanup.confirm.message" = "All execution logs older than %d days will be permanently deleted. This action cannot be undone.";
+"settings.logs.cleanup.cancel" = "Cancel";
+"settings.logs.cleanup.confirm" = "Clean Up";
+"settings.logs.cleanup.result.title" = "Cleanup Complete";
+"settings.logs.cleanup.result.message" = "Deleted %d old execution logs.";
 
 "settings.updates" = "Updates";
 "settings.updates.section" = "Automatic Updates";

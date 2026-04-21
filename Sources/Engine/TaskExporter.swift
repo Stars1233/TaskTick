@@ -26,6 +26,17 @@ struct TaskExporter {
         let notifyOnSuccess: Bool
         let notifyOnFailure: Bool
         let isEnabled: Bool
+        // Fields added later — Optional so older exports still decode.
+        let serialNumber: Int?
+        let customIntervalValue: Int?
+        let customIntervalUnit: String?
+        let runMissedExecution: Bool?
+        let strongReminder: Bool?
+        let ignoreExitCode: Bool?
+        /// Preserved across backup/restore so the user's original task ordering
+        /// (which @Query sorts by createdAt) survives a restore. Optional for
+        /// compat with backups produced before this field existed.
+        let createdAt: Date?
     }
 
     /// Export all tasks to a JSON file
@@ -33,27 +44,7 @@ struct TaskExporter {
         let descriptor = FetchDescriptor<ScheduledTask>()
         guard let tasks = try? context.fetch(descriptor), !tasks.isEmpty else { return }
 
-        let exported = tasks.map { task in
-            ExportedTask(
-                name: task.name,
-                scriptBody: task.scriptBody,
-                scriptFilePath: task.scriptFilePath,
-                preRunCommand: task.preRunCommand,
-                shell: task.shell,
-                scheduledDate: task.scheduledDate,
-                repeatType: task.repeatTypeRaw,
-                endRepeatType: task.endRepeatTypeRaw,
-                endRepeatDate: task.endRepeatDate,
-                endRepeatCount: task.endRepeatCount,
-                cronExpression: task.cronExpression,
-                intervalSeconds: task.intervalSeconds,
-                workingDirectory: task.workingDirectory,
-                timeoutSeconds: task.timeoutSeconds,
-                notifyOnSuccess: task.notifyOnSuccess,
-                notifyOnFailure: task.notifyOnFailure,
-                isEnabled: task.isEnabled
-            )
-        }
+        let exported = tasks.map(makeExported)
 
         let panel = NSSavePanel()
         panel.allowedContentTypes = [UTType.json]
@@ -111,30 +102,10 @@ struct TaskExporter {
         var count = 0
         var insertedTasks: [ScheduledTask] = []
         for item in exported {
-            let task = ScheduledTask(
-                name: item.name,
-                scriptBody: item.scriptBody,
-                shell: item.shell,
-                scheduledDate: item.scheduledDate,
-                repeatType: RepeatType(rawValue: item.repeatType) ?? .daily,
-                endRepeatType: EndRepeatType(rawValue: item.endRepeatType) ?? .never,
-                endRepeatDate: item.endRepeatDate,
-                endRepeatCount: item.endRepeatCount,
-                isEnabled: item.isEnabled,
-                workingDirectory: item.workingDirectory,
-                timeoutSeconds: item.timeoutSeconds,
-                notifyOnSuccess: item.notifyOnSuccess,
-                notifyOnFailure: item.notifyOnFailure
-            )
-            task.scriptFilePath = item.scriptFilePath
-            task.preRunCommand = item.preRunCommand ?? ""
-            task.cronExpression = item.cronExpression
-            task.intervalSeconds = item.intervalSeconds
-
+            let task = makeTask(from: item)
             if task.isEnabled {
                 task.nextRunAt = TaskScheduler.shared.computeNextRunDate(for: task)
             }
-
             context.insert(task)
             insertedTasks.append(task)
             count += 1
@@ -154,5 +125,79 @@ struct TaskExporter {
         }
         TaskScheduler.shared.rebuildSchedule()
         return count
+    }
+
+    // MARK: - Shared conversion (also used by DatabaseBackup)
+
+    /// Snapshot a `ScheduledTask` into a transferable struct. Captures user-authored config
+    /// only — runtime state (`lastRunAt`, `executionCount`, `nextRunAt`) is intentionally
+    /// excluded so restoring a backup leaves scheduling decisions to the live scheduler.
+    nonisolated static func makeExported(_ task: ScheduledTask) -> ExportedTask {
+        ExportedTask(
+            name: task.name,
+            scriptBody: task.scriptBody,
+            scriptFilePath: task.scriptFilePath,
+            preRunCommand: task.preRunCommand,
+            shell: task.shell,
+            scheduledDate: task.scheduledDate,
+            repeatType: task.repeatTypeRaw,
+            endRepeatType: task.endRepeatTypeRaw,
+            endRepeatDate: task.endRepeatDate,
+            endRepeatCount: task.endRepeatCount,
+            cronExpression: task.cronExpression,
+            intervalSeconds: task.intervalSeconds,
+            workingDirectory: task.workingDirectory,
+            timeoutSeconds: task.timeoutSeconds,
+            notifyOnSuccess: task.notifyOnSuccess,
+            notifyOnFailure: task.notifyOnFailure,
+            isEnabled: task.isEnabled,
+            serialNumber: task.serialNumber > 0 ? task.serialNumber : nil,
+            customIntervalValue: task.customIntervalValue,
+            customIntervalUnit: task.customIntervalUnitRaw,
+            runMissedExecution: task.runMissedExecution,
+            strongReminder: task.strongReminder,
+            ignoreExitCode: task.ignoreExitCode,
+            createdAt: task.createdAt
+        )
+    }
+
+    /// Materialize an `ExportedTask` back into a `ScheduledTask`. The task is NOT inserted
+    /// into a context — caller decides where it lives. `nextRunAt` is left nil so the
+    /// scheduler recomputes it on insertion (preserves the restored `scheduledDate`).
+    nonisolated static func makeTask(from item: ExportedTask) -> ScheduledTask {
+        let task = ScheduledTask(
+            name: item.name,
+            scriptBody: item.scriptBody,
+            shell: item.shell,
+            scheduledDate: item.scheduledDate,
+            repeatType: RepeatType(rawValue: item.repeatType) ?? .daily,
+            endRepeatType: EndRepeatType(rawValue: item.endRepeatType) ?? .never,
+            endRepeatDate: item.endRepeatDate,
+            endRepeatCount: item.endRepeatCount,
+            isEnabled: item.isEnabled,
+            workingDirectory: item.workingDirectory,
+            timeoutSeconds: item.timeoutSeconds,
+            notifyOnSuccess: item.notifyOnSuccess,
+            notifyOnFailure: item.notifyOnFailure
+        )
+        task.scriptFilePath = item.scriptFilePath
+        task.preRunCommand = item.preRunCommand ?? ""
+        task.cronExpression = item.cronExpression
+        task.intervalSeconds = item.intervalSeconds
+        // ScheduledTask.init bumps the global serial counter; overwrite with the
+        // backup's value so restored tasks keep their original numbering.
+        if let n = item.serialNumber, n > 0 {
+            task.serialNumber = n
+        }
+        if let v = item.customIntervalValue { task.customIntervalValue = v }
+        if let u = item.customIntervalUnit { task.customIntervalUnitRaw = u }
+        if let v = item.runMissedExecution { task.runMissedExecution = v }
+        if let v = item.strongReminder { task.strongReminder = v }
+        if let v = item.ignoreExitCode { task.ignoreExitCode = v }
+        if let v = item.createdAt {
+            task.createdAt = v
+            task.updatedAt = v
+        }
+        return task
     }
 }

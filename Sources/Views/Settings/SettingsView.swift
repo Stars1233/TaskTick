@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 import ServiceManagement
 
 struct SettingsView: View {
@@ -27,10 +28,18 @@ struct SettingsView: View {
     @State private var showRestoreConfirm = false
     @State private var showRestoreResult = false
     @State private var restoreSuccess = false
+    @State private var restoreErrorMessage: String?
+    @State private var isRestoring = false
     @State private var showBackupList = false
     @State private var backupToDelete: DatabaseBackup.BackupEntry?
     @State private var showDeleteConfirm = false
     @State private var showBackupSuccess = false
+
+    // Log cleanup
+    @State private var showCleanupConfirm = false
+    @State private var showCleanupResult = false
+    @State private var cleanupDeletedCount = 0
+    @State private var isCleaningLogs = false
 
     var body: some View {
         TabView {
@@ -202,43 +211,98 @@ struct SettingsView: View {
             Button(L10n.tr("settings.backup.restore_confirm.cancel"), role: .cancel) {}
             Button(L10n.tr("settings.backup.restore_confirm.confirm"), role: .destructive) {
                 if let backup = backupToRestore {
-                    // Flush pending writes before replacing database files. A failure here
-                    // is non-blocking (restore overwrites the store anyway) but worth logging
-                    // since any unsaved edits will be discarded by the restore.
-                    do {
-                        try TaskTickApp._sharedModelContainer.mainContext.save()
-                    } catch {
-                        NSLog("⚠️ Pre-restore save failed (unsaved edits will be lost): \(error.localizedDescription)")
-                    }
-
-                    let success = backupManager.restoreFrom(backupName: backup.name)
-                    if success {
-                        // Restart: wait for this process to exit before relaunching
-                        let appPath = Bundle.main.bundlePath
-                        let pid = ProcessInfo.processInfo.processIdentifier
-                        let script = """
-                        while kill -0 \(pid) 2>/dev/null; do sleep 0.5; done
-                        open "\(appPath)"
-                        """
-                        let process = Process()
-                        process.executableURL = URL(fileURLWithPath: "/bin/sh")
-                        process.arguments = ["-c", script]
-                        try? process.run()
-                        AppDelegate.shouldReallyQuit = true
-                        NSApp.terminate(nil)
-                    } else {
-                        restoreSuccess = false
-                        showRestoreResult = true
-                    }
+                    runRestore(backup)
                 }
             }
         } message: {
             Text(L10n.tr("settings.backup.restore_confirm.message"))
         }
-        .alert(L10n.tr("settings.backup.restore_failed"), isPresented: $showRestoreResult) {
+        .alert(restoreSuccess ? L10n.tr("settings.backup.restore_success")
+                              : L10n.tr("settings.backup.restore_failed"),
+               isPresented: $showRestoreResult) {
             Button("OK") {}
         } message: {
-            Text(L10n.tr("settings.backup.restore_failed.message"))
+            Text(restoreSuccess
+                 ? L10n.tr("settings.backup.restore_success.message")
+                 : (restoreErrorMessage ?? L10n.tr("settings.backup.restore_failed.message")))
+        }
+        .alert(L10n.tr("settings.backup.skipped.title"), isPresented: skipReasonPresented) {
+            Button("OK") { backupManager.lastSkipReason = nil }
+        } message: {
+            Text(backupManager.lastSkipReason ?? "")
+        }
+        .overlay {
+            if isRestoring {
+                ZStack {
+                    Color.black.opacity(0.25)
+                    VStack(spacing: 12) {
+                        ProgressView()
+                            .controlSize(.large)
+                        Text(L10n.tr("settings.backup.restoring"))
+                            .font(.callout)
+                    }
+                    .padding(24)
+                    .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 12))
+                }
+                .ignoresSafeArea()
+                .allowsHitTesting(true)
+            }
+        }
+    }
+
+    /// Backing for the skip-reason alert. Shows whenever `lastSkipReason` is non-nil.
+    private var skipReasonPresented: Binding<Bool> {
+        Binding(
+            get: { backupManager.lastSkipReason != nil },
+            set: { if !$0 { backupManager.lastSkipReason = nil } }
+        )
+    }
+
+    private func runRestore(_ backup: DatabaseBackup.BackupEntry) {
+        // Flush in-flight edits before swapping data so the user's last save isn't
+        // silently dropped. Non-fatal — restore proceeds either way.
+        do {
+            try TaskTickApp._sharedModelContainer.mainContext.save()
+        } catch {
+            NSLog("⚠️ Pre-restore save failed (unsaved edits will be lost): \(error.localizedDescription)")
+        }
+
+        isRestoring = true
+        Task {
+            // restore(from:) does the heavy SwiftData work on a background context,
+            // so awaiting it here keeps the main thread free to render the spinner.
+            let result = await backupManager.restore(from: backup)
+            isRestoring = false
+            switch result {
+            case .success:
+                switch backup.format {
+                case .legacy:
+                    // Legacy restore swaps the SQLite files under SwiftData — must
+                    // restart for the new file to be read.
+                    let appPath = Bundle.main.bundlePath
+                    let pid = ProcessInfo.processInfo.processIdentifier
+                    let script = """
+                    while kill -0 \(pid) 2>/dev/null; do sleep 0.5; done
+                    open "\(appPath)"
+                    """
+                    let process = Process()
+                    process.executableURL = URL(fileURLWithPath: "/bin/sh")
+                    process.arguments = ["-c", script]
+                    try? process.run()
+                    AppDelegate.shouldReallyQuit = true
+                    NSApp.terminate(nil)
+                case .json:
+                    // JSON restore went through ModelContext — no restart needed,
+                    // SwiftUI views will refresh from the @Query subscription.
+                    restoreSuccess = true
+                    restoreErrorMessage = nil
+                    showRestoreResult = true
+                }
+            case .failed(let message):
+                restoreErrorMessage = message
+                restoreSuccess = false
+                showRestoreResult = true
+            }
         }
     }
 
@@ -269,11 +333,26 @@ struct SettingsView: View {
                 List(backups) { entry in
                     HStack {
                         VStack(alignment: .leading, spacing: 2) {
-                            Text(formatBackupDate(entry.date))
-                                .font(.body)
-                            Text(formatFileSize(entry.sizeBytes))
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
+                            HStack(spacing: 6) {
+                                Text(formatBackupDate(entry.date))
+                                    .font(.body)
+                                if entry.format == .legacy {
+                                    Text(L10n.tr("settings.backup.format.legacy"))
+                                        .font(.caption2)
+                                        .padding(.horizontal, 4)
+                                        .padding(.vertical, 1)
+                                        .background(Capsule().fill(.orange.opacity(0.2)))
+                                        .foregroundStyle(.orange)
+                                }
+                            }
+                            HStack(spacing: 8) {
+                                if let count = entry.taskCount {
+                                    Text(L10n.tr("settings.backup.tasks_count", count))
+                                }
+                                Text(formatFileSize(entry.sizeBytes))
+                            }
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
                         }
                         Spacer()
                         Button(L10n.tr("settings.backup.restore")) {
@@ -349,13 +428,72 @@ struct SettingsView: View {
                     }
                 }
 
-                Button(L10n.tr("settings.logs.cleanup"), role: .destructive) {
-                    // Phase 6: implement log cleanup
+                HStack(spacing: 8) {
+                    Button(L10n.tr("settings.logs.cleanup"), role: .destructive) {
+                        showCleanupConfirm = true
+                    }
+                    .pointerCursor()
+                    .disabled(isCleaningLogs)
+
+                    if isCleaningLogs {
+                        ProgressView()
+                            .controlSize(.small)
+                    }
                 }
-                .pointerCursor()
             }
         }
         .formStyle(.grouped)
+        .alert(L10n.tr("settings.logs.cleanup.confirm.title"), isPresented: $showCleanupConfirm) {
+            Button(L10n.tr("settings.logs.cleanup.cancel"), role: .cancel) {}
+            Button(L10n.tr("settings.logs.cleanup.confirm"), role: .destructive) {
+                runLogCleanup()
+            }
+        } message: {
+            Text(L10n.tr("settings.logs.cleanup.confirm.message", logRetentionDays))
+        }
+        .alert(L10n.tr("settings.logs.cleanup.result.title"), isPresented: $showCleanupResult) {
+            Button("OK") {}
+        } message: {
+            Text(L10n.tr("settings.logs.cleanup.result.message", cleanupDeletedCount))
+        }
+    }
+
+    private func runLogCleanup() {
+        let days = max(logRetentionDays, 0)
+        let cutoff = Calendar.current.date(byAdding: .day, value: -days, to: Date()) ?? Date()
+        let container = TaskTickApp._sharedModelContainer
+
+        isCleaningLogs = true
+        Task {
+            // Heavy work on a background ModelContext so the setting window stays
+            // responsive even when the user has accumulated tens of thousands of
+            // execution logs. The background save propagates through the shared
+            // container; main-context @Query subscribers refresh automatically.
+            let deleted = await Task.detached(priority: .userInitiated) {
+                let ctx = ModelContext(container)
+                let descriptor = FetchDescriptor<ExecutionLog>(
+                    predicate: #Predicate { $0.startedAt < cutoff }
+                )
+                guard let logs = try? ctx.fetch(descriptor), !logs.isEmpty else { return 0 }
+                let count = logs.count
+                for log in logs { ctx.delete(log) }
+
+                // Keep each task's stored `executionCount` aligned with its remaining
+                // logs — other UI (detail view badge, end-after-count end condition)
+                // reads from this field and would otherwise show stale totals.
+                if let tasks = try? ctx.fetch(FetchDescriptor<ScheduledTask>()) {
+                    for t in tasks {
+                        t.executionCount = t.executionLogs.filter { $0.modelContext != nil }.count
+                    }
+                }
+                do { try ctx.save() } catch { return 0 }
+                return count
+            }.value
+
+            isCleaningLogs = false
+            cleanupDeletedCount = deleted
+            showCleanupResult = true
+        }
     }
 
     // MARK: - Updates
