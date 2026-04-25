@@ -99,6 +99,7 @@ final class ScriptExecutor: ObservableObject {
         let taskName = task.name
         let notifyOnSuccess = task.notifyOnSuccess
         let notifyOnFailure = task.notifyOnFailure
+        let notifyOnlyWhenOutput = task.notifyOnlyWhenOutput
         let strongReminder = task.strongReminder
         let logId = log.id
 
@@ -187,19 +188,26 @@ final class ScriptExecutor: ObservableObject {
                 body: body
             )
         } else if globalNotificationsEnabled && notifyOnSuccess && result.status == .success {
-            // Prefer stdout, fall back to stderr when stdout has no meaningful content
-            let outputSource = ScriptExecutor.hasMeaningfulContent(result.stdout) ? result.stdout : result.stderr
-            let outputLine = outputSource.components(separatedBy: .newlines).first(where: {
-                let trimmed = $0.trimmingCharacters(in: .whitespaces)
-                guard !trimmed.isEmpty else { return false }
-                let stripped = trimmed.filter { !("─═—–-=_*#~".contains($0)) }
-                return !stripped.isEmpty
-            }) ?? ""
-            let body = [durationText, outputLine].filter { !$0.isEmpty }.joined(separator: " · ")
-            NotificationManager.shared.sendNotification(
-                title: "[\(L10n.tr("notification.succeeded"))] \(taskName)",
-                body: body.isEmpty ? L10n.tr("notification.success") : body
-            )
+            // "Notify only when output present" mode: polling scripts stay silent on
+            // empty runs and only chirp when they `echo` something meaningful.
+            // Whitespace-only stdout counts as no output (a script ending in a stray
+            // newline shouldn't fire a notification).
+            let trimmedStdout = result.stdout.trimmingCharacters(in: .whitespacesAndNewlines)
+            if !(notifyOnlyWhenOutput && trimmedStdout.isEmpty) {
+                // Prefer stdout, fall back to stderr when stdout has no meaningful content
+                let outputSource = ScriptExecutor.hasMeaningfulContent(result.stdout) ? result.stdout : result.stderr
+                let outputLine = outputSource.components(separatedBy: .newlines).first(where: {
+                    let trimmed = $0.trimmingCharacters(in: .whitespaces)
+                    guard !trimmed.isEmpty else { return false }
+                    let stripped = trimmed.filter { !("─═—–-=_*#~".contains($0)) }
+                    return !stripped.isEmpty
+                }) ?? ""
+                let body = [durationText, outputLine].filter { !$0.isEmpty }.joined(separator: " · ")
+                NotificationManager.shared.sendNotification(
+                    title: "[\(L10n.tr("notification.succeeded"))] \(taskName)",
+                    body: body.isEmpty ? L10n.tr("notification.success") : body
+                )
+            }
         }
 
         // Strong reminder: show floating panel with full output

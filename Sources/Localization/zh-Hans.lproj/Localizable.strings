@@ -98,6 +98,8 @@
 "editor.section.notification" = "通知";
 "editor.notify_success" = "成功时通知";
 "editor.notify_failure" = "失败时通知";
+"editor.notify_only_when_output" = "仅在有输出时通知";
+"editor.notify_only_when_output.hint" = "开启后，执行成功但脚本没有任何 stdout 输出（例如轮询空跑）将不弹通知；只在脚本通过 `echo` 主动打印业务信息时才通知。";
 "editor.notify_hint" = "任务完成时通过 macOS 系统通知推送。";
 "editor.strong_reminder" = "成功时强提醒";
 "editor.strong_reminder_hint" = "任务成功后弹出浮动面板，显示完整输出内容。";

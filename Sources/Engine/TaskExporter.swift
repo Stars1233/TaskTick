@@ -33,6 +33,7 @@ struct TaskExporter {
         let runMissedExecution: Bool?
         let strongReminder: Bool?
         let ignoreExitCode: Bool?
+        let notifyOnlyWhenOutput: Bool?
         /// Preserved across backup/restore so the user's original task ordering
         /// (which @Query sorts by createdAt) survives a restore. Optional for
         /// compat with backups produced before this field existed.
@@ -157,6 +158,7 @@ struct TaskExporter {
             runMissedExecution: task.runMissedExecution,
             strongReminder: task.strongReminder,
             ignoreExitCode: task.ignoreExitCode,
+            notifyOnlyWhenOutput: task.notifyOnlyWhenOutput,
             createdAt: task.createdAt
         )
     }
@@ -194,6 +196,7 @@ struct TaskExporter {
         if let v = item.runMissedExecution { task.runMissedExecution = v }
         if let v = item.strongReminder { task.strongReminder = v }
         if let v = item.ignoreExitCode { task.ignoreExitCode = v }
+        if let v = item.notifyOnlyWhenOutput { task.notifyOnlyWhenOutput = v }
         if let v = item.createdAt {
             task.createdAt = v
             task.updatedAt = v

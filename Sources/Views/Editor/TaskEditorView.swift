@@ -57,6 +57,7 @@ struct TaskEditorView: View {
     // Notification
     @State private var notifyOnSuccess = true
     @State private var notifyOnFailure = true
+    @State private var notifyOnlyWhenOutput = false
     @State private var strongReminder = false
     @State private var ignoreExitCode = false
 
@@ -490,6 +491,21 @@ struct TaskEditorView: View {
             Section {
                 Toggle(L10n.tr("editor.notify_success"), isOn: $notifyOnSuccess)
                 Toggle(L10n.tr("editor.notify_failure"), isOn: $notifyOnFailure)
+                // Inline label so the helper text sits right under its toggle row
+                // (Section footer would push it to the bottom of the whole section card,
+                // visually divorcing it from the toggle that controls it).
+                Toggle(isOn: $notifyOnlyWhenOutput) {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(L10n.tr("editor.notify_only_when_output"))
+                        if notifyOnSuccess && notifyOnlyWhenOutput {
+                            Text(L10n.tr("editor.notify_only_when_output.hint"))
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                    }
+                }
+                .disabled(!notifyOnSuccess)
             } header: {
                 Text(L10n.tr("editor.section.notification"))
             } footer: {
@@ -735,6 +751,7 @@ struct TaskEditorView: View {
         runMissedExecution = false
         notifyOnSuccess = true
         notifyOnFailure = true
+        notifyOnlyWhenOutput = false
         strongReminder = false
         ignoreExitCode = false
         selectedTab = 0
@@ -762,6 +779,7 @@ struct TaskEditorView: View {
         timeoutSeconds = task.timeoutSeconds
         notifyOnSuccess = task.notifyOnSuccess
         notifyOnFailure = task.notifyOnFailure
+        notifyOnlyWhenOutput = task.notifyOnlyWhenOutput
         strongReminder = task.strongReminder
         ignoreExitCode = task.ignoreExitCode
         repeatType = task.repeatType
@@ -796,6 +814,7 @@ struct TaskEditorView: View {
         target.timeoutSeconds = timeoutSeconds
         target.notifyOnSuccess = notifyOnSuccess
         target.notifyOnFailure = notifyOnFailure
+        target.notifyOnlyWhenOutput = notifyOnlyWhenOutput
         target.strongReminder = strongReminder
         target.ignoreExitCode = ignoreExitCode
         target.isEnabled = isEnabled

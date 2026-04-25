@@ -98,6 +98,8 @@
 "editor.section.notification" = "Notifications";
 "editor.notify_success" = "Notify on Success";
 "editor.notify_failure" = "Notify on Failure";
+"editor.notify_only_when_output" = "Notify Only When Output Exists";
+"editor.notify_only_when_output.hint" = "When enabled, a successful run with no stdout stays silent. Use `echo` only when something worth notifying actually happened.";
 "editor.notify_hint" = "Notifications are sent via macOS system notifications when a task finishes.";
 "editor.strong_reminder" = "Strong Reminder on Success";
 "editor.strong_reminder_hint" = "Show a floating panel with full output when the task succeeds.";

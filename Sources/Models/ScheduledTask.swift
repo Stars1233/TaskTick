@@ -161,6 +161,11 @@ final class ScheduledTask {
     var timeoutSeconds: Int
     var notifyOnSuccess: Bool
     var notifyOnFailure: Bool
+    /// When true and the script exits successfully but produces no stdout (after
+    /// trimming), TaskTick suppresses the success notification. Lets polling-style
+    /// scripts stay silent on no-op runs and only chirp when they actually do work
+    /// (`echo` something). Default `false` keeps existing tasks' behavior unchanged.
+    var notifyOnlyWhenOutput: Bool = false
     var runMissedExecution: Bool = false
     var strongReminder: Bool = false
     var ignoreExitCode: Bool = false
