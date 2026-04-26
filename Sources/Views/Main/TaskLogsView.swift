@@ -120,7 +120,7 @@ private struct LogDetailContent: View {
             VStack(alignment: .leading, spacing: 16) {
                 GlassCard {
                     VStack(spacing: 8) {
-                        row(L10n.tr("log.detail.trigger"), value: log.triggeredBy == .manual ? L10n.tr("log.detail.trigger.manual") : L10n.tr("log.detail.trigger.schedule"))
+                        row(L10n.tr("log.detail.trigger"), value: log.triggeredBy.displayName)
 
                         if let code = log.exitCode {
                             row(L10n.tr("log.detail.exit_code"), value: "\(code)")

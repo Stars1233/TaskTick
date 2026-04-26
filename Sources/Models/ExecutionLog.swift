@@ -32,6 +32,15 @@ enum ExecutionStatus: String, Codable, CaseIterable, Sendable {
 enum TriggerType: String, Codable, Sendable {
     case schedule = "schedule"
     case manual = "manual"
+    case launch = "launch"
+
+    var displayName: String {
+        switch self {
+        case .schedule: L10n.tr("log.detail.trigger.schedule")
+        case .manual:   L10n.tr("log.detail.trigger.manual")
+        case .launch:   L10n.tr("log.detail.trigger.launch")
+        }
+    }
 }
 
 @Model

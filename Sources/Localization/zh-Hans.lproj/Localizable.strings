@@ -126,6 +126,9 @@
 "schedule.until" = "截止 %@";
 "schedule.after_n_times" = "%d 次";
 "schedule.run_missed" = "补执行错过的任务";
+"schedule.launch_section" = "启动";
+"schedule.run_on_launch" = "每次 App 启动时执行一次";
+"schedule.run_on_launch.help" = "无论是否有定时计划，每次 App 启动都会运行";
 
 /* Repeat Types */
 "repeat.never" = "永不";
@@ -198,6 +201,7 @@
 "log.detail.trigger" = "触发方式";
 "log.detail.trigger.manual" = "手动";
 "log.detail.trigger.schedule" = "定时";
+"log.detail.trigger.launch" = "启动";
 "log.detail.exit_code" = "退出码";
 "log.detail.duration" = "耗时";
 "log.detail.duration_ms" = "%d 毫秒";

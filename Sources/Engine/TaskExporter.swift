@@ -31,6 +31,7 @@ struct TaskExporter {
         let customIntervalValue: Int?
         let customIntervalUnit: String?
         let runMissedExecution: Bool?
+        let runOnLaunch: Bool?
         let strongReminder: Bool?
         let ignoreExitCode: Bool?
         let notifyOnlyWhenOutput: Bool?
@@ -156,6 +157,7 @@ struct TaskExporter {
             customIntervalValue: task.customIntervalValue,
             customIntervalUnit: task.customIntervalUnitRaw,
             runMissedExecution: task.runMissedExecution,
+            runOnLaunch: task.runOnLaunch,
             strongReminder: task.strongReminder,
             ignoreExitCode: task.ignoreExitCode,
             notifyOnlyWhenOutput: task.notifyOnlyWhenOutput,
@@ -194,6 +196,7 @@ struct TaskExporter {
         if let v = item.customIntervalValue { task.customIntervalValue = v }
         if let u = item.customIntervalUnit { task.customIntervalUnitRaw = u }
         if let v = item.runMissedExecution { task.runMissedExecution = v }
+        if let v = item.runOnLaunch { task.runOnLaunch = v }
         if let v = item.strongReminder { task.strongReminder = v }
         if let v = item.ignoreExitCode { task.ignoreExitCode = v }
         if let v = item.notifyOnlyWhenOutput { task.notifyOnlyWhenOutput = v }

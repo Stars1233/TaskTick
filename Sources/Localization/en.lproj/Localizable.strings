@@ -126,6 +126,9 @@
 "schedule.until" = "Until %@";
 "schedule.after_n_times" = "%d times";
 "schedule.run_missed" = "Run Missed Execution";
+"schedule.launch_section" = "Launch";
+"schedule.run_on_launch" = "Run once each time the app launches";
+"schedule.run_on_launch.help" = "Runs whether or not a schedule is set";
 
 /* Repeat Types */
 "repeat.never" = "Never";
@@ -198,6 +201,7 @@
 "log.detail.trigger" = "Trigger";
 "log.detail.trigger.manual" = "Manual";
 "log.detail.trigger.schedule" = "Scheduled";
+"log.detail.trigger.launch" = "Launch";
 "log.detail.exit_code" = "Exit Code";
 "log.detail.duration" = "Duration";
 "log.detail.duration_ms" = "%d ms";

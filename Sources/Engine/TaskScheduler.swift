@@ -13,6 +13,10 @@ final class TaskScheduler: ObservableObject {
     private var modelContext: ModelContext?
     private var sleepObserver: NSObjectProtocol?
     private var wakeObserver: NSObjectProtocol?
+    /// Becomes true once the post-launch sweep has run. While false,
+    /// `rebuildSchedule()` defers tasks with `runOnLaunch = true` so the launch
+    /// sweep gets the first-fire (and `runMissedExecution` does not double-fire).
+    private var hasFiredLaunchTasks = false
 
     static let shared = TaskScheduler()
 
@@ -42,12 +46,19 @@ final class TaskScheduler: ObservableObject {
 
         rebuildSchedule()
         setupSleepWakeObservers()
+
+        // Fire onLaunch tasks once after a brief delay so app finishes booting
+        // (model context, windows, etc.) before scripts run. See issue #25.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+            Task { @MainActor in self?.fireLaunchTasks() }
+        }
     }
 
     func stop() {
         masterTimer?.invalidate()
         masterTimer = nil
         isRunning = false
+        hasFiredLaunchTasks = false
         removeSleepWakeObservers()
     }
 
@@ -67,6 +78,11 @@ final class TaskScheduler: ObservableObject {
         var earliest: Date?
 
         for task in tasks {
+            // Defer runOnLaunch tasks until the launch sweep runs (issue #25).
+            // Skipping here also prevents `runMissedExecution` from double-firing
+            // them when both flags are set.
+            if !hasFiredLaunchTasks && task.runOnLaunch { continue }
+
             guard let nextRun = task.nextRunAt else { continue }
             if nextRun <= now {
                 let overdueSeconds = now.timeIntervalSince(nextRun)
@@ -111,6 +127,9 @@ final class TaskScheduler: ObservableObject {
         guard let tasks = try? modelContext.fetch(descriptor) else { return }
 
         for task in tasks {
+            // Defer runOnLaunch tasks until the launch sweep runs (issue #25).
+            if !hasFiredLaunchTasks && task.runOnLaunch { continue }
+
             if let nextRun = task.nextRunAt, nextRun <= now {
                 let overdueSeconds = now.timeIntervalSince(nextRun)
                 if overdueSeconds <= 60 || task.runMissedExecution {
@@ -127,7 +146,28 @@ final class TaskScheduler: ObservableObject {
         rebuildSchedule()
     }
 
-    private func fireTask(_ task: ScheduledTask) {
+    /// Fires every enabled task with `runOnLaunch == true` exactly once per
+    /// `start()` cycle. Called 3s after `start()`. After this runs,
+    /// `hasFiredLaunchTasks` flips to true so `rebuildSchedule()` resumes
+    /// processing those tasks normally for the rest of the session.
+    private func fireLaunchTasks() {
+        defer {
+            hasFiredLaunchTasks = true
+            rebuildSchedule()
+        }
+        guard isRunning, let modelContext else { return }
+
+        let descriptor = FetchDescriptor<ScheduledTask>(
+            predicate: #Predicate { $0.isEnabled && $0.runOnLaunch }
+        )
+        guard let tasks = try? modelContext.fetch(descriptor) else { return }
+
+        for task in tasks {
+            fireTask(task, triggeredBy: .launch)
+        }
+    }
+
+    private func fireTask(_ task: ScheduledTask, triggeredBy: TriggerType = .schedule) {
         let taskId = task.id
         guard !runningTaskIDs.contains(taskId), let modelContext else { return }
 
@@ -156,7 +196,7 @@ final class TaskScheduler: ObservableObject {
         }
 
         Task { @MainActor in
-            await ScriptExecutor.shared.execute(task: task, triggeredBy: .schedule, modelContext: modelContext)
+            await ScriptExecutor.shared.execute(task: task, triggeredBy: triggeredBy, modelContext: modelContext)
             runningTaskIDs.remove(taskId)
             rebuildSchedule()
         }

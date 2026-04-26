@@ -54,6 +54,9 @@ struct TaskEditorView: View {
     // Missed execution
     @State private var runMissedExecution = false
 
+    // Run on each app launch (issue #25)
+    @State private var runOnLaunch = false
+
     // Notification
     @State private var notifyOnSuccess = true
     @State private var notifyOnFailure = true
@@ -160,6 +163,19 @@ struct TaskEditorView: View {
 
     private var scheduleTab: some View {
         Form {
+            Section {
+                Toggle(isOn: $runOnLaunch) {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Label(L10n.tr("schedule.run_on_launch"), systemImage: "power")
+                        Text(L10n.tr("schedule.run_on_launch.help"))
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+            } header: {
+                Text(L10n.tr("schedule.launch_section"))
+            }
+
             Section(L10n.tr("schedule.date_time")) {
                 Toggle(isOn: $hasDate) {
                     Label(L10n.tr("schedule.date"), systemImage: "calendar")
@@ -749,6 +765,7 @@ struct TaskEditorView: View {
         workingDirectory = ""
         timeoutSeconds = 300
         runMissedExecution = false
+        runOnLaunch = false
         notifyOnSuccess = true
         notifyOnFailure = true
         notifyOnlyWhenOutput = false
@@ -789,11 +806,12 @@ struct TaskEditorView: View {
         customIntervalValue = task.customIntervalValue
         customIntervalUnit = task.customIntervalUnit
         runMissedExecution = task.runMissedExecution
+        runOnLaunch = task.runOnLaunch
+        hasDate = task.hasDate
+        hasTime = task.hasTime
 
         if let date = task.scheduledDate {
             scheduledDate = date
-            hasDate = true
-            hasTime = true
         }
 
         if let filePath = task.scriptFilePath, !filePath.isEmpty {
@@ -820,8 +838,11 @@ struct TaskEditorView: View {
         target.isEnabled = isEnabled
         target.updatedAt = Date()
 
-        // Always set scheduledDate so the scheduler has a base time
-        target.scheduledDate = scheduledDate
+        target.hasDate = hasDate
+        target.hasTime = hasTime
+        // When both toggles are off, drop the anchor so the scheduler falls back
+        // to "now" as base (TaskScheduler handles scheduledDate == nil).
+        target.scheduledDate = (hasDate || hasTime) ? scheduledDate : nil
         target.repeatType = repeatType
         target.endRepeatType = repeatType == .never ? .never : endRepeatType
         target.endRepeatDate = endRepeatType == .onDate ? endRepeatDate : nil
@@ -829,6 +850,7 @@ struct TaskEditorView: View {
         target.customIntervalValue = customIntervalValue
         target.customIntervalUnit = customIntervalUnit
         target.runMissedExecution = runMissedExecution
+        target.runOnLaunch = runOnLaunch
 
         target.cronExpression = nil
         target.intervalSeconds = nil

@@ -143,6 +143,11 @@ final class ScheduledTask {
 
     // New schedule fields
     var scheduledDate: Date?
+    /// Whether the user wants the schedule anchored to a specific date.
+    /// Default `true` preserves legacy behavior on SwiftData migration.
+    var hasDate: Bool = true
+    /// Whether the user wants the schedule anchored to a specific time of day.
+    var hasTime: Bool = true
     var repeatTypeRaw: String = RepeatType.daily.rawValue
     var endRepeatTypeRaw: String = EndRepeatType.never.rawValue
     var endRepeatDate: Date?
@@ -167,6 +172,9 @@ final class ScheduledTask {
     /// (`echo` something). Default `false` keeps existing tasks' behavior unchanged.
     var notifyOnlyWhenOutput: Bool = false
     var runMissedExecution: Bool = false
+    /// When true, fires once every time `TaskScheduler.start()` runs (i.e. each
+    /// app launch). Independent of any time-based schedule. See issue #25.
+    var runOnLaunch: Bool = false
     var strongReminder: Bool = false
     var ignoreExitCode: Bool = false
 

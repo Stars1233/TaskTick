@@ -61,9 +61,7 @@ struct LogDetailView: View {
 
                         VStack(spacing: 8) {
                             infoRow(L10n.tr("log.detail.trigger"),
-                                    value: log.triggeredBy == .manual
-                                        ? L10n.tr("log.detail.trigger.manual")
-                                        : L10n.tr("log.detail.trigger.schedule"))
+                                    value: log.triggeredBy.displayName)
 
                             if let exitCode = log.exitCode {
                                 infoRow(L10n.tr("log.detail.exit_code"), value: "\(exitCode)")
