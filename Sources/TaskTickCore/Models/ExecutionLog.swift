@@ -80,10 +80,14 @@ public final class ExecutionLog {
     /// Maximum output size: 512KB
     public static let maxOutputSize = 512 * 1024
 
+    /// Truncate large output by keeping the *suffix* — for build/start
+    /// scripts the tail carries the stack trace, exit reason, and final
+    /// status, which is the part users actually look at. Earlier versions
+    /// kept the prefix and silently dropped the failure context.
     public static func truncateOutput(_ output: String) -> String {
         if output.utf8.count > maxOutputSize {
-            let truncated = String(output.prefix(maxOutputSize / 2))
-            return truncated + "\n\n--- 输出已截断 (超过 512KB) ---"
+            let truncated = String(output.suffix(maxOutputSize / 2))
+            return "--- 输出已截断 (超过 512KB，仅显示末尾) ---\n\n" + truncated
         }
         return output
     }

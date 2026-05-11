@@ -310,10 +310,20 @@ struct TaskListRow: View {
                     // Prefer "last run" since that's the dynamic signal users
                     // care about (when did this thing last fire?). Fall back
                     // to createdAt only for tasks that have never run yet.
-                    Text(Self.relativeFormatter.localizedString(
-                        for: task.lastRunAt ?? task.createdAt,
-                        relativeTo: Date()
-                    ))
+                    // TimelineView ticks every 60s so the relative label
+                    // doesn't freeze at "just-fired" forever. Short-circuit
+                    // diffs under 60s to "just now" because zh-Hans .short
+                    // formatter quantizes |diff|<1s to "0秒后" (a future-tense
+                    // string for a past event), which reads as a bug.
+                    TimelineView(.periodic(from: .now, by: 60)) { ctx in
+                        let d = task.lastRunAt ?? task.createdAt
+                        let diff = ctx.date.timeIntervalSince(d)
+                        if diff >= 0 && diff < 60 {
+                            Text(L10n.tr("time.just_now"))
+                        } else {
+                            Text(Self.relativeFormatter.localizedString(for: d, relativeTo: ctx.date))
+                        }
+                    }
                     .font(.caption2)
                 }
                 .foregroundStyle(.secondary)

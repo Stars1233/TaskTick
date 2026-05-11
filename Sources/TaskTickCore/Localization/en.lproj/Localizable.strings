@@ -564,3 +564,6 @@
 "cli.repair.later_button" = "Later";
 "cli.repair.success.title" = "tasktick CLI updated";
 "cli.repair.success.message" = "%@ now points at the bundled CLI binary.";
+
+/* Time */
+"time.just_now" = "just now";

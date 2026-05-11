@@ -518,9 +518,18 @@ private struct QuickLauncherRow: View {
                 // Right-edge meta: "Xm ago". Only shown for unselected rows
                 // so the action pill on the selected row stays the visual
                 // anchor — same trick Raycast / Spotlight use.
-                Text(Self.relativeFormatter.localizedString(for: lastRun, relativeTo: Date()))
-                    .font(.system(size: 11))
-                    .foregroundStyle(.tertiary)
+                // TimelineView + "just now" short-circuit: see TaskListView
+                // for the rationale (formatter quantization + stale render).
+                TimelineView(.periodic(from: .now, by: 60)) { ctx in
+                    let diff = ctx.date.timeIntervalSince(lastRun)
+                    if diff >= 0 && diff < 60 {
+                        Text(L10n.tr("time.just_now"))
+                    } else {
+                        Text(Self.relativeFormatter.localizedString(for: lastRun, relativeTo: ctx.date))
+                    }
+                }
+                .font(.system(size: 11))
+                .foregroundStyle(.tertiary)
             }
         }
         .padding(.horizontal, 10)

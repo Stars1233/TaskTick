@@ -30,6 +30,20 @@ enum NotificationBridge {
         )
     }
 
+    /// Post the multi-field `cli.create` notification. Unlike the simple
+    /// action notifications above, create needs to ship the full task spec
+    /// (name, script path, schedule, etc.) so the GUI can build a
+    /// ScheduledTask on the other side.
+    static func postCreate(payload: [String: Any]) {
+        let bundleId = BundleContext.bundleID
+        DistributedNotificationCenter.default().postNotificationName(
+            Notification.Name("\(bundleId).cli.create"),
+            object: nil,
+            userInfo: payload,
+            deliverImmediately: true
+        )
+    }
+
     /// Best-effort snapshot of currently-running task IDs. CLI reads
     /// ExecutionLog rows where status == .running as a proxy for the GUI's
     /// in-memory runningTaskIDs. Stale by 1 fetch round-trip but correct

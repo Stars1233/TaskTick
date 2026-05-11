@@ -442,3 +442,6 @@
 "cli.repair.later_button" = "Позже";
 "cli.repair.success.title" = "tasktick CLI обновлён";
 "cli.repair.success.message" = "%@ теперь указывает на встроенный бинарный файл CLI.";
+
+/* Time */
+"time.just_now" = "только что";

@@ -26,6 +26,10 @@ final class CLIBridge {
     static var stopNotification: Notification.Name    { Notification.Name("\(bundlePrefix).cli.stop") }
     static var restartNotification: Notification.Name { Notification.Name("\(bundlePrefix).cli.restart") }
     static var revealNotification: Notification.Name  { Notification.Name("\(bundlePrefix).cli.reveal") }
+    /// `cli.create` lives outside the Action enum because it carries a
+    /// multi-field payload (name/script_path/shell/repeat/...) instead of
+    /// a single taskId. See `handleCreate(userInfo:)`.
+    static var createNotification: Notification.Name  { Notification.Name("\(bundlePrefix).cli.create") }
 
     private var modelContainer: ModelContainer?
 
@@ -107,6 +111,100 @@ final class CLIBridge {
                       let uuid = UUID(uuidString: idString) else { return }
                 Task { @MainActor in self?.handle(action: action, taskId: uuid) }
             }
+        }
+        center.addObserver(forName: Self.createNotification, object: nil, queue: .main) { [weak self] note in
+            // Extract every primitive synchronously on the main queue so the
+            // Task closure only captures Sendable values (Swift 6 strict
+            // concurrency forbids hopping non-Sendable [AnyHashable: Any]
+            // across actor boundaries).
+            let info = note.userInfo ?? [:]
+            let spec = CreateSpec(
+                idStr: info["id"] as? String,
+                name: info["name"] as? String,
+                scriptPath: info["script_path"] as? String,
+                shell: info["shell"] as? String,
+                cwd: info["cwd"] as? String,
+                timeout: info["timeout"] as? Int,
+                isManual: info["manual"] as? Bool,
+                isEnabled: info["enabled"] as? Bool,
+                repeatRaw: info["repeat"] as? String,
+                scheduledAt: info["scheduled_at"] as? Double
+            )
+            Task { @MainActor in self?.handleCreate(spec: spec) }
+        }
+    }
+
+    /// Sendable snapshot of the create-notification payload. All primitives
+    /// so it can cross actor boundaries cleanly.
+    struct CreateSpec: Sendable {
+        let idStr: String?
+        let name: String?
+        let scriptPath: String?
+        let shell: String?
+        let cwd: String?
+        let timeout: Int?
+        let isManual: Bool?
+        let isEnabled: Bool?
+        let repeatRaw: String?
+        let scheduledAt: Double?
+    }
+
+    /// Build a ScheduledTask from the CLI-supplied payload, persist it, and
+    /// rebuild the scheduler.
+    private func handleCreate(spec: CreateSpec) {
+        guard let container = modelContainer,
+              let idStr = spec.idStr,
+              let id = UUID(uuidString: idStr),
+              let name = spec.name,
+              let scriptPath = spec.scriptPath else {
+            NSLog("⚠️ CLIBridge.handleCreate: missing required fields")
+            return
+        }
+
+        let shell = spec.shell ?? "/bin/zsh"
+        let cwd = spec.cwd
+        let timeout = spec.timeout ?? -1
+        let isManual = spec.isManual ?? false
+        let isEnabled = spec.isEnabled ?? true
+        let repeatRaw = spec.repeatRaw ?? RepeatType.never.rawValue
+        let scheduledAt = spec.scheduledAt.map { Date(timeIntervalSince1970: $0) }
+
+        let repeatType = RepeatType(rawValue: repeatRaw) ?? .never
+
+        let context = container.mainContext
+
+        // Guard against double-create (e.g. CLI retried because polling
+        // didn't see the task fast enough — idempotent on UUID).
+        let existing = try? context.fetch(FetchDescriptor<ScheduledTask>(predicate: #Predicate { $0.id == id })).first
+        if existing != nil {
+            return
+        }
+
+        let task = ScheduledTask(
+            name: name,
+            shell: shell,
+            scheduledDate: scheduledAt,
+            repeatType: repeatType,
+            isEnabled: isEnabled,
+            workingDirectory: cwd,
+            timeoutSeconds: timeout
+        )
+        task.id = id
+        task.scriptFilePath = scriptPath
+        task.isManualOnly = isManual
+
+        context.insert(task)
+        do {
+            try context.save()
+        } catch {
+            NSLog("⚠️ CLIBridge.handleCreate: save failed: \(error)")
+            return
+        }
+
+        if isEnabled && !isManual {
+            task.nextRunAt = TaskScheduler.shared.computeNextRunDate(for: task)
+            try? context.save()
+            TaskScheduler.shared.rebuildSchedule()
         }
     }
 }

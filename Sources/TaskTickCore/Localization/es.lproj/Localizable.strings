@@ -433,3 +433,6 @@
 "cli.repair.later_button" = "Más tarde";
 "cli.repair.success.title" = "tasktick CLI actualizado";
 "cli.repair.success.message" = "%@ ahora apunta al binario de CLI incluido.";
+
+/* Time */
+"time.just_now" = "ahora mismo";

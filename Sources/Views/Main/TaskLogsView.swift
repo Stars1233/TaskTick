@@ -98,20 +98,21 @@ private struct LogDetailContent: View {
     let log: ExecutionLog
     @ObservedObject private var liveOutput = LiveOutputManager.shared
 
+    private var isLive: Bool {
+        guard log.status == .running, let taskId = log.task?.id else { return false }
+        return liveOutput.isTracking(taskId)
+    }
+
     private var currentStdout: String? {
-        if log.status == .running,
-           let taskId = log.task?.id,
-           let live = liveOutput.liveOutputs[taskId] {
-            return live.stdout.isEmpty ? nil : live.stdout
+        if isLive, let taskId = log.task?.id {
+            return liveOutput.stdout(for: taskId)
         }
         return log.stdout
     }
 
     private var currentStderr: String? {
-        if log.status == .running,
-           let taskId = log.task?.id,
-           let live = liveOutput.liveOutputs[taskId] {
-            return live.stderr.isEmpty ? nil : live.stderr
+        if isLive, let taskId = log.task?.id {
+            return liveOutput.stderr(for: taskId)
         }
         return log.stderr
     }
@@ -158,9 +159,12 @@ private struct LogDetailContent: View {
                               systemImage: isFailure ? "exclamationmark.triangle" : "text.alignleft")
                             .font(.headline)
                             .foregroundStyle(isFailure ? Color.red : Color.primary)
-                        Text(combined)
-                            .font(.system(.caption, design: .monospaced))
-                            .textSelection(.enabled)
+                        // Always virtualized — completed logs can carry up to
+                        // 512KB of stdout from SwiftData and SwiftUI Text
+                        // chokes on layout regardless of whether it's live.
+                        LogTextView(text: combined,
+                                    font: .monospacedSystemFont(ofSize: 11, weight: .regular))
+                            .frame(minHeight: 240, idealHeight: 360, maxHeight: 600)
                             .padding(12)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .background(RoundedRectangle(cornerRadius: 8)

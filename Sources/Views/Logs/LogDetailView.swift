@@ -6,20 +6,21 @@ struct LogDetailView: View {
     let log: ExecutionLog
     @ObservedObject private var liveOutput = LiveOutputManager.shared
 
+    private var isLive: Bool {
+        guard log.status == .running, let taskId = log.task?.id else { return false }
+        return liveOutput.isTracking(taskId)
+    }
+
     private var currentStdout: String? {
-        if log.status == .running,
-           let taskId = log.task?.id,
-           let live = liveOutput.liveOutputs[taskId] {
-            return live.stdout.isEmpty ? nil : live.stdout
+        if isLive, let taskId = log.task?.id {
+            return liveOutput.stdout(for: taskId)
         }
         return log.stdout
     }
 
     private var currentStderr: String? {
-        if log.status == .running,
-           let taskId = log.task?.id,
-           let live = liveOutput.liveOutputs[taskId] {
-            return live.stderr.isEmpty ? nil : live.stderr
+        if isLive, let taskId = log.task?.id {
+            return liveOutput.stderr(for: taskId)
         }
         return log.stderr
     }
@@ -101,6 +102,9 @@ struct LogDetailView: View {
                     .joined(separator: "\n")
                 if !combined.isEmpty {
                     let isFailure = log.status == .failure || log.status == .timeout
+                    // Always use the virtualized view: completed logs can store
+                    // up to 512KB of stdout and SwiftUI's `Text` still chokes
+                    // on layout for big strings even when there's no streaming.
                     OutputSection(
                         title: L10n.tr("log.detail.output"),
                         content: combined,
@@ -154,9 +158,8 @@ struct OutputSection: View {
                     .font(.headline)
                     .foregroundStyle(color == .primary ? .primary : color)
 
-                Text(content)
-                    .font(.system(size: 12, design: .monospaced))
-                    .textSelection(.enabled)
+                LogTextView(text: content)
+                    .frame(minHeight: 240, idealHeight: 360, maxHeight: 600)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(10)
                     .background(

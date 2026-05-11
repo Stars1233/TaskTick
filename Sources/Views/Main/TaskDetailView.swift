@@ -562,9 +562,11 @@ struct TaskDetailView: View {
             } label: {
                 HStack(spacing: 8) {
                     StatusBadge(status: log.status, compact: true)
-                    Text(Self.timeAgo(log.startedAt))
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                    TimelineView(.periodic(from: .now, by: 60)) { ctx in
+                        Text(Self.timeAgo(log.startedAt, now: ctx.date))
+                    }
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
                     Spacer()
                 }
             }
@@ -658,8 +660,12 @@ struct TaskDetailView: View {
         }
     }
 
-    private static func timeAgo(_ date: Date) -> String {
-        relativeFormatter.localizedString(for: date, relativeTo: Date())
+    private static func timeAgo(_ date: Date, now: Date = Date()) -> String {
+        let diff = now.timeIntervalSince(date)
+        if diff >= 0 && diff < 60 {
+            return L10n.tr("time.just_now")
+        }
+        return relativeFormatter.localizedString(for: date, relativeTo: now)
     }
 }
 

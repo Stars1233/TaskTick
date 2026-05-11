@@ -442,3 +442,6 @@
 "cli.repair.later_button" = "Nanti";
 "cli.repair.success.title" = "tasktick CLI diperbarui";
 "cli.repair.success.message" = "%@ kini menunjuk ke biner CLI yang dibundel.";
+
+/* Time */
+"time.just_now" = "baru saja";

@@ -417,3 +417,6 @@
 "cli.repair.later_button" = "나중에";
 "cli.repair.success.title" = "tasktick CLI 가 업데이트되었습니다";
 "cli.repair.success.message" = "%@ 가 이제 새 CLI 바이너리를 가리킵니다.";
+
+/* Time */
+"time.just_now" = "방금";

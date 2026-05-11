@@ -55,7 +55,13 @@ struct ListCommand: AsyncParsableCommand {
                     dto.name,
                     dto.kind.rawValue,
                     dto.status.rawValue,
-                    dto.lastRunAt.map { formatter.localizedString(for: $0, relativeTo: Date()) } ?? "—"
+                    dto.lastRunAt.map { date -> String in
+                        let diff = Date().timeIntervalSince(date)
+                        if diff >= 0 && diff < 60 {
+                            return L10n.tr("time.just_now")
+                        }
+                        return formatter.localizedString(for: date, relativeTo: Date())
+                    } ?? "—"
                 ]
             }
             print(TableRenderer.render(

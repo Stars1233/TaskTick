@@ -442,3 +442,6 @@
 "cli.repair.later_button" = "後で";
 "cli.repair.success.title" = "tasktick CLI を更新しました";
 "cli.repair.success.message" = "%@ は新しい CLI バイナリを指しています。";
+
+/* Time */
+"time.just_now" = "たった今";

@@ -399,3 +399,6 @@
 "cli.repair.later_button" = "Plus tard";
 "cli.repair.success.title" = "tasktick CLI mis à jour";
 "cli.repair.success.message" = "%@ pointe maintenant vers le binaire CLI groupé.";
+
+/* Time */
+"time.just_now" = "à l'instant";

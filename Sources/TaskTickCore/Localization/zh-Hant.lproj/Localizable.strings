@@ -457,3 +457,6 @@
 "cli.repair.later_button" = "稍後";
 "cli.repair.success.title" = "tasktick CLI 已更新";
 "cli.repair.success.message" = "%@ 已指向新的 CLI 二進位檔。";
+
+/* Time */
+"time.just_now" = "剛剛";

@@ -434,6 +434,13 @@ final class ScriptExecutor: ObservableObject {
                 let stderrHandle = stderrPipe.fileHandleForReading
 
                 let outputBuffer = PipeOutputBuffer()
+                // Coalesce pipe chunks at 50ms intervals before dispatching to
+                // the main thread. With high-output scripts (npm run dev +
+                // Spring Boot) the pipe can fire 100+ times/sec — without
+                // batching each fire becomes a separate main-queue hop,
+                // saturating the run loop. 50ms is well under perceptible UI
+                // lag for live logs and lets us amortize the dispatch cost.
+                let batcher = IOBatcher(taskId: taskId)
 
                 stdoutHandle.readabilityHandler = { handle in
                     let data = handle.availableData
@@ -443,9 +450,7 @@ final class ScriptExecutor: ObservableObject {
                     }
                     outputBuffer.appendStdout(data)
                     logFileWriter?.append(data)
-                    DispatchQueue.main.async {
-                        LiveOutputManager.shared.appendStdout(taskId: taskId, data: data)
-                    }
+                    batcher.appendStdout(data)
                 }
 
                 stderrHandle.readabilityHandler = { handle in
@@ -456,9 +461,7 @@ final class ScriptExecutor: ObservableObject {
                     }
                     outputBuffer.appendStderr(data)
                     logFileWriter?.append(data)
-                    DispatchQueue.main.async {
-                        LiveOutputManager.shared.appendStderr(taskId: taskId, data: data)
-                    }
+                    batcher.appendStderr(data)
                 }
 
                 do {
@@ -520,12 +523,18 @@ final class ScriptExecutor: ObservableObject {
                 if !remainingStdout.isEmpty {
                     outputBuffer.appendStdout(remainingStdout)
                     logFileWriter?.append(remainingStdout)
+                    batcher.appendStdout(remainingStdout)
                 }
                 if !remainingStderr.isEmpty {
                     outputBuffer.appendStderr(remainingStderr)
                     logFileWriter?.append(remainingStderr)
+                    batcher.appendStderr(remainingStderr)
                 }
                 logFileWriter?.close()
+                // Make sure any pending batched data lands in LiveOutputManager
+                // before the executor flips the task off — otherwise the live
+                // viewer can miss the last frame between exit and stopTracking.
+                batcher.flushNow()
 
                 // Remove from running processes
                 Task { @MainActor in

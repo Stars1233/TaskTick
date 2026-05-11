@@ -442,3 +442,6 @@
 "cli.repair.later_button" = "Später";
 "cli.repair.success.title" = "tasktick-CLI aktualisiert";
 "cli.repair.success.message" = "%@ verweist nun auf die gebündelte CLI-Binärdatei.";
+
+/* Time */
+"time.just_now" = "gerade eben";
