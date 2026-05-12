@@ -167,6 +167,7 @@ final class ScriptExecutor: ObservableObject {
             environmentVariables: envVars,
             timeoutSeconds: timeoutSeconds,
             taskId: taskId,
+            logId: logId,
             ignoreExitCode: ignoreExitCode,
             logFileWriter: logFileWriter
         )
@@ -289,6 +290,21 @@ final class ScriptExecutor: ObservableObject {
         }
     }
 
+    /// Persist the running process's PID + start-time fingerprint to its
+    /// ExecutionLog row. Called from a background queue right after
+    /// `setpgid`. Uses the shared model container directly (mirrors
+    /// AppDelegate's same-singleton access pattern) so we don't have to
+    /// thread a non-Sendable `ModelContext` through cross-actor closures.
+    private func persistRunningPID(logId: UUID, pid: Int32, startTime: String?) {
+        let ctx = TaskTickApp._sharedModelContainer.mainContext
+        let desc = FetchDescriptor<ExecutionLog>(predicate: #Predicate { $0.id == logId })
+        if let live = try? ctx.fetch(desc).first {
+            live.pid = pid
+            live.processStartTime = startTime
+            try? ctx.save()
+        }
+    }
+
     // MARK: - Private
 
     /// Thread-safe buffer for collecting pipe output from readabilityHandler closures.
@@ -364,6 +380,7 @@ final class ScriptExecutor: ObservableObject {
         environmentVariables: [String: String]?,
         timeoutSeconds: Int,
         taskId: UUID,
+        logId: UUID,
         ignoreExitCode: Bool = false,
         logFileWriter: LogFileWriter? = nil
     ) async -> ProcessResult {
@@ -486,9 +503,18 @@ final class ScriptExecutor: ObservableObject {
                 // practice scripts don't fork that early.
                 setpgid(process.processIdentifier, process.processIdentifier)
 
-                // Store process reference for cancellation
+                // Snapshot pid + start-time so the next app launch can tell
+                // whether this exact process is still alive (vs. PID recycled
+                // to a different program). Both fields are persisted to the
+                // log so a crash here doesn't lose the breadcrumb. lstart is
+                // captured here on the bg queue (not on @MainActor) so the
+                // ~10ms `ps` subprocess doesn't stall the UI.
+                let capturedPID = process.processIdentifier
+                let capturedStart = ProcessReconciler.startTime(pid: capturedPID)
+
                 Task { @MainActor in
                     self.runningProcesses[taskId] = process
+                    self.persistRunningPID(logId: logId, pid: capturedPID, startTime: capturedStart)
                 }
 
                 // Timeout handling: send SIGTERM first, then SIGKILL 3s later if still alive.
