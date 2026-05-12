@@ -75,6 +75,12 @@ final class ScriptExecutor: ObservableObject {
 
     @Published var runningProcesses: [UUID: Process] = [:]
 
+    /// Processes that were running when a previous TaskTick session ended
+    /// and we re-acquired on launch. Only have a bare PID — no Foundation
+    /// `Process`, no live output capture. Cancellation works via direct
+    /// signals to the process group.
+    @Published var adoptedProcesses: [UUID: Int32] = [:]
+
     static let shared = ScriptExecutor()
     private let executionSemaphore = DispatchSemaphore(value: 8)
 
@@ -259,6 +265,11 @@ final class ScriptExecutor: ObservableObject {
     /// Cancel a running task. Hits both the immediate child (zsh) and the
     /// whole process group so descendants like `node`, `python`, etc. don't
     /// orphan when zsh exits without forwarding SIGTERM.
+    ///
+    /// Adopted entries (re-acquired from a previous session) only have a
+    /// bare PID — no `Process` object, no waitpid (we're not the parent).
+    /// They get SIGTERM with a 3s SIGKILL escalation; we don't waitpid
+    /// because launchd has the parent slot.
     func cancel(taskId: UUID) {
         if let process = runningProcesses[taskId], process.isRunning {
             let pid = process.processIdentifier
@@ -266,27 +277,52 @@ final class ScriptExecutor: ObservableObject {
             process.terminate()   // belt and suspenders for the immediate child
         }
         runningProcesses.removeValue(forKey: taskId)
+
+        if let adoptedPID = adoptedProcesses[taskId] {
+            kill(-adoptedPID, SIGTERM)
+            DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(3)) {
+                if ProcessReconciler.isAlive(pid: adoptedPID) {
+                    kill(-adoptedPID, SIGKILL)
+                }
+            }
+            adoptedProcesses.removeValue(forKey: taskId)
+            TaskScheduler.shared.runningTaskIDs.remove(taskId)
+        }
     }
 
     /// Synchronously terminate every running script. Designed for app-quit:
     /// SIGTERM the whole tree, give it `graceful` seconds to clean up, then
     /// SIGKILL anything still alive. Blocks the caller — ok during
     /// applicationWillTerminate, since the app is dying anyway.
+    ///
+    /// Adopted processes (re-acquired from a previous session, PID-only)
+    /// go through the same two-stage flow via process-group signals.
     func cancelAll(graceful: TimeInterval = 0.3) {
-        let snapshot = Array(runningProcesses.values)
+        let processSnapshot = Array(runningProcesses.values)
+        let adoptedSnapshot = Array(adoptedProcesses.values)
         runningProcesses.removeAll()
-        guard !snapshot.isEmpty else { return }
+        adoptedProcesses.removeAll()
 
-        for process in snapshot where process.isRunning {
+        guard !processSnapshot.isEmpty || !adoptedSnapshot.isEmpty else { return }
+
+        for process in processSnapshot where process.isRunning {
             let pid = process.processIdentifier
             kill(-pid, SIGTERM)
             process.terminate()
         }
+        for pid in adoptedSnapshot {
+            kill(-pid, SIGTERM)
+        }
+
         Thread.sleep(forTimeInterval: graceful)
-        for process in snapshot where process.isRunning {
+
+        for process in processSnapshot where process.isRunning {
             let pid = process.processIdentifier
             kill(-pid, SIGKILL)
             kill(pid, SIGKILL)
+        }
+        for pid in adoptedSnapshot where ProcessReconciler.isAlive(pid: pid) {
+            kill(-pid, SIGKILL)
         }
     }
 
