@@ -179,7 +179,8 @@ struct TaskListView: View {
     private func taskRow(_ task: ScheduledTask) -> some View {
         TaskListRow(
             task: task,
-            isRunning: scheduler.runningTaskIDs.contains(task.id)
+            isRunning: scheduler.runningTaskIDs.contains(task.id),
+            isSelected: selectedTask == task
         )
         .tag(task)
         .id(task.id)
@@ -256,6 +257,13 @@ struct TaskListView: View {
 struct TaskListRow: View {
     let task: ScheduledTask
     let isRunning: Bool
+    /// `List(selection:)` paints the selected row in the system accent colour
+    /// (blue by default). The status circles use fixed fills that aren't
+    /// part of SwiftUI's auto-flip-to-white pipeline for `primary`/`secondary`
+    /// content, so a blue running-dot or grey disabled-dot would melt into
+    /// that accent background. When selected, we swap the fills for white-
+    /// tinted variants that read cleanly against any accent colour.
+    let isSelected: Bool
 
     private static let relativeFormatter: RelativeDateTimeFormatter = {
         let f = RelativeDateTimeFormatter()
@@ -263,20 +271,35 @@ struct TaskListRow: View {
         return f
     }()
 
+    private var statusDotFill: Color {
+        if isSelected {
+            return task.isEnabled ? .white : .white.opacity(0.5)
+        }
+        return task.isEnabled ? .green : .gray.opacity(0.35)
+    }
+
+    private var runningDotFill: Color {
+        isSelected ? .white : .blue
+    }
+
+    private var runningHaloStroke: Color {
+        isSelected ? .white.opacity(0.5) : .blue.opacity(0.3)
+    }
+
     var body: some View {
         HStack(spacing: 10) {
             // Status indicator
             ZStack {
                 if isRunning {
                     Circle()
-                        .fill(.blue)
+                        .fill(runningDotFill)
                         .frame(width: 10, height: 10)
                     Circle()
-                        .stroke(.blue.opacity(0.3), lineWidth: 2)
+                        .stroke(runningHaloStroke, lineWidth: 2)
                         .frame(width: 16, height: 16)
                 } else {
                     Circle()
-                        .fill(task.isEnabled ? .green : .gray.opacity(0.35))
+                        .fill(statusDotFill)
                         .frame(width: 10, height: 10)
                 }
             }
@@ -334,9 +357,20 @@ struct TaskListRow: View {
             if isRunning {
                 ProgressView()
                     .controlSize(.mini)
+                    // Force white on the selected row — without an explicit
+                    // tint the spinner stays accent-coloured and disappears
+                    // into the selection background.
+                    .tint(isSelected ? Color.white : Color.accentColor)
             }
         }
         .padding(.vertical, 3)
+        // List paints its selection highlight without a SwiftUI animation
+        // transaction, but `Circle().fill(Color)` will use SwiftUI's default
+        // colour-interpolation animation when the colour binding changes.
+        // Result: the row background flashes blue instantly while the dot
+        // slowly fades green→white. Disabling animation specifically for
+        // `isSelected` changes brings them back into the same frame.
+        .animation(nil, value: isSelected)
     }
 
 }

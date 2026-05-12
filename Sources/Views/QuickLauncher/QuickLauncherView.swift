@@ -97,7 +97,7 @@ struct QuickLauncherView: View {
     private static let maxVisibleResults = 8
 
     /// Visible card width — kept as a typed constant so the controller can
-    /// size the NSPanel to match without inferring from intrinsic layout.
+    /// size the host window to match without inferring from intrinsic layout.
     static let cardWidth: CGFloat = 580
 
     private var visibleTasks: [ScheduledTask] {
@@ -131,17 +131,15 @@ struct QuickLauncherView: View {
         }
         .padding(14)
         .frame(width: Self.cardWidth)
-        // Raycast / 1Password use a SOLID surface, not a blurred material —
-        // material's translucency makes a white desktop bleed through and the
-        // dark-mode panel ends up looking dirty gray. `windowBackgroundColor`
-        // is the system-standard opaque panel surface and adapts to light /
-        // dark automatically.
-        .background(Color(nsColor: .windowBackgroundColor))
-        // The titled NSPanel takes care of rounded corners + native window
-        // shadow at the system level. SwiftUI just needs to clip its own
-        // background to the panel's rounding so the material doesn't bleed
-        // past it.
-        .clipShape(RoundedRectangle(cornerRadius: 12))
+        // Background + rounded corners + native window shadow are all
+        // applied by QuickLauncherController: an NSVisualEffectView
+        // (windowBackground material, behindWindow blending) fills the
+        // wrapper NSView underneath SwiftUI, and a CALayer cornerRadius
+        // on the wrapper clips the whole thing to Apple's squircle shape.
+        // A SwiftUI `.background(Color.windowBackgroundColor)` here would
+        // make the surface fully opaque again — and then NSThemeFrame's
+        // chrome would peek through the wrapper's rounded corner cut-outs
+        // as square edges at the bottom.
         .ignoresSafeArea()
         .onAppear {
             installKeyMonitor()
