@@ -53,7 +53,7 @@
 /* Task Editor Tabs */
 "editor.tab.basic" = "基本";
 "editor.tab.schedule" = "调度";
-"editor.tab.script" = "脚本";
+"editor.tab.script" = "动作";
 "editor.tab.settings" = "设置";
 "editor.tab.notification" = "通知";
 
@@ -483,6 +483,17 @@
 "template.import_file" = "导入文件...";
 "template.script_hint" = "直接编写脚本，或从本地文件导入。";
 "editor.script.source.template" = "从模板";
+"editor.script.source.shortcut" = "快捷指令";
+"editor.shortcut.loading" = "正在加载快捷指令...";
+"editor.shortcut.empty" = "未检测到快捷指令。请先在「快捷指令」App 中创建。";
+"editor.shortcut.open_app" = "打开快捷指令 App";
+"editor.shortcut.retry" = "重试";
+"editor.shortcut.refresh" = "刷新列表";
+"editor.shortcut.hint" = "TaskTick 将通过 `shortcuts run` 触发选中的快捷指令。";
+"editor.shortcut.load_failed" = "加载快捷指令列表失败。";
+"editor.shortcut.placeholder" = "选择一个快捷指令";
+"task.detail.shortcut" = "快捷指令";
+"task.detail.shortcut.hint" = "TaskTick 会通过 `shortcuts run` 调用它。";
 
 /* Default Template Names & Notes */
 "default_template.category.database" = "数据库备份";

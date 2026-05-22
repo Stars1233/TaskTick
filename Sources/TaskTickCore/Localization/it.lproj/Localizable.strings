@@ -53,7 +53,7 @@
 /* Task Editor Tabs */
 "editor.tab.basic" = "Base";
 "editor.tab.schedule" = "Pianificazione";
-"editor.tab.script" = "Script";
+"editor.tab.script" = "Azione";
 "editor.tab.settings" = "Impostazioni";
 "editor.tab.notification" = "Notifiche";
 
@@ -483,6 +483,17 @@
 "template.import_file" = "Importa file...";
 "template.script_hint" = "Scrivi lo script direttamente o importalo da un file locale.";
 "editor.script.source.template" = "Da modello";
+"editor.script.source.shortcut" = "Comando rapido";
+"editor.shortcut.loading" = "Caricamento comandi rapidi...";
+"editor.shortcut.empty" = "Nessun comando rapido trovato. Creane uno nell'app Comandi rapidi.";
+"editor.shortcut.open_app" = "Apri Comandi rapidi";
+"editor.shortcut.retry" = "Riprova";
+"editor.shortcut.refresh" = "Aggiorna elenco";
+"editor.shortcut.hint" = "TaskTick lo esegue tramite `shortcuts run`.";
+"editor.shortcut.load_failed" = "Caricamento dei comandi rapidi non riuscito.";
+"editor.shortcut.placeholder" = "Seleziona un comando rapido";
+"task.detail.shortcut" = "Comando rapido";
+"task.detail.shortcut.hint" = "TaskTick lo esegue tramite `shortcuts run`.";
 
 /* Default Template Names & Notes */
 "default_template.category.database" = "Backup database";

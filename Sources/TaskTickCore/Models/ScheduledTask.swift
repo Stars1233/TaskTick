@@ -137,6 +137,10 @@ public final class ScheduledTask {
     public var name: String
     public var scriptBody: String
     public var scriptFilePath: String?
+    /// When set, this task runs `shortcuts run <name>` instead of a shell script.
+    /// Mutually exclusive with `scriptBody` / `scriptFilePath` at the editor layer;
+    /// the executor branches on this field before reading either.
+    public var shortcutName: String? = nil
     /// Commands to run before the main script body (e.g. `export` proxy vars).
     /// Executed in the same shell invocation so env changes propagate to the script.
     public var preRunCommand: String = ""

@@ -123,10 +123,19 @@ final class ScriptExecutor: ObservableObject {
         let strongReminder = task.strongReminder
         let logId = log.id
 
-        // Resolve script: inline body or file content
+        // Shortcut tasks bypass the shell pipeline entirely. The editor blocks
+        // users from setting shell / preRun / cwd / env on shortcut tasks, so
+        // we don't need to honor those fields here.
+        let shortcutName = task.shortcutName?.trimmingCharacters(in: .whitespacesAndNewlines)
+        let isShortcutTask = !(shortcutName?.isEmpty ?? true)
+
+        // Resolve script: inline body or file content (only used for shell-script tasks)
         let scriptBody: String
         let effectiveShell: String
-        if let filePath = task.scriptFilePath, !filePath.isEmpty {
+        if isShortcutTask {
+            scriptBody = ""
+            effectiveShell = shell
+        } else if let filePath = task.scriptFilePath, !filePath.isEmpty {
             if let content = try? String(contentsOfFile: filePath, encoding: .utf8) {
                 scriptBody = content
                 // Respect shebang in script file if present
@@ -166,17 +175,36 @@ final class ScriptExecutor: ObservableObject {
             return LogFileWriter(taskName: taskName)
         }()
 
-        let result = await runProcess(
-            shell: effectiveShell,
-            script: finalScript,
-            workingDirectory: workingDirectory,
-            environmentVariables: envVars,
-            timeoutSeconds: timeoutSeconds,
-            taskId: taskId,
-            logId: logId,
-            ignoreExitCode: ignoreExitCode,
-            logFileWriter: logFileWriter
-        )
+        let result: ProcessResult
+        if isShortcutTask, let name = shortcutName {
+            // Invoke /usr/bin/shortcuts directly — no shell wrapping. Working
+            // directory and env vars are nil: Shortcuts CLI runs in a system
+            // service context that doesn't honor them anyway, and the editor
+            // hides those fields for shortcut tasks.
+            result = await runProcessCore(
+                executableURL: URL(fileURLWithPath: "/usr/bin/shortcuts"),
+                arguments: ["run", name],
+                workingDirectory: nil,
+                environmentVariables: nil,
+                timeoutSeconds: timeoutSeconds,
+                taskId: taskId,
+                logId: logId,
+                ignoreExitCode: ignoreExitCode,
+                logFileWriter: logFileWriter
+            )
+        } else {
+            result = await runProcess(
+                shell: effectiveShell,
+                script: finalScript,
+                workingDirectory: workingDirectory,
+                environmentVariables: envVars,
+                timeoutSeconds: timeoutSeconds,
+                taskId: taskId,
+                logId: logId,
+                ignoreExitCode: ignoreExitCode,
+                logFileWriter: logFileWriter
+            )
+        }
 
         let endTime = Date()
         let durationMs = Int(endTime.timeIntervalSince(startTime) * 1000)
@@ -447,6 +475,63 @@ final class ScriptExecutor: ObservableObject {
         ignoreExitCode: Bool = false,
         logFileWriter: LogFileWriter? = nil
     ) async -> ProcessResult {
+        // Use login shell (-l) for .zprofile, then source .zshrc/.bashrc
+        // for user environment variables without full interactive mode
+        // (which would load oh-my-zsh etc. and slow down execution).
+        //
+        // Also bootstrap Homebrew PATH regardless of which shell was picked.
+        // Without this, scripts invoking `python3`, `jq`, `gh`, etc. resolve
+        // to the system binaries (e.g. /usr/bin/python3 3.9) instead of the
+        // Homebrew versions on the user's interactive $PATH — the exact
+        // mismatch that manifested as "script output gets truncated" when
+        // the inline python3 hit a syntax feature newer than 3.9.
+        let brewPrefix: String
+        let fm = FileManager.default
+        if fm.isExecutableFile(atPath: "/opt/homebrew/bin/brew") {
+            brewPrefix = "eval \"$(/opt/homebrew/bin/brew shellenv 2>/dev/null)\"; "
+        } else if fm.isExecutableFile(atPath: "/usr/local/bin/brew") {
+            brewPrefix = "eval \"$(/usr/local/bin/brew shellenv 2>/dev/null)\"; "
+        } else {
+            brewPrefix = ""
+        }
+        let rcFile: String
+        if shell.hasSuffix("zsh") {
+            rcFile = brewPrefix + "[ -f ~/.zshrc ] && source ~/.zshrc 2>/dev/null; "
+        } else if shell.hasSuffix("bash") {
+            rcFile = brewPrefix + "[ -f ~/.bashrc ] && source ~/.bashrc 2>/dev/null; "
+        } else {
+            rcFile = brewPrefix
+        }
+
+        return await runProcessCore(
+            executableURL: URL(fileURLWithPath: shell),
+            arguments: ["-l", "-c", rcFile + script],
+            workingDirectory: workingDirectory,
+            environmentVariables: environmentVariables,
+            timeoutSeconds: timeoutSeconds,
+            taskId: taskId,
+            logId: logId,
+            ignoreExitCode: ignoreExitCode,
+            logFileWriter: logFileWriter
+        )
+    }
+
+    /// Lower-level Process runner shared by shell-script execution and direct
+    /// CLI invocations (e.g. `shortcuts run`). Handles live output streaming,
+    /// timeout (SIGTERM/SIGKILL), cancellation registration, and the bounded-task
+    /// semaphore. Callers provide the executable + arguments; this method makes
+    /// no assumptions about shell wrapping.
+    private func runProcessCore(
+        executableURL: URL,
+        arguments: [String],
+        workingDirectory: String?,
+        environmentVariables: [String: String]?,
+        timeoutSeconds: Int,
+        taskId: UUID,
+        logId: UUID,
+        ignoreExitCode: Bool = false,
+        logFileWriter: LogFileWriter? = nil
+    ) async -> ProcessResult {
         // Treat any non-positive value as "no timeout" — the script runs until it
         // exits on its own (or the user cancels). Lets users keep dev servers /
         // long-running interactive processes alive without TaskTick killing them.
@@ -465,35 +550,8 @@ final class ScriptExecutor: ObservableObject {
                 let stdoutPipe = Pipe()
                 let stderrPipe = Pipe()
 
-                process.executableURL = URL(fileURLWithPath: shell)
-                // Use login shell (-l) for .zprofile, then source .zshrc/.bashrc
-                // for user environment variables without full interactive mode
-                // (which would load oh-my-zsh etc. and slow down execution).
-                //
-                // Also bootstrap Homebrew PATH regardless of which shell was picked.
-                // Without this, scripts invoking `python3`, `jq`, `gh`, etc. resolve
-                // to the system binaries (e.g. /usr/bin/python3 3.9) instead of the
-                // Homebrew versions on the user's interactive $PATH — the exact
-                // mismatch that manifested as "script output gets truncated" when
-                // the inline python3 hit a syntax feature newer than 3.9.
-                let brewPrefix: String
-                let fm = FileManager.default
-                if fm.isExecutableFile(atPath: "/opt/homebrew/bin/brew") {
-                    brewPrefix = "eval \"$(/opt/homebrew/bin/brew shellenv 2>/dev/null)\"; "
-                } else if fm.isExecutableFile(atPath: "/usr/local/bin/brew") {
-                    brewPrefix = "eval \"$(/usr/local/bin/brew shellenv 2>/dev/null)\"; "
-                } else {
-                    brewPrefix = ""
-                }
-                let rcFile: String
-                if shell.hasSuffix("zsh") {
-                    rcFile = brewPrefix + "[ -f ~/.zshrc ] && source ~/.zshrc 2>/dev/null; "
-                } else if shell.hasSuffix("bash") {
-                    rcFile = brewPrefix + "[ -f ~/.bashrc ] && source ~/.bashrc 2>/dev/null; "
-                } else {
-                    rcFile = brewPrefix
-                }
-                process.arguments = ["-l", "-c", rcFile + script]
+                process.executableURL = executableURL
+                process.arguments = arguments
                 process.standardOutput = stdoutPipe
                 process.standardError = stderrPipe
 

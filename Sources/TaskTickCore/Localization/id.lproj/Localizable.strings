@@ -53,7 +53,7 @@
 /* Task Editor Tabs */
 "editor.tab.basic" = "Dasar";
 "editor.tab.schedule" = "Jadwal";
-"editor.tab.script" = "Skrip";
+"editor.tab.script" = "Aksi";
 "editor.tab.settings" = "Pengaturan";
 "editor.tab.notification" = "Notifikasi";
 
@@ -483,6 +483,17 @@
 "template.import_file" = "Impor File...";
 "template.script_hint" = "Tulis skrip langsung atau impor dari file lokal.";
 "editor.script.source.template" = "Dari Templat";
+"editor.script.source.shortcut" = "Pintasan";
+"editor.shortcut.loading" = "Memuat pintasan...";
+"editor.shortcut.empty" = "Tidak ada pintasan ditemukan. Buat dulu di app Pintasan.";
+"editor.shortcut.open_app" = "Buka App Pintasan";
+"editor.shortcut.retry" = "Coba lagi";
+"editor.shortcut.refresh" = "Segarkan daftar";
+"editor.shortcut.hint" = "TaskTick memicu melalui `shortcuts run`.";
+"editor.shortcut.load_failed" = "Gagal memuat pintasan.";
+"editor.shortcut.placeholder" = "Pilih pintasan";
+"task.detail.shortcut" = "Pintasan";
+"task.detail.shortcut.hint" = "TaskTick menjalankan via `shortcuts run`.";
 
 /* Default Template Names & Notes */
 "default_template.category.database" = "Cadangan Database";

@@ -47,7 +47,7 @@
 "task.detail.collapse_script" = "Reduire";
 "editor.tab.basic" = "General";
 "editor.tab.schedule" = "Planification";
-"editor.tab.script" = "Script";
+"editor.tab.script" = "Action";
 "editor.tab.settings" = "Paramètres";
 "editor.tab.notification" = "Notifications";
 "editor.title.new" = "Nouvelle tache";
@@ -435,6 +435,17 @@
 "template.import_file" = "Importer un fichier...";
 "template.script_hint" = "Ecrivez le script directement ou importez-le depuis un fichier local.";
 "editor.script.source.template" = "Depuis un modele";
+"editor.script.source.shortcut" = "Raccourci";
+"editor.shortcut.loading" = "Chargement des raccourcis...";
+"editor.shortcut.empty" = "Aucun raccourci trouve. Creez-en un dans l'app Raccourcis.";
+"editor.shortcut.open_app" = "Ouvrir Raccourcis";
+"editor.shortcut.retry" = "Reessayer";
+"editor.shortcut.refresh" = "Actualiser la liste";
+"editor.shortcut.hint" = "TaskTick l'execute via `shortcuts run`.";
+"editor.shortcut.load_failed" = "Echec du chargement des raccourcis.";
+"editor.shortcut.placeholder" = "Selectionner un raccourci";
+"task.detail.shortcut" = "Raccourci";
+"task.detail.shortcut.hint" = "TaskTick l'execute via `shortcuts run`.";
 "default_template.category.database" = "Sauvegarde de base de donnees";
 "default_template.category.logs" = "Nettoyage des journaux";
 "default_template.category.git" = "Synchronisation Git";

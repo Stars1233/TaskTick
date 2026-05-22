@@ -53,7 +53,7 @@
 /* Task Editor Tabs */
 "editor.tab.basic" = "Básico";
 "editor.tab.schedule" = "Programación";
-"editor.tab.script" = "Script";
+"editor.tab.script" = "Acción";
 "editor.tab.settings" = "Ajustes";
 "editor.tab.notification" = "Notificaciones";
 
@@ -483,6 +483,17 @@
 "template.import_file" = "Importar archivo...";
 "template.script_hint" = "Escribe el script directamente o impórtalo desde un archivo local.";
 "editor.script.source.template" = "Desde plantilla";
+"editor.script.source.shortcut" = "Atajo";
+"editor.shortcut.loading" = "Cargando atajos...";
+"editor.shortcut.empty" = "No se encontraron atajos. Crea uno primero en la app Atajos.";
+"editor.shortcut.open_app" = "Abrir Atajos";
+"editor.shortcut.retry" = "Reintentar";
+"editor.shortcut.refresh" = "Actualizar lista";
+"editor.shortcut.hint" = "TaskTick lo ejecuta mediante `shortcuts run`.";
+"editor.shortcut.load_failed" = "Error al cargar los atajos.";
+"editor.shortcut.placeholder" = "Selecciona un atajo";
+"task.detail.shortcut" = "Atajo";
+"task.detail.shortcut.hint" = "TaskTick lo ejecuta mediante `shortcuts run`.";
 
 /* Default Template Names & Notes */
 "default_template.category.database" = "Copia de seguridad de base de datos";

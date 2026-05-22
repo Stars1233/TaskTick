@@ -53,7 +53,7 @@
 /* Task Editor Tabs */
 "editor.tab.basic" = "Basic";
 "editor.tab.schedule" = "Schedule";
-"editor.tab.script" = "Script";
+"editor.tab.script" = "Action";
 "editor.tab.settings" = "Settings";
 "editor.tab.notification" = "Notifications";
 
@@ -483,6 +483,17 @@
 "template.import_file" = "Import File...";
 "template.script_hint" = "Write the script directly or import from a local file.";
 "editor.script.source.template" = "From Template";
+"editor.script.source.shortcut" = "Shortcut";
+"editor.shortcut.loading" = "Loading shortcuts...";
+"editor.shortcut.empty" = "No shortcuts found. Create one in the Shortcuts app first.";
+"editor.shortcut.open_app" = "Open Shortcuts App";
+"editor.shortcut.retry" = "Retry";
+"editor.shortcut.refresh" = "Refresh list";
+"editor.shortcut.hint" = "TaskTick will trigger this via `shortcuts run`.";
+"editor.shortcut.load_failed" = "Failed to load shortcuts.";
+"editor.shortcut.placeholder" = "Select a shortcut";
+"task.detail.shortcut" = "Shortcut";
+"task.detail.shortcut.hint" = "TaskTick runs this via `shortcuts run`.";
 
 /* Default Template Names & Notes */
 "default_template.category.database" = "Database Backup";

@@ -53,7 +53,7 @@
 /* Task Editor Tabs */
 "editor.tab.basic" = "基本";
 "editor.tab.schedule" = "スケジュール";
-"editor.tab.script" = "スクリプト";
+"editor.tab.script" = "アクション";
 "editor.tab.settings" = "設定";
 "editor.tab.notification" = "通知";
 
@@ -483,6 +483,17 @@
 "template.import_file" = "ファイルをインポート...";
 "template.script_hint" = "スクリプトを直接記述するか、ローカルファイルからインポートしてください。";
 "editor.script.source.template" = "テンプレートから";
+"editor.script.source.shortcut" = "ショートカット";
+"editor.shortcut.loading" = "ショートカットを読み込み中...";
+"editor.shortcut.empty" = "ショートカットが見つかりません。先に「ショートカット」Appで作成してください。";
+"editor.shortcut.open_app" = "ショートカット App を開く";
+"editor.shortcut.retry" = "再試行";
+"editor.shortcut.refresh" = "リストを更新";
+"editor.shortcut.hint" = "TaskTick は `shortcuts run` 経由で実行します。";
+"editor.shortcut.load_failed" = "ショートカットの読み込みに失敗しました。";
+"editor.shortcut.placeholder" = "ショートカットを選択";
+"task.detail.shortcut" = "ショートカット";
+"task.detail.shortcut.hint" = "TaskTick は `shortcuts run` 経由で実行します。";
 
 /* Default Template Names & Notes */
 "default_template.category.database" = "データベースバックアップ";

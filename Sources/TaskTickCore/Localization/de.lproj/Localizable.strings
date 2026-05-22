@@ -53,7 +53,7 @@
 /* Task Editor Tabs */
 "editor.tab.basic" = "Grundlagen";
 "editor.tab.schedule" = "Zeitplan";
-"editor.tab.script" = "Skript";
+"editor.tab.script" = "Aktion";
 "editor.tab.settings" = "Einstellungen";
 "editor.tab.notification" = "Benachrichtigungen";
 
@@ -483,6 +483,17 @@
 "template.import_file" = "Datei importieren...";
 "template.script_hint" = "Schreibe das Skript direkt oder importiere es aus einer lokalen Datei.";
 "editor.script.source.template" = "Aus Vorlage";
+"editor.script.source.shortcut" = "Kurzbefehl";
+"editor.shortcut.loading" = "Kurzbefehle werden geladen...";
+"editor.shortcut.empty" = "Keine Kurzbefehle gefunden. Erstelle zuerst einen in der App „Kurzbefehle".";
+"editor.shortcut.open_app" = "Kurzbefehle App öffnen";
+"editor.shortcut.retry" = "Erneut versuchen";
+"editor.shortcut.refresh" = "Liste aktualisieren";
+"editor.shortcut.hint" = "TaskTick startet den Kurzbefehl via `shortcuts run`.";
+"editor.shortcut.load_failed" = "Fehler beim Laden der Kurzbefehle.";
+"editor.shortcut.placeholder" = "Kurzbefehl auswählen";
+"task.detail.shortcut" = "Kurzbefehl";
+"task.detail.shortcut.hint" = "TaskTick startet ihn via `shortcuts run`.";
 
 /* Default Template Names & Notes */
 "default_template.category.database" = "Datenbanksicherung";

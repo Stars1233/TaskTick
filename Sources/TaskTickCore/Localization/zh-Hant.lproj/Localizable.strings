@@ -53,7 +53,7 @@
 /* Task Editor Tabs */
 "editor.tab.basic" = "基本";
 "editor.tab.schedule" = "排程";
-"editor.tab.script" = "腳本";
+"editor.tab.script" = "動作";
 "editor.tab.settings" = "設定";
 "editor.tab.notification" = "通知";
 
@@ -483,6 +483,17 @@
 "template.import_file" = "匯入檔案...";
 "template.script_hint" = "直接編寫腳本，或從本機檔案匯入。";
 "editor.script.source.template" = "從範本";
+"editor.script.source.shortcut" = "捷徑";
+"editor.shortcut.loading" = "正在載入捷徑...";
+"editor.shortcut.empty" = "找不到捷徑。請先在「捷徑」App 中建立。";
+"editor.shortcut.open_app" = "開啟捷徑 App";
+"editor.shortcut.retry" = "重試";
+"editor.shortcut.refresh" = "重新整理清單";
+"editor.shortcut.hint" = "TaskTick 將透過 `shortcuts run` 觸發選中的捷徑。";
+"editor.shortcut.load_failed" = "載入捷徑清單失敗。";
+"editor.shortcut.placeholder" = "選擇一個捷徑";
+"task.detail.shortcut" = "捷徑";
+"task.detail.shortcut.hint" = "TaskTick 會透過 `shortcuts run` 觸發它。";
 
 /* Default Template Names & Notes */
 "default_template.category.database" = "資料庫備份";

@@ -53,7 +53,7 @@
 /* Task Editor Tabs */
 "editor.tab.basic" = "Основное";
 "editor.tab.schedule" = "Расписание";
-"editor.tab.script" = "Скрипт";
+"editor.tab.script" = "Действие";
 "editor.tab.settings" = "Настройки";
 "editor.tab.notification" = "Уведомления";
 
@@ -483,6 +483,17 @@
 "template.import_file" = "Импортировать файл...";
 "template.script_hint" = "Напишите скрипт напрямую или импортируйте из локального файла.";
 "editor.script.source.template" = "Из шаблона";
+"editor.script.source.shortcut" = "Быстрая команда";
+"editor.shortcut.loading" = "Загрузка команд...";
+"editor.shortcut.empty" = "Команды не найдены. Сначала создайте в приложении «Быстрые команды».";
+"editor.shortcut.open_app" = "Открыть «Быстрые команды»";
+"editor.shortcut.retry" = "Повторить";
+"editor.shortcut.refresh" = "Обновить список";
+"editor.shortcut.hint" = "TaskTick запустит её через `shortcuts run`.";
+"editor.shortcut.load_failed" = "Не удалось загрузить команды.";
+"editor.shortcut.placeholder" = "Выберите команду";
+"task.detail.shortcut" = "Быстрая команда";
+"task.detail.shortcut.hint" = "TaskTick запускает её через `shortcuts run`.";
 
 /* Default Template Names & Notes */
 "default_template.category.database" = "Резервное копирование БД";

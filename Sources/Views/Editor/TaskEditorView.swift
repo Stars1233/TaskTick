@@ -7,12 +7,14 @@ enum ScriptSource: String, CaseIterable {
     case inline
     case file
     case template
+    case shortcut
 
     var label: String {
         switch self {
         case .inline: L10n.tr("editor.script.source.inline")
         case .file: L10n.tr("editor.script.source.file")
         case .template: L10n.tr("editor.script.source.template")
+        case .shortcut: L10n.tr("editor.script.source.shortcut")
         }
     }
 }
@@ -47,6 +49,12 @@ struct TaskEditorView: View {
     @State private var preRunEnabled = false
     @State private var workingDirectory = ""
     @State private var timeoutSeconds = 300
+
+    // Shortcut (source == .shortcut)
+    @State private var shortcutName: String = ""
+    @State private var availableShortcuts: [String] = []
+    @State private var isLoadingShortcuts = false
+    @State private var shortcutsLoadError: String?
 
     // Custom repeat
     @State private var customIntervalValue = 1
@@ -93,6 +101,8 @@ struct TaskEditorView: View {
             hasScript = !scriptBody.trimmingCharacters(in: .whitespaces).isEmpty
         case .file:
             hasScript = !scriptFilePath.isEmpty && FileManager.default.fileExists(atPath: scriptFilePath)
+        case .shortcut:
+            hasScript = !shortcutName.trimmingCharacters(in: .whitespaces).isEmpty
         }
         return hasName && hasScript
     }
@@ -298,21 +308,23 @@ struct TaskEditorView: View {
 
     private var scriptContentTab: some View {
         Form {
-            Section {
-                Toggle(L10n.tr("editor.pre_run.enable"), isOn: $preRunEnabled)
-                    .onChange(of: preRunEnabled) { _, on in
-                        if !on { preRunCommand = "" }
+            if scriptSource != .shortcut {
+                Section {
+                    Toggle(L10n.tr("editor.pre_run.enable"), isOn: $preRunEnabled)
+                        .onChange(of: preRunEnabled) { _, on in
+                            if !on { preRunCommand = "" }
+                        }
+                    if preRunEnabled {
+                        TextEditor(text: $preRunCommand)
+                            .font(.system(size: 12, design: .monospaced))
+                            .frame(minHeight: 60)
+                            .scrollContentBackground(.hidden)
                     }
-                if preRunEnabled {
-                    TextEditor(text: $preRunCommand)
-                        .font(.system(size: 12, design: .monospaced))
-                        .frame(minHeight: 60)
-                        .scrollContentBackground(.hidden)
+                } header: {
+                    Text(L10n.tr("editor.pre_run.section"))
+                } footer: {
+                    Text(L10n.tr("editor.pre_run.hint"))
                 }
-            } header: {
-                Text(L10n.tr("editor.pre_run.section"))
-            } footer: {
-                Text(L10n.tr("editor.pre_run.hint"))
             }
 
             Section {
@@ -359,9 +371,11 @@ struct TaskEditorView: View {
                     }
                 case .template:
                     templatePicker
+                case .shortcut:
+                    shortcutPickerView
                 }
 
-                if scriptSource != .template {
+                if scriptSource == .inline || scriptSource == .file {
                     HStack(spacing: 10) {
                         Button {
                             validateScript()
@@ -429,14 +443,16 @@ struct TaskEditorView: View {
 
     private var scriptSettingsTab: some View {
         Form {
-            Section(L10n.tr("editor.section.script")) {
-                Picker(L10n.tr("editor.shell"), selection: $shell) {
-                    ForEach(AvailableShells.load(including: shell), id: \.self) { s in
-                        Text(s).tag(s)
+            if scriptSource != .shortcut {
+                Section(L10n.tr("editor.section.script")) {
+                    Picker(L10n.tr("editor.shell"), selection: $shell) {
+                        ForEach(AvailableShells.load(including: shell), id: \.self) { s in
+                            Text(s).tag(s)
+                        }
                     }
-                }
 
-                WorkingDirectoryField(path: $workingDirectory)
+                    WorkingDirectoryField(path: $workingDirectory)
+                }
             }
 
             Section {
@@ -502,6 +518,145 @@ struct TaskEditorView: View {
                     .foregroundStyle(.secondary)
                     .frame(maxHeight: 120)
             }
+        }
+    }
+
+    // MARK: - Shortcut Picker
+
+    @ViewBuilder
+    private var shortcutPickerView: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            if isLoadingShortcuts {
+                HStack(spacing: 8) {
+                    ProgressView().controlSize(.small)
+                    Text(L10n.tr("editor.shortcut.loading"))
+                        .foregroundStyle(.secondary)
+                }
+            } else if let error = shortcutsLoadError {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text(error)
+                        .foregroundStyle(.red)
+                    Button(L10n.tr("editor.shortcut.retry")) {
+                        loadShortcuts()
+                    }
+                    .pointerCursor()
+                }
+            } else if availableShortcuts.isEmpty {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text(L10n.tr("editor.shortcut.empty"))
+                        .foregroundStyle(.secondary)
+                    HStack(spacing: 8) {
+                        Button(L10n.tr("editor.shortcut.open_app")) {
+                            openShortcutsApp()
+                        }
+                        .pointerCursor()
+                        Button {
+                            loadShortcuts()
+                        } label: {
+                            Image(systemName: "arrow.clockwise")
+                        }
+                        .help(L10n.tr("editor.shortcut.refresh"))
+                        .pointerCursor()
+                    }
+                }
+            } else {
+                HStack(spacing: 8) {
+                    Image(systemName: "wand.and.stars")
+                        .foregroundStyle(.secondary)
+                    Picker("", selection: $shortcutName) {
+                        Text(L10n.tr("editor.shortcut.placeholder")).tag("")
+                        ForEach(availableShortcuts, id: \.self) { name in
+                            Text(name).tag(name)
+                        }
+                    }
+                    .labelsHidden()
+                    Button {
+                        loadShortcuts()
+                    } label: {
+                        Image(systemName: "arrow.clockwise")
+                    }
+                    .help(L10n.tr("editor.shortcut.refresh"))
+                    .pointerCursor()
+                }
+                Text(L10n.tr("editor.shortcut.hint"))
+                    .font(.caption)
+                    .foregroundStyle(.tertiary)
+            }
+        }
+        .onAppear {
+            if availableShortcuts.isEmpty && shortcutsLoadError == nil && !isLoadingShortcuts {
+                loadShortcuts()
+            }
+        }
+    }
+
+    private enum ShortcutListResult {
+        case success([String])
+        case failure(String)
+    }
+
+    private func loadShortcuts() {
+        isLoadingShortcuts = true
+        shortcutsLoadError = nil
+        Task {
+            let result = await Self.fetchShortcuts()
+            await MainActor.run {
+                isLoadingShortcuts = false
+                switch result {
+                case .success(let list):
+                    availableShortcuts = list
+                    // If the currently selected name disappeared (renamed/deleted),
+                    // leave the field in place so the user sees what was selected;
+                    // the save guard already blocks empty names, and runtime will
+                    // fail loudly via stderr if it no longer resolves.
+                case .failure(let message):
+                    shortcutsLoadError = message
+                }
+            }
+        }
+    }
+
+    private static func fetchShortcuts() async -> ShortcutListResult {
+        await withCheckedContinuation { (continuation: CheckedContinuation<ShortcutListResult, Never>) in
+            DispatchQueue.global(qos: .userInitiated).async {
+                let process = Process()
+                process.executableURL = URL(fileURLWithPath: "/usr/bin/shortcuts")
+                process.arguments = ["list"]
+                let outPipe = Pipe()
+                let errPipe = Pipe()
+                process.standardOutput = outPipe
+                process.standardError = errPipe
+                do {
+                    try process.run()
+                    process.waitUntilExit()
+                } catch {
+                    continuation.resume(returning: .failure(error.localizedDescription))
+                    return
+                }
+                guard process.terminationStatus == 0 else {
+                    continuation.resume(returning: .failure(L10n.tr("editor.shortcut.load_failed")))
+                    return
+                }
+                let data = outPipe.fileHandleForReading.readDataToEndOfFile()
+                let output = String(data: data, encoding: .utf8) ?? ""
+                // Preserve user's Shortcut order from `shortcuts list` (which is
+                // already grouped/sorted by the system). Just trim, drop blanks,
+                // and de-duplicate while keeping first occurrence.
+                var seen = Set<String>()
+                let names = output
+                    .components(separatedBy: .newlines)
+                    .map { $0.trimmingCharacters(in: .whitespaces) }
+                    .filter { !$0.isEmpty && seen.insert($0).inserted }
+                continuation.resume(returning: .success(names))
+            }
+        }
+    }
+
+    private func openShortcutsApp() {
+        // shortcuts:// is the documented URL scheme for Shortcuts.app on macOS 12+.
+        // TaskTick min target is macOS 14, so it's always present.
+        if let url = URL(string: "shortcuts://") {
+            NSWorkspace.shared.open(url)
         }
     }
 
@@ -791,6 +946,10 @@ struct TaskEditorView: View {
         preRunEnabled = false
         workingDirectory = ""
         timeoutSeconds = 300
+        shortcutName = ""
+        availableShortcuts = []
+        isLoadingShortcuts = false
+        shortcutsLoadError = nil
         runMissedExecution = false
         runOnLaunch = false
         notifyOnSuccess = true
@@ -842,7 +1001,10 @@ struct TaskEditorView: View {
             scheduledDate = date
         }
 
-        if let filePath = task.scriptFilePath, !filePath.isEmpty {
+        if let name = task.shortcutName, !name.isEmpty {
+            scriptSource = .shortcut
+            shortcutName = name
+        } else if let filePath = task.scriptFilePath, !filePath.isEmpty {
             scriptSource = .file
             scriptFilePath = filePath
         } else {
@@ -886,10 +1048,19 @@ struct TaskEditorView: View {
         target.cronExpression = nil
         target.intervalSeconds = nil
 
-        if scriptSource == .file {
+        switch scriptSource {
+        case .shortcut:
+            target.shortcutName = shortcutName.trimmingCharacters(in: .whitespaces).isEmpty
+                ? nil
+                : shortcutName.trimmingCharacters(in: .whitespaces)
+            target.scriptFilePath = nil
+            target.scriptBody = ""
+        case .file:
+            target.shortcutName = nil
             target.scriptFilePath = scriptFilePath
             target.scriptBody = ""
-        } else {
+        case .inline, .template:
+            target.shortcutName = nil
             target.scriptFilePath = nil
             target.scriptBody = scriptBody
         }
