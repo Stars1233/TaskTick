@@ -155,6 +155,8 @@
 "repeat.every_6_months" = "每 6 个月";
 "repeat.yearly" = "每年";
 "repeat.custom" = "自定义";
+"repeat.unit.second" = "秒";
+"repeat.unit.minute" = "分钟";
 "repeat.unit.hour" = "小时";
 "repeat.unit.day" = "天";
 "repeat.unit.week" = "周";

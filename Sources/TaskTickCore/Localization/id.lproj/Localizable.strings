@@ -155,6 +155,8 @@
 "repeat.every_6_months" = "Setiap 6 Bulan";
 "repeat.yearly" = "Setiap Tahun";
 "repeat.custom" = "Kustom";
+"repeat.unit.second" = "Detik";
+"repeat.unit.minute" = "Menit";
 "repeat.unit.hour" = "Jam";
 "repeat.unit.day" = "Hari";
 "repeat.unit.week" = "Minggu";

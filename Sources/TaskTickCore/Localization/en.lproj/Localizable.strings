@@ -155,6 +155,8 @@
 "repeat.every_6_months" = "Every 6 Months";
 "repeat.yearly" = "Yearly";
 "repeat.custom" = "Custom";
+"repeat.unit.second" = "Second";
+"repeat.unit.minute" = "Minute";
 "repeat.unit.hour" = "Hour";
 "repeat.unit.day" = "Day";
 "repeat.unit.week" = "Week";

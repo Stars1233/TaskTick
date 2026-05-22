@@ -155,6 +155,8 @@
 "repeat.every_6_months" = "6か月ごと";
 "repeat.yearly" = "毎年";
 "repeat.custom" = "カスタム";
+"repeat.unit.second" = "秒";
+"repeat.unit.minute" = "分";
 "repeat.unit.hour" = "時間";
 "repeat.unit.day" = "日";
 "repeat.unit.week" = "週";

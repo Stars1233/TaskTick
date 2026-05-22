@@ -65,6 +65,8 @@ public enum RepeatType: String, Codable, CaseIterable, Sendable {
 
 /// Unit for custom repeat interval
 public enum CustomRepeatUnit: String, Codable, CaseIterable, Sendable {
+    case second = "second"
+    case minute = "minute"
     case hour = "hour"
     case day = "day"
     case week = "week"
@@ -73,6 +75,8 @@ public enum CustomRepeatUnit: String, Codable, CaseIterable, Sendable {
 
     public var displayName: String {
         switch self {
+        case .second: L10n.tr("repeat.unit.second")
+        case .minute: L10n.tr("repeat.unit.minute")
         case .hour: L10n.tr("repeat.unit.hour")
         case .day: L10n.tr("repeat.unit.day")
         case .week: L10n.tr("repeat.unit.week")
@@ -83,6 +87,8 @@ public enum CustomRepeatUnit: String, Codable, CaseIterable, Sendable {
 
     public var calendarComponent: Calendar.Component {
         switch self {
+        case .second: .second
+        case .minute: .minute
         case .hour: .hour
         case .day: .day
         case .week: .weekOfYear

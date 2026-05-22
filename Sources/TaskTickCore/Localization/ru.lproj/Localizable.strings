@@ -155,6 +155,8 @@
 "repeat.every_6_months" = "Каждые 6 месяцев";
 "repeat.yearly" = "Ежегодно";
 "repeat.custom" = "Другой";
+"repeat.unit.second" = "Секунда";
+"repeat.unit.minute" = "Минута";
 "repeat.unit.hour" = "Час";
 "repeat.unit.day" = "День";
 "repeat.unit.week" = "Неделя";

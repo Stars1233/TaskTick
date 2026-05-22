@@ -143,6 +143,8 @@
 "repeat.every_6_months" = "Tous les 6 mois";
 "repeat.yearly" = "Annuel";
 "repeat.custom" = "Personnalise";
+"repeat.unit.second" = "Seconde";
+"repeat.unit.minute" = "Minute";
 "repeat.unit.hour" = "Heure";
 "repeat.unit.day" = "Jour";
 "repeat.unit.week" = "Semaine";
