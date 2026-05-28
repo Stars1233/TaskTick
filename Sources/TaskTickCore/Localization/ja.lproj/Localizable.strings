@@ -129,6 +129,10 @@
 "schedule.until" = "%@まで";
 "schedule.after_n_times" = "%d回";
 "schedule.run_missed" = "未実行分を実行";
+"schedule.additional_times" = "追加の時刻";
+"schedule.additional_time.add" = "時刻を追加";
+"schedule.additional_time.remove" = "この時刻を削除";
+"schedule.additional_time.help" = "繰り返しの各実行日に、上記すべての時刻でタスクが実行されます。";
 "schedule.launch_section" = "起動時";
 "schedule.run_on_launch" = "App 起動のたびに 1 回実行";
 "schedule.run_on_launch.help" = "スケジュール設定の有無に関わらず実行されます";

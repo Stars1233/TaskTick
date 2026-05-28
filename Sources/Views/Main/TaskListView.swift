@@ -240,6 +240,7 @@ struct TaskListView: View {
         copy.preRunCommand = task.preRunCommand
         copy.customIntervalValue = task.customIntervalValue
         copy.customIntervalUnit = task.customIntervalUnit
+        copy.additionalTimesJSON = task.additionalTimesJSON
         copy.isManualOnly = task.isManualOnly
         modelContext.insert(copy)
         do {

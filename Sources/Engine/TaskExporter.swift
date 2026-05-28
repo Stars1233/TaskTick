@@ -41,6 +41,8 @@ struct TaskExporter {
         /// compat with backups produced before this field existed.
         let createdAt: Date?
         let isManualOnly: Bool?
+        /// Extra fire times — JSON array of "HH:mm" strings. Optional for compat.
+        let additionalTimes: [String]?
     }
 
     /// Export all tasks to a JSON file
@@ -164,7 +166,14 @@ struct TaskExporter {
             ignoreExitCode: task.ignoreExitCode,
             notifyOnlyWhenOutput: task.notifyOnlyWhenOutput,
             createdAt: task.createdAt,
-            isManualOnly: task.isManualOnly
+            isManualOnly: task.isManualOnly,
+            additionalTimes: {
+                let raw = task.additionalTimes.compactMap { comps -> String? in
+                    guard let h = comps.hour, let m = comps.minute else { return nil }
+                    return String(format: "%02d:%02d", h, m)
+                }
+                return raw.isEmpty ? nil : raw
+            }()
         )
     }
 
@@ -204,6 +213,17 @@ struct TaskExporter {
         if let v = item.ignoreExitCode { task.ignoreExitCode = v }
         if let v = item.notifyOnlyWhenOutput { task.notifyOnlyWhenOutput = v }
         if let v = item.isManualOnly { task.isManualOnly = v }
+        if let strings = item.additionalTimes, !strings.isEmpty {
+            let comps = strings.compactMap { s -> DateComponents? in
+                let parts = s.split(separator: ":")
+                guard parts.count == 2,
+                      let h = Int(parts[0]), (0...23).contains(h),
+                      let m = Int(parts[1]), (0...59).contains(m)
+                else { return nil }
+                return DateComponents(hour: h, minute: m)
+            }
+            task.additionalTimes = comps
+        }
         if let v = item.createdAt {
             task.createdAt = v
             task.updatedAt = v

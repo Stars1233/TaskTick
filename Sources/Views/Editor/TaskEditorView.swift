@@ -35,6 +35,10 @@ struct TaskEditorView: View {
     @State private var hasDate = true
     @State private var hasTime = true
     @State private var scheduledDate = Date()
+    /// Extra fire times in addition to `scheduledDate`'s time. Each Date here
+    /// is anchored to "today" — only the hour+minute matter; the day-of-week
+    /// and date come from the schedule's recurrence at save / runtime.
+    @State private var additionalTimes: [Date] = []
     @State private var repeatType: RepeatType = .daily
     @State private var endRepeatType: EndRepeatType = .never
     @State private var endRepeatDate = Calendar.current.date(byAdding: .month, value: 1, to: Date()) ?? Date()
@@ -202,14 +206,18 @@ struct TaskEditorView: View {
                 Text(L10n.tr("schedule.launch_section"))
             }
 
-            Section(L10n.tr("schedule.date_time")) {
+            Section {
                 Toggle(isOn: $hasDate) {
                     Label(L10n.tr("schedule.date"), systemImage: "calendar")
                 }
 
                 if hasDate {
-                    DatePicker(L10n.tr("schedule.date"), selection: $scheduledDate, displayedComponents: .date)
-                        .datePickerStyle(.stepperField)
+                    HStack {
+                        Spacer()
+                        DatePicker("", selection: $scheduledDate, displayedComponents: .date)
+                            .datePickerStyle(.stepperField)
+                            .labelsHidden()
+                    }
                 }
 
                 Toggle(isOn: $hasTime) {
@@ -217,7 +225,72 @@ struct TaskEditorView: View {
                 }
 
                 if hasTime {
-                    DatePicker(L10n.tr("schedule.time"), selection: $scheduledDate, displayedComponents: .hourAndMinute)
+                    if repeatType.supportsAdditionalTimes {
+                        // Day-aligned repeat → render the full chip-flow with
+                        // main + extras + ⊕. Editing a time never reorders.
+                        ChipFlow(spacing: 12, lineSpacing: 10, alignment: .trailing) {
+                            DatePicker("", selection: $scheduledDate, displayedComponents: .hourAndMinute)
+                                .datePickerStyle(.stepperField)
+                                .labelsHidden()
+
+                            ForEach(Array(additionalTimes.enumerated()), id: \.offset) { index, _ in
+                                DatePicker(
+                                    "",
+                                    selection: Binding(
+                                        get: { additionalTimes[index] },
+                                        set: { additionalTimes[index] = $0 }
+                                    ),
+                                    displayedComponents: .hourAndMinute
+                                )
+                                .datePickerStyle(.stepperField)
+                                .labelsHidden()
+                                .overlay(alignment: .topTrailing) {
+                                    Button {
+                                        additionalTimes.remove(at: index)
+                                    } label: {
+                                        Image(systemName: "xmark.circle.fill")
+                                            .foregroundStyle(.white, Color.secondary)
+                                            .imageScale(.small)
+                                    }
+                                    .buttonStyle(.plain)
+                                    .help(L10n.tr("schedule.additional_time.remove"))
+                                    .offset(x: 5, y: -5)
+                                }
+                            }
+
+                            Button {
+                                let anchor = additionalTimes.max() ?? scheduledDate
+                                let next = Calendar.current.date(byAdding: .hour, value: 1, to: anchor) ?? anchor
+                                additionalTimes.append(next)
+                            } label: {
+                                Image(systemName: "plus.circle.fill")
+                                    .font(.system(size: 18, weight: .regular))
+                                    .foregroundStyle(Color.accentColor)
+                                    .frame(width: 22, height: 22)
+                            }
+                            .buttonStyle(.plain)
+                            .help(L10n.tr("schedule.additional_time.add"))
+                        }
+                        .padding(.vertical, 4)
+                    } else {
+                        // Repeat type doesn't support multiple times — show
+                        // only the main picker, right-aligned. Any extras the
+                        // user previously configured stay in state and reappear
+                        // if they switch back to a supported repeat type.
+                        HStack {
+                            Spacer()
+                            DatePicker("", selection: $scheduledDate, displayedComponents: .hourAndMinute)
+                                .labelsHidden()
+                        }
+                    }
+                }
+            } header: {
+                Text(L10n.tr("schedule.date_time"))
+            } footer: {
+                if hasTime && repeatType.supportsAdditionalTimes && !additionalTimes.isEmpty {
+                    Text(L10n.tr("schedule.additional_time.help"))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                 }
             }
 
@@ -896,6 +969,12 @@ struct TaskEditorView: View {
         tempTask.endRepeatType = endRepeatType
         tempTask.endRepeatDate = endRepeatDate
         tempTask.endRepeatCount = endRepeatCount
+        if hasTime {
+            let cal = Calendar.current
+            tempTask.additionalTimes = additionalTimes.map {
+                cal.dateComponents([.hour, .minute], from: $0)
+            }
+        }
         return TaskScheduler.shared.computeNextRunDate(for: tempTask)
     }
 
@@ -930,6 +1009,7 @@ struct TaskEditorView: View {
         isEnabled = true
         isManualOnly = false
         scheduledDate = Date()
+        additionalTimes = []
         hasDate = true
         hasTime = true
         repeatType = .daily
@@ -1001,6 +1081,17 @@ struct TaskEditorView: View {
             scheduledDate = date
         }
 
+        // Project stored HH:mm components onto today so SwiftUI's DatePicker has
+        // a real Date to bind to. Day part is discarded again at save time.
+        let cal = Calendar.current
+        let today = cal.startOfDay(for: Date())
+        additionalTimes = task.additionalTimes.compactMap { tc in
+            var c = cal.dateComponents([.year, .month, .day], from: today)
+            c.hour = tc.hour
+            c.minute = tc.minute
+            return cal.date(from: c)
+        }
+
         if let name = task.shortcutName, !name.isEmpty {
             scriptSource = .shortcut
             shortcutName = name
@@ -1035,6 +1126,31 @@ struct TaskEditorView: View {
         // to "now" as base (TaskScheduler handles scheduledDate == nil).
         target.scheduledDate = (hasDate || hasTime) ? scheduledDate : nil
         target.repeatType = repeatType
+
+        // Persist additional times whenever the user has any entered, so
+        // toggling repeat type back and forth doesn't silently discard the
+        // values. The scheduler ignores them for non-day-aligned repeats —
+        // the footer text tells the user this.
+        if hasTime && !additionalTimes.isEmpty {
+            let cal = Calendar.current
+            let mainHM = cal.dateComponents([.hour, .minute], from: scheduledDate)
+            var seen = Set<Int>()
+            if let h = mainHM.hour, let m = mainHM.minute {
+                seen.insert(h * 60 + m)
+            }
+            var unique: [DateComponents] = []
+            for date in additionalTimes {
+                let hm = cal.dateComponents([.hour, .minute], from: date)
+                guard let h = hm.hour, let m = hm.minute else { continue }
+                let key = h * 60 + m
+                if seen.insert(key).inserted {
+                    unique.append(DateComponents(hour: h, minute: m))
+                }
+            }
+            target.additionalTimes = unique
+        } else {
+            target.additionalTimes = []
+        }
         target.endRepeatType = repeatType == .never ? .never : endRepeatType
         target.endRepeatDate = endRepeatType == .onDate ? endRepeatDate : nil
         target.endRepeatCount = endRepeatType == .afterCount ? endRepeatCount : nil

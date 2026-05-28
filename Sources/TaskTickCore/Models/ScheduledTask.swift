@@ -42,6 +42,18 @@ public enum RepeatType: String, Codable, CaseIterable, Sendable {
         }
     }
 
+    /// Whether this repeat type can carry multiple time-of-day points per
+    /// occurrence. Sub-day intervals (everyMinute, hourly, etc.) and types
+    /// with no fixed day stride (custom) don't benefit from extra times.
+    public var supportsAdditionalTimes: Bool {
+        switch self {
+        case .daily, .weekdays, .weekends, .weekly, .biweekly:
+            return true
+        default:
+            return false
+        }
+    }
+
     /// Calendar component and value for computing next date
     public var calendarInterval: (component: Calendar.Component, value: Int)? {
         switch self {
@@ -165,6 +177,12 @@ public final class ScheduledTask {
     public var executionCount: Int = 0
     public var customIntervalValue: Int = 1
     public var customIntervalUnitRaw: String = CustomRepeatUnit.day.rawValue
+    /// Extra time-of-day points (in addition to `scheduledDate`'s time) at which
+    /// this task fires on each occurrence. Stored as a JSON array of `"HH:mm"`
+    /// strings to keep SwiftData migration trivial — nil/empty for tasks with
+    /// only a single time. Only honored by day-aligned RepeatTypes (daily,
+    /// weekdays, weekends, weekly, biweekly).
+    public var additionalTimesJSON: String?
 
     public var isEnabled: Bool
     /// When true, the task has no schedule — it only runs when triggered manually
@@ -265,6 +283,49 @@ public final class ScheduledTask {
     public var customIntervalUnit: CustomRepeatUnit {
         get { CustomRepeatUnit(rawValue: customIntervalUnitRaw) ?? .day }
         set { customIntervalUnitRaw = newValue.rawValue }
+    }
+
+    /// Extra time-of-day points decoded from `additionalTimesJSON`. Each entry
+    /// is a `DateComponents` carrying only `.hour` and `.minute`. Duplicates and
+    /// values that match `scheduledDate`'s time are tolerated by the scheduler
+    /// (de-duped at runtime), but the editor strips them on save.
+    public var additionalTimes: [DateComponents] {
+        get {
+            guard let json = additionalTimesJSON,
+                  let data = json.data(using: .utf8),
+                  let strings = try? JSONDecoder().decode([String].self, from: data)
+            else { return [] }
+            return strings.compactMap(Self.parseHHmm)
+        }
+        set {
+            let strings = newValue.compactMap(Self.formatHHmm)
+            guard !strings.isEmpty,
+                  let data = try? JSONEncoder().encode(strings)
+            else {
+                additionalTimesJSON = nil
+                return
+            }
+            additionalTimesJSON = String(data: data, encoding: .utf8)
+        }
+    }
+
+    private static func parseHHmm(_ s: String) -> DateComponents? {
+        let parts = s.split(separator: ":")
+        guard parts.count == 2,
+              let h = Int(parts[0]), (0...23).contains(h),
+              let m = Int(parts[1]), (0...59).contains(m)
+        else { return nil }
+        var c = DateComponents()
+        c.hour = h
+        c.minute = m
+        return c
+    }
+
+    private static func formatHHmm(_ c: DateComponents) -> String? {
+        guard let h = c.hour, (0...23).contains(h),
+              let m = c.minute, (0...59).contains(m)
+        else { return nil }
+        return String(format: "%02d:%02d", h, m)
     }
 
     public var environmentVariables: [String: String]? {

@@ -129,6 +129,10 @@
 "schedule.until" = "截止 %@";
 "schedule.after_n_times" = "%d 次";
 "schedule.run_missed" = "補執行錯過的任務";
+"schedule.additional_times" = "額外時間";
+"schedule.additional_time.add" = "新增時間";
+"schedule.additional_time.remove" = "刪除該時間點";
+"schedule.additional_time.help" = "在重複週期的每個觸發日，任務會依上方所有時間各執行一次。";
 "schedule.launch_section" = "啟動";
 "schedule.run_on_launch" = "每次 App 啟動時執行一次";
 "schedule.run_on_launch.help" = "無論是否有排程計畫，每次 App 啟動都會執行";

@@ -129,6 +129,10 @@
 "schedule.until" = "Hingga %@";
 "schedule.after_n_times" = "%d kali";
 "schedule.run_missed" = "Jalankan Eksekusi yang Terlewat";
+"schedule.additional_times" = "Waktu Tambahan";
+"schedule.additional_time.add" = "Tambah Waktu";
+"schedule.additional_time.remove" = "Hapus waktu ini";
+"schedule.additional_time.help" = "Pada setiap hari yang dijadwalkan, tugas dijalankan pada setiap waktu yang tercantum di atas.";
 "schedule.launch_section" = "Saat Diluncurkan";
 "schedule.run_on_launch" = "Jalankan sekali setiap kali aplikasi diluncurkan";
 "schedule.run_on_launch.help" = "Berjalan terlepas dari ada atau tidaknya jadwal yang diatur";

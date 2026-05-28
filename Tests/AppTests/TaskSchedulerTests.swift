@@ -88,4 +88,97 @@ struct TaskSchedulerTests {
         let task = ScheduledTask(name: "fresh", scriptBody: "echo hi")
         #expect(task.shortcutName == nil)
     }
+
+    // Issue #34: a daily task with extra time points should fire at the earliest
+    // upcoming time of day, then walk forward through main + extras.
+    @Test("Daily task with additional times picks the earliest upcoming slot")
+    @MainActor
+    func dailyAdditionalTimesPicksEarliest() {
+        let cal = Calendar.current
+        // Anchor "now" at today 10:00 so the slots straddle it.
+        var comps = cal.dateComponents([.year, .month, .day], from: Date())
+        comps.hour = 10
+        comps.minute = 0
+        comps.second = 0
+        let now = cal.date(from: comps) ?? Date()
+
+        // Main fire at 09:00 (already passed today), extras at 12:00 and 18:00.
+        var mainComps = comps
+        mainComps.hour = 9
+        let mainDate = cal.date(from: mainComps) ?? now
+
+        let task = ScheduledTask(
+            name: "issue-34",
+            scriptBody: "echo hi",
+            scheduledDate: mainDate,
+            repeatType: .daily
+        )
+        task.additionalTimes = [
+            DateComponents(hour: 12, minute: 0),
+            DateComponents(hour: 18, minute: 0)
+        ]
+
+        let next = TaskScheduler.shared.computeNextRunDate(for: task, after: now)
+        #expect(next != nil)
+        if let next {
+            let h = cal.component(.hour, from: next)
+            let m = cal.component(.minute, from: next)
+            #expect(h == 12)
+            #expect(m == 0)
+        }
+    }
+
+    // After consuming all of today's slots the scheduler should roll to
+    // tomorrow's earliest configured time, not silently return nil.
+    @Test("Additional times roll to the next day after the last slot")
+    @MainActor
+    func additionalTimesRollOverToNextDay() {
+        let cal = Calendar.current
+        var comps = cal.dateComponents([.year, .month, .day], from: Date())
+        comps.hour = 20
+        comps.minute = 0
+        comps.second = 0
+        let now = cal.date(from: comps) ?? Date()
+
+        var mainComps = comps
+        mainComps.hour = 9
+        let mainDate = cal.date(from: mainComps) ?? now
+
+        let task = ScheduledTask(
+            name: "issue-34-rollover",
+            scriptBody: "echo hi",
+            scheduledDate: mainDate,
+            repeatType: .daily
+        )
+        task.additionalTimes = [
+            DateComponents(hour: 12, minute: 0),
+            DateComponents(hour: 18, minute: 0)
+        ]
+
+        let next = TaskScheduler.shared.computeNextRunDate(for: task, after: now)
+        #expect(next != nil)
+        if let next {
+            // Tomorrow @ 09:00
+            let delta = next.timeIntervalSince(now)
+            #expect(delta > 12 * 3600)  // > 12h away
+            #expect(delta < 16 * 3600)  // < 16h away (09:00 is 13h after 20:00)
+            #expect(cal.component(.hour, from: next) == 9)
+        }
+    }
+
+    // Roundtrip: encoding then decoding `additionalTimes` should survive.
+    @Test("additionalTimes serializes and deserializes via JSON")
+    @MainActor
+    func additionalTimesRoundtrip() {
+        let task = ScheduledTask(name: "roundtrip", scriptBody: "echo hi")
+        task.additionalTimes = [
+            DateComponents(hour: 9, minute: 30),
+            DateComponents(hour: 18, minute: 0)
+        ]
+        // Force a re-read through the accessor (decodes from stored JSON).
+        let decoded = task.additionalTimes
+        #expect(decoded.count == 2)
+        #expect(decoded[0].hour == 9 && decoded[0].minute == 30)
+        #expect(decoded[1].hour == 18 && decoded[1].minute == 0)
+    }
 }

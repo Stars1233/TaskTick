@@ -129,6 +129,10 @@
 "schedule.until" = "Hasta %@";
 "schedule.after_n_times" = "%d veces";
 "schedule.run_missed" = "Ejecutar ejecución perdida";
+"schedule.additional_times" = "Horas adicionales";
+"schedule.additional_time.add" = "Añadir hora";
+"schedule.additional_time.remove" = "Eliminar esta hora";
+"schedule.additional_time.help" = "En cada día programado, la tarea se ejecuta a cada una de las horas indicadas arriba.";
 "schedule.launch_section" = "Inicio";
 "schedule.run_on_launch" = "Ejecutar una vez cada vez que se abre la app";
 "schedule.run_on_launch.help" = "Se ejecuta exista o no una programación";

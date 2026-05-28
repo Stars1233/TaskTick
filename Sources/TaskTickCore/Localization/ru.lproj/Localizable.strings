@@ -129,6 +129,10 @@
 "schedule.until" = "До %@";
 "schedule.after_n_times" = "%d раз";
 "schedule.run_missed" = "Выполнить пропущенный запуск";
+"schedule.additional_times" = "Дополнительные времена";
+"schedule.additional_time.add" = "Добавить время";
+"schedule.additional_time.remove" = "Удалить это время";
+"schedule.additional_time.help" = "В каждый день по расписанию задача запускается во все указанные выше времена.";
 "schedule.launch_section" = "Запуск приложения";
 "schedule.run_on_launch" = "Выполнять при каждом запуске приложения";
 "schedule.run_on_launch.help" = "Запускается независимо от наличия расписания";

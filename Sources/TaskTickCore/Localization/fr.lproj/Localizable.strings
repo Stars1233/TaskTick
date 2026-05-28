@@ -119,6 +119,10 @@
 "schedule.until" = "Jusqu'au %@";
 "schedule.after_n_times" = "%d fois";
 "schedule.run_missed" = "Executer les executions manquees";
+"schedule.additional_times" = "Heures supplementaires";
+"schedule.additional_time.add" = "Ajouter une heure";
+"schedule.additional_time.remove" = "Supprimer cette heure";
+"schedule.additional_time.help" = "Chaque jour planifie, la tache se declenche a toutes les heures listees ci-dessus.";
 "schedule.launch_section" = "Lancement";
 "schedule.run_on_launch" = "Executer une fois a chaque lancement de l'application";
 "schedule.run_on_launch.help" = "S'execute meme si aucune planification n'est definie";

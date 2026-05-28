@@ -173,6 +173,15 @@ struct TaskTickApp: App {
         }
         .defaultSize(width: 860, height: 560)
 
+        #if DEBUG
+        // Dev-only: side-by-side preview of candidate Date & Time layouts.
+        // Open via Window menu → "Schedule Layout Demo".
+        Window("Schedule Layout Demo", id: "schedule-layout-demo") {
+            ScheduleLayoutDemoView()
+        }
+        .defaultSize(width: 640, height: 800)
+        #endif
+
         // Logs window
         Window(L10n.tr("log.title"), id: "logs") {
             LogListView()
@@ -351,6 +360,14 @@ struct TaskTickApp: App {
                 scheduler.rebuildSchedule()
             }
             .keyboardShortcut("r", modifiers: [.command, .shift])
+
+            #if DEBUG
+            Divider()
+            Button("Schedule Layout Demo") {
+                openWindow(id: "schedule-layout-demo")
+            }
+            .keyboardShortcut("d", modifiers: [.command, .shift, .option])
+            #endif
         }
 
         CommandGroup(replacing: .help) {

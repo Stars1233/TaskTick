@@ -258,10 +258,12 @@ struct TaskDetailView: View {
                     if task.isManualOnly {
                         detailRow(L10n.tr("schedule.trigger_section"), value: L10n.tr("schedule.manual_only"))
                     } else {
-                    // Show scheduled date if set
+                    // Show scheduled date if set; time row collapses any extra
+                    // fire points (issue #34) into the same value — no separate
+                    // "Extra times" row.
                     if let date = task.scheduledDate {
                         detailRow(L10n.tr("schedule.date"), value: date.formatted(date: .abbreviated, time: .omitted))
-                        detailRow(L10n.tr("schedule.time"), value: date.formatted(date: .omitted, time: .shortened))
+                        detailRow(L10n.tr("schedule.time"), value: formattedTimesValue(task: task, mainDate: date))
                     }
 
                     // Repeat type
@@ -671,6 +673,20 @@ struct TaskDetailView: View {
     }
 
     // MARK: - Helper
+
+    /// Build the comma-separated time string shown on the time row — main
+    /// time first, followed by any additional times (only when the repeat
+    /// type supports them).
+    private func formattedTimesValue(task: ScheduledTask, mainDate: Date) -> String {
+        var times: [String] = [mainDate.formatted(date: .omitted, time: .shortened)]
+        if task.repeatType.supportsAdditionalTimes {
+            for comps in task.additionalTimes {
+                guard let h = comps.hour, let m = comps.minute else { continue }
+                times.append(String(format: "%02d:%02d", h, m))
+            }
+        }
+        return times.joined(separator: ", ")
+    }
 
     private func detailRow(_ label: String, value: String) -> some View {
         HStack {

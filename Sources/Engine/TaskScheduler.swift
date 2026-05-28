@@ -324,6 +324,22 @@ final class TaskScheduler: ObservableObject {
             return nil
         }
 
+        // Multi-time-of-day path: a single occurrence may fire at several times
+        // per day (issue #34). Only day-aligned RepeatTypes carry extras —
+        // sub-day / monthly+ types skip this branch and stay on the original
+        // single-time stepping below.
+        if repeatType.supportsAdditionalTimes && !task.additionalTimes.isEmpty {
+            return nextRunWithAdditionalTimes(
+                for: task,
+                after: date,
+                scheduledDate: scheduledDate,
+                repeatType: repeatType,
+                intervalComponent: intervalComponent,
+                intervalValue: intervalValue,
+                calendar: calendar
+            )
+        }
+
         // If scheduled date is still in the future, use it
         if scheduledDate > date {
             if repeatType == .weekdays {
@@ -386,6 +402,79 @@ final class TaskScheduler: ObservableObject {
             d = calendar.date(byAdding: .day, value: 1, to: d) ?? d
         }
         return d
+    }
+
+    /// Multi-time-of-day occurrence walker. For each candidate day, evaluates
+    /// `[scheduledTime] + additionalTimes` and returns the earliest fire that
+    /// is strictly after `date` and not before `scheduledDate`. Steps forward
+    /// by `intervalComponent` / `intervalValue` between days, applying weekday
+    /// /weekend filtering for those RepeatTypes. Bounded iteration so a bogus
+    /// end-date / pathological config can never spin the scheduler.
+    private func nextRunWithAdditionalTimes(
+        for task: ScheduledTask,
+        after date: Date,
+        scheduledDate: Date,
+        repeatType: RepeatType,
+        intervalComponent: Calendar.Component,
+        intervalValue: Int,
+        calendar: Calendar
+    ) -> Date? {
+        var timesOfDay: [DateComponents] = []
+        let mainComponents = calendar.dateComponents([.hour, .minute], from: scheduledDate)
+        timesOfDay.append(mainComponents)
+        for extra in task.additionalTimes {
+            if !timesOfDay.contains(where: { $0.hour == extra.hour && $0.minute == extra.minute }) {
+                timesOfDay.append(extra)
+            }
+        }
+
+        var occurrenceDay = calendar.startOfDay(for: scheduledDate)
+        let logCount = task.executionLogs.filter { $0.modelContext != nil }.count
+
+        // ~2 years of daily steps, ~15 years of weekly. Pathological configs
+        // (e.g. end-on-date in the distant past with stride misaligned) bail
+        // out rather than spinning forever.
+        for _ in 0..<800 {
+            let weekday = calendar.component(.weekday, from: occurrenceDay)
+            let dayValid: Bool = switch repeatType {
+            case .weekdays: (2...6).contains(weekday)
+            case .weekends: weekday == 1 || weekday == 7
+            default: true
+            }
+
+            if dayValid {
+                let dayCandidates: [Date] = timesOfDay.compactMap { tc in
+                    var c = calendar.dateComponents([.year, .month, .day], from: occurrenceDay)
+                    c.hour = tc.hour
+                    c.minute = tc.minute
+                    c.second = 0
+                    return calendar.date(from: c)
+                }
+                if let earliest = dayCandidates.filter({ $0 > date && $0 >= scheduledDate }).min() {
+                    switch task.endRepeatType {
+                    case .never:
+                        return earliest
+                    case .onDate:
+                        if let endDate = task.endRepeatDate, earliest > endDate { return nil }
+                        return earliest
+                    case .afterCount:
+                        if let maxCount = task.endRepeatCount, logCount >= maxCount { return nil }
+                        return earliest
+                    }
+                }
+            }
+
+            guard let nextDay = calendar.date(byAdding: intervalComponent, value: intervalValue, to: occurrenceDay) else {
+                return nil
+            }
+            occurrenceDay = nextDay
+            if task.endRepeatType == .onDate,
+               let endDate = task.endRepeatDate,
+               occurrenceDay > endDate {
+                return nil
+            }
+        }
+        return nil
     }
 
     // MARK: - Sleep/Wake

@@ -129,6 +129,10 @@
 "schedule.until" = "Until %@";
 "schedule.after_n_times" = "%d times";
 "schedule.run_missed" = "Run Missed Execution";
+"schedule.additional_times" = "Extra times";
+"schedule.additional_time.add" = "Add time";
+"schedule.additional_time.remove" = "Remove this time";
+"schedule.additional_time.help" = "On each scheduled day, the task fires at every time listed above.";
 "schedule.launch_section" = "Launch";
 "schedule.run_on_launch" = "Run once each time the app launches";
 "schedule.run_on_launch.help" = "Runs whether or not a schedule is set";
