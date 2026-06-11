@@ -121,7 +121,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(24px) s
 /* ── Install ── */
 .install{padding:100px 0;border-top:1px solid var(--border);text-align:center}
 .install h2{font-size:clamp(1.8rem,4vw,2.4rem);font-weight:800;letter-spacing:-.04em;margin-bottom:40px}
-.install-methods{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;max-width:640px;margin:0 auto}
+.install-methods{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;max-width:980px;margin:0 auto}
 .install-card{flex:1;min-width:280px;padding:28px;border-radius:12px;border:1px solid var(--border);background:var(--bg2);text-align:left}
 .install-card .label{font-size:.72rem;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px}
 .install-card code{display:block;font-family:'SF Mono',Menlo,monospace;font-size:.82rem;line-height:1.8;color:var(--text2);word-break:break-all}
@@ -301,6 +301,27 @@ footer .right a:hover{color:var(--text)}
   </div>
 </section>
 
+<!-- Raycast Highlight -->
+<section class="highlight">
+  <div class="highlight-inner reveal">
+    <div class="highlight-img">
+      <img src="https://cdn.jsdelivr.net/gh/lifedever/images@master/uploads/2026/06/20260611-102233.png" alt="TaskTick for Raycast">
+    </div>
+    <div class="highlight-text">
+      <div class="hero-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        <span data-i18n="raycast_badge">New · Raycast Extension</span>
+      </div>
+      <h3 data-i18n="raycast_title" data-i18n-html>TaskTick,<br>now on Raycast.</h3>
+      <p data-i18n="raycast_desc">Search, run, stop, and restart your scheduled tasks right from Raycast. Install the official TaskTick extension from the Raycast Store and control everything without leaving your keyboard.</p>
+      <a href="https://www.raycast.com/lifedever/tasktick" class="btn btn-primary">
+        <span data-i18n="raycast_btn">Get it on Raycast Store</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
 <!-- Features -->
 <section id="features" class="features">
   <div class="container">
@@ -375,6 +396,10 @@ footer .right a:hover{color:var(--text)}
       <div class="install-card">
         <div class="label" data-i18n="install_manual">Manual Download</div>
         <code data-i18n="install_manual_desc" data-i18n-html>Download <span>.dmg</span> from<br><a href="https://github.com/lifedever/TaskTick/releases" style="color:var(--accent);text-decoration:none">GitHub Releases</a></code>
+      </div>
+      <div class="install-card">
+        <div class="label">Raycast</div>
+        <code data-i18n="install_raycast_desc" data-i18n-html>Install <span>TaskTick</span> from the<br><a href="https://www.raycast.com/lifedever/tasktick" style="color:var(--accent);text-decoration:none">Raycast Store</a></code>
       </div>
     </div>
   </div>
@@ -453,9 +478,14 @@ const T = {
     feat_i18n_desc: '完整多语言界面，随时切换。',
     feat_macos26_title: 'macOS 26 就绪',
     feat_macos26_desc: '液态玻璃特效，旧系统优雅降级。',
+    raycast_badge: '新发布 · Raycast 扩展',
+    raycast_title: 'TaskTick，<br>现已登陆 Raycast。',
+    raycast_desc: '在 Raycast 中直接搜索、运行、停止和重启你的定时任务。从 Raycast Store 安装官方 TaskTick 扩展，双手不离键盘即可掌控一切。',
+    raycast_btn: '前往 Raycast Store 获取',
     install_title: '几秒钟即可开始。',
     install_manual: '手动下载',
     install_manual_desc: '从 <a href="https://github.com/lifedever/TaskTick/releases" style="color:var(--accent);text-decoration:none">GitHub Releases</a><br>下载 <span>.dmg</span> 安装包',
+    install_raycast_desc: '从 <a href="https://www.raycast.com/lifedever/tasktick" style="color:var(--accent);text-decoration:none">Raycast Store</a><br>安装 <span>TaskTick</span> 扩展',
     cta_title: '开源免费，永久使用。',
     cta_sub: '基于 SwiftUI & SwiftData 构建。GPL-3.0 开源协议。',
   },
@@ -500,9 +530,14 @@ const T = {
     feat_i18n_desc: '完整多語言介面，隨時切換。',
     feat_macos26_title: 'macOS 26 就緒',
     feat_macos26_desc: '液態玻璃特效，舊系統優雅降級。',
+    raycast_badge: '新發佈 · Raycast 擴充功能',
+    raycast_title: 'TaskTick，<br>現已登陸 Raycast。',
+    raycast_desc: '在 Raycast 中直接搜尋、執行、停止和重啟你的排程任務。從 Raycast Store 安裝官方 TaskTick 擴充功能，雙手不離鍵盤即可掌控一切。',
+    raycast_btn: '前往 Raycast Store 取得',
     install_title: '幾秒鐘即可開始。',
     install_manual: '手動下載',
     install_manual_desc: '從 <a href="https://github.com/lifedever/TaskTick/releases" style="color:var(--accent);text-decoration:none">GitHub Releases</a><br>下載 <span>.dmg</span> 安裝包',
+    install_raycast_desc: '從 <a href="https://www.raycast.com/lifedever/tasktick" style="color:var(--accent);text-decoration:none">Raycast Store</a><br>安裝 <span>TaskTick</span> 擴充功能',
     cta_title: '開源免費，永久使用。',
     cta_sub: '基於 SwiftUI & SwiftData 構建。GPL-3.0 開源協議。',
   },
@@ -547,9 +582,14 @@ const T = {
     feat_i18n_desc: 'Full multilingual interface, switch anytime.',
     feat_macos26_title: 'macOS 26 Ready',
     feat_macos26_desc: 'Liquid glass effects on supported systems, graceful fallback.',
+    raycast_badge: 'New · Raycast Extension',
+    raycast_title: 'TaskTick,<br>now on Raycast.',
+    raycast_desc: 'Search, run, stop, and restart your scheduled tasks right from Raycast. Install the official TaskTick extension from the Raycast Store and control everything without leaving your keyboard.',
+    raycast_btn: 'Get it on Raycast Store',
     install_title: 'Get started in seconds.',
     install_manual: 'Manual Download',
     install_manual_desc: 'Download <span>.dmg</span> from<br><a href="https://github.com/lifedever/TaskTick/releases" style="color:var(--accent);text-decoration:none">GitHub Releases</a>',
+    install_raycast_desc: 'Install <span>TaskTick</span> from the<br><a href="https://www.raycast.com/lifedever/tasktick" style="color:var(--accent);text-decoration:none">Raycast Store</a>',
     cta_title: 'Open source. Free forever.',
     cta_sub: 'Built with SwiftUI & SwiftData. GPL-3.0 licensed.',
   },
@@ -594,9 +634,14 @@ const T = {
     feat_i18n_desc: '完全な多言語インターフェース、いつでも切替可能。',
     feat_macos26_title: 'macOS 26対応',
     feat_macos26_desc: 'リキッドグラスエフェクト対応、旧システムは自動フォールバック。',
+    raycast_badge: '新登場 · Raycast拡張機能',
+    raycast_title: 'TaskTickが<br>Raycastに登場。',
+    raycast_desc: 'Raycastから直接、スケジュールタスクを検索・実行・停止・再起動。Raycast Storeから公式TaskTick拡張機能をインストールして、キーボードから手を離さずにすべてを操作。',
+    raycast_btn: 'Raycast Storeで入手',
     install_title: '数秒で始められる。',
     install_manual: '手動ダウンロード',
     install_manual_desc: '<a href="https://github.com/lifedever/TaskTick/releases" style="color:var(--accent);text-decoration:none">GitHub Releases</a>から<br><span>.dmg</span>をダウンロード',
+    install_raycast_desc: '<a href="https://www.raycast.com/lifedever/tasktick" style="color:var(--accent);text-decoration:none">Raycast Store</a>から<br><span>TaskTick</span>拡張機能をインストール',
     cta_title: 'オープンソース。永久無料。',
     cta_sub: 'SwiftUI & SwiftDataで構築。GPL-3.0ライセンス。',
   },
@@ -641,9 +686,14 @@ const T = {
     feat_i18n_desc: '완전한 다국어 인터페이스, 언제든 전환.',
     feat_macos26_title: 'macOS 26 지원',
     feat_macos26_desc: '리퀴드 글래스 효과, 구형 시스템은 자동 폴백.',
+    raycast_badge: '신규 · Raycast 확장',
+    raycast_title: 'TaskTick,<br>이제 Raycast에서.',
+    raycast_desc: 'Raycast에서 바로 예약 작업을 검색, 실행, 중지, 재시작하세요. Raycast Store에서 공식 TaskTick 확장을 설치하고 키보드에서 손을 떼지 않고 모든 것을 제어하세요.',
+    raycast_btn: 'Raycast Store에서 받기',
     install_title: '몇 초면 시작할 수 있습니다.',
     install_manual: '수동 다운로드',
     install_manual_desc: '<a href="https://github.com/lifedever/TaskTick/releases" style="color:var(--accent);text-decoration:none">GitHub Releases</a>에서<br><span>.dmg</span> 다운로드',
+    install_raycast_desc: '<a href="https://www.raycast.com/lifedever/tasktick" style="color:var(--accent);text-decoration:none">Raycast Store</a>에서<br><span>TaskTick</span> 확장 설치',
     cta_title: '오픈 소스. 영원히 무료.',
     cta_sub: 'SwiftUI & SwiftData로 구축. GPL-3.0 라이선스.',
   },
@@ -688,9 +738,14 @@ const T = {
     feat_i18n_desc: 'Interface multilingue complète, changez à tout moment.',
     feat_macos26_title: 'macOS 26 Ready',
     feat_macos26_desc: 'Effets Liquid Glass sur les systèmes compatibles, repli élégant.',
+    raycast_badge: 'Nouveau · Extension Raycast',
+    raycast_title: 'TaskTick,<br>désormais sur Raycast.',
+    raycast_desc: 'Recherchez, lancez, arrêtez et redémarrez vos tâches planifiées directement depuis Raycast. Installez l\'extension officielle TaskTick depuis le Raycast Store et contrôlez tout sans quitter votre clavier.',
+    raycast_btn: 'Obtenir sur le Raycast Store',
     install_title: 'Démarrez en quelques secondes.',
     install_manual: 'Téléchargement manuel',
     install_manual_desc: 'Téléchargez le <span>.dmg</span> depuis<br><a href="https://github.com/lifedever/TaskTick/releases" style="color:var(--accent);text-decoration:none">GitHub Releases</a>',
+    install_raycast_desc: 'Installez <span>TaskTick</span> depuis le<br><a href="https://www.raycast.com/lifedever/tasktick" style="color:var(--accent);text-decoration:none">Raycast Store</a>',
     cta_title: 'Open source. Gratuit pour toujours.',
     cta_sub: 'Conçu avec SwiftUI & SwiftData. Licence GPL-3.0.',
   },
@@ -735,9 +790,14 @@ const T = {
     feat_i18n_desc: 'Vollständige mehrsprachige Oberfläche, jederzeit wechselbar.',
     feat_macos26_title: 'macOS 26 Ready',
     feat_macos26_desc: 'Liquid-Glass-Effekte auf unterstützten Systemen, eleganter Fallback.',
+    raycast_badge: 'Neu · Raycast-Erweiterung',
+    raycast_title: 'TaskTick,<br>jetzt auf Raycast.',
+    raycast_desc: 'Suchen, starten, stoppen und neustarten Sie Ihre geplanten Aufgaben direkt aus Raycast. Installieren Sie die offizielle TaskTick-Erweiterung aus dem Raycast Store und steuern Sie alles, ohne die Tastatur zu verlassen.',
+    raycast_btn: 'Im Raycast Store laden',
     install_title: 'In Sekunden loslegen.',
     install_manual: 'Manueller Download',
     install_manual_desc: '<span>.dmg</span> herunterladen von<br><a href="https://github.com/lifedever/TaskTick/releases" style="color:var(--accent);text-decoration:none">GitHub Releases</a>',
+    install_raycast_desc: '<span>TaskTick</span> installieren aus dem<br><a href="https://www.raycast.com/lifedever/tasktick" style="color:var(--accent);text-decoration:none">Raycast Store</a>',
     cta_title: 'Open Source. Für immer kostenlos.',
     cta_sub: 'Gebaut mit SwiftUI & SwiftData. GPL-3.0 Lizenz.',
   },
@@ -782,9 +842,14 @@ const T = {
     feat_i18n_desc: 'Interfaccia multilingue completa, cambia in qualsiasi momento.',
     feat_macos26_title: 'macOS 26 Ready',
     feat_macos26_desc: 'Effetti Liquid Glass sui sistemi supportati, fallback elegante.',
+    raycast_badge: 'Novità · Estensione Raycast',
+    raycast_title: 'TaskTick,<br>ora su Raycast.',
+    raycast_desc: 'Cerca, avvia, ferma e riavvia i tuoi task pianificati direttamente da Raycast. Installa l\'estensione ufficiale TaskTick dal Raycast Store e controlla tutto senza lasciare la tastiera.',
+    raycast_btn: 'Scarica dal Raycast Store',
     install_title: 'Inizia in pochi secondi.',
     install_manual: 'Download manuale',
     install_manual_desc: 'Scarica il <span>.dmg</span> da<br><a href="https://github.com/lifedever/TaskTick/releases" style="color:var(--accent);text-decoration:none">GitHub Releases</a>',
+    install_raycast_desc: 'Installa <span>TaskTick</span> dal<br><a href="https://www.raycast.com/lifedever/tasktick" style="color:var(--accent);text-decoration:none">Raycast Store</a>',
     cta_title: 'Open source. Gratis per sempre.',
     cta_sub: 'Costruito con SwiftUI & SwiftData. Licenza GPL-3.0.',
   },
@@ -829,9 +894,14 @@ const T = {
     feat_i18n_desc: 'Interfaz multilingüe completa, cambia en cualquier momento.',
     feat_macos26_title: 'macOS 26 Ready',
     feat_macos26_desc: 'Efectos Liquid Glass en sistemas compatibles, degradación elegante.',
+    raycast_badge: 'Nuevo · Extensión de Raycast',
+    raycast_title: 'TaskTick,<br>ahora en Raycast.',
+    raycast_desc: 'Busca, ejecuta, detén y reinicia tus tareas programadas directamente desde Raycast. Instala la extensión oficial de TaskTick desde la Raycast Store y controla todo sin soltar el teclado.',
+    raycast_btn: 'Conseguir en la Raycast Store',
     install_title: 'Empieza en segundos.',
     install_manual: 'Descarga manual',
     install_manual_desc: 'Descarga el <span>.dmg</span> desde<br><a href="https://github.com/lifedever/TaskTick/releases" style="color:var(--accent);text-decoration:none">GitHub Releases</a>',
+    install_raycast_desc: 'Instala <span>TaskTick</span> desde la<br><a href="https://www.raycast.com/lifedever/tasktick" style="color:var(--accent);text-decoration:none">Raycast Store</a>',
     cta_title: 'Código abierto. Gratis para siempre.',
     cta_sub: 'Construido con SwiftUI & SwiftData. Licencia GPL-3.0.',
   },
@@ -876,9 +946,14 @@ const T = {
     feat_i18n_desc: 'Полный многоязычный интерфейс, переключение в любой момент.',
     feat_macos26_title: 'macOS 26 Ready',
     feat_macos26_desc: 'Эффекты Liquid Glass на поддерживаемых системах, плавный откат.',
+    raycast_badge: 'Новое · Расширение Raycast',
+    raycast_title: 'TaskTick<br>теперь в Raycast.',
+    raycast_desc: 'Ищите, запускайте, останавливайте и перезапускайте запланированные задачи прямо из Raycast. Установите официальное расширение TaskTick из Raycast Store и управляйте всем, не отрывая рук от клавиатуры.',
+    raycast_btn: 'Установить из Raycast Store',
     install_title: 'Начните за секунды.',
     install_manual: 'Ручная загрузка',
     install_manual_desc: 'Скачайте <span>.dmg</span> с<br><a href="https://github.com/lifedever/TaskTick/releases" style="color:var(--accent);text-decoration:none">GitHub Releases</a>',
+    install_raycast_desc: 'Установите <span>TaskTick</span> из<br><a href="https://www.raycast.com/lifedever/tasktick" style="color:var(--accent);text-decoration:none">Raycast Store</a>',
     cta_title: 'Открытый код. Бесплатно навсегда.',
     cta_sub: 'Построено на SwiftUI & SwiftData. Лицензия GPL-3.0.',
   },
@@ -923,9 +998,14 @@ const T = {
     feat_i18n_desc: 'Antarmuka multibahasa lengkap, ganti kapan saja.',
     feat_macos26_title: 'macOS 26 Ready',
     feat_macos26_desc: 'Efek Liquid Glass pada sistem yang didukung, fallback yang elegan.',
+    raycast_badge: 'Baru · Ekstensi Raycast',
+    raycast_title: 'TaskTick,<br>kini di Raycast.',
+    raycast_desc: 'Cari, jalankan, hentikan, dan mulai ulang tugas terjadwal Anda langsung dari Raycast. Instal ekstensi resmi TaskTick dari Raycast Store dan kendalikan semuanya tanpa meninggalkan keyboard.',
+    raycast_btn: 'Dapatkan di Raycast Store',
     install_title: 'Mulai dalam hitungan detik.',
     install_manual: 'Unduh Manual',
     install_manual_desc: 'Unduh <span>.dmg</span> dari<br><a href="https://github.com/lifedever/TaskTick/releases" style="color:var(--accent);text-decoration:none">GitHub Releases</a>',
+    install_raycast_desc: 'Instal <span>TaskTick</span> dari<br><a href="https://www.raycast.com/lifedever/tasktick" style="color:var(--accent);text-decoration:none">Raycast Store</a>',
     cta_title: 'Open source. Gratis selamanya.',
     cta_sub: 'Dibangun dengan SwiftUI & SwiftData. Lisensi GPL-3.0.',
   },
