@@ -555,6 +555,7 @@
 /* Settings → Command Line */
 "settings.cli.section.title" = "命令列";
 "settings.cli.description" = "啟用 `tasktick` 命令列工具，讓你在終端、指令稿和 Raycast 中控制 TaskTick。";
+"settings.cli.raycast_link" = "取得 TaskTick 的 Raycast 擴充功能";
 "settings.cli.enable_button" = "啟用 CLI…";
 "settings.cli.installed" = "已連結到 %@";
 "settings.cli.not_installed" = "未安裝";

@@ -555,6 +555,7 @@
 /* Settings → Command Line */
 "settings.cli.section.title" = "Línea de comandos";
 "settings.cli.description" = "Activa el comando `tasktick` en tu terminal para controlar TaskTick desde scripts y Raycast.";
+"settings.cli.raycast_link" = "Obtener la extensión de TaskTick para Raycast";
 "settings.cli.enable_button" = "Activar CLI…";
 "settings.cli.installed" = "Enlazado en %@";
 "settings.cli.not_installed" = "No instalado";

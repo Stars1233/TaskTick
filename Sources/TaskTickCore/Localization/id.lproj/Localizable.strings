@@ -555,6 +555,7 @@
 /* Settings → Command Line */
 "settings.cli.section.title" = "Baris Perintah";
 "settings.cli.description" = "Aktifkan perintah `tasktick` di terminal Anda untuk mengontrol TaskTick dari skrip dan Raycast.";
+"settings.cli.raycast_link" = "Dapatkan ekstensi TaskTick untuk Raycast";
 "settings.cli.enable_button" = "Aktifkan CLI…";
 "settings.cli.installed" = "Tertaut di %@";
 "settings.cli.not_installed" = "Belum dipasang";

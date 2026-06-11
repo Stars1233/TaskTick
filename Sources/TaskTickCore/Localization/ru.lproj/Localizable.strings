@@ -555,6 +555,7 @@
 /* Settings → Command Line */
 "settings.cli.section.title" = "Командная строка";
 "settings.cli.description" = "Включите команду `tasktick` в терминале, чтобы управлять TaskTick из скриптов и Raycast.";
+"settings.cli.raycast_link" = "Получить расширение TaskTick для Raycast";
 "settings.cli.enable_button" = "Включить CLI…";
 "settings.cli.installed" = "Связано с %@";
 "settings.cli.not_installed" = "Не установлено";

@@ -501,6 +501,7 @@
 "recovery.open_folder" = "Afficher le fichier";
 "settings.cli.section.title" = "Ligne de commande";
 "settings.cli.description" = "Activez la commande `tasktick` dans votre terminal pour controler TaskTick depuis des scripts et Raycast.";
+"settings.cli.raycast_link" = "Obtenir l'extension TaskTick pour Raycast";
 "settings.cli.enable_button" = "Activer la CLI…";
 "settings.cli.installed" = "Liee a %@";
 "settings.cli.not_installed" = "Non installee";
