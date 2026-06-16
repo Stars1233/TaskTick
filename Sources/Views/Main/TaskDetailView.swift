@@ -633,7 +633,7 @@ struct TaskDetailView: View {
                             .controlSize(.mini)
                     }
                 } else if let ms = log.durationMs {
-                    Text("\(ms)ms")
+                    Text(ExecutionLog.formatDuration(ms))
                         .font(.system(.caption2, design: .monospaced))
                         .foregroundStyle(.tertiary)
                 }

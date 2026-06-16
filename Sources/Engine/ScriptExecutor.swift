@@ -242,7 +242,7 @@ final class ScriptExecutor: ObservableObject {
 
         // Send notification using pre-captured properties (safe even if task was deleted)
         let globalNotificationsEnabled = UserDefaults.standard.object(forKey: "notificationsEnabled") as? Bool ?? true
-        let durationText = "\(L10n.tr("notification.duration")) \(durationMs)ms"
+        let durationText = "\(L10n.tr("notification.duration")) \(ExecutionLog.formatDuration(durationMs))"
 
         if globalNotificationsEnabled && notifyOnFailure && result.status != .success {
             let exitInfo = "Exit code: \(result.exitCode ?? -1)"
