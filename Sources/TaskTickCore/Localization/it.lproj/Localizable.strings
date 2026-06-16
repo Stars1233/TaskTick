@@ -280,6 +280,10 @@
 "log.detail.stdout" = "Output standard";
 "log.detail.stderr" = "Output errori";
 "log.detail.output" = "Output";
+"log.export" = "Esporta";
+"log.export.selected" = "Esporta selezione";
+"log.export.all" = "Esporta tutto";
+"log.export.title" = "Esporta registri";
 "log.unknown_task" = "Attivita sconosciuta";
 
 /* Settings */

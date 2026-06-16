@@ -59,7 +59,7 @@ struct TaskLogsView: View {
                         Text(log.startedAt.formatted(date: .abbreviated, time: .standard))
                             .font(.subheadline)
                         if let ms = log.durationMs {
-                            Text("\(ms)ms")
+                            Text(ExecutionLog.formatDuration(ms))
                                 .font(.caption2)
                                 .foregroundStyle(.tertiary)
                                 .monospacedDigit()
@@ -78,6 +78,20 @@ struct TaskLogsView: View {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(L10n.tr("editor.cancel")) { dismiss() }
                         .pointerCursor()
+                }
+                ToolbarItem(placement: .primaryAction) {
+                    LogExportMenu(
+                        title: L10n.tr("log.export"),
+                        selectedEnabled: selectedLog != nil,
+                        allEnabled: !sortedLogs.isEmpty,
+                        onExportSelected: {
+                            if let log = selectedLog { LogExporter.exportLog(log) }
+                        },
+                        onExportAll: {
+                            LogExporter.exportLogs(sortedLogs, nameHint: task.name)
+                        }
+                    )
+                    .help(L10n.tr("log.export"))
                 }
             }
         } detail: {
@@ -129,7 +143,7 @@ private struct LogDetailContent: View {
                         }
 
                         if let ms = log.durationMs {
-                            row(L10n.tr("log.detail.duration"), value: L10n.tr("log.detail.duration_ms", ms))
+                            row(L10n.tr("log.detail.duration"), value: ExecutionLog.formatDuration(ms))
                         }
 
                         if let finished = log.finishedAt {

@@ -280,6 +280,10 @@
 "log.detail.stdout" = "Стандартный вывод";
 "log.detail.stderr" = "Вывод ошибок";
 "log.detail.output" = "Вывод";
+"log.export" = "Экспорт";
+"log.export.selected" = "Экспортировать выбранное";
+"log.export.all" = "Экспортировать все";
+"log.export.title" = "Экспорт журналов";
 "log.unknown_task" = "Неизвестная задача";
 
 /* Settings */

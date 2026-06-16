@@ -102,4 +102,34 @@ public final class ExecutionLog {
         }
         return output
     }
+
+    /// Human-readable duration from a raw millisecond count.
+    /// Auto-selects the unit so logs stop showing everything as raw `ms`:
+    /// `120ms` · `1.2s` · `1m 5s` · `1h 2m`. Units are locale-neutral symbols
+    /// (ms/s/m/h) so no localization churn and the output stays greppable.
+    public static func formatDuration(_ ms: Int) -> String {
+        guard ms > 0 else { return "0ms" }
+        if ms < 1000 { return "\(ms)ms" }
+
+        let totalSeconds = ms / 1000
+        if totalSeconds < 60 {
+            // Sub-minute: one decimal of seconds, trimming a trailing ".0".
+            let secs = String(format: "%.1f", Double(ms) / 1000)
+            let trimmed = secs.hasSuffix(".0") ? String(secs.dropLast(2)) : secs
+            return "\(trimmed)s"
+        }
+
+        let h = totalSeconds / 3600
+        let m = (totalSeconds % 3600) / 60
+        let s = totalSeconds % 60
+        if h > 0 {
+            return m > 0 ? "\(h)h \(m)m" : "\(h)h"
+        }
+        return s > 0 ? "\(m)m \(s)s" : "\(m)m"
+    }
+
+    /// This log's duration as a human-readable string, or `nil` if it never finished.
+    public var durationDisplay: String? {
+        durationMs.map(Self.formatDuration)
+    }
 }

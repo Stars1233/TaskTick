@@ -280,6 +280,10 @@
 "log.detail.stdout" = "Standardausgabe";
 "log.detail.stderr" = "Fehlerausgabe";
 "log.detail.output" = "Ausgabe";
+"log.export" = "Exportieren";
+"log.export.selected" = "Auswahl exportieren";
+"log.export.all" = "Alle exportieren";
+"log.export.title" = "Protokolle exportieren";
 "log.unknown_task" = "Unbekannte Aufgabe";
 
 /* Settings */

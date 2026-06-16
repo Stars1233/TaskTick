@@ -70,7 +70,7 @@ struct LogDetailView: View {
                             }
 
                             if let duration = log.durationMs {
-                                infoRow(L10n.tr("log.detail.duration"), value: L10n.tr("log.detail.duration_ms", duration))
+                                infoRow(L10n.tr("log.detail.duration"), value: ExecutionLog.formatDuration(duration))
                             }
 
                             if let finished = log.finishedAt {

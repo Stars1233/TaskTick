@@ -280,6 +280,10 @@
 "log.detail.stdout" = "표준 출력";
 "log.detail.stderr" = "오류 출력";
 "log.detail.output" = "출력";
+"log.export" = "내보내기";
+"log.export.selected" = "선택 항목 내보내기";
+"log.export.all" = "전체 내보내기";
+"log.export.title" = "로그 내보내기";
 "log.unknown_task" = "알 수 없는 작업";
 
 /* Settings */

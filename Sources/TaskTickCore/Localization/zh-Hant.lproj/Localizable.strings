@@ -280,6 +280,10 @@
 "log.detail.stdout" = "標準輸出";
 "log.detail.stderr" = "錯誤輸出";
 "log.detail.output" = "輸出";
+"log.export" = "匯出";
+"log.export.selected" = "匯出選取項目";
+"log.export.all" = "匯出全部";
+"log.export.title" = "匯出日誌";
 "log.unknown_task" = "未知任務";
 
 /* Settings */

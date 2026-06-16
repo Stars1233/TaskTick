@@ -280,6 +280,10 @@
 "log.detail.stdout" = "標準出力";
 "log.detail.stderr" = "エラー出力";
 "log.detail.output" = "出力";
+"log.export" = "エクスポート";
+"log.export.selected" = "選択項目をエクスポート";
+"log.export.all" = "すべてエクスポート";
+"log.export.title" = "ログをエクスポート";
 "log.unknown_task" = "不明なタスク";
 
 /* Settings */

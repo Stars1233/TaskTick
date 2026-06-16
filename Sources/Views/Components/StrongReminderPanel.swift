@@ -89,7 +89,7 @@ struct StrongReminderView: View {
                     Text(taskName)
                         .font(.headline)
                     if let ms = durationMs {
-                        Text("\(L10n.tr("notification.duration")) \(ms)ms")
+                        Text("\(L10n.tr("notification.duration")) \(ExecutionLog.formatDuration(ms))")
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     }

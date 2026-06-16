@@ -251,6 +251,10 @@
 "log.detail.stdout" = "Sortie standard";
 "log.detail.stderr" = "Sortie d'erreur";
 "log.detail.output" = "Sortie";
+"log.export" = "Exporter";
+"log.export.selected" = "Exporter la selection";
+"log.export.all" = "Tout exporter";
+"log.export.title" = "Exporter les journaux";
 "log.unknown_task" = "Tache inconnue";
 "settings.general" = "General";
 "settings.appearance" = "Apparence";

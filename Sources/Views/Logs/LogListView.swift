@@ -71,6 +71,22 @@ struct LogListView: View {
                 }
             }
         }
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                LogExportMenu(
+                    title: L10n.tr("log.export"),
+                    selectedEnabled: selectedLog != nil,
+                    allEnabled: !filteredLogs.isEmpty,
+                    onExportSelected: {
+                        if let log = selectedLog { LogExporter.exportLog(log) }
+                    },
+                    onExportAll: {
+                        LogExporter.exportLogs(filteredLogs, nameHint: "TaskTick")
+                    }
+                )
+                .help(L10n.tr("log.export"))
+            }
+        }
     }
 
     private func statusColor(_ status: ExecutionStatus) -> Color {
@@ -123,7 +139,7 @@ struct LogListRow: View {
                         .monospacedDigit()
 
                     if let duration = log.durationMs {
-                        Text("· \(duration)ms")
+                        Text("· \(ExecutionLog.formatDuration(duration))")
                     }
                 }
                 .font(.caption)
