@@ -13,8 +13,10 @@
 "task.filter.all" = "全部";
 "task.filter.enabled" = "已啟用";
 "task.filter.disabled" = "已停用";
-"task.sort.newest_first" = "最新在前";
-"task.sort.oldest_first" = "最早在前";
+"task.sort.created" = "創建時間";
+"task.sort.last_run" = "最後運行時間";
+"task.sort.ascending" = "升序";
+"task.sort.descending" = "降序";
 "task.search.prompt" = "搜尋任務...";
 "task.empty.title" = "還沒有任務";
 "task.empty.description" = "點擊 + 建立你的第一個排程任務";

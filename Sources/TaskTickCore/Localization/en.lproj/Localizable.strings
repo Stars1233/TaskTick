@@ -13,8 +13,10 @@
 "task.filter.all" = "All";
 "task.filter.enabled" = "Enabled";
 "task.filter.disabled" = "Disabled";
-"task.sort.newest_first" = "Newest First";
-"task.sort.oldest_first" = "Oldest First";
+"task.sort.created" = "Created";
+"task.sort.last_run" = "Last Run";
+"task.sort.ascending" = "Ascending";
+"task.sort.descending" = "Descending";
 "task.search.prompt" = "Search tasks...";
 "task.empty.title" = "No Tasks Yet";
 "task.empty.description" = "Click + to create your first scheduled task";

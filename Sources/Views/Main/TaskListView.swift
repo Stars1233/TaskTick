@@ -21,7 +21,7 @@ struct TaskListView: View {
     @Environment(\.openWindow) private var openWindow
     @Query(sort: \ScheduledTask.createdAt, order: .reverse) private var tasks: [ScheduledTask]
     @Binding var selectedTask: ScheduledTask?
-    @Binding var sortNewestFirst: Bool
+    @Binding var sortOptionRaw: String
     @State private var filter: TaskFilter = .all
     @State private var searchText = ""
     @State private var taskToDelete: ScheduledTask?
@@ -40,16 +40,8 @@ struct TaskListView: View {
             let matchesSearch = searchText.isEmpty || task.name.localizedCaseInsensitiveContains(searchText)
             return matchesFilter && matchesSearch
         }
-        // Manual-run-aware sort. The signal we want to surface is "what did
-        // the user touch most recently" — `lastManualRunAt` captures that
-        // without scheduled cron runs constantly reshuffling. Tasks that
-        // have never been manually run fall back to creation time.
-        let sorted = filtered.sorted { lhs, rhs in
-            let lk = lhs.lastManualRunAt ?? lhs.createdAt
-            let rk = rhs.lastManualRunAt ?? rhs.createdAt
-            return lk > rk
-        }
-        return sortNewestFirst ? sorted : sorted.reversed()
+        let option = TaskSortOption(rawValue: sortOptionRaw) ?? .lastRunDesc
+        return option.sort(filtered)
     }
 
     var scheduledTasks: [ScheduledTask] { filteredTasks.filter { !$0.isManualOnly } }

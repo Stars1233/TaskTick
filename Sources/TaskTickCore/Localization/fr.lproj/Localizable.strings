@@ -11,8 +11,10 @@
 "task.filter.all" = "Toutes";
 "task.filter.enabled" = "Activees";
 "task.filter.disabled" = "Desactivees";
-"task.sort.newest_first" = "Plus récentes";
-"task.sort.oldest_first" = "Plus anciennes";
+"task.sort.created" = "Date de création";
+"task.sort.last_run" = "Dernière exécution";
+"task.sort.ascending" = "Croissant";
+"task.sort.descending" = "Décroissant";
 "task.search.prompt" = "Rechercher des taches...";
 "task.empty.title" = "Aucune tache";
 "task.empty.description" = "Cliquez sur + pour creer votre premiere tache planifiee";

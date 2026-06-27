@@ -13,8 +13,10 @@
 "task.filter.all" = "全部";
 "task.filter.enabled" = "已启用";
 "task.filter.disabled" = "已禁用";
-"task.sort.newest_first" = "最新在前";
-"task.sort.oldest_first" = "最早在前";
+"task.sort.created" = "创建时间";
+"task.sort.last_run" = "最后运行时间";
+"task.sort.ascending" = "升序";
+"task.sort.descending" = "降序";
 "task.search.prompt" = "搜索任务...";
 "task.empty.title" = "还没有任务";
 "task.empty.description" = "点击 + 创建你的第一个定时任务";

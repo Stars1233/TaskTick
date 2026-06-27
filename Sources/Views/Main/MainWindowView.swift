@@ -8,38 +8,30 @@ struct MainWindowView: View {
     @StateObject private var editorState = EditorState.shared
     @StateObject private var mainSelection = MainWindowSelection.shared
     @State private var selectedTask: ScheduledTask?
-    @AppStorage("sortNewestFirst") private var sortNewestFirst = true
+    @AppStorage("taskSortOption") private var sortOptionRaw = TaskSortOption.lastRunDesc.rawValue
     @Binding var showingCrontabImport: Bool
 
     var body: some View {
         NavigationSplitView {
-            TaskListView(selectedTask: $selectedTask, sortNewestFirst: $sortNewestFirst)
+            TaskListView(selectedTask: $selectedTask, sortOptionRaw: $sortOptionRaw)
                 .navigationSplitViewColumnWidth(min: 230, ideal: 270, max: 350)
                 .toolbar {
                     ToolbarItem(placement: .automatic) {
                         Menu {
-                            Button {
-                                sortNewestFirst = true
-                            } label: {
-                                if sortNewestFirst {
-                                    Label(L10n.tr("task.sort.newest_first"), systemImage: "checkmark")
-                                } else {
-                                    Text(L10n.tr("task.sort.newest_first"))
+                            Picker("", selection: $sortOptionRaw) {
+                                Section(L10n.tr("task.sort.created")) {
+                                    Text(L10n.tr("task.sort.descending")).tag(TaskSortOption.createdDesc.rawValue)
+                                    Text(L10n.tr("task.sort.ascending")).tag(TaskSortOption.createdAsc.rawValue)
+                                }
+                                Section(L10n.tr("task.sort.last_run")) {
+                                    Text(L10n.tr("task.sort.descending")).tag(TaskSortOption.lastRunDesc.rawValue)
+                                    Text(L10n.tr("task.sort.ascending")).tag(TaskSortOption.lastRunAsc.rawValue)
                                 }
                             }
-                            Button {
-                                sortNewestFirst = false
-                            } label: {
-                                if !sortNewestFirst {
-                                    Label(L10n.tr("task.sort.oldest_first"), systemImage: "checkmark")
-                                } else {
-                                    Text(L10n.tr("task.sort.oldest_first"))
-                                }
-                            }
+                            .pickerStyle(.inline)
                         } label: {
                             Image(systemName: "arrow.up.arrow.down")
                         }
-                        .help(sortNewestFirst ? L10n.tr("task.sort.newest_first") : L10n.tr("task.sort.oldest_first"))
                     }
                     ToolbarItem(placement: .primaryAction) {
                         Button {

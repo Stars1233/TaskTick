@@ -13,8 +13,10 @@
 "task.filter.all" = "Semua";
 "task.filter.enabled" = "Aktif";
 "task.filter.disabled" = "Nonaktif";
-"task.sort.newest_first" = "Terbaru";
-"task.sort.oldest_first" = "Terlama";
+"task.sort.created" = "Tanggal dibuat";
+"task.sort.last_run" = "Terakhir dijalankan";
+"task.sort.ascending" = "Menaik";
+"task.sort.descending" = "Menurun";
 "task.search.prompt" = "Cari tugas...";
 "task.empty.title" = "Belum Ada Tugas";
 "task.empty.description" = "Klik + untuk membuat tugas terjadwal pertama Anda";

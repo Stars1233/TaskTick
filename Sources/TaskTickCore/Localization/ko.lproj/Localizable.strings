@@ -13,8 +13,10 @@
 "task.filter.all" = "전체";
 "task.filter.enabled" = "활성";
 "task.filter.disabled" = "비활성";
-"task.sort.newest_first" = "최신순";
-"task.sort.oldest_first" = "오래된순";
+"task.sort.created" = "생성 시간";
+"task.sort.last_run" = "마지막 실행";
+"task.sort.ascending" = "오름차순";
+"task.sort.descending" = "내림차순";
 "task.search.prompt" = "작업 검색...";
 "task.empty.title" = "작업이 없습니다";
 "task.empty.description" = "+를 클릭하여 첫 번째 예약 작업을 만드세요";

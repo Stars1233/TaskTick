@@ -13,8 +13,10 @@
 "task.filter.all" = "Все";
 "task.filter.enabled" = "Активные";
 "task.filter.disabled" = "Отключённые";
-"task.sort.newest_first" = "Сначала новые";
-"task.sort.oldest_first" = "Сначала старые";
+"task.sort.created" = "Дата создания";
+"task.sort.last_run" = "Последний запуск";
+"task.sort.ascending" = "По возрастанию";
+"task.sort.descending" = "По убыванию";
 "task.search.prompt" = "Поиск задач...";
 "task.empty.title" = "Задач пока нет";
 "task.empty.description" = "Нажмите +, чтобы создать первую задачу по расписанию";

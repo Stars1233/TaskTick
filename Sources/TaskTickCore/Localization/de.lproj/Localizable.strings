@@ -13,8 +13,10 @@
 "task.filter.all" = "Alle";
 "task.filter.enabled" = "Aktiviert";
 "task.filter.disabled" = "Deaktiviert";
-"task.sort.newest_first" = "Neueste zuerst";
-"task.sort.oldest_first" = "Älteste zuerst";
+"task.sort.created" = "Erstellt";
+"task.sort.last_run" = "Letzte Ausführung";
+"task.sort.ascending" = "Aufsteigend";
+"task.sort.descending" = "Absteigend";
 "task.search.prompt" = "Aufgaben suchen...";
 "task.empty.title" = "Noch keine Aufgaben";
 "task.empty.description" = "Klicke auf +, um deine erste geplante Aufgabe zu erstellen";
