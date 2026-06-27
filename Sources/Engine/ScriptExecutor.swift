@@ -580,15 +580,35 @@ final class ScriptExecutor: ObservableObject {
                 // lag for live logs and lets us amortize the dispatch cost.
                 let batcher = IOBatcher(taskId: taskId)
 
+                // Scan stdout for `@tasktick:notify {…}` directives, strip them
+                // from the sinks, and fire one TaskTick notification each.
+                // Per-execution state: each run gets its own buffer + cap counter.
+                let directiveScanner = NotificationDirectiveScanner()
+                let directiveGate = DirectiveNotificationGate()
+                // Dispatch on main (FIFO) so notifications fire in the order the
+                // script printed them, and the cap counter stays single-threaded.
+                let fireDirective: @Sendable (NotificationDirective) -> Void = { directive in
+                    DispatchQueue.main.async {
+                        guard directiveGate.count < DirectiveNotificationGate.maxPerRun else { return }
+                        let enabled = UserDefaults.standard.object(forKey: "notificationsEnabled") as? Bool ?? true
+                        guard enabled else { return }
+                        directiveGate.count += 1
+                        NotificationManager.shared.sendNotification(title: directive.title, body: directive.body ?? "")
+                    }
+                }
+
                 stdoutHandle.readabilityHandler = { handle in
                     let data = handle.availableData
                     guard !data.isEmpty else {
                         stdoutHandle.readabilityHandler = nil
                         return
                     }
-                    outputBuffer.appendStdout(data)
-                    logFileWriter?.append(data)
-                    batcher.appendStdout(data)
+                    let (passthrough, directives) = directiveScanner.feed(data)
+                    for directive in directives { fireDirective(directive) }
+                    guard !passthrough.isEmpty else { return }
+                    outputBuffer.appendStdout(passthrough)
+                    logFileWriter?.append(passthrough)
+                    batcher.appendStdout(passthrough)
                 }
 
                 stderrHandle.readabilityHandler = { handle in
@@ -667,10 +687,18 @@ final class ScriptExecutor: ObservableObject {
                 stderrHandle.readabilityHandler = nil
                 let remainingStdout = stdoutHandle.readDataToEndOfFile()
                 let remainingStderr = stderrHandle.readDataToEndOfFile()
-                if !remainingStdout.isEmpty {
-                    outputBuffer.appendStdout(remainingStdout)
-                    logFileWriter?.append(remainingStdout)
-                    batcher.appendStdout(remainingStdout)
+                // The drained stdout tail goes through the scanner too (feed then
+                // flush), so a directive printed right before exit — or one with no
+                // trailing newline — is detected and stripped, not leaked to the log.
+                let (drainPass, drainDirectives) = directiveScanner.feed(remainingStdout)
+                let (flushPass, flushDirectives) = directiveScanner.flush()
+                for directive in drainDirectives + flushDirectives { fireDirective(directive) }
+                var tailStdout = drainPass
+                tailStdout.append(flushPass)
+                if !tailStdout.isEmpty {
+                    outputBuffer.appendStdout(tailStdout)
+                    logFileWriter?.append(tailStdout)
+                    batcher.appendStdout(tailStdout)
                 }
                 if !remainingStderr.isEmpty {
                     outputBuffer.appendStderr(remainingStderr)

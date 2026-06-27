@@ -120,3 +120,10 @@ final class NotificationDirectiveScanner: @unchecked Sendable {
         return true // a proper prefix of the sentinel
     }
 }
+
+/// Per-execution cap + counter for script-driven notifications. Mutated only on
+/// the main queue (every fire hops there), so `@unchecked Sendable` is safe.
+final class DirectiveNotificationGate: @unchecked Sendable {
+    static let maxPerRun = 20
+    var count = 0
+}
