@@ -200,6 +200,7 @@ footer .right a:hover{color:var(--text)}
     <div class="nav-right">
       <a href="#features" data-i18n="nav_features">Features</a>
       <a href="#install" data-i18n="nav_install">Install</a>
+      <a href="guide/" data-i18n="nav_docs">Docs</a>
       <a href="https://github.com/lifedever/TaskTick">GitHub</a>
       <a href="https://www.lifedever.com/sponsor/" class="nav-sponsor">💖 <span data-i18n="nav_sponsor">Sponsor</span></a>
       <div class="lang-wrap">
@@ -364,6 +365,7 @@ footer .right a:hover{color:var(--text)}
         <div class="feature-icon fi-pink"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div>
         <h3 data-i18n="feat_notify_title">Notifications</h3>
         <p data-i18n="feat_notify_desc">macOS native alerts on success or failure, per task.</p>
+        <a href="guide/#notifications" style="display:inline-block;margin-top:10px;font-size:.78rem;font-weight:600;color:var(--accent);text-decoration:none" data-i18n="feat_notify_link">Learn more →</a>
       </div>
       <div class="feature-card">
         <div class="feature-icon fi-slate"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></div>
@@ -440,6 +442,7 @@ const T = {
   'zh-Hans': {
     nav_features: '功能',
     nav_install: '安装',
+    nav_docs: '文档',
     nav_sponsor: '捐赠',
     nav_download: '下载',
     hero_badge: 'macOS 原生应用',
@@ -472,6 +475,7 @@ const T = {
     feat_logs_desc: '标准输出、错误、退出码、耗时 — 全部记录。',
     feat_notify_title: '系统通知',
     feat_notify_desc: '任务成功或失败时推送 macOS 原生通知。',
+    feat_notify_link: '了解更多 →',
     feat_crontab_title: 'Crontab 导入',
     feat_crontab_desc: '一键导入系统 crontab 任务。',
     feat_i18n_title: '11种语言',
@@ -544,6 +548,7 @@ const T = {
   en: {
     nav_features: 'Features',
     nav_install: 'Install',
+    nav_docs: 'Docs',
     nav_sponsor: 'Sponsor',
     nav_download: 'Download',
     hero_badge: 'Native macOS App',
@@ -576,6 +581,7 @@ const T = {
     feat_logs_desc: 'stdout, stderr, exit codes, duration — all captured.',
     feat_notify_title: 'Notifications',
     feat_notify_desc: 'macOS native alerts on success or failure, per task.',
+    feat_notify_link: 'Learn more →',
     feat_crontab_title: 'Crontab Import',
     feat_crontab_desc: 'Import from system crontab with one click.',
     feat_i18n_title: '11 Languages',
