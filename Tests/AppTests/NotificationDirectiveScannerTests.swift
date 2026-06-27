@@ -152,4 +152,14 @@ struct NotificationDirectiveScannerTests {
         #expect(d3 == [NotificationDirective(title: "Drain", body: nil)])
         #expect(p3.isEmpty)
     }
+
+    @Test("Chinese directive payload (real-world) is recognized and stripped")
+    func chineseDirective() {
+        let s = NotificationDirectiveScanner()
+        let input = #"@tasktick:notify {"title":"TaskTick 测试通知","body":"mid-run 触发 v5.5.2"}"#
+            + "\n" + "visible-output-line-AFTER-directive\n"
+        let (pass, dirs) = s.feed(Data(input.utf8))
+        #expect(dirs == [NotificationDirective(title: "TaskTick 测试通知", body: "mid-run 触发 v5.5.2")])
+        #expect(str(pass) == "visible-output-line-AFTER-directive\n")
+    }
 }
