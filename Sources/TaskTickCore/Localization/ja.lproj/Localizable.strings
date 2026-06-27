@@ -101,6 +101,7 @@
 "editor.section.notification" = "通知";
 "editor.notify_success" = "成功時に通知";
 "editor.notify_failure" = "失敗時に通知";
+"editor.notify_action" = "操作フィードバック通知";
 "editor.notify_only_when_output" = "出力がある場合のみ通知";
 "editor.notify_only_when_output.hint" = "有効にすると、実行が成功しても stdout に出力がない場合は通知されません。`echo` で実際に通知する価値のある内容が出力されたときのみ通知されます。";
 "editor.notify_hint" = "タスク完了時にmacOSのシステム通知で通知されます。";

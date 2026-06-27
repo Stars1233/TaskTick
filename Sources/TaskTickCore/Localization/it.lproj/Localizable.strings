@@ -101,6 +101,7 @@
 "editor.section.notification" = "Notifiche";
 "editor.notify_success" = "Notifica in caso di successo";
 "editor.notify_failure" = "Notifica in caso di errore";
+"editor.notify_action" = "Feedback azioni";
 "editor.notify_only_when_output" = "Notifica solo in presenza di output";
 "editor.notify_only_when_output.hint" = "Se abilitato, un'esecuzione riuscita senza stdout resta silenziosa. Usa `echo` solo quando accade davvero qualcosa che vale la pena notificare.";
 "editor.notify_hint" = "Le notifiche vengono inviate tramite il sistema di notifiche di macOS al termine di un'attivita.";

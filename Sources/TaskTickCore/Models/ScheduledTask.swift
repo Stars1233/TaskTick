@@ -215,6 +215,10 @@ public final class ScheduledTask {
     public var runOnLaunch: Bool = false
     public var strongReminder: Bool = false
     public var ignoreExitCode: Bool = false
+    /// When true, running/stopping/restarting THIS task fires a macOS
+    /// "action feedback" banner (Started/Stopped/Restarted). Default `false`
+    /// keeps these banners off unless the user opts in per task.
+    public var notifyOnAction: Bool = false
 
     @Relationship(deleteRule: .cascade, inverse: \ExecutionLog.task)
     public var executionLogs: [ExecutionLog]

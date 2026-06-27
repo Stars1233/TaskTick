@@ -350,7 +350,7 @@ struct QuickLauncherView: View {
         let name = task.name
         if scheduler.runningTaskIDs.contains(task.id) {
             ScriptExecutor.shared.cancel(taskId: task.id)
-            ActionToast.notify(.stopped(taskName: name))
+            ActionToast.notify(.stopped(taskName: name), wantsBanner: task.notifyOnAction)
             ToastCenter.shared.stopped(L10n.tr("toast.task.stopped", name))
         } else {
             let context = modelContext
@@ -358,7 +358,7 @@ struct QuickLauncherView: View {
                 _ = await ScriptExecutor.shared.execute(task: task, modelContext: context)
             }
             QuickLauncherUsage.markUsed(task.id)
-            ActionToast.notify(.started(taskName: name))
+            ActionToast.notify(.started(taskName: name), wantsBanner: task.notifyOnAction)
             ToastCenter.shared.running(L10n.tr("toast.task.started", name))
         }
         onDismiss()
@@ -384,7 +384,7 @@ struct QuickLauncherView: View {
             _ = await ScriptExecutor.shared.execute(task: task, modelContext: context)
         }
         QuickLauncherUsage.markUsed(task.id)
-        ActionToast.notify(.restarted(taskName: name))
+        ActionToast.notify(.restarted(taskName: name), wantsBanner: task.notifyOnAction)
         ToastCenter.shared.restart(L10n.tr("toast.task.restarted", name))
         onDismiss()
     }

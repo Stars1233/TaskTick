@@ -13,12 +13,21 @@ enum ActionToast {
         case failed(taskName: String?, reason: String)
     }
 
-    /// Globally toggle action banners. Reuses the existing
-    /// `notificationsEnabled` UserDefaults key — when the user has turned
-    /// off notifications globally, we honor that.
-    static func notify(_ event: Event) {
-        let enabled = UserDefaults.standard.object(forKey: "notificationsEnabled") as? Bool ?? true
-        guard enabled else { return }
+    /// Whether an action-feedback banner should fire. Requires the global
+    /// `notificationsEnabled` switch (default on) AND the per-task opt-in
+    /// `wantsBanner` (the task's `notifyOnAction`, default OFF). Task-less
+    /// failure events pass `wantsBanner: true` so they still surface (subject
+    /// to the global switch).
+    static func isEnabled(wantsBanner: Bool, _ defaults: UserDefaults = .standard) -> Bool {
+        let global = defaults.object(forKey: "notificationsEnabled") as? Bool ?? true
+        return global && wantsBanner
+    }
+
+    /// Fire an action-feedback banner if enabled. `wantsBanner` is the task's
+    /// per-task opt-in (`notifyOnAction`); defaults to true for task-less
+    /// failure events.
+    static func notify(_ event: Event, wantsBanner: Bool = true) {
+        guard isEnabled(wantsBanner: wantsBanner) else { return }
         let (title, body) = previewContent(for: event)
         NotificationManager.shared.sendNotification(title: title, body: body)
     }

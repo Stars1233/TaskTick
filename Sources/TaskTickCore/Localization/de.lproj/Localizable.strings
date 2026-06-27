@@ -101,6 +101,7 @@
 "editor.section.notification" = "Benachrichtigungen";
 "editor.notify_success" = "Bei Erfolg benachrichtigen";
 "editor.notify_failure" = "Bei Fehler benachrichtigen";
+"editor.notify_action" = "Aktionsfeedback";
 "editor.notify_only_when_output" = "Nur bei Ausgabe benachrichtigen";
 "editor.notify_only_when_output.hint" = "Wenn aktiviert, bleibt ein erfolgreicher Lauf ohne stdout-Ausgabe stumm. Verwende `echo` nur dann, wenn tatsächlich etwas Meldenswertes passiert ist.";
 "editor.notify_hint" = "Benachrichtigungen werden über macOS-Systembenachrichtigungen gesendet, wenn eine Aufgabe abgeschlossen ist.";

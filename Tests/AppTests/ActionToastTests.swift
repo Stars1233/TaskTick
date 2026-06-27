@@ -36,4 +36,27 @@ final class ActionToastTests: XCTestCase {
         let (_, body) = ActionToast.previewContent(for: .failed(taskName: nil, reason: "unknown id"))
         XCTAssertEqual(body, "unknown id")
     }
+
+    func testActionFeedbackOffWhenTaskOptedOut() {
+        let d = UserDefaults(suiteName: "test.actiontoast.optout")!
+        d.removePersistentDomain(forName: "test.actiontoast.optout")
+        d.set(true, forKey: "notificationsEnabled")
+        // Task did not opt in (notifyOnAction == false) → no banner.
+        XCTAssertFalse(ActionToast.isEnabled(wantsBanner: false, d), "Per-task off must suppress banner")
+    }
+
+    func testActionFeedbackOnWhenTaskOptedInAndGlobalOn() {
+        let d = UserDefaults(suiteName: "test.actiontoast.optin")!
+        d.removePersistentDomain(forName: "test.actiontoast.optin")
+        d.set(true, forKey: "notificationsEnabled")
+        XCTAssertTrue(ActionToast.isEnabled(wantsBanner: true, d))
+    }
+
+    func testActionFeedbackSuppressedByGlobalOff() {
+        let d = UserDefaults(suiteName: "test.actiontoast.globaloff")!
+        d.removePersistentDomain(forName: "test.actiontoast.globaloff")
+        d.set(false, forKey: "notificationsEnabled")
+        // Even with the task opted in, global off wins.
+        XCTAssertFalse(ActionToast.isEnabled(wantsBanner: true, d), "Global off must suppress banner")
+    }
 }

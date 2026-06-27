@@ -60,10 +60,10 @@ final class CLIBridge {
             // Already-running guard — match Quick Launcher's idempotent contract.
             guard !TaskScheduler.shared.runningTaskIDs.contains(task.id) else { return }
             Task { _ = await ScriptExecutor.shared.execute(task: task, modelContext: context) }
-            ActionToast.notify(.started(taskName: task.name))
+            ActionToast.notify(.started(taskName: task.name), wantsBanner: task.notifyOnAction)
         case .stop:
             ScriptExecutor.shared.cancel(taskId: task.id)
-            ActionToast.notify(.stopped(taskName: task.name))
+            ActionToast.notify(.stopped(taskName: task.name), wantsBanner: task.notifyOnAction)
         case .restart:
             let wasRunning = TaskScheduler.shared.runningTaskIDs.contains(task.id)
             if wasRunning { ScriptExecutor.shared.cancel(taskId: task.id) }
@@ -71,7 +71,7 @@ final class CLIBridge {
                 if wasRunning { try? await Task.sleep(for: .milliseconds(200)) }
                 _ = await ScriptExecutor.shared.execute(task: task, modelContext: context)
             }
-            ActionToast.notify(.restarted(taskName: task.name))
+            ActionToast.notify(.restarted(taskName: task.name), wantsBanner: task.notifyOnAction)
         case .reveal:
             MainWindowSelection.shared.taskToReveal = task
             NotificationCenter.default.post(name: .revealTaskInMain, object: nil)

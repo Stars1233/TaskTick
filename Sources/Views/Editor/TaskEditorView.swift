@@ -74,6 +74,7 @@ struct TaskEditorView: View {
     // Notification
     @State private var notifyOnSuccess = true
     @State private var notifyOnFailure = true
+    @State private var notifyOnAction = false
     @State private var notifyOnlyWhenOutput = false
     @State private var strongReminder = false
     @State private var ignoreExitCode = false
@@ -761,6 +762,7 @@ struct TaskEditorView: View {
             Section {
                 Toggle(L10n.tr("editor.notify_success"), isOn: $notifyOnSuccess)
                 Toggle(L10n.tr("editor.notify_failure"), isOn: $notifyOnFailure)
+                Toggle(L10n.tr("editor.notify_action"), isOn: $notifyOnAction)
                 // Inline label so the helper text sits right under its toggle row
                 // (Section footer would push it to the bottom of the whole section card,
                 // visually divorcing it from the toggle that controls it).
@@ -1034,6 +1036,7 @@ struct TaskEditorView: View {
         runOnLaunch = false
         notifyOnSuccess = true
         notifyOnFailure = true
+        notifyOnAction = false
         notifyOnlyWhenOutput = false
         strongReminder = false
         ignoreExitCode = false
@@ -1062,6 +1065,7 @@ struct TaskEditorView: View {
         timeoutSeconds = task.timeoutSeconds
         notifyOnSuccess = task.notifyOnSuccess
         notifyOnFailure = task.notifyOnFailure
+        notifyOnAction = task.notifyOnAction
         notifyOnlyWhenOutput = task.notifyOnlyWhenOutput
         strongReminder = task.strongReminder
         ignoreExitCode = task.ignoreExitCode
@@ -1113,6 +1117,7 @@ struct TaskEditorView: View {
         target.timeoutSeconds = timeoutSeconds
         target.notifyOnSuccess = notifyOnSuccess
         target.notifyOnFailure = notifyOnFailure
+        target.notifyOnAction = notifyOnAction
         target.notifyOnlyWhenOutput = notifyOnlyWhenOutput
         target.strongReminder = strongReminder
         target.ignoreExitCode = ignoreExitCode

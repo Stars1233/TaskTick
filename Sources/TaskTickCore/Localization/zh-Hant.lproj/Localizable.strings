@@ -101,6 +101,7 @@
 "editor.section.notification" = "通知";
 "editor.notify_success" = "成功時通知";
 "editor.notify_failure" = "失敗時通知";
+"editor.notify_action" = "操作回饋通知";
 "editor.notify_only_when_output" = "僅在有輸出時通知";
 "editor.notify_only_when_output.hint" = "啟用後，執行成功但指令稿沒有任何 stdout 輸出（例如輪詢空跑）將不彈出通知；只在指令稿透過 `echo` 主動印出業務資訊時才會通知。";
 "editor.notify_hint" = "任務完成時透過 macOS 系統通知推播。";

@@ -236,7 +236,7 @@ struct MenuBarTaskRow: View {
                 if isHovering {
                     Button {
                         ScriptExecutor.shared.cancel(taskId: task.id)
-                        ActionToast.notify(.stopped(taskName: task.name))
+                        ActionToast.notify(.stopped(taskName: task.name), wantsBanner: task.notifyOnAction)
                         ToastCenter.shared.stopped(L10n.tr("toast.task.stopped", task.name))
                     } label: {
                         Image(systemName: "stop.fill")
@@ -256,7 +256,7 @@ struct MenuBarTaskRow: View {
                     Task {
                         _ = await ScriptExecutor.shared.execute(task: task, modelContext: context)
                     }
-                    ActionToast.notify(.started(taskName: task.name))
+                    ActionToast.notify(.started(taskName: task.name), wantsBanner: task.notifyOnAction)
                     ToastCenter.shared.running(L10n.tr("toast.task.started", task.name))
                 } label: {
                     Image(systemName: "play.fill")
@@ -289,14 +289,14 @@ struct MenuBarTaskRow: View {
         .onTapGesture {
             if isRunning {
                 ScriptExecutor.shared.cancel(taskId: task.id)
-                ActionToast.notify(.stopped(taskName: task.name))
+                ActionToast.notify(.stopped(taskName: task.name), wantsBanner: task.notifyOnAction)
                 ToastCenter.shared.stopped(L10n.tr("toast.task.stopped", task.name))
             } else {
                 let context = modelContext
                 Task {
                     _ = await ScriptExecutor.shared.execute(task: task, modelContext: context)
                 }
-                ActionToast.notify(.started(taskName: task.name))
+                ActionToast.notify(.started(taskName: task.name), wantsBanner: task.notifyOnAction)
                 ToastCenter.shared.running(L10n.tr("toast.task.started", task.name))
             }
         }
