@@ -93,6 +93,8 @@ footer .right a:hover{color:var(--text)}
 pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;overflow-x:auto;margin:12px 0}
 pre code{font-family:'SF Mono',Menlo,monospace;font-size:.82rem;color:var(--text);line-height:1.7;white-space:pre}
 .doc-note{background:rgba(37,99,235,.05);border:1px solid rgba(37,99,235,.15);border-radius:10px;padding:14px 16px;font-size:.86rem;color:var(--text2)}
+.doc-list{margin:10px 0 14px 20px;color:var(--text2);font-size:.9rem;line-height:1.7}
+.doc-list li{margin-bottom:6px}
 
 /* ── Responsive ── */
 @media(max-width:768px){
@@ -192,8 +194,25 @@ tasktick wait deploy --timeout 300</code></pre>
 
     <section id="notifications" class="doc-section">
       <h2 data-i18n="notif_h">Script Notifications</h2>
-      <p data-i18n="notif_intro">Per-task success/failure notifications are configured in the task editor today.</p>
-      <div class="doc-note" data-i18n="notif_soon">Mid-run, script-driven notifications (a script printing a line to emit its own TaskTick notification) are coming in an upcoming release. This section will document the syntax once it ships.</div>
+      <p data-i18n="notif_intro">A running script can fire its own TaskTick notification at any point: print a sentinel line to stdout and TaskTick turns it into a native banner. The line itself is stripped from the output, so it never shows up in logs or the live view.</p>
+
+      <h3 data-i18n="notif_syntax_h">Syntax</h3>
+      <p data-i18n="notif_syntax_p">Print a line that starts with @tasktick:notify (leading whitespace is allowed), followed by a single JSON object. "title" is required; "body" is optional; unknown keys are ignored.</p>
+      <pre><code>@tasktick:notify {"title":"Update found","body":"Downloading v5.5.2"}</code></pre>
+
+      <h3 data-i18n="notif_example_h">Example</h3>
+      <pre><code>#!/bin/bash
+echo '@tasktick:notify {"title":"Backup started"}'
+# ... do the work ...
+echo '@tasktick:notify {"title":"Backup done","body":"42 files"}'</code></pre>
+
+      <h3 data-i18n="notif_notes_h">Notes</h3>
+      <ul class="doc-list">
+        <li data-i18n="notif_note_strip">The directive line is removed from stdout — it won't appear in logs, the live view, or the tee file.</li>
+        <li data-i18n="notif_note_stdout">Only stdout is scanned, never stderr.</li>
+        <li data-i18n="notif_note_cap">Honors the global notification toggle; at most 20 directive notifications per run.</li>
+        <li data-i18n="notif_note_independent">Independent of the task's success/failure notifications — turn those off in the editor if you want to avoid duplicates.</li>
+      </ul>
     </section>
 
   </main>
@@ -237,8 +256,15 @@ const T = {
     raycast_install_p: 'Install the official TaskTick extension from the Raycast Store, then type its name in Raycast to see the available commands.',
     raycast_btn: 'Get it on Raycast Store',
     notif_h: 'Script Notifications',
-    notif_intro: 'Per-task success/failure notifications are configured in the task editor today.',
-    notif_soon: 'Mid-run, script-driven notifications (a script printing a line to emit its own TaskTick notification) are coming in an upcoming release. This section will document the syntax once it ships.',
+    notif_intro: 'A running script can fire its own TaskTick notification at any point: print a sentinel line to stdout and TaskTick turns it into a native banner. The line itself is stripped from the output, so it never shows up in logs or the live view.',
+    notif_syntax_h: 'Syntax',
+    notif_syntax_p: 'Print a line that starts with @tasktick:notify (leading whitespace is allowed), followed by a single JSON object. "title" is required; "body" is optional; unknown keys are ignored.',
+    notif_example_h: 'Example',
+    notif_notes_h: 'Notes',
+    notif_note_strip: "The directive line is removed from stdout — it won't appear in logs, the live view, or the tee file.",
+    notif_note_stdout: 'Only stdout is scanned, never stderr.',
+    notif_note_cap: 'Honors the global notification toggle; at most 20 directive notifications per run.',
+    notif_note_independent: "Independent of the task's success/failure notifications — turn those off in the editor if you want to avoid duplicates.",
   },
   'zh-Hans': {
     g_back: '← 首页',
@@ -266,8 +292,15 @@ const T = {
     raycast_install_p: '从 Raycast Store 安装官方 TaskTick 扩展，然后在 Raycast 中输入其名称即可看到可用命令。',
     raycast_btn: '前往 Raycast Store 获取',
     notif_h: '脚本通知',
-    notif_intro: '当前可在任务编辑器中为每个任务配置成功/失败通知。',
-    notif_soon: '由脚本驱动的运行中通知（脚本打印一行即可发出自己的 TaskTick 通知）将在后续版本推出。语法将在上线后补充到本节。',
+    notif_intro: '运行中的脚本可以在任意时刻发出自己的 TaskTick 通知：往 stdout 打印一行 sentinel，TaskTick 就把它变成一条原生横幅。这一行本身会从输出里剥离，不会出现在日志或实时输出中。',
+    notif_syntax_h: '语法',
+    notif_syntax_p: '打印一行以 @tasktick:notify 开头（允许前导空白），后跟一个 JSON 对象。"title" 必填；"body" 可选；未知键会被忽略。',
+    notif_example_h: '示例',
+    notif_notes_h: '说明',
+    notif_note_strip: '指令行会从 stdout 移除——不会出现在日志、实时输出或 tee 文件里。',
+    notif_note_stdout: '只扫描 stdout，从不扫描 stderr。',
+    notif_note_cap: '遵循全局通知开关；每次运行最多 20 条指令通知。',
+    notif_note_independent: '与任务的成功/失败通知相互独立——如果想避免重复，在编辑器里关掉那些。',
   },
 };
 
