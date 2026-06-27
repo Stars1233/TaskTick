@@ -47,7 +47,7 @@
 "task.detail.collapse_script" = "Reduire";
 "editor.tab.basic" = "General";
 "editor.tab.schedule" = "Planification";
-"editor.tab.script" = "Action";
+"editor.tab.script" = "Commande";
 "editor.tab.settings" = "Paramètres";
 "editor.tab.notification" = "Notifications";
 "editor.title.new" = "Nouvelle tache";

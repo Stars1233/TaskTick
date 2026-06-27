@@ -53,7 +53,7 @@
 /* Task Editor Tabs */
 "editor.tab.basic" = "Dasar";
 "editor.tab.schedule" = "Jadwal";
-"editor.tab.script" = "Aksi";
+"editor.tab.script" = "Perintah";
 "editor.tab.settings" = "Pengaturan";
 "editor.tab.notification" = "Notifikasi";
 

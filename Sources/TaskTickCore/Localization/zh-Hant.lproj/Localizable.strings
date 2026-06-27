@@ -53,7 +53,7 @@
 /* Task Editor Tabs */
 "editor.tab.basic" = "基本";
 "editor.tab.schedule" = "排程";
-"editor.tab.script" = "動作";
+"editor.tab.script" = "命令";
 "editor.tab.settings" = "設定";
 "editor.tab.notification" = "通知";
 

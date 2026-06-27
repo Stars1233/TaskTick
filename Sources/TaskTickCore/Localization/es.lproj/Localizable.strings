@@ -53,7 +53,7 @@
 /* Task Editor Tabs */
 "editor.tab.basic" = "Básico";
 "editor.tab.schedule" = "Programación";
-"editor.tab.script" = "Acción";
+"editor.tab.script" = "Comando";
 "editor.tab.settings" = "Ajustes";
 "editor.tab.notification" = "Notificaciones";
 

@@ -53,7 +53,7 @@
 /* Task Editor Tabs */
 "editor.tab.basic" = "Основное";
 "editor.tab.schedule" = "Расписание";
-"editor.tab.script" = "Действие";
+"editor.tab.script" = "Команда";
 "editor.tab.settings" = "Настройки";
 "editor.tab.notification" = "Уведомления";
 

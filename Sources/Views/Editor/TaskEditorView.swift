@@ -117,12 +117,12 @@ struct TaskEditorView: View {
                 .tabItem { Label(L10n.tr("editor.tab.basic"), systemImage: "square.and.pencil") }
                 .tag(0)
 
-            scheduleTab
-                .tabItem { Label(L10n.tr("editor.tab.schedule"), systemImage: "calendar.badge.clock") }
-                .tag(1)
-
             scriptContentTab
                 .tabItem { Label(L10n.tr("editor.tab.script"), systemImage: "terminal") }
+                .tag(1)
+
+            scheduleTab
+                .tabItem { Label(L10n.tr("editor.tab.schedule"), systemImage: "calendar.badge.clock") }
                 .tag(2)
 
             scriptSettingsTab

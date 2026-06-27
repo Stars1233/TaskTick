@@ -53,7 +53,7 @@
 /* Task Editor Tabs */
 "editor.tab.basic" = "기본";
 "editor.tab.schedule" = "일정";
-"editor.tab.script" = "동작";
+"editor.tab.script" = "명령";
 "editor.tab.settings" = "설정";
 "editor.tab.notification" = "알림";
 
