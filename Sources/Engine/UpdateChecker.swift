@@ -61,15 +61,20 @@ final class UpdateChecker: ObservableObject {
         if isDev { return }
         isChecking = true
 
-        // Try Gitee first, then GitHub as fallback
-        var release = await fetchRelease(
+        // Query Gitee and GitHub concurrently and take whichever advertises the
+        // HIGHER version. A single mirror lagging behind (e.g. Gitee not yet
+        // published) must not hide a newer release on the other host — the old
+        // "Gitee first, GitHub only if Gitee fails" logic missed updates because
+        // a stale-but-successful Gitee response never triggered the fallback.
+        async let giteeRelease = fetchRelease(
             from: "https://gitee.com/api/v5/repos/\(giteeRepo)/releases/latest"
         )
-        if release == nil {
-            release = await fetchRelease(
-                from: "https://api.github.com/repos/\(repoOwner)/\(repoName)/releases/latest"
-            )
-        }
+        async let githubRelease = fetchRelease(
+            from: "https://api.github.com/repos/\(repoOwner)/\(repoName)/releases/latest"
+        )
+        let release = Self.pickHighestVersionRelease(
+            [await giteeRelease, await githubRelease].compactMap { $0 }
+        )
 
         guard let release else {
             isChecking = false
@@ -341,9 +346,16 @@ final class UpdateChecker: ObservableObject {
     }
 
     private func isNewer(remote: String, current: String) -> Bool {
+        Self.isVersionNewer(remote: remote, current: current)
+    }
+
+    nonisolated static func normalizedVersion(_ tag: String) -> String {
+        tag.trimmingCharacters(in: CharacterSet(charactersIn: "vV"))
+    }
+
+    nonisolated static func isVersionNewer(remote: String, current: String) -> Bool {
         let remoteParts = remote.split(separator: ".").compactMap { Int($0) }
         let currentParts = current.split(separator: ".").compactMap { Int($0) }
-
         for i in 0..<max(remoteParts.count, currentParts.count) {
             let r = i < remoteParts.count ? remoteParts[i] : 0
             let c = i < currentParts.count ? currentParts[i] : 0
@@ -351,6 +363,15 @@ final class UpdateChecker: ObservableObject {
             if r < c { return false }
         }
         return false
+    }
+
+    /// Pick the release advertising the highest version across mirrors, so a
+    /// lagging mirror (e.g. Gitee not yet published) can't hide a newer release
+    /// on another host. STUB — implemented via TDD.
+    nonisolated static func pickHighestVersionRelease(_ releases: [ReleaseInfo]) -> ReleaseInfo? {
+        releases.max {
+            isVersionNewer(remote: normalizedVersion($1.tag_name), current: normalizedVersion($0.tag_name))
+        }
     }
 
     private func showUpToDateAlert() {
