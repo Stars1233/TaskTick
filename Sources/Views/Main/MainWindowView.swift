@@ -18,15 +18,14 @@ struct MainWindowView: View {
                 .toolbar {
                     ToolbarItem(placement: .automatic) {
                         Menu {
-                            Picker("", selection: $sortOptionRaw) {
-                                Section(L10n.tr("task.sort.created")) {
-                                    Text(L10n.tr("task.sort.descending")).tag(TaskSortOption.createdDesc.rawValue)
-                                    Text(L10n.tr("task.sort.ascending")).tag(TaskSortOption.createdAsc.rawValue)
-                                }
-                                Section(L10n.tr("task.sort.last_run")) {
-                                    Text(L10n.tr("task.sort.descending")).tag(TaskSortOption.lastRunDesc.rawValue)
-                                    Text(L10n.tr("task.sort.ascending")).tag(TaskSortOption.lastRunAsc.rawValue)
-                                }
+                            Picker(L10n.tr("task.sort.created"), selection: $sortOptionRaw) {
+                                Text(L10n.tr("task.sort.descending")).tag(TaskSortOption.createdDesc.rawValue)
+                                Text(L10n.tr("task.sort.ascending")).tag(TaskSortOption.createdAsc.rawValue)
+                            }
+                            .pickerStyle(.inline)
+                            Picker(L10n.tr("task.sort.last_run"), selection: $sortOptionRaw) {
+                                Text(L10n.tr("task.sort.descending")).tag(TaskSortOption.lastRunDesc.rawValue)
+                                Text(L10n.tr("task.sort.ascending")).tag(TaskSortOption.lastRunAsc.rawValue)
                             }
                             .pickerStyle(.inline)
                         } label: {
