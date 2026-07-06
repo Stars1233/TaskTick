@@ -1,4 +1,5 @@
 import AppKit
+import CoreServices
 import SwiftData
 import SwiftUI
 import TaskTickCore
@@ -17,7 +18,9 @@ func presentErrorAlert(titleKey: String, messageKey: String, error: Error) {
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
 
-    /// When true, `NSApp.terminate` actually quits. Otherwise Cmd+Q just closes windows.
+    /// Armed by internal restart flows (update install / legacy-backup restore)
+    /// that already confirmed the quit with the user — `applicationShouldTerminate`
+    /// then quits without showing the confirmation dialog again.
     @MainActor static var shouldReallyQuit = false
 
     private var revealObserver: NSObjectProtocol?
@@ -224,31 +227,100 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
+    // MARK: - Quit flow
+
+    /// Quit-event reasons meaning the whole login session is ending
+    /// (logout / restart / shutdown). Replying `.terminateCancel` — or parking
+    /// on a modal alert — in that path makes loginwindow abort the sequence
+    /// and blame us ("TaskTick interrupted shutdown").
+    private static let sessionEndQuitReasons: Set<OSType> = [
+        OSType(kAELogOut), OSType(kAEReallyLogOut),
+        OSType(kAEShowRestartDialog), OSType(kAERestart),
+        OSType(kAEShowShutdownDialog), OSType(kAEShutDown),
+    ]
+
+    static func isSessionEndQuitReason(_ reason: OSType) -> Bool {
+        sessionEndQuitReasons.contains(reason)
+    }
+
+    /// True when the in-flight terminate request was issued by the system
+    /// tearing down the login session, as opposed to a user-initiated quit
+    /// (user quits arrive with no quit-reason attribute, or no Apple event
+    /// at all when they come from `NSApp.terminate` in-process).
+    @MainActor
+    private static func isSessionEndTermination() -> Bool {
+        guard let event = NSAppleEventManager.shared().currentAppleEvent,
+              event.eventClass == AEEventClass(kCoreEventClass),
+              event.eventID == AEEventID(kAEQuitApplication),
+              let reason = event.attributeDescriptor(forKeyword: AEKeyword(kAEQuitReason))
+        else { return false }
+        return isSessionEndQuitReason(reason.enumCodeValue)
+    }
+
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
-        if AppDelegate.shouldReallyQuit {
-            // Block the quit behind a confirmation when scripts are still
-            // running. Without this, dev servers / long-running tasks would be
-            // SIGKILLed without warning, sometimes losing in-progress work
-            // (uncommitted edits in a watcher script, half-written DB rows, …).
-            let runningNames = runningTaskNames()
-            if !runningNames.isEmpty, !confirmQuitWithRunningScripts(runningNames) {
-                AppDelegate.shouldReallyQuit = false
-                return .terminateCancel
-            }
+        // Session teardown must never be blocked or interrupted by a modal —
+        // running scripts are stopped by applicationWillTerminate's
+        // gracefulShutdown either way.
+        if Self.isSessionEndTermination() {
             return .terminateNow
         }
-        // Cmd+Q: just close all windows instead of quitting
-        for window in sender.windows {
-            if window.isVisible && window.canBecomeMain {
+        // Internal restart flows confirmed running scripts before arming the
+        // flag; don't ask twice.
+        if AppDelegate.shouldReallyQuit {
+            return .terminateNow
+        }
+        // User quit (Cmd+Q, app-menu Quit, menu-bar Quit): confirm, with
+        // "hide in menu bar" as the non-destructive escape hatch.
+        switch presentQuitConfirmation() {
+        case .quit:
+            return .terminateNow
+        case .hide:
+            for window in sender.windows where window.isVisible && window.canBecomeMain {
                 window.close()
             }
+            NSApp.setActivationPolicy(.accessory)
+            return .terminateCancel
+        case .cancel:
+            return .terminateCancel
         }
-        NSApp.setActivationPolicy(.accessory)
-        return .terminateCancel
+    }
+
+    private enum QuitChoice {
+        case quit, hide, cancel
     }
 
     @MainActor
-    private func runningTaskNames() -> [String] {
+    private func presentQuitConfirmation() -> QuitChoice {
+        let runningNames = AppDelegate.runningTaskNames()
+        let alert = NSAlert()
+        alert.messageText = L10n.tr("quit.confirm.title")
+        var body = L10n.tr("quit.confirm.body")
+        if !runningNames.isEmpty {
+            let bullets = runningNames.map { "• \($0)" }.joined(separator: "\n")
+            body += "\n\n" + L10n.tr("quit.confirm.message", runningNames.count) + "\n" + bullets
+        }
+        alert.informativeText = body
+        alert.alertStyle = .warning
+        let quitTitle = runningNames.isEmpty
+            ? L10n.tr("quit.confirm.quit_plain")
+            : L10n.tr("quit.confirm.quit")
+        let quitButton = alert.addButton(withTitle: quitTitle)
+        quitButton.hasDestructiveAction = true
+        alert.addButton(withTitle: L10n.tr("quit.confirm.hide"))
+        let cancelButton = alert.addButton(withTitle: L10n.tr("quit.confirm.cancel"))
+        cancelButton.keyEquivalent = "\u{1b}"
+        // The quit can originate from the menu bar while we're an inactive
+        // accessory app — activate so the dialog actually comes to front.
+        NSApp.activate(ignoringOtherApps: true)
+        switch alert.runModal() {
+        case .alertFirstButtonReturn: return .quit
+        case .alertSecondButtonReturn: return .hide
+        default: return .cancel
+        }
+    }
+
+    @MainActor
+    private static func runningTaskNames() -> [String] {
         let runningIDs = TaskScheduler.shared.runningTaskIDs
         guard !runningIDs.isEmpty else { return [] }
         let context = TaskTickApp._sharedModelContainer.mainContext
@@ -256,8 +328,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         return tasks.filter { runningIDs.contains($0.id) }.map(\.name)
     }
 
+    /// Pre-flight for internal restart flows (update install / legacy-backup
+    /// restore): when scripts are running, ask BEFORE the flow spawns its
+    /// relaunch helper and arms `shouldReallyQuit` — once the helper is
+    /// running, a cancelled quit would leave it racing against a live app.
+    /// Returns false when the user cancels.
     @MainActor
-    private func confirmQuitWithRunningScripts(_ names: [String]) -> Bool {
+    static func confirmTerminationOfRunningScripts() -> Bool {
+        let names = runningTaskNames()
+        guard !names.isEmpty else { return true }
         let alert = NSAlert()
         alert.messageText = L10n.tr("quit.confirm.title")
         let bullets = names.map { "• \($0)" }.joined(separator: "\n")

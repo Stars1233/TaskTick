@@ -241,31 +241,27 @@ final class UpdateChecker: ObservableObject {
             return
         }
 
+        // If scripts are running, get the user's OK BEFORE spawning the
+        // installer — once the helper is running, a cancelled quit would
+        // leave it waiting to replace a live app bundle.
+        guard AppDelegate.confirmTerminationOfRunningScripts() else {
+            let detach = Process()
+            detach.executableURL = URL(fileURLWithPath: "/usr/bin/hdiutil")
+            detach.arguments = ["detach", mountPoint, "-quiet"]
+            try? detach.run()
+            detach.waitUntilExit()
+            return
+        }
+
         // DMG is valid and mounted — now safe to quit and replace
         let destApp = Bundle.main.bundlePath
         let appPid = ProcessInfo.processInfo.processIdentifier
-        let script = """
-        #!/bin/bash
-        MOUNT_POINT="\(mountPoint)"
-        SOURCE_APP="\(sourceApp)"
-        DEST_APP="\(destApp)"
-        APP_PID=\(appPid)
-
-        # Wait for the app to actually exit (up to 30 seconds)
-        for i in $(seq 1 60); do
-            if ! kill -0 "$APP_PID" 2>/dev/null; then
-                break
-            fi
-            sleep 0.5
-        done
-
-        # Replace and relaunch
-        rm -rf "$DEST_APP"
-        cp -R "$SOURCE_APP" "$DEST_APP"
-        hdiutil detach "$MOUNT_POINT" -quiet 2>/dev/null
-        open "$DEST_APP"
-        rm -f "$0"
-        """
+        let script = UpdateChecker.installerScript(
+            mountPoint: mountPoint,
+            sourceApp: sourceApp,
+            destApp: destApp,
+            appPid: appPid
+        )
 
         do {
             let scriptPath = NSTemporaryDirectory() + "tasktick_update.sh"
@@ -309,6 +305,51 @@ final class UpdateChecker: ObservableObject {
             detach.waitUntilExit()
             NSWorkspace.shared.open(fileURL)
         }
+    }
+
+    /// The installer helper script. `waitSeconds` bounds how long it waits for
+    /// the app to exit; if the app is still alive after that (quit cancelled or
+    /// hung), the script aborts instead of replacing a running app's bundle —
+    /// ripping resources out from under a live process is the
+    /// Bundle.module-SIGTRAP class of crash. Internal (not private) so tests
+    /// can exercise the abort/replace behavior.
+    nonisolated static func installerScript(
+        mountPoint: String,
+        sourceApp: String,
+        destApp: String,
+        appPid: Int32,
+        waitSeconds: Int = 30
+    ) -> String {
+        """
+        #!/bin/bash
+        MOUNT_POINT="\(mountPoint)"
+        SOURCE_APP="\(sourceApp)"
+        DEST_APP="\(destApp)"
+        APP_PID=\(appPid)
+
+        # Wait for the app to actually exit (up to \(waitSeconds) seconds)
+        for i in $(seq 1 \(waitSeconds * 2)); do
+            if ! kill -0 "$APP_PID" 2>/dev/null; then
+                break
+            fi
+            sleep 0.5
+        done
+
+        # Still alive? The quit was cancelled or hung — abort rather than
+        # replace a running app's bundle.
+        if kill -0 "$APP_PID" 2>/dev/null; then
+            hdiutil detach "$MOUNT_POINT" -quiet 2>/dev/null
+            rm -f "$0"
+            exit 1
+        fi
+
+        # Replace and relaunch
+        rm -rf "$DEST_APP"
+        cp -R "$SOURCE_APP" "$DEST_APP"
+        hdiutil detach "$MOUNT_POINT" -quiet 2>/dev/null
+        open "$DEST_APP"
+        rm -f "$0"
+        """
     }
 
     private func showDownloadErrorAlert(_ message: String) {

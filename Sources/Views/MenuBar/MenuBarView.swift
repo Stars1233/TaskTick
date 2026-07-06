@@ -162,7 +162,8 @@ struct MenuBarView: View {
                 }
 
                 MenuBarFooterButton(title: L10n.tr("menubar.quit")) {
-                    AppDelegate.shouldReallyQuit = true
+                    // Goes through applicationShouldTerminate, which shows the
+                    // unified Quit / Hide / Cancel confirmation.
                     NSApp.terminate(nil)
                 }
             }

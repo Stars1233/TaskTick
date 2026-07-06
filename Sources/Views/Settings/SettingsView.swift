@@ -313,6 +313,14 @@ struct SettingsView: View {
     }
 
     private func runRestore(_ backup: DatabaseBackup.BackupEntry) {
+        // Legacy restore swaps SQLite files and must restart the app. If
+        // scripts are running, confirm BEFORE touching any files or spawning
+        // the relaunch watcher — cancelling later would leave the store
+        // already swapped under a live app plus a watcher waiting to
+        // resurrect it.
+        if backup.format == .legacy, !AppDelegate.confirmTerminationOfRunningScripts() {
+            return
+        }
         // Flush in-flight edits before swapping data so the user's last save isn't
         // silently dropped. Non-fatal — restore proceeds either way.
         do {
