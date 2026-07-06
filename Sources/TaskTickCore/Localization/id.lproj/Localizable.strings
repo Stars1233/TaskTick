@@ -27,6 +27,7 @@
 "task.status.disabled" = "Nonaktif";
 "task.duplicate" = "Duplikat";
 "task.duplicate.name" = "%@ (Salinan)";
+"task.reveal_script" = "Tampilkan skrip di Finder";
 
 /* Task Detail */
 "task.detail.enable" = "Aktifkan";
@@ -132,6 +133,10 @@
 "schedule.until" = "Hingga %@";
 "schedule.after_n_times" = "%d kali";
 "schedule.run_missed" = "Jalankan Eksekusi yang Terlewat";
+"schedule.repeat.cron" = "Ekspresi Cron";
+"schedule.jitter" = "Penundaan Acak";
+"schedule.jitter.unit" = "dtk";
+"schedule.jitter.help" = "Setiap eksekusi ditunda secara acak dalam batas detik yang ditetapkan.";
 "schedule.additional_times" = "Waktu Tambahan";
 "schedule.additional_time.add" = "Tambah Waktu";
 "schedule.additional_time.remove" = "Hapus waktu ini";
@@ -181,6 +186,9 @@
 /* Cron (legacy) */
 "cron.preset" = "Prasetel";
 "cron.custom" = "Kustom...";
+"cron.every_10_seconds" = "Setiap 10 Detik";
+"cron.every_30_seconds" = "Setiap 30 Detik";
+"cron.fields.hint" = "5 kolom: menit jam hari bulan hari-minggu — atau 6 kolom dengan detik di depan.";
 "cron.every_minute" = "Setiap Menit";
 "cron.every_5_minutes" = "Setiap 5 Menit";
 "cron.every_15_minutes" = "Setiap 15 Menit";
@@ -245,6 +253,9 @@
 "quit.confirm.message" = "%d skrip masih berjalan. Keluar akan langsung menghentikannya:";
 "quit.confirm.cancel" = "Batal";
 "quit.confirm.quit" = "Keluar dan Hentikan";
+"quit.confirm.quit_plain" = "Keluar";
+"quit.confirm.hide" = "Sembunyikan di Bar Menu";
+"quit.confirm.body" = "Setelah keluar, tugas terjadwal tidak akan berjalan lagi.";
 
 /* Live log file (manual tasks) */
 "settings.logs.streaming" = "File Log Langsung";

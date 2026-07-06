@@ -27,6 +27,7 @@
 "task.status.disabled" = "Deaktiviert";
 "task.duplicate" = "Duplizieren";
 "task.duplicate.name" = "%@ (Kopie)";
+"task.reveal_script" = "Skript im Finder anzeigen";
 
 /* Task Detail */
 "task.detail.enable" = "Aktivieren";
@@ -132,6 +133,10 @@
 "schedule.until" = "Bis %@";
 "schedule.after_n_times" = "%d Mal";
 "schedule.run_missed" = "Versäumte Ausführung nachholen";
+"schedule.repeat.cron" = "Cron-Ausdruck";
+"schedule.jitter" = "Zufällige Verzögerung";
+"schedule.jitter.unit" = "Sek.";
+"schedule.jitter.help" = "Jede Ausführung wird um eine zufällige Dauer innerhalb der eingestellten Sekunden verzögert.";
 "schedule.additional_times" = "Zusätzliche Zeiten";
 "schedule.additional_time.add" = "Zeit hinzufügen";
 "schedule.additional_time.remove" = "Diese Zeit entfernen";
@@ -181,6 +186,9 @@
 /* Cron (legacy) */
 "cron.preset" = "Vorlage";
 "cron.custom" = "Benutzerdefiniert...";
+"cron.every_10_seconds" = "Alle 10 Sekunden";
+"cron.every_30_seconds" = "Alle 30 Sekunden";
+"cron.fields.hint" = "5 Felder: Min Std Tag Monat Wochentag — oder 6 Felder mit führenden Sekunden.";
 "cron.every_minute" = "Jede Minute";
 "cron.every_5_minutes" = "Alle 5 Minuten";
 "cron.every_15_minutes" = "Alle 15 Minuten";
@@ -245,6 +253,9 @@
 "quit.confirm.message" = "%d Skript(e) laufen noch. Beim Beenden werden sie sofort terminiert:";
 "quit.confirm.cancel" = "Abbrechen";
 "quit.confirm.quit" = "Beenden und terminieren";
+"quit.confirm.quit_plain" = "Beenden";
+"quit.confirm.hide" = "In der Menüleiste ausblenden";
+"quit.confirm.body" = "Nach dem Beenden werden geplante Aufgaben nicht mehr ausgeführt.";
 
 /* Live log file (manual tasks) */
 "settings.logs.streaming" = "Live-Protokolldatei";

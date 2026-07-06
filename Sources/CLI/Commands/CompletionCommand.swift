@@ -24,7 +24,7 @@ struct CompletionCommand: AsyncParsableCommand {
         }
         for t in candidates {
             // zsh _describe format: <value>:<description>
-            let desc = t.isManualOnly ? "manual" : t.repeatType.displayName
+            let desc = t.isManualOnly ? "manual" : t.repeatDisplayName
             print("\(t.name):\(desc)")
         }
     }

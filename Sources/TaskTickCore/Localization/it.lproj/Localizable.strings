@@ -27,6 +27,7 @@
 "task.status.disabled" = "Disattivata";
 "task.duplicate" = "Duplica";
 "task.duplicate.name" = "%@ (Copia)";
+"task.reveal_script" = "Mostra script nel Finder";
 
 /* Task Detail */
 "task.detail.enable" = "Attiva";
@@ -132,6 +133,10 @@
 "schedule.until" = "Fino al %@";
 "schedule.after_n_times" = "%d volte";
 "schedule.run_missed" = "Esegui esecuzione mancata";
+"schedule.repeat.cron" = "Espressione cron";
+"schedule.jitter" = "Ritardo casuale";
+"schedule.jitter.unit" = "s";
+"schedule.jitter.help" = "Ogni esecuzione viene ritardata di un intervallo casuale entro i secondi impostati.";
 "schedule.additional_times" = "Orari aggiuntivi";
 "schedule.additional_time.add" = "Aggiungi orario";
 "schedule.additional_time.remove" = "Rimuovi questo orario";
@@ -181,6 +186,9 @@
 /* Cron (legacy) */
 "cron.preset" = "Preimpostato";
 "cron.custom" = "Personalizzato...";
+"cron.every_10_seconds" = "Ogni 10 secondi";
+"cron.every_30_seconds" = "Ogni 30 secondi";
+"cron.fields.hint" = "5 campi: min ora giorno mese giorno-settimana — o 6 campi con i secondi all'inizio.";
 "cron.every_minute" = "Ogni minuto";
 "cron.every_5_minutes" = "Ogni 5 minuti";
 "cron.every_15_minutes" = "Ogni 15 minuti";
@@ -245,6 +253,9 @@
 "quit.confirm.message" = "%d script ancora in esecuzione. Uscendo verranno terminati immediatamente:";
 "quit.confirm.cancel" = "Annulla";
 "quit.confirm.quit" = "Esci e termina";
+"quit.confirm.quit_plain" = "Esci";
+"quit.confirm.hide" = "Nascondi nella barra dei menu";
+"quit.confirm.body" = "Dopo l'uscita, le attività pianificate non verranno più eseguite.";
 
 /* Live log file (manual tasks) */
 "settings.logs.streaming" = "File di log in tempo reale";

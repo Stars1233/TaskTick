@@ -67,7 +67,7 @@ extension TaskDTO {
             kind: task.isManualOnly ? .manual : .scheduled,
             enabled: task.isEnabled,
             status: runningIds.contains(task.id) ? .running : .idle,
-            scheduleSummary: task.isManualOnly ? "Manual" : task.repeatType.displayName,
+            scheduleSummary: task.isManualOnly ? "Manual" : task.repeatDisplayName,
             lastRunAt: task.lastRunAt,
             lastRunDurationSec: lastLog?.durationMs.map { $0 / 1000 },
             lastExitCode: lastLog?.exitCode,

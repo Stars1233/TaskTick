@@ -219,6 +219,11 @@ public final class ScheduledTask {
     /// "action feedback" banner (Started/Stopped/Restarted). Default `false`
     /// keeps these banners off unless the user opts in per task.
     public var notifyOnAction: Bool = false
+    /// Upper bound (seconds) for random scheduling jitter — issue #38. When > 0
+    /// every computed fire time gets a deterministic pseudo-random 0...N second
+    /// delay so repeats don't hit machine-precise instants. Default 0 keeps
+    /// existing tasks unchanged on SwiftData migration.
+    public var jitterSeconds: Int = 0
 
     @Relationship(deleteRule: .cascade, inverse: \ExecutionLog.task)
     public var executionLogs: [ExecutionLog]
@@ -348,6 +353,15 @@ public final class ScheduledTask {
         }
     }
 
+    /// Repeat cadence for display, cron-aware: cron tasks describe their
+    /// expression instead of the placeholder `repeatType`.
+    public var repeatDisplayName: String {
+        if schedule == .cron, let expr = cronExpression, !expr.isEmpty {
+            return (try? CronExpression(parsing: expr))?.humanReadable ?? expr
+        }
+        return repeatType.displayName
+    }
+
     /// Human-readable schedule description
     public var scheduleDescription: String {
         if isManualOnly {
@@ -363,9 +377,10 @@ public final class ScheduledTask {
             parts.append(formatter.string(from: date))
         }
 
-        parts.append(repeatType.displayName)
+        parts.append(repeatDisplayName)
 
-        if repeatType != .never {
+        // Cron tasks are inherently repeating regardless of repeatType.
+        if schedule == .cron || repeatType != .never {
             switch endRepeatType {
             case .never:
                 break

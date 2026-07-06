@@ -43,6 +43,9 @@ struct TaskExporter {
         let isManualOnly: Bool?
         /// Extra fire times — JSON array of "HH:mm" strings. Optional for compat.
         let additionalTimes: [String]?
+        /// Cron-as-first-class + jitter (issue #38). Optional for older exports.
+        let scheduleType: String?
+        let jitterSeconds: Int?
     }
 
     /// Export all tasks to a JSON file
@@ -173,7 +176,9 @@ struct TaskExporter {
                     return String(format: "%02d:%02d", h, m)
                 }
                 return raw.isEmpty ? nil : raw
-            }()
+            }(),
+            scheduleType: task.scheduleType,
+            jitterSeconds: task.jitterSeconds > 0 ? task.jitterSeconds : nil
         )
     }
 
@@ -200,6 +205,14 @@ struct TaskExporter {
         task.preRunCommand = item.preRunCommand ?? ""
         task.cronExpression = item.cronExpression
         task.intervalSeconds = item.intervalSeconds
+        if let st = item.scheduleType {
+            task.scheduleType = st
+        } else if item.cronExpression != nil {
+            // Pre-jitter exports carried no scheduleType, and cronExpression
+            // only ever accompanied cron tasks — restore them as cron.
+            task.schedule = .cron
+        }
+        task.jitterSeconds = item.jitterSeconds ?? 0
         // ScheduledTask.init bumps the global serial counter; overwrite with the
         // backup's value so restored tasks keep their original numbering.
         if let n = item.serialNumber, n > 0 {

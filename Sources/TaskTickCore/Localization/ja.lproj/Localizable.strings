@@ -27,6 +27,7 @@
 "task.status.disabled" = "無効";
 "task.duplicate" = "複製";
 "task.duplicate.name" = "%@（コピー）";
+"task.reveal_script" = "スクリプトを Finder で表示";
 
 /* Task Detail */
 "task.detail.enable" = "有効にする";
@@ -132,6 +133,10 @@
 "schedule.until" = "%@まで";
 "schedule.after_n_times" = "%d回";
 "schedule.run_missed" = "未実行分を実行";
+"schedule.repeat.cron" = "Cron 式";
+"schedule.jitter" = "ランダム遅延";
+"schedule.jitter.unit" = "秒";
+"schedule.jitter.help" = "実行のたびに設定秒数以内のランダムな遅延を加え、毎回同じ時刻になるのを避けます。";
 "schedule.additional_times" = "追加の時刻";
 "schedule.additional_time.add" = "時刻を追加";
 "schedule.additional_time.remove" = "この時刻を削除";
@@ -181,6 +186,9 @@
 /* Cron (legacy) */
 "cron.preset" = "プリセット";
 "cron.custom" = "カスタム...";
+"cron.every_10_seconds" = "10 秒ごと";
+"cron.every_30_seconds" = "30 秒ごと";
+"cron.fields.hint" = "5 フィールド（分 時 日 月 曜日）。先頭に秒を加えた 6 フィールドにも対応。";
 "cron.every_minute" = "毎分";
 "cron.every_5_minutes" = "5分ごと";
 "cron.every_15_minutes" = "15分ごと";
@@ -245,6 +253,9 @@
 "quit.confirm.message" = "%d 件のスクリプトがまだ実行中です。終了するとただちに停止されます:";
 "quit.confirm.cancel" = "キャンセル";
 "quit.confirm.quit" = "終了して停止";
+"quit.confirm.quit_plain" = "終了";
+"quit.confirm.hide" = "メニューバーに隠す";
+"quit.confirm.body" = "終了すると、すべての定期実行タスクは停止します。";
 
 /* Live log file (manual tasks) */
 "settings.logs.streaming" = "リアルタイムログファイル";

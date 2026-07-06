@@ -27,6 +27,7 @@
 "task.status.disabled" = "Отключена";
 "task.duplicate" = "Дублировать";
 "task.duplicate.name" = "%@ (Копия)";
+"task.reveal_script" = "Показать скрипт в Finder";
 
 /* Task Detail */
 "task.detail.enable" = "Включить";
@@ -132,6 +133,10 @@
 "schedule.until" = "До %@";
 "schedule.after_n_times" = "%d раз";
 "schedule.run_missed" = "Выполнить пропущенный запуск";
+"schedule.repeat.cron" = "Cron-выражение";
+"schedule.jitter" = "Случайная задержка";
+"schedule.jitter.unit" = "с";
+"schedule.jitter.help" = "Каждый запуск откладывается на случайное время в пределах заданных секунд.";
 "schedule.additional_times" = "Дополнительные времена";
 "schedule.additional_time.add" = "Добавить время";
 "schedule.additional_time.remove" = "Удалить это время";
@@ -181,6 +186,9 @@
 /* Cron (legacy) */
 "cron.preset" = "Шаблон";
 "cron.custom" = "Другой...";
+"cron.every_10_seconds" = "Каждые 10 секунд";
+"cron.every_30_seconds" = "Каждые 30 секунд";
+"cron.fields.hint" = "5 полей: мин час день месяц день-недели — или 6 полей с секундами в начале.";
 "cron.every_minute" = "Каждую минуту";
 "cron.every_5_minutes" = "Каждые 5 минут";
 "cron.every_15_minutes" = "Каждые 15 минут";
@@ -245,6 +253,9 @@
 "quit.confirm.message" = "Сейчас выполняется скриптов: %d. Выход немедленно остановит их:";
 "quit.confirm.cancel" = "Отмена";
 "quit.confirm.quit" = "Выйти и остановить";
+"quit.confirm.quit_plain" = "Выйти";
+"quit.confirm.hide" = "Скрыть в строке меню";
+"quit.confirm.body" = "После выхода запланированные задачи больше не будут выполняться.";
 
 /* Live log file (manual tasks) */
 "settings.logs.streaming" = "Файл живого лога";

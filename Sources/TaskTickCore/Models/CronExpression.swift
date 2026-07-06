@@ -2,7 +2,12 @@ import Foundation
 
 /// Cron expression parser supporting standard 5-field format:
 /// minute hour dayOfMonth month dayOfWeek
+/// plus an extended 6-field format with a leading seconds field (Quartz style):
+/// second minute hour dayOfMonth month dayOfWeek — see issue #38.
 public struct CronExpression: Sendable {
+    /// nil for 5-field expressions, which fire at second 0 of each matching
+    /// minute (classic cron behavior, unchanged).
+    public let seconds: CronField?
     public let minute: CronField
     public let hour: CronField
     public let dayOfMonth: CronField
@@ -33,7 +38,7 @@ public struct CronExpression: Sendable {
         public var errorDescription: String? {
             switch self {
             case .invalidFormat(let expr):
-                return "无效的 Cron 表达式格式: \(expr)，需要 5 个字段"
+                return "无效的 Cron 表达式格式: \(expr)，需要 5 或 6 个字段"
             case .invalidField(let field, let value):
                 return "无效的字段值 '\(value)' (字段: \(field))"
             case .valueOutOfRange(let field, let value, let range):
@@ -52,9 +57,15 @@ public struct CronExpression: Sendable {
 
     public init(parsing expression: String) throws {
         self.raw = expression.trimmingCharacters(in: .whitespaces)
-        let parts = self.raw.split(separator: " ", omittingEmptySubsequences: true).map(String.init)
+        var parts = self.raw.split(separator: " ", omittingEmptySubsequences: true).map(String.init)
 
-        guard parts.count == 5 else {
+        switch parts.count {
+        case 5:
+            self.seconds = nil
+        case 6:
+            self.seconds = try Self.parseField(parts[0], name: "second", range: 0...59)
+            parts.removeFirst()
+        default:
             throw ParseError.invalidFormat(expression)
         }
 
@@ -67,7 +78,10 @@ public struct CronExpression: Sendable {
 
     private static func parseField(_ value: String, fieldIndex: Int) throws -> CronField {
         let (name, range) = fieldRanges[fieldIndex]
+        return try parseField(value, name: name, range: range)
+    }
 
+    private static func parseField(_ value: String, name: String, range: ClosedRange<Int>) throws -> CronField {
         if value == "*" {
             return .any
         }
@@ -132,6 +146,24 @@ public struct CronExpression: Sendable {
     /// Calculate the next fire date after the given date
     public func nextFireDate(after date: Date = Date()) -> Date? {
         let calendar = Calendar.current
+
+        // 6-field expressions: the current minute may still contain a matching
+        // second — check it before falling into the minute-by-minute scan.
+        if let secondsField = seconds {
+            let comps = calendar.dateComponents(
+                [.minute, .hour, .day, .month, .weekday, .second], from: date)
+            if let m = comps.minute, let h = comps.hour, let d = comps.day,
+               let mo = comps.month, let wd = comps.weekday, let s = comps.second,
+               minuteLevelMatches(m: m, h: h, d: d, mo: mo, cronWeekday: wd - 1),
+               let nextSecond = ((s + 1)..<60).first(where: { matches(field: secondsField, value: $0) }) {
+                var c = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: date)
+                c.second = nextSecond
+                if let fire = calendar.date(from: c) {
+                    return fire
+                }
+            }
+        }
+
         var components = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: date)
         // Start from the next minute
         components.second = 0
@@ -150,15 +182,17 @@ public struct CronExpression: Sendable {
                   let d = comps.day, let mo = comps.month,
                   let wd = comps.weekday else { return nil }
 
-            // Calendar weekday: 1=Sunday..7=Saturday -> cron: 0=Sunday..6=Saturday
-            let cronWeekday = wd - 1
-
-            if matches(field: month, value: mo) &&
-               matches(field: dayOfMonth, value: d) &&
-               matches(field: dayOfWeek, value: cronWeekday) &&
-               matches(field: hour, value: h) &&
-               matches(field: minute, value: m) {
-                return candidate
+            if minuteLevelMatches(m: m, h: h, d: d, mo: mo, cronWeekday: wd - 1) {
+                guard let secondsField = seconds else {
+                    // 5-field: fire at second 0, exactly as before.
+                    return candidate
+                }
+                // 6-field: earliest matching second within this minute. Any
+                // valid seconds field matches at least one value in 0...59,
+                // but stay defensive and keep scanning if none.
+                if let s = (0..<60).first(where: { matches(field: secondsField, value: $0) }) {
+                    return candidate.addingTimeInterval(TimeInterval(s))
+                }
             }
 
             // Advance by 1 minute
@@ -167,6 +201,17 @@ public struct CronExpression: Sendable {
         }
 
         return nil
+    }
+
+    /// Do the five minute-level fields match the given instant?
+    /// `cronWeekday` uses cron numbering (0=Sunday..6=Saturday); Calendar's
+    /// `.weekday` is 1=Sunday..7=Saturday, so callers pass `weekday - 1`.
+    private func minuteLevelMatches(m: Int, h: Int, d: Int, mo: Int, cronWeekday: Int) -> Bool {
+        matches(field: month, value: mo) &&
+        matches(field: dayOfMonth, value: d) &&
+        matches(field: dayOfWeek, value: cronWeekday) &&
+        matches(field: hour, value: h) &&
+        matches(field: minute, value: m)
     }
 
     private func matches(field: CronField, value: Int) -> Bool {

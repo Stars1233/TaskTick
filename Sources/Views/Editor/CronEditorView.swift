@@ -3,9 +3,18 @@ import TaskTickCore
 
 struct CronEditorView: View {
     @Binding var expression: String
-    @State private var isCustom = false
+    /// Picker state, decoupled from `expression`: driving the picker off the
+    /// expression itself made "Custom" unselectable — its onChange rewrote the
+    /// expression to a value that collided with the "Every Minute" preset and
+    /// the selection snapped away. Custom keeps whatever expression is current
+    /// and edits it in the text field.
+    @State private var selection = CronEditorView.customTag
+
+    static let customTag = "__custom__"
 
     static let presets: [(key: String, value: String)] = [
+        ("cron.every_10_seconds", "*/10 * * * * *"),
+        ("cron.every_30_seconds", "*/30 * * * * *"),
         ("cron.every_minute", "* * * * *"),
         ("cron.every_5_minutes", "*/5 * * * *"),
         ("cron.every_15_minutes", "*/15 * * * *"),
@@ -27,27 +36,35 @@ struct CronEditorView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Picker(L10n.tr("cron.preset"), selection: $expression) {
+            Picker(L10n.tr("cron.preset"), selection: $selection) {
                 ForEach(Self.presets, id: \.value) { preset in
                     Text(L10n.tr(preset.key)).tag(preset.value)
                 }
                 Divider()
-                Text(L10n.tr("cron.custom")).tag("__custom__")
+                Text(L10n.tr("cron.custom")).tag(Self.customTag)
             }
-            .onChange(of: expression) { _, newValue in
-                isCustom = (newValue == "__custom__")
-                if isCustom {
-                    expression = "* * * * *"
+            .onChange(of: selection) { _, newValue in
+                if newValue != Self.customTag {
+                    expression = newValue
                 }
             }
+            .onAppear {
+                selection = Self.presets.contains(where: { $0.value == expression })
+                    ? expression
+                    : Self.customTag
+            }
 
-            if isCustom || !Self.presets.contains(where: { $0.value == expression }) {
+            if selection == Self.customTag {
                 TextField(
                     L10n.tr("cron.expression.placeholder"),
                     text: $expression
                 )
                 .textFieldStyle(.roundedBorder)
                 .font(.system(.body, design: .monospaced))
+
+                Text(L10n.tr("cron.fields.hint"))
+                    .font(.caption2)
+                    .foregroundStyle(.tertiary)
             }
 
             // Next fire date

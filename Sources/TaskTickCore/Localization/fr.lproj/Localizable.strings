@@ -25,6 +25,7 @@
 "task.status.disabled" = "Desactivee";
 "task.duplicate" = "Dupliquer";
 "task.duplicate.name" = "%@ (Copie)";
+"task.reveal_script" = "Afficher le script dans le Finder";
 "task.detail.enable" = "Activer";
 "task.detail.disable" = "Desactiver";
 "task.detail.run" = "Executer";
@@ -122,6 +123,10 @@
 "schedule.until" = "Jusqu'au %@";
 "schedule.after_n_times" = "%d fois";
 "schedule.run_missed" = "Executer les executions manquees";
+"schedule.repeat.cron" = "Expression cron";
+"schedule.jitter" = "Delai aleatoire";
+"schedule.jitter.unit" = "s";
+"schedule.jitter.help" = "Chaque execution est retardee d'une duree aleatoire dans la limite des secondes definies.";
 "schedule.additional_times" = "Heures supplementaires";
 "schedule.additional_time.add" = "Ajouter une heure";
 "schedule.additional_time.remove" = "Supprimer cette heure";
@@ -165,6 +170,9 @@
 "end_repeat.after_count" = "Apres un nombre";
 "cron.preset" = "Predefini";
 "cron.custom" = "Personnalise...";
+"cron.every_10_seconds" = "Toutes les 10 secondes";
+"cron.every_30_seconds" = "Toutes les 30 secondes";
+"cron.fields.hint" = "5 champs : min heure jour mois jour-semaine — ou 6 champs avec les secondes en tete.";
 "cron.every_minute" = "Chaque minute";
 "cron.every_5_minutes" = "Toutes les 5 minutes";
 "cron.every_15_minutes" = "Toutes les 15 minutes";
@@ -219,6 +227,9 @@
 "quit.confirm.message" = "%d script(s) en cours d'execution. Quitter les terminera immediatement :";
 "quit.confirm.cancel" = "Annuler";
 "quit.confirm.quit" = "Quitter et terminer";
+"quit.confirm.quit_plain" = "Quitter";
+"quit.confirm.hide" = "Masquer dans la barre de menus";
+"quit.confirm.body" = "Apres la fermeture, les taches planifiees ne seront plus executees.";
 "settings.logs.streaming" = "Fichier journal en direct";
 "settings.logs.stream_to_file" = "Ecrire la sortie des taches manuelles dans un fichier";
 "settings.logs.stream_to_file.hint" = "La derniere execution de chaque tache manuelle est ecrite dans ~/Library/Logs/TaskTick/<nom-tache>.log, ce qui permet d'utiliser tail -f depuis un terminal ou de l'ouvrir dans Console.app. Chaque nouvelle execution remplace le contenu precedent.";

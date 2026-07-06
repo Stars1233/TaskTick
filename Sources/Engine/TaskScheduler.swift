@@ -255,6 +255,29 @@ final class TaskScheduler: ObservableObject {
     }
 
     func computeNextRunDate(for task: ScheduledTask, after date: Date = Date()) -> Date? {
+        guard let base = computeBaseNextRunDate(for: task, after: date) else { return nil }
+        return Self.jittered(base, jitterSeconds: task.jitterSeconds, taskID: task.id)
+    }
+
+    /// Random scheduling jitter (issue #38): delay `base` by a pseudo-random
+    /// 0...jitterSeconds offset. The offset is a deterministic FNV-1a hash of
+    /// (task id, base fire time) — schedule rebuilds within or across launches
+    /// never re-roll a pending fire time, while each occurrence (different
+    /// base) gets a fresh offset. Note the jittered time may land slightly
+    /// past an `endRepeatDate` checked against the base — acceptable drift.
+    nonisolated static func jittered(_ base: Date, jitterSeconds: Int, taskID: UUID) -> Date {
+        guard jitterSeconds > 0 else { return base }
+        var hash: UInt64 = 0xcbf2_9ce4_8422_2325
+        func mix(_ byte: UInt8) {
+            hash = (hash ^ UInt64(byte)) &* 0x0000_0100_0000_01B3
+        }
+        withUnsafeBytes(of: taskID.uuid) { $0.forEach(mix) }
+        withUnsafeBytes(of: base.timeIntervalSince1970.bitPattern) { $0.forEach(mix) }
+        let offset = hash % UInt64(jitterSeconds + 1)
+        return base.addingTimeInterval(TimeInterval(offset))
+    }
+
+    private func computeBaseNextRunDate(for task: ScheduledTask, after date: Date = Date()) -> Date? {
         // Manual-only tasks never schedule themselves
         if task.isManualOnly {
             return nil

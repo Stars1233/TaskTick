@@ -132,7 +132,7 @@ struct TaskDetailView: View {
                         Text("·")
                             .foregroundStyle(.quaternary)
 
-                        Text(task.isManualOnly ? L10n.tr("schedule.manual_only") : task.repeatType.displayName)
+                        Text(task.isManualOnly ? L10n.tr("schedule.manual_only") : task.repeatDisplayName)
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
 
@@ -267,10 +267,14 @@ struct TaskDetailView: View {
                     }
 
                     // Repeat type
-                    detailRow(L10n.tr("schedule.repeat"), value: task.repeatType.displayName)
+                    detailRow(L10n.tr("schedule.repeat"), value: task.repeatDisplayName)
+
+                    if task.jitterSeconds > 0 {
+                        detailRow(L10n.tr("schedule.jitter"), value: L10n.tr("task.interval.seconds", task.jitterSeconds))
+                    }
 
                     // End repeat
-                    if task.repeatType != .never {
+                    if task.schedule == .cron || task.repeatType != .never {
                         switch task.endRepeatType {
                         case .never:
                             detailRow(L10n.tr("schedule.end_repeat"), value: L10n.tr("end_repeat.never"))

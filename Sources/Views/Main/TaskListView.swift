@@ -199,6 +199,12 @@ struct TaskListView: View {
             Button(L10n.tr("task.duplicate"), systemImage: "doc.on.doc") {
                 duplicateTask(task)
             }
+            if let filePath = task.scriptFilePath, !filePath.isEmpty {
+                Button(L10n.tr("task.reveal_script"), systemImage: "folder") {
+                    NSWorkspace.shared.activateFileViewerSelecting([URL(fileURLWithPath: filePath)])
+                }
+                .disabled(!FileManager.default.fileExists(atPath: filePath))
+            }
             Divider()
             Button(L10n.tr("clear_logs.title"), systemImage: "trash.circle") {
                 taskToClearLogs = task
@@ -229,6 +235,9 @@ struct TaskListView: View {
             notifyOnFailure: task.notifyOnFailure
         )
         copy.scriptFilePath = task.scriptFilePath
+        copy.scheduleType = task.scheduleType
+        copy.cronExpression = task.cronExpression
+        copy.jitterSeconds = task.jitterSeconds
         copy.preRunCommand = task.preRunCommand
         copy.customIntervalValue = task.customIntervalValue
         copy.customIntervalUnit = task.customIntervalUnit
@@ -309,7 +318,7 @@ struct TaskListRow: View {
                     } else {
                         Image(systemName: "repeat")
                             .font(.system(size: 9))
-                        Text(task.repeatType.displayName)
+                        Text(task.repeatDisplayName)
                             .font(.caption2)
                     }
 

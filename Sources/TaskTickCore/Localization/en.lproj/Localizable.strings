@@ -27,6 +27,7 @@
 "task.status.disabled" = "Disabled";
 "task.duplicate" = "Duplicate";
 "task.duplicate.name" = "%@ (Copy)";
+"task.reveal_script" = "Reveal Script in Finder";
 
 /* Task Detail */
 "task.detail.enable" = "Enable";
@@ -132,6 +133,10 @@
 "schedule.until" = "Until %@";
 "schedule.after_n_times" = "%d times";
 "schedule.run_missed" = "Run Missed Execution";
+"schedule.repeat.cron" = "Cron Expression";
+"schedule.jitter" = "Random Jitter";
+"schedule.jitter.unit" = "sec";
+"schedule.jitter.help" = "Each occurrence is delayed by a random offset within the set seconds, avoiding machine-precise timing.";
 "schedule.additional_times" = "Extra times";
 "schedule.additional_time.add" = "Add time";
 "schedule.additional_time.remove" = "Remove this time";
@@ -181,6 +186,9 @@
 /* Cron (legacy) */
 "cron.preset" = "Preset";
 "cron.custom" = "Custom...";
+"cron.every_10_seconds" = "Every 10 Seconds";
+"cron.every_30_seconds" = "Every 30 Seconds";
+"cron.fields.hint" = "5 fields: min hour day month weekday — or 6 fields with leading seconds.";
 "cron.every_minute" = "Every Minute";
 "cron.every_5_minutes" = "Every 5 Minutes";
 "cron.every_15_minutes" = "Every 15 Minutes";
@@ -245,6 +253,9 @@
 "quit.confirm.message" = "%d script(s) are still running. Quitting will terminate them immediately:";
 "quit.confirm.cancel" = "Cancel";
 "quit.confirm.quit" = "Quit and Terminate";
+"quit.confirm.quit_plain" = "Quit";
+"quit.confirm.hide" = "Hide in Menu Bar";
+"quit.confirm.body" = "After quitting, scheduled tasks will no longer run.";
 
 /* Live log file (manual tasks) */
 "settings.logs.streaming" = "Live Log File";

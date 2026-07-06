@@ -40,6 +40,12 @@ struct TaskEditorView: View {
     /// and date come from the schedule's recurrence at save / runtime.
     @State private var additionalTimes: [Date] = []
     @State private var repeatType: RepeatType = .daily
+    /// Cron mode rides the legacy schedule channel (`scheduleType` +
+    /// `cronExpression`) — TaskScheduler prefers it over the RepeatType system
+    /// whenever `schedule == .cron`. See issue #38.
+    @State private var useCron = false
+    @State private var cronExpression = "*/5 * * * *"
+    @State private var jitterSeconds = 0
     @State private var endRepeatType: EndRepeatType = .never
     @State private var endRepeatDate = Calendar.current.date(byAdding: .month, value: 1, to: Date()) ?? Date()
     @State private var endRepeatCount = 10
@@ -109,7 +115,32 @@ struct TaskEditorView: View {
         case .shortcut:
             hasScript = !shortcutName.trimmingCharacters(in: .whitespaces).isEmpty
         }
-        return hasName && hasScript
+        let hasValidCron = !useCron || (try? CronExpression(parsing: cronExpression)) != nil
+        return hasName && hasScript && hasValidCron
+    }
+
+    /// Selection surface for the repeat picker: the 16 RepeatType cases plus
+    /// the cron-expression mode, which lives outside the enum (model-side it
+    /// maps to `scheduleType == "cron"`, keeping RepeatType's raw values
+    /// untouched for data compatibility).
+    private enum RepeatChoice: Hashable {
+        case repeats(RepeatType)
+        case cron
+    }
+
+    private var repeatChoice: Binding<RepeatChoice> {
+        Binding(
+            get: { useCron ? .cron : .repeats(repeatType) },
+            set: { choice in
+                switch choice {
+                case .cron:
+                    useCron = true
+                case .repeats(let type):
+                    useCron = false
+                    repeatType = type
+                }
+            }
+        )
     }
 
     var body: some View {
@@ -207,6 +238,7 @@ struct TaskEditorView: View {
                 Text(L10n.tr("schedule.launch_section"))
             }
 
+            if !useCron {
             Section {
                 Toggle(isOn: $hasDate) {
                     Label(L10n.tr("schedule.date"), systemImage: "calendar")
@@ -294,16 +326,18 @@ struct TaskEditorView: View {
                         .foregroundStyle(.secondary)
                 }
             }
+            }
 
             Section(L10n.tr("schedule.repeat_section")) {
-                Picker(selection: $repeatType) {
-                    Text(RepeatType.never.displayName).tag(RepeatType.never)
+                Picker(selection: repeatChoice) {
+                    Text(RepeatType.never.displayName).tag(RepeatChoice.repeats(.never))
                     Divider()
                     ForEach(RepeatType.allCases.filter { $0 != .never && $0 != .custom }, id: \.self) { type in
-                        Text(type.displayName).tag(type)
+                        Text(type.displayName).tag(RepeatChoice.repeats(type))
                     }
                     Divider()
-                    Text(RepeatType.custom.displayName).tag(RepeatType.custom)
+                    Text(RepeatType.custom.displayName).tag(RepeatChoice.repeats(.custom))
+                    Text(L10n.tr("schedule.repeat.cron")).tag(RepeatChoice.cron)
                 } label: {
                     Label(L10n.tr("schedule.repeat"), systemImage: "repeat")
                 }
@@ -313,7 +347,11 @@ struct TaskEditorView: View {
                     }
                 }
 
-                if repeatType == .custom {
+                if useCron {
+                    CronEditorView(expression: $cronExpression)
+                }
+
+                if !useCron && repeatType == .custom {
                     LabeledContent(L10n.tr("repeat.every")) {
                         HStack(spacing: 6) {
                             TextField("", value: $customIntervalValue, format: .number)
@@ -331,7 +369,7 @@ struct TaskEditorView: View {
                     }
                 }
 
-                if repeatType != .never {
+                if useCron || repeatType != .never {
                     Picker(selection: $endRepeatType) {
                         ForEach(EndRepeatType.allCases, id: \.self) { type in
                             Text(type.displayName).tag(type)
@@ -359,6 +397,23 @@ struct TaskEditorView: View {
 
                     Toggle(isOn: $runMissedExecution) {
                         Label(L10n.tr("schedule.run_missed"), systemImage: "clock.arrow.2.circlepath")
+                    }
+
+                    LabeledContent(L10n.tr("schedule.jitter")) {
+                        HStack(spacing: 6) {
+                            TextField("", value: $jitterSeconds, format: .number)
+                                .textFieldStyle(.roundedBorder)
+                                .frame(width: 60)
+                                .multilineTextAlignment(.trailing)
+                            Text(L10n.tr("schedule.jitter.unit"))
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+
+                    if jitterSeconds > 0 {
+                        Text(L10n.tr("schedule.jitter.help"))
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
                     }
                 }
             }
@@ -1020,6 +1075,9 @@ struct TaskEditorView: View {
         endRepeatCount = 10
         customIntervalValue = 1
         customIntervalUnit = .day
+        useCron = false
+        cronExpression = "*/5 * * * *"
+        jitterSeconds = 0
         shell = "/bin/zsh"
         scriptBody = "#!/bin/zsh\n"
         scriptSource = .inline
@@ -1080,6 +1138,13 @@ struct TaskEditorView: View {
         isManualOnly = task.isManualOnly
         hasDate = task.hasDate
         hasTime = task.hasTime
+        jitterSeconds = task.jitterSeconds
+        // Cron tasks (editor-created or crontab-imported) load back into cron
+        // mode instead of the approximated repeatType.
+        if task.schedule == .cron, let expr = task.cronExpression, !expr.isEmpty {
+            useCron = true
+            cronExpression = expr
+        }
 
         if let date = task.scheduledDate {
             scheduledDate = date
@@ -1125,18 +1190,19 @@ struct TaskEditorView: View {
         target.updatedAt = Date()
 
         target.isManualOnly = isManualOnly
-        target.hasDate = hasDate
-        target.hasTime = hasTime
+        target.hasDate = useCron ? false : hasDate
+        target.hasTime = useCron ? false : hasTime
         // When both toggles are off, drop the anchor so the scheduler falls back
-        // to "now" as base (TaskScheduler handles scheduledDate == nil).
-        target.scheduledDate = (hasDate || hasTime) ? scheduledDate : nil
+        // to "now" as base (TaskScheduler handles scheduledDate == nil). Cron
+        // mode derives everything from the expression, so no anchor either.
+        target.scheduledDate = (!useCron && (hasDate || hasTime)) ? scheduledDate : nil
         target.repeatType = repeatType
 
         // Persist additional times whenever the user has any entered, so
         // toggling repeat type back and forth doesn't silently discard the
         // values. The scheduler ignores them for non-day-aligned repeats —
         // the footer text tells the user this.
-        if hasTime && !additionalTimes.isEmpty {
+        if !useCron && hasTime && !additionalTimes.isEmpty {
             let cal = Calendar.current
             let mainHM = cal.dateComponents([.hour, .minute], from: scheduledDate)
             var seen = Set<Int>()
@@ -1156,7 +1222,7 @@ struct TaskEditorView: View {
         } else {
             target.additionalTimes = []
         }
-        target.endRepeatType = repeatType == .never ? .never : endRepeatType
+        target.endRepeatType = (useCron || repeatType != .never) ? endRepeatType : .never
         target.endRepeatDate = endRepeatType == .onDate ? endRepeatDate : nil
         target.endRepeatCount = endRepeatType == .afterCount ? endRepeatCount : nil
         target.customIntervalValue = customIntervalValue
@@ -1166,7 +1232,18 @@ struct TaskEditorView: View {
         // if the user had toggled it before flipping to manual.
         target.runOnLaunch = isManualOnly ? false : runOnLaunch
 
-        target.cronExpression = nil
+        target.jitterSeconds = max(0, jitterSeconds)
+
+        // Cron mode rides the legacy schedule channel — TaskScheduler prefers
+        // it whenever schedule == .cron (issue #38). Non-cron saves reset the
+        // channel so switching away from cron actually leaves it.
+        if useCron {
+            target.schedule = .cron
+            target.cronExpression = cronExpression.trimmingCharacters(in: .whitespaces)
+        } else {
+            target.schedule = .interval
+            target.cronExpression = nil
+        }
         target.intervalSeconds = nil
 
         switch scriptSource {
