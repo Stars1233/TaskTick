@@ -613,33 +613,35 @@ struct TaskDetailView: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     Spacer()
+                    if log.status != .running, let ms = log.durationMs {
+                        Text(ExecutionLog.formatDuration(ms))
+                            .font(.system(.caption2, design: .monospaced))
+                            .foregroundStyle(.tertiary)
+                    }
                 }
+                // Plain buttons only hit-test opaque pixels; without this the
+                // Spacer gap (most of the row) silently ignores clicks.
+                .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
             .pointerCursor()
 
-            // Trailing slot — duration / spinner / stop button
-            Group {
-                if log.status == .running {
-                    if hoveredLogID == log.id {
-                        Button {
-                            stopOrFinalize(log)
-                        } label: {
-                            Image(systemName: "stop.fill")
-                                .font(.caption)
-                                .foregroundStyle(.red)
-                        }
-                        .buttonStyle(.plain)
-                        .pointerCursor()
-                        .help(L10n.tr("task.detail.stop"))
-                    } else {
-                        ProgressView()
-                            .controlSize(.mini)
+            // Trailing slot while running — spinner, or stop button on hover
+            if log.status == .running {
+                if hoveredLogID == log.id {
+                    Button {
+                        stopOrFinalize(log)
+                    } label: {
+                        Image(systemName: "stop.fill")
+                            .font(.caption)
+                            .foregroundStyle(.red)
                     }
-                } else if let ms = log.durationMs {
-                    Text(ExecutionLog.formatDuration(ms))
-                        .font(.system(.caption2, design: .monospaced))
-                        .foregroundStyle(.tertiary)
+                    .buttonStyle(.plain)
+                    .pointerCursor()
+                    .help(L10n.tr("task.detail.stop"))
+                } else {
+                    ProgressView()
+                        .controlSize(.mini)
                 }
             }
         }

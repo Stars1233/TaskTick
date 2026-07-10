@@ -291,6 +291,10 @@
 "log.detail.duration" = "Длительность";
 "log.detail.duration_ms" = "%d мс";
 "log.detail.finished" = "Завершено";
+"log.detail.status" = "Статус";
+"log.detail.timeout_notice" = "Достигнут лимит тайм-аута (%d с) — скрипт был принудительно завершён";
+"log.detail.timeout_notice_generic" = "Скрипт превысил тайм-аут и был принудительно завершён";
+"log.close" = "Закрыть";
 "log.detail.stdout" = "Стандартный вывод";
 "log.detail.stderr" = "Вывод ошибок";
 "log.detail.output" = "Вывод";

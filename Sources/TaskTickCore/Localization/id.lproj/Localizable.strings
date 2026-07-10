@@ -291,6 +291,10 @@
 "log.detail.duration" = "Durasi";
 "log.detail.duration_ms" = "%d md";
 "log.detail.finished" = "Selesai";
+"log.detail.status" = "Status";
+"log.detail.timeout_notice" = "Batas waktu (%d detik) tercapai — skrip dihentikan paksa";
+"log.detail.timeout_notice_generic" = "Skrip melebihi batas waktu dan dihentikan paksa";
+"log.close" = "Tutup";
 "log.detail.stdout" = "Output Standar";
 "log.detail.stderr" = "Output Kesalahan";
 "log.detail.output" = "Keluaran";

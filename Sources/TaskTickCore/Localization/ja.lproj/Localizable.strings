@@ -291,6 +291,10 @@
 "log.detail.duration" = "所要時間";
 "log.detail.duration_ms" = "%dミリ秒";
 "log.detail.finished" = "完了時刻";
+"log.detail.status" = "ステータス";
+"log.detail.timeout_notice" = "タイムアウト上限（%d 秒）に達したため、スクリプトは強制終了されました";
+"log.detail.timeout_notice_generic" = "スクリプトがタイムアウトしたため強制終了されました";
+"log.close" = "閉じる";
 "log.detail.stdout" = "標準出力";
 "log.detail.stderr" = "エラー出力";
 "log.detail.output" = "出力";

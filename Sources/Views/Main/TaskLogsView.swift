@@ -43,7 +43,7 @@ struct TaskLogsView: View {
         .navigationTitle(task.name)
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
-                Button(L10n.tr("editor.cancel")) { dismiss() }
+                Button(L10n.tr("log.close")) { dismiss() }
                     .pointerCursor()
             }
         }
@@ -75,11 +75,10 @@ struct TaskLogsView: View {
             .navigationTitle(task.name)
             .navigationSubtitle("\(sortedLogs.count) \(L10n.tr("log.count_suffix"))")
             .toolbar {
+                // Export sits in the cancellation slot so it renders to the
+                // LEFT of Close; Close keeps Esc via an explicit shortcut
+                // since it no longer occupies .cancellationAction.
                 ToolbarItem(placement: .cancellationAction) {
-                    Button(L10n.tr("editor.cancel")) { dismiss() }
-                        .pointerCursor()
-                }
-                ToolbarItem(placement: .primaryAction) {
                     LogExportMenu(
                         title: L10n.tr("log.export"),
                         selectedEnabled: selectedLog != nil,
@@ -92,6 +91,11 @@ struct TaskLogsView: View {
                         }
                     )
                     .help(L10n.tr("log.export"))
+                }
+                ToolbarItem(placement: .primaryAction) {
+                    Button(L10n.tr("log.close")) { dismiss() }
+                        .keyboardShortcut(.cancelAction)
+                        .pointerCursor()
                 }
             }
         } detail: {
@@ -138,6 +142,18 @@ private struct LogDetailContent: View {
                     VStack(spacing: 8) {
                         row(L10n.tr("log.detail.trigger"), value: log.triggeredBy.displayName)
 
+                        HStack {
+                            Text(L10n.tr("log.detail.status"))
+                                .font(.subheadline)
+                                .foregroundStyle(.secondary)
+                            Spacer()
+                            if log.status == .running {
+                                ProgressView()
+                                    .controlSize(.small)
+                            }
+                            StatusBadge(status: log.status)
+                        }
+
                         if let code = log.exitCode {
                             row(L10n.tr("log.detail.exit_code"), value: "\(code)")
                         }
@@ -149,18 +165,11 @@ private struct LogDetailContent: View {
                         if let finished = log.finishedAt {
                             row(L10n.tr("log.detail.finished"), value: finished.formatted(date: .abbreviated, time: .standard))
                         }
-
-                        if log.status == .running {
-                            HStack {
-                                Text(L10n.tr("status.running"))
-                                    .font(.subheadline)
-                                    .foregroundStyle(.blue)
-                                Spacer()
-                                ProgressView()
-                                    .controlSize(.small)
-                            }
-                        }
                     }
+                }
+
+                if log.status == .timeout {
+                    TimeoutNoticeView(timeoutSeconds: log.task?.timeoutSeconds)
                 }
 
                 let combined = [currentStdout, currentStderr]

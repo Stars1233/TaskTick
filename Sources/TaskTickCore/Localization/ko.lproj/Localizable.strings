@@ -291,6 +291,10 @@
 "log.detail.duration" = "소요 시간";
 "log.detail.duration_ms" = "%d ms";
 "log.detail.finished" = "완료 시각";
+"log.detail.status" = "상태";
+"log.detail.timeout_notice" = "제한 시간(%d초)에 도달하여 스크립트가 강제 종료되었습니다";
+"log.detail.timeout_notice_generic" = "스크립트가 시간 초과되어 강제 종료되었습니다";
+"log.close" = "닫기";
 "log.detail.stdout" = "표준 출력";
 "log.detail.stderr" = "오류 출력";
 "log.detail.output" = "출력";

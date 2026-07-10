@@ -82,6 +82,10 @@ struct LogDetailView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                 }
 
+                if log.status == .timeout {
+                    TimeoutNoticeView(timeoutSeconds: log.task?.timeoutSeconds)
+                }
+
                 // Running indicator
                 if log.status == .running {
                     GlassCard {

@@ -291,6 +291,10 @@
 "log.detail.duration" = "耗時";
 "log.detail.duration_ms" = "%d 毫秒";
 "log.detail.finished" = "結束時間";
+"log.detail.status" = "狀態";
+"log.detail.timeout_notice" = "已達到逾時限制（%d 秒），腳本已被強制終止";
+"log.detail.timeout_notice_generic" = "腳本執行逾時，已被強制終止";
+"log.close" = "關閉";
 "log.detail.stdout" = "標準輸出";
 "log.detail.stderr" = "錯誤輸出";
 "log.detail.output" = "輸出";

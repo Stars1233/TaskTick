@@ -291,6 +291,10 @@
 "log.detail.duration" = "Durata";
 "log.detail.duration_ms" = "%d ms";
 "log.detail.finished" = "Terminata";
+"log.detail.status" = "Stato";
+"log.detail.timeout_notice" = "Raggiunto il limite di timeout (%d secondi), lo script è stato terminato";
+"log.detail.timeout_notice_generic" = "Lo script ha superato il timeout ed è stato terminato";
+"log.close" = "Chiudi";
 "log.detail.stdout" = "Output standard";
 "log.detail.stderr" = "Output errori";
 "log.detail.output" = "Output";

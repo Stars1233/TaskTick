@@ -291,6 +291,10 @@
 "log.detail.duration" = "Dauer";
 "log.detail.duration_ms" = "%d ms";
 "log.detail.finished" = "Beendet";
+"log.detail.status" = "Status";
+"log.detail.timeout_notice" = "Zeitlimit (%d Sekunden) erreicht — das Skript wurde beendet";
+"log.detail.timeout_notice_generic" = "Das Skript hat das Zeitlimit überschritten und wurde beendet";
+"log.close" = "Schließen";
 "log.detail.stdout" = "Standardausgabe";
 "log.detail.stderr" = "Fehlerausgabe";
 "log.detail.output" = "Ausgabe";
