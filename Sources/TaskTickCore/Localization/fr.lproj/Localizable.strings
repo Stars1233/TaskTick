@@ -34,6 +34,7 @@
 "task.detail.delete" = "Supprimer";
 "task.detail.schedule" = "Planification";
 "task.detail.script" = "Script";
+"task.detail.preview_truncated" = "… (aperçu tronqué — affichage des 64 premiers KB)";
 "task.detail.cron_expression" = "Expression cron";
 "task.detail.interval" = "Intervalle";
 "task.detail.interval_value" = "%d secondes";

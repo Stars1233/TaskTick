@@ -38,6 +38,7 @@
 "task.detail.delete" = "삭제";
 "task.detail.schedule" = "일정";
 "task.detail.script" = "스크립트";
+"task.detail.preview_truncated" = "… (미리보기 잘림 — 처음 64 KB만 표시됨)";
 "task.detail.cron_expression" = "Cron 표현식";
 "task.detail.interval" = "간격";
 "task.detail.interval_value" = "%d초";

@@ -38,6 +38,7 @@
 "task.detail.delete" = "刪除";
 "task.detail.schedule" = "排程設定";
 "task.detail.script" = "腳本內容";
+"task.detail.preview_truncated" = "…（預覽已截斷，僅顯示前 64 KB）";
 "task.detail.cron_expression" = "Cron 表達式";
 "task.detail.interval" = "執行間隔";
 "task.detail.interval_value" = "%d 秒";

@@ -38,6 +38,7 @@
 "task.detail.delete" = "削除";
 "task.detail.schedule" = "スケジュール";
 "task.detail.script" = "スクリプト";
+"task.detail.preview_truncated" = "…（プレビューは切り詰められています。先頭の 64 KB のみ表示しています）";
 "task.detail.cron_expression" = "Cron式";
 "task.detail.interval" = "間隔";
 "task.detail.interval_value" = "%d秒";

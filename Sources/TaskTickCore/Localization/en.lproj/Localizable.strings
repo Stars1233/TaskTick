@@ -38,6 +38,7 @@
 "task.detail.delete" = "Delete";
 "task.detail.schedule" = "Schedule";
 "task.detail.script" = "Script";
+"task.detail.preview_truncated" = "… (preview truncated — showing the first 64 KB)";
 "task.detail.cron_expression" = "Cron Expression";
 "task.detail.interval" = "Interval";
 "task.detail.interval_value" = "%d seconds";

@@ -38,6 +38,7 @@
 "task.detail.delete" = "Löschen";
 "task.detail.schedule" = "Zeitplan";
 "task.detail.script" = "Skript";
+"task.detail.preview_truncated" = "… (Vorschau gekürzt – nur die ersten 64 KB werden angezeigt)";
 "task.detail.cron_expression" = "Cron-Ausdruck";
 "task.detail.interval" = "Intervall";
 "task.detail.interval_value" = "%d Sekunden";

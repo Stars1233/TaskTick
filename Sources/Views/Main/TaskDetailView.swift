@@ -12,6 +12,7 @@ struct TaskDetailView: View {
     @State private var showingTaskLogs = false
     @State private var selectedLogIdForSheet: UUID?
     @State private var cachedFileContent: String?
+    @State private var fileWatcher: FileWatcher?
     @State private var hoveredLogID: UUID?
     @StateObject private var scheduler = TaskScheduler.shared
     @AppStorage("logs.streamManualToFile") private var streamManualToFile = true
@@ -51,8 +52,18 @@ struct TaskDetailView: View {
                 .padding(.vertical)
             }
         }
-        .onAppear { loadFileContent() }
-        .onChange(of: task.scriptFilePath) { loadFileContent() }
+        .onAppear {
+            loadFileContent()
+            startFileWatcher()
+        }
+        .onDisappear {
+            fileWatcher?.cancel()
+            fileWatcher = nil
+        }
+        .onChange(of: task.scriptFilePath) {
+            loadFileContent()
+            startFileWatcher()
+        }
         .sheet(isPresented: $showingTaskLogs) {
             TaskLogsView(task: task, initialSelectedLogId: selectedLogIdForSheet)
         }
@@ -714,10 +725,24 @@ struct TaskDetailView: View {
     }()
 
     private func loadFileContent() {
-        if let filePath = task.scriptFilePath, !filePath.isEmpty {
-            cachedFileContent = try? String(contentsOfFile: filePath, encoding: .utf8)
+        if let filePath = task.scriptFilePath, !filePath.isEmpty,
+           let result = PreviewFileReader.read(path: filePath) {
+            cachedFileContent = result.truncated
+                ? result.content + "\n" + L10n.tr("task.detail.preview_truncated")
+                : result.content
         } else {
             cachedFileContent = nil
+        }
+    }
+
+    /// Live-reloads the file-script preview when the file changes on disk
+    /// (issue #39 item 5). Inline scripts don't need this — they're read
+    /// straight from the SwiftData model, which SwiftUI already observes.
+    private func startFileWatcher() {
+        fileWatcher?.cancel()
+        fileWatcher = nil
+        if let filePath = task.scriptFilePath, !filePath.isEmpty {
+            fileWatcher = FileWatcher(path: filePath) { loadFileContent() }
         }
     }
 

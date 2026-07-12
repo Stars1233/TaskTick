@@ -38,6 +38,7 @@
 "task.detail.delete" = "Удалить";
 "task.detail.schedule" = "Расписание";
 "task.detail.script" = "Скрипт";
+"task.detail.preview_truncated" = "… (предпросмотр обрезан — показаны первые 64 KB)";
 "task.detail.cron_expression" = "Cron-выражение";
 "task.detail.interval" = "Интервал";
 "task.detail.interval_value" = "%d секунд";

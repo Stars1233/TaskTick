@@ -38,6 +38,7 @@
 "task.detail.delete" = "Hapus";
 "task.detail.schedule" = "Jadwal";
 "task.detail.script" = "Skrip";
+"task.detail.preview_truncated" = "… (pratinjau terpotong — hanya menampilkan 64 KB pertama)";
 "task.detail.cron_expression" = "Ekspresi Cron";
 "task.detail.interval" = "Interval";
 "task.detail.interval_value" = "%d detik";

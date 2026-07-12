@@ -38,6 +38,7 @@
 "task.detail.delete" = "删除";
 "task.detail.schedule" = "调度配置";
 "task.detail.script" = "脚本内容";
+"task.detail.preview_truncated" = "…（预览已截断，仅显示前 64 KB）";
 "task.detail.cron_expression" = "Cron 表达式";
 "task.detail.interval" = "执行间隔";
 "task.detail.interval_value" = "%d 秒";
