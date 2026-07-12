@@ -98,6 +98,7 @@
 "editor.notify_success" = "Notifier en cas de succes";
 "editor.notify_failure" = "Notifier en cas d'echec";
 "editor.notify_action" = "Retour d'action";
+"editor.notify_action.hint" = "Lorsque cette option est activée, une bannière de notification s'affiche quand vous exécutez, arrêtez ou redémarrez manuellement cette tâche.";
 "editor.notify_only_when_output" = "Notifier uniquement en cas de sortie";
 "editor.notify_only_when_output.hint" = "Lorsque cette option est activee, une execution reussie sans sortie standard reste silencieuse. Utilisez `echo` uniquement lorsqu'un evenement merite reellement une notification.";
 "editor.notify_hint" = "Les notifications sont envoyees via les notifications systeme de macOS lorsqu'une tache se termine.";

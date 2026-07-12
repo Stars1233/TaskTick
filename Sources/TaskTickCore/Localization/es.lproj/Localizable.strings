@@ -106,6 +106,7 @@
 "editor.notify_success" = "Notificar al completar";
 "editor.notify_failure" = "Notificar al fallar";
 "editor.notify_action" = "Notificación de acciones";
+"editor.notify_action.hint" = "Al activarse, ejecutar, detener o reiniciar esta tarea manualmente muestra un banner de notificación.";
 "editor.notify_only_when_output" = "Notificar solo si hay salida";
 "editor.notify_only_when_output.hint" = "Al activarse, una ejecución exitosa sin stdout no genera notificación. Usa `echo` solo cuando ocurra algo que valga la pena notificar.";
 "editor.notify_hint" = "Las notificaciones se envían a través del sistema de notificaciones de macOS cuando una tarea finaliza.";

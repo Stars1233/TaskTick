@@ -106,6 +106,7 @@
 "editor.notify_success" = "성공 시 알림";
 "editor.notify_failure" = "실패 시 알림";
 "editor.notify_action" = "작업 피드백 알림";
+"editor.notify_action.hint" = "활성화하면 이 작업을 수동으로 실행, 중지 또는 재시작할 때 시스템 알림 배너가 표시됩니다.";
 "editor.notify_only_when_output" = "출력이 있을 때만 알림";
 "editor.notify_only_when_output.hint" = "활성화하면 실행에 성공했지만 stdout 출력이 없는 경우 알림을 보내지 않습니다. 스크립트가 `echo`로 알릴 만한 정보를 실제로 출력했을 때만 알림이 전송됩니다.";
 "editor.notify_hint" = "작업 완료 시 macOS 시스템 알림으로 전송됩니다.";

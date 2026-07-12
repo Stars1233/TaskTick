@@ -106,6 +106,7 @@
 "editor.notify_success" = "Notifikasi saat Berhasil";
 "editor.notify_failure" = "Notifikasi saat Gagal";
 "editor.notify_action" = "Umpan balik aksi";
+"editor.notify_action.hint" = "Jika diaktifkan, menjalankan, menghentikan, atau memulai ulang tugas ini secara manual akan menampilkan banner notifikasi.";
 "editor.notify_only_when_output" = "Beri Tahu Hanya Jika Ada Output";
 "editor.notify_only_when_output.hint" = "Jika diaktifkan, eksekusi yang berhasil tanpa stdout akan tetap senyap. Gunakan `echo` hanya saat ada sesuatu yang benar-benar layak diberitahukan.";
 "editor.notify_hint" = "Notifikasi dikirim melalui notifikasi sistem macOS saat tugas selesai.";

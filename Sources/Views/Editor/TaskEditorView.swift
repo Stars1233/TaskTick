@@ -820,7 +820,17 @@ struct TaskEditorView: View {
             Section {
                 Toggle(L10n.tr("editor.notify_success"), isOn: $notifyOnSuccess)
                 Toggle(L10n.tr("editor.notify_failure"), isOn: $notifyOnFailure)
-                Toggle(L10n.tr("editor.notify_action"), isOn: $notifyOnAction)
+                // Inline hint (issue #39): the label alone doesn't tell users
+                // what "Action Feedback" actually does.
+                Toggle(isOn: $notifyOnAction) {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(L10n.tr("editor.notify_action"))
+                        Text(L10n.tr("editor.notify_action.hint"))
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                }
                 // Inline label so the helper text sits right under its toggle row
                 // (Section footer would push it to the bottom of the whole section card,
                 // visually divorcing it from the toggle that controls it).
