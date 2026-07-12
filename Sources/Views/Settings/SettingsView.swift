@@ -67,7 +67,9 @@ struct SettingsView: View {
             aboutTab
                 .tabItem { Label(L10n.tr("settings.about"), systemImage: "info.circle") }
         }
-        .frame(width: 460)
+        // 680pt: seven tabs — the macOS 15+ toolbar-style tab bar collapses
+        // into the "»" overflow menu below this (issue #39 item 1).
+        .frame(width: 680)
         .fixedSize(horizontal: false, vertical: true)
         .onExitCommand {
             NSApp.keyWindow?.close()

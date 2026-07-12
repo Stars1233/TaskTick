@@ -155,7 +155,7 @@ struct TaskTickApp: App {
                 .localized()
         }
         .modelContainer(sharedModelContainer)
-        .defaultSize(width: 500, height: 560)
+        .defaultSize(width: 720, height: 560)
         .windowResizability(.contentSize)
 
         // Template editor window

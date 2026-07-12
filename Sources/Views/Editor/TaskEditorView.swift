@@ -165,7 +165,10 @@ struct TaskEditorView: View {
                 .tabItem { Label(L10n.tr("editor.tab.notification"), systemImage: "bell") }
                 .tag(4)
         }
-        .frame(width: 500)
+        // Wide enough that the macOS 15+ toolbar-style tab bar fits all five
+        // tabs even in German (longest labels) instead of collapsing into the
+        // "»" overflow menu (issue #39 item 1).
+        .frame(width: 720)
         .fixedSize(horizontal: true, vertical: true)
         .safeAreaInset(edge: .bottom) {
             VStack(spacing: 0) {
