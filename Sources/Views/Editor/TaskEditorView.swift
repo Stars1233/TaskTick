@@ -899,58 +899,16 @@ struct TaskEditorView: View {
                     input: script
                 )
             } else {
-                // Shell: syntax check with -n, then verify commands exist
-                let syntaxResult = await Self.runValidation(
+                // Shell: the shell's own `-n` parse is the only authoritative
+                // check. A homegrown per-line "command exists" pass was removed
+                // here: it couldn't see `\` continuations or multi-line strings
+                // (flagging valid scripts, issue #39), and PATH at validation
+                // time differs from PATH at run time anyway.
+                result = await Self.runValidation(
                     executable: selectedShell,
                     arguments: ["-n"],
                     input: script
                 )
-
-                switch syntaxResult {
-                case .error:
-                    result = syntaxResult
-                case .success:
-                    // Also check if commands in the script exist
-                    let checkScript = """
-                    check_cmd() {
-                        command -v "$1" >/dev/null 2>&1 || echo "command not found: $1"
-                    }
-                    \(script.components(separatedBy: .newlines)
-                        .map { $0.trimmingCharacters(in: .whitespaces) }
-                        .filter { !$0.isEmpty && !$0.hasPrefix("#") && !$0.hasPrefix("//") }
-                        .compactMap { line -> String? in
-                            // Extract first word (the command) from simple lines
-                            let stripped = line
-                                .replacingOccurrences(of: "^(if|then|else|fi|for|do|done|while|case|esac|function|export|local|declare|readonly|unset)\\b.*", with: "", options: .regularExpression)
-                                .trimmingCharacters(in: .whitespaces)
-                            guard !stripped.isEmpty else { return nil }
-                            // Get the first token, skip variable assignments
-                            let tokens = stripped.components(separatedBy: .whitespaces)
-                            guard let first = tokens.first,
-                                  !first.contains("="),
-                                  !first.hasPrefix("$"),
-                                  !first.hasPrefix("\""),
-                                  !first.hasPrefix("'"),
-                                  !first.hasPrefix("{"),
-                                  !first.hasPrefix("}"),
-                                  !first.hasPrefix("("),
-                                  !first.hasPrefix(")"),
-                                  !first.hasPrefix("|"),
-                                  !first.hasPrefix("&"),
-                                  !first.hasPrefix(";"),
-                                  !first.hasPrefix("[")
-                            else { return nil }
-                            return "check_cmd \(first)"
-                        }
-                        .joined(separator: "\n"))
-                    """
-                    let warnings = await Self.runCommandCheck(executable: selectedShell, script: checkScript)
-                    if let warnings, !warnings.isEmpty {
-                        result = .error(warnings)
-                    } else {
-                        result = .success
-                    }
-                }
             }
 
             await MainActor.run {
@@ -986,26 +944,6 @@ struct TaskEditorView: View {
             }
         } catch {
             return .error(error.localizedDescription)
-        }
-    }
-
-    private static func runCommandCheck(executable: String, script: String) async -> String? {
-        let process = Process()
-        process.executableURL = URL(fileURLWithPath: executable)
-        process.arguments = ["-c", script]
-        let outPipe = Pipe()
-        process.standardOutput = outPipe
-        process.standardError = FileHandle.nullDevice
-        process.standardInput = FileHandle.nullDevice
-
-        do {
-            try process.run()
-            process.waitUntilExit()
-            let data = outPipe.fileHandleForReading.readDataToEndOfFile()
-            let output = String(data: data, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines)
-            return output?.isEmpty == true ? nil : output
-        } catch {
-            return nil
         }
     }
 
