@@ -513,7 +513,7 @@
 "editor.script.source.template" = "Aus Vorlage";
 "editor.script.source.shortcut" = "Kurzbefehl";
 "editor.shortcut.loading" = "Kurzbefehle werden geladen...";
-"editor.shortcut.empty" = "Keine Kurzbefehle gefunden. Erstelle zuerst einen in der App „Kurzbefehle".";
+"editor.shortcut.empty" = "Keine Kurzbefehle gefunden. Erstelle zuerst einen in der App „Kurzbefehle“.";
 "editor.shortcut.open_app" = "Kurzbefehle App öffnen";
 "editor.shortcut.retry" = "Erneut versuchen";
 "editor.shortcut.refresh" = "Liste aktualisieren";
