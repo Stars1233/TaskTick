@@ -401,19 +401,9 @@ struct QuickLauncherView: View {
         onDismiss()
     }
 
-    /// ⌘, — close the launcher and open the Settings scene. Uses the system
-    /// `showSettingsWindow:` action which SwiftUI's `Settings { }` scene wires
-    /// up automatically, so no environment plumbing is needed from this
-    /// non-Scene NSPanel context.
+    /// ⌘, — close the launcher and open the Settings scene.
     private func openSettings() {
-        NSApp.setActivationPolicy(.regular)
-        if !NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil) {
-            // Pre-macOS 13 selector. Harmless when targeting 14+ — kept as a
-            // belt-and-suspenders fallback in case the new selector silently
-            // fails on a future regression.
-            NSApp.sendAction(Selector(("showPreferencesWindow:")), to: nil, from: nil)
-        }
-        NSApp.activate(ignoringOtherApps: true)
+        SettingsWindowOpener.open()
         onDismiss()
     }
 }

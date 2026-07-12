@@ -1,7 +1,7 @@
 /* App */
 "app.name" = "TaskTick";
 /* Menu Bar */
-"menubar.open" = "Ouvrir";
+"menubar.settings" = "Paramètres";
 "menubar.no_tasks" = "Aucune tache";
 "menubar.next_run" = "Prochaine execution";
 "menubar.upcoming" = "Taches a venir";

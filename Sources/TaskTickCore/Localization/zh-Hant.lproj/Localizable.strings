@@ -2,7 +2,7 @@
 "app.name" = "TaskTick";
 
 /* Menu Bar */
-"menubar.open" = "開啟";
+"menubar.settings" = "設定";
 "menubar.no_tasks" = "暫無任務";
 "menubar.next_run" = "下次執行";
 "menubar.upcoming" = "即將執行";

@@ -2,7 +2,7 @@
 "app.name" = "TaskTick";
 
 /* Menu Bar */
-"menubar.open" = "Buka";
+"menubar.settings" = "Pengaturan";
 "menubar.no_tasks" = "Tidak Ada Tugas";
 "menubar.next_run" = "Eksekusi Berikutnya";
 "menubar.upcoming" = "Tugas Mendatang";

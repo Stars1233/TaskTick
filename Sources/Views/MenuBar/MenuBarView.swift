@@ -6,6 +6,7 @@ import TaskTickCore
 struct MenuBarView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.openWindow) private var openWindow
+    @Environment(\.openSettings) private var openSettings
     @Query(sort: \ScheduledTask.createdAt, order: .reverse) private var tasks: [ScheduledTask]
     @StateObject private var scheduler = TaskScheduler.shared
     /// Watching the live settings object so the shortcut hint here updates the
@@ -39,22 +40,37 @@ struct MenuBarView: View {
             .map { $0 }
     }
 
+    @State private var isHoveringHeader = false
+
     var body: some View {
         VStack(spacing: 0) {
-            // Header
-            HStack {
-                Image(systemName: "clock.badge.checkmark")
-                    .foregroundStyle(.tint)
-                Text(L10n.tr("app.name"))
-                    .font(.headline)
-                Spacer()
-                Text("\(tasks.filter(\.isEnabled).count)/\(tasks.count)")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .monospacedDigit()
+            // Header — clicking it opens the main window (issue #39: absorbs
+            // the old footer "Open" item).
+            Button(action: openMainWindow) {
+                HStack {
+                    Image(systemName: "clock.badge.checkmark")
+                        .foregroundStyle(.tint)
+                    Text(L10n.tr("app.name"))
+                        .font(.headline)
+                    Spacer()
+                    Text("\(tasks.filter(\.isEnabled).count)/\(tasks.count)")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .monospacedDigit()
+                }
+                .padding(.horizontal, 10)
+                .padding(.vertical, 8)
+                .contentShape(Rectangle())
+                .background(
+                    RoundedRectangle(cornerRadius: 6)
+                        .fill(Color.primary.opacity(isHoveringHeader ? 0.05 : 0.00001))
+                )
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 12)
+            .buttonStyle(.plain)
+            .pointerCursor()
+            .onHover { isHoveringHeader = $0 }
+            .padding(.horizontal, 6)
+            .padding(.vertical, 4)
 
             Divider()
 
@@ -110,19 +126,16 @@ struct MenuBarView: View {
             // Footer actions — Raycast-style: no dividers, hover background
             // does the visual separation work, matching MenuBarTaskRow above.
             VStack(spacing: 2) {
-                MenuBarFooterButton(title: L10n.tr("menubar.open")) {
+                MenuBarFooterButton(title: L10n.tr("menubar.settings")) {
                     if let panel = NSApp.keyWindow as? NSPanel {
                         panel.orderOut(nil)
                     }
+                    // In-scene context → use the sanctioned macOS 14+ action.
+                    // The legacy `showSettingsWindow:` selector (SettingsWindowOpener)
+                    // returns true here but never creates the window on macOS 14+.
                     NSApp.setActivationPolicy(.regular)
-                    openWindow(id: "main")
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                        for window in NSApp.windows where window.canBecomeMain && !(window is NSPanel) {
-                            window.makeKeyAndOrderFront(nil)
-                            break
-                        }
-                        NSApp.activate(ignoringOtherApps: true)
-                    }
+                    openSettings()
+                    NSApp.activate(ignoringOtherApps: true)
                 }
 
                 if quickLauncherSettings.isEnabled {
@@ -175,6 +188,21 @@ struct MenuBarView: View {
                 scheduler.configure(modelContext: modelContext)
                 scheduler.start()
             }
+        }
+    }
+
+    private func openMainWindow() {
+        if let panel = NSApp.keyWindow as? NSPanel {
+            panel.orderOut(nil)
+        }
+        NSApp.setActivationPolicy(.regular)
+        openWindow(id: "main")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            for window in NSApp.windows where window.canBecomeMain && !(window is NSPanel) {
+                window.makeKeyAndOrderFront(nil)
+                break
+            }
+            NSApp.activate(ignoringOtherApps: true)
         }
     }
 }

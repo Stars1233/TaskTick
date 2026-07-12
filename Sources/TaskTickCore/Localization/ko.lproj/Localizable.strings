@@ -2,7 +2,7 @@
 "app.name" = "TaskTick";
 
 /* Menu Bar */
-"menubar.open" = "열기";
+"menubar.settings" = "설정";
 "menubar.no_tasks" = "작업 없음";
 "menubar.next_run" = "다음 실행";
 "menubar.upcoming" = "예정된 작업";

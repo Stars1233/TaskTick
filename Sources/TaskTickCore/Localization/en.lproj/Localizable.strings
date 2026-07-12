@@ -2,7 +2,7 @@
 "app.name" = "TaskTick";
 
 /* Menu Bar */
-"menubar.open" = "Open";
+"menubar.settings" = "Settings";
 "menubar.no_tasks" = "No Tasks";
 "menubar.next_run" = "Next Run";
 "menubar.upcoming" = "Upcoming Tasks";
