@@ -86,6 +86,10 @@ struct LogDetailView: View {
                     TimeoutNoticeView(timeoutSeconds: log.task?.timeoutSeconds)
                 }
 
+                if log.status == .failure, SudoTTYFailure.matches(stderr: log.stderr) {
+                    SudoNoticeView()
+                }
+
                 // Running indicator
                 if log.status == .running {
                     GlassCard {

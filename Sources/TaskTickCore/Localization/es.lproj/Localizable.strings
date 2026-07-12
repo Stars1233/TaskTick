@@ -294,6 +294,8 @@
 "log.detail.status" = "Estado";
 "log.detail.timeout_notice" = "Se alcanzó el límite de tiempo (%d segundos) y el script fue terminado";
 "log.detail.timeout_notice_generic" = "El script excedió el tiempo límite y fue terminado";
+"log.detail.sudo_notice" = "sudo requiere una contraseña, pero las tareas en segundo plano no tienen terminal donde introducirla";
+"log.detail.sudo_notice_fix" = "Solución: ejecuta sudo visudo, añade una regla NOPASSWD para el comando y vuelve a ejecutar la tarea";
 "log.close" = "Cerrar";
 "log.detail.stdout" = "Salida estándar";
 "log.detail.stderr" = "Salida de error";

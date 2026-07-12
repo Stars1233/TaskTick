@@ -294,6 +294,8 @@
 "log.detail.status" = "Status";
 "log.detail.timeout_notice" = "Timed out after reaching the %d-second limit — the script was terminated";
 "log.detail.timeout_notice_generic" = "The script timed out and was terminated";
+"log.detail.sudo_notice" = "sudo needs a password, but background tasks have no terminal to type it on";
+"log.detail.sudo_notice_fix" = "Fix: run sudo visudo and add a NOPASSWD rule for the command, then run the task again";
 "log.close" = "Close";
 "log.detail.stdout" = "Standard Output";
 "log.detail.stderr" = "Error Output";

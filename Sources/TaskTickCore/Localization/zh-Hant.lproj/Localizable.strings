@@ -294,6 +294,8 @@
 "log.detail.status" = "狀態";
 "log.detail.timeout_notice" = "已達到逾時限制（%d 秒），腳本已被強制終止";
 "log.detail.timeout_notice_generic" = "腳本執行逾時，已被強制終止";
+"log.detail.sudo_notice" = "腳本中的 sudo 需要輸入密碼，但背景任務沒有終端機可供輸入";
+"log.detail.sudo_notice_fix" = "解決方法：執行 sudo visudo，為該指令加入 NOPASSWD 免密碼規則，然後重新執行任務";
 "log.close" = "關閉";
 "log.detail.stdout" = "標準輸出";
 "log.detail.stderr" = "錯誤輸出";

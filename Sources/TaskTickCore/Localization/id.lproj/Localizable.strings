@@ -294,6 +294,8 @@
 "log.detail.status" = "Status";
 "log.detail.timeout_notice" = "Batas waktu (%d detik) tercapai — skrip dihentikan paksa";
 "log.detail.timeout_notice_generic" = "Skrip melebihi batas waktu dan dihentikan paksa";
+"log.detail.sudo_notice" = "sudo memerlukan kata sandi, tetapi tugas latar belakang tidak memiliki terminal untuk memasukkannya";
+"log.detail.sudo_notice_fix" = "Solusi: jalankan sudo visudo dan tambahkan aturan NOPASSWD untuk perintah tersebut, lalu jalankan tugas ini kembali";
 "log.close" = "Tutup";
 "log.detail.stdout" = "Output Standar";
 "log.detail.stderr" = "Output Kesalahan";

@@ -294,6 +294,8 @@
 "log.detail.status" = "상태";
 "log.detail.timeout_notice" = "제한 시간(%d초)에 도달하여 스크립트가 강제 종료되었습니다";
 "log.detail.timeout_notice_generic" = "스크립트가 시간 초과되어 강제 종료되었습니다";
+"log.detail.sudo_notice" = "스크립트의 sudo가 비밀번호 입력을 요구하지만, 백그라운드 작업에는 입력할 터미널이 없습니다";
+"log.detail.sudo_notice_fix" = "해결 방법: sudo visudo를 실행하여 해당 명령에 NOPASSWD 규칙을 추가한 뒤 작업을 다시 실행하세요";
 "log.close" = "닫기";
 "log.detail.stdout" = "표준 출력";
 "log.detail.stderr" = "오류 출력";

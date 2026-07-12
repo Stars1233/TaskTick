@@ -265,6 +265,8 @@
 "log.detail.status" = "Statut";
 "log.detail.timeout_notice" = "Limite de temps (%d secondes) atteinte — le script a été interrompu";
 "log.detail.timeout_notice_generic" = "Le script a dépassé le délai et a été interrompu";
+"log.detail.sudo_notice" = "sudo nécessite un mot de passe, mais les tâches en arrière-plan n'ont pas de terminal pour le saisir";
+"log.detail.sudo_notice_fix" = "Solution : exécutez sudo visudo et ajoutez une règle NOPASSWD pour cette commande, puis relancez la tâche";
 "log.close" = "Fermer";
 "log.detail.stdout" = "Sortie standard";
 "log.detail.stderr" = "Sortie d'erreur";

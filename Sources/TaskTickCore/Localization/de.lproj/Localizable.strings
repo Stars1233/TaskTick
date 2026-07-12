@@ -294,6 +294,8 @@
 "log.detail.status" = "Status";
 "log.detail.timeout_notice" = "Zeitlimit (%d Sekunden) erreicht — das Skript wurde beendet";
 "log.detail.timeout_notice_generic" = "Das Skript hat das Zeitlimit überschritten und wurde beendet";
+"log.detail.sudo_notice" = "sudo benötigt ein Passwort, aber Hintergrundaufgaben haben kein Terminal für die Eingabe";
+"log.detail.sudo_notice_fix" = "Lösung: Führen Sie sudo visudo aus, fügen Sie eine NOPASSWD-Regel für den Befehl hinzu und führen Sie die Aufgabe anschließend erneut aus";
 "log.close" = "Schließen";
 "log.detail.stdout" = "Standardausgabe";
 "log.detail.stderr" = "Fehlerausgabe";

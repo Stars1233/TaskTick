@@ -172,6 +172,10 @@ private struct LogDetailContent: View {
                     TimeoutNoticeView(timeoutSeconds: log.task?.timeoutSeconds)
                 }
 
+                if log.status == .failure, SudoTTYFailure.matches(stderr: log.stderr) {
+                    SudoNoticeView()
+                }
+
                 let combined = [currentStdout, currentStderr]
                     .compactMap { $0?.isEmpty == false ? $0 : nil }
                     .joined(separator: "\n")

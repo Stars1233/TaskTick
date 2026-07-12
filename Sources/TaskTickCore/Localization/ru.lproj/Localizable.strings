@@ -294,6 +294,8 @@
 "log.detail.status" = "Статус";
 "log.detail.timeout_notice" = "Достигнут лимит тайм-аута (%d с) — скрипт был принудительно завершён";
 "log.detail.timeout_notice_generic" = "Скрипт превысил тайм-аут и был принудительно завершён";
+"log.detail.sudo_notice" = "sudo в скрипте требует пароль, но у фоновой задачи нет терминала для его ввода";
+"log.detail.sudo_notice_fix" = "Решение: выполните sudo visudo и добавьте правило NOPASSWD для этой команды, затем запустите задачу снова";
 "log.close" = "Закрыть";
 "log.detail.stdout" = "Стандартный вывод";
 "log.detail.stderr" = "Вывод ошибок";

@@ -294,6 +294,8 @@
 "log.detail.status" = "状态";
 "log.detail.timeout_notice" = "已达到超时限制（%d 秒），脚本被强制终止";
 "log.detail.timeout_notice_generic" = "脚本运行超时，被强制终止";
+"log.detail.sudo_notice" = "脚本中的 sudo 需要输入密码，但后台任务没有终端可供输入";
+"log.detail.sudo_notice_fix" = "解决方法：运行 sudo visudo，为该命令添加 NOPASSWD 免密规则，然后重新运行任务";
 "log.close" = "关闭";
 "log.detail.stdout" = "标准输出";
 "log.detail.stderr" = "错误输出";
