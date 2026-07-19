@@ -235,13 +235,25 @@ struct TaskListView: View {
             notifyOnFailure: task.notifyOnFailure
         )
         copy.scriptFilePath = task.scriptFilePath
+        copy.shortcutName = task.shortcutName
         copy.scheduleType = task.scheduleType
         copy.cronExpression = task.cronExpression
+        copy.intervalSeconds = task.intervalSeconds
         copy.jitterSeconds = task.jitterSeconds
         copy.preRunCommand = task.preRunCommand
         copy.customIntervalValue = task.customIntervalValue
         copy.customIntervalUnit = task.customIntervalUnit
         copy.additionalTimesJSON = task.additionalTimesJSON
+        copy.timeZoneIdentifier = task.timeZoneIdentifier
+        copy.hasDate = task.hasDate
+        copy.hasTime = task.hasTime
+        copy.environmentVariablesJSON = task.environmentVariablesJSON
+        copy.runMissedExecution = task.runMissedExecution
+        copy.runOnLaunch = task.runOnLaunch
+        copy.notifyOnAction = task.notifyOnAction
+        copy.notifyOnlyWhenOutput = task.notifyOnlyWhenOutput
+        copy.strongReminder = task.strongReminder
+        copy.ignoreExitCode = task.ignoreExitCode
         copy.isManualOnly = task.isManualOnly
         modelContext.insert(copy)
         do {

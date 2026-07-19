@@ -46,6 +46,9 @@ struct TaskEditorView: View {
     @State private var useCron = false
     @State private var cronExpression = "*/5 * * * *"
     @State private var jitterSeconds = 0
+    /// IANA identifier the schedule's wall-clock times are interpreted in;
+    /// nil = follow the system time zone (issue #41).
+    @State private var timeZoneID: String? = nil
     @State private var endRepeatType: EndRepeatType = .never
     @State private var endRepeatDate = Calendar.current.date(byAdding: .month, value: 1, to: Date()) ?? Date()
     @State private var endRepeatCount = 10
@@ -320,6 +323,8 @@ struct TaskEditorView: View {
                         }
                     }
                 }
+
+                TimeZonePickerRow(selection: $timeZoneID, onUserChange: timeZoneChanged)
             } header: {
                 Text(L10n.tr("schedule.date_time"))
             } footer: {
@@ -351,7 +356,8 @@ struct TaskEditorView: View {
                 }
 
                 if useCron {
-                    CronEditorView(expression: $cronExpression)
+                    CronEditorView(expression: $cronExpression, timeZoneID: timeZoneID)
+                    TimeZonePickerRow(selection: $timeZoneID, onUserChange: timeZoneChanged)
                 }
 
                 if !useCron && repeatType == .custom {
@@ -434,6 +440,9 @@ struct TaskEditorView: View {
             } // end !isManualOnly
         }
         .formStyle(.grouped)
+        // Schedule DatePickers read wall-clock values in the task's zone —
+        // "09:00" with tz Asia/Shanghai means 09:00 Shanghai (issue #41).
+        .environment(\.timeZone, editorTimeZone)
     }
 
     // MARK: - Script Content Tab
@@ -959,6 +968,39 @@ struct TaskEditorView: View {
 
     // MARK: - Helpers
 
+    /// Time zone the schedule pickers interpret their wall-clock values in.
+    private var editorTimeZone: TimeZone {
+        timeZoneID.flatMap(TimeZone.init(identifier:)) ?? .current
+    }
+
+    private var editorCalendar: Calendar {
+        var cal = Calendar.current
+        cal.timeZone = editorTimeZone
+        return cal
+    }
+
+    /// Re-anchor an instant so its wall-clock reading in `new` matches what it
+    /// read in `old` — switching the zone keeps "09:00" meaning 09:00.
+    private func rebase(_ date: Date, from old: TimeZone, to new: TimeZone) -> Date {
+        var fromCal = Calendar.current
+        fromCal.timeZone = old
+        var toCal = Calendar.current
+        toCal.timeZone = new
+        let comps = fromCal.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+        return toCal.date(from: comps) ?? date
+    }
+
+    /// User picked a different zone in the popover: keep every displayed
+    /// wall-clock time put instead of letting the instants shift.
+    private func timeZoneChanged(from oldID: String?, to newID: String?) {
+        let old = oldID.flatMap(TimeZone.init(identifier:)) ?? .current
+        let new = newID.flatMap(TimeZone.init(identifier:)) ?? .current
+        guard old != new else { return }
+        scheduledDate = rebase(scheduledDate, from: old, to: new)
+        additionalTimes = additionalTimes.map { rebase($0, from: old, to: new) }
+        endRepeatDate = rebase(endRepeatDate, from: old, to: new)
+    }
+
     private func closeWindow() {
         editorState.close()
         // Close the editor window by finding it
@@ -977,8 +1019,9 @@ struct TaskEditorView: View {
         tempTask.endRepeatType = endRepeatType
         tempTask.endRepeatDate = endRepeatDate
         tempTask.endRepeatCount = endRepeatCount
+        tempTask.timeZoneIdentifier = timeZoneID
         if hasTime {
-            let cal = Calendar.current
+            let cal = editorCalendar
             tempTask.additionalTimes = additionalTimes.map {
                 cal.dateComponents([.hour, .minute], from: $0)
             }
@@ -1029,6 +1072,7 @@ struct TaskEditorView: View {
         useCron = false
         cronExpression = "*/5 * * * *"
         jitterSeconds = 0
+        timeZoneID = nil
         shell = "/bin/zsh"
         scriptBody = "#!/bin/zsh\n"
         scriptSource = .inline
@@ -1090,6 +1134,7 @@ struct TaskEditorView: View {
         hasDate = task.hasDate
         hasTime = task.hasTime
         jitterSeconds = task.jitterSeconds
+        timeZoneID = task.timeZoneIdentifier
         // Cron tasks (editor-created or crontab-imported) load back into cron
         // mode instead of the approximated repeatType.
         if task.schedule == .cron, let expr = task.cronExpression, !expr.isEmpty {
@@ -1103,7 +1148,9 @@ struct TaskEditorView: View {
 
         // Project stored HH:mm components onto today so SwiftUI's DatePicker has
         // a real Date to bind to. Day part is discarded again at save time.
-        let cal = Calendar.current
+        // Uses the task-zone calendar: the pickers render in that zone, so the
+        // projected instants must carry the same wall-clock reading there.
+        let cal = editorCalendar
         let today = cal.startOfDay(for: Date())
         additionalTimes = task.additionalTimes.compactMap { tc in
             var c = cal.dateComponents([.year, .month, .day], from: today)
@@ -1154,7 +1201,7 @@ struct TaskEditorView: View {
         // values. The scheduler ignores them for non-day-aligned repeats —
         // the footer text tells the user this.
         if !useCron && hasTime && !additionalTimes.isEmpty {
-            let cal = Calendar.current
+            let cal = editorCalendar
             let mainHM = cal.dateComponents([.hour, .minute], from: scheduledDate)
             var seen = Set<Int>()
             if let h = mainHM.hour, let m = mainHM.minute {
@@ -1184,6 +1231,7 @@ struct TaskEditorView: View {
         target.runOnLaunch = isManualOnly ? false : runOnLaunch
 
         target.jitterSeconds = max(0, jitterSeconds)
+        target.timeZoneIdentifier = timeZoneID
 
         // Cron mode rides the legacy schedule channel — TaskScheduler prefers
         // it whenever schedule == .cron (issue #38). Non-cron saves reset the

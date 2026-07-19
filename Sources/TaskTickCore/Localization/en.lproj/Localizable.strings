@@ -143,6 +143,9 @@
 "schedule.additional_time.add" = "Add time";
 "schedule.additional_time.remove" = "Remove this time";
 "schedule.additional_time.help" = "On each scheduled day, the task fires at every time listed above.";
+"schedule.timezone" = "Time Zone";
+"schedule.timezone.system" = "System (%@)";
+"schedule.timezone.search" = "Search time zones";
 "schedule.launch_section" = "Launch";
 "schedule.run_on_launch" = "Run once each time the app launches";
 "schedule.run_on_launch.help" = "Runs whether or not a schedule is set";

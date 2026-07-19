@@ -143,6 +143,9 @@
 "schedule.additional_time.add" = "Zeit hinzufügen";
 "schedule.additional_time.remove" = "Diese Zeit entfernen";
 "schedule.additional_time.help" = "An jedem geplanten Tag wird die Aufgabe zu jeder oben aufgeführten Zeit ausgeführt.";
+"schedule.timezone" = "Zeitzone";
+"schedule.timezone.system" = "System (%@)";
+"schedule.timezone.search" = "Zeitzonen durchsuchen";
 "schedule.launch_section" = "Start";
 "schedule.run_on_launch" = "Bei jedem App-Start einmal ausführen";
 "schedule.run_on_launch.help" = "Wird ausgeführt, unabhängig davon, ob ein Zeitplan festgelegt ist";

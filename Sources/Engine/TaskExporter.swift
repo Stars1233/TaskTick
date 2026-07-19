@@ -46,6 +46,9 @@ struct TaskExporter {
         /// Cron-as-first-class + jitter (issue #38). Optional for older exports.
         let scheduleType: String?
         let jitterSeconds: Int?
+        /// Per-task schedule time zone (issue #41). Optional for older exports;
+        /// nil = follow the system time zone.
+        let timeZoneIdentifier: String?
     }
 
     /// Export all tasks to a JSON file
@@ -178,7 +181,8 @@ struct TaskExporter {
                 return raw.isEmpty ? nil : raw
             }(),
             scheduleType: task.scheduleType,
-            jitterSeconds: task.jitterSeconds > 0 ? task.jitterSeconds : nil
+            jitterSeconds: task.jitterSeconds > 0 ? task.jitterSeconds : nil,
+            timeZoneIdentifier: task.timeZoneIdentifier
         )
     }
 
@@ -213,6 +217,7 @@ struct TaskExporter {
             task.schedule = .cron
         }
         task.jitterSeconds = item.jitterSeconds ?? 0
+        task.timeZoneIdentifier = item.timeZoneIdentifier
         // ScheduledTask.init bumps the global serial counter; overwrite with the
         // backup's value so restored tasks keep their original numbering.
         if let n = item.serialNumber, n > 0 {

@@ -273,8 +273,14 @@ struct TaskDetailView: View {
                     // fire points (issue #34) into the same value — no separate
                     // "Extra times" row.
                     if let date = task.scheduledDate {
-                        detailRow(L10n.tr("schedule.date"), value: date.formatted(date: .abbreviated, time: .omitted))
+                        detailRow(L10n.tr("schedule.date"), value: formatInTaskZone(date, task: task, date: .abbreviated, time: .omitted))
                         detailRow(L10n.tr("schedule.time"), value: formattedTimesValue(task: task, mainDate: date))
+                    }
+
+                    // Schedule interpreted in a non-system zone (issue #41) —
+                    // surface it so the wall-clock rows above aren't misread.
+                    if task.scheduleTimeZone != nil {
+                        detailRow(L10n.tr("schedule.timezone"), value: TimeZoneDisplay.label(for: task.timeZoneIdentifier))
                     }
 
                     // Repeat type
@@ -291,7 +297,7 @@ struct TaskDetailView: View {
                             detailRow(L10n.tr("schedule.end_repeat"), value: L10n.tr("end_repeat.never"))
                         case .onDate:
                             if let endDate = task.endRepeatDate {
-                                detailRow(L10n.tr("schedule.end_repeat"), value: endDate.formatted(date: .abbreviated, time: .omitted))
+                                detailRow(L10n.tr("schedule.end_repeat"), value: formatInTaskZone(endDate, task: task, date: .abbreviated, time: .omitted))
                             }
                         case .afterCount:
                             if let count = task.endRepeatCount {
@@ -691,11 +697,26 @@ struct TaskDetailView: View {
 
     // MARK: - Helper
 
+    /// Format an instant using the task's schedule time zone (system when the
+    /// task has none), so schedule rows show the wall-clock the user configured.
+    private func formatInTaskZone(
+        _ instant: Date,
+        task: ScheduledTask,
+        date dateStyle: Date.FormatStyle.DateStyle,
+        time timeStyle: Date.FormatStyle.TimeStyle
+    ) -> String {
+        var style = Date.FormatStyle(date: dateStyle, time: timeStyle)
+        if let tz = task.scheduleTimeZone {
+            style.timeZone = tz
+        }
+        return instant.formatted(style)
+    }
+
     /// Build the comma-separated time string shown on the time row — main
     /// time first, followed by any additional times (only when the repeat
     /// type supports them).
     private func formattedTimesValue(task: ScheduledTask, mainDate: Date) -> String {
-        var times: [String] = [mainDate.formatted(date: .omitted, time: .shortened)]
+        var times: [String] = [formatInTaskZone(mainDate, task: task, date: .omitted, time: .shortened)]
         if task.repeatType.supportsAdditionalTimes {
             for comps in task.additionalTimes {
                 guard let h = comps.hour, let m = comps.minute else { continue }

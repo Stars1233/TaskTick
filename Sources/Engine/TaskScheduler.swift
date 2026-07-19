@@ -299,7 +299,7 @@ final class TaskScheduler: ObservableObject {
         // Legacy cron support
         if task.schedule == .cron, let expr = task.cronExpression {
             if let cron = try? CronExpression(parsing: expr) {
-                return cron.nextFireDate(after: date)
+                return cron.nextFireDate(after: date, calendar: task.scheduleCalendar)
             }
             return nil
         }
@@ -326,7 +326,7 @@ final class TaskScheduler: ObservableObject {
         }
 
         let repeatType = task.repeatType
-        let calendar = Calendar.current
+        let calendar = task.scheduleCalendar
 
         // Non-repeating: just the scheduled date if in the future
         if repeatType == .never {
@@ -363,30 +363,55 @@ final class TaskScheduler: ObservableObject {
             )
         }
 
+        // Day-aligned repeats carry a fixed wall-clock time of day. Re-pin it
+        // after every calendar step: `byAdding` walks instants, so crossing a
+        // DST spring-forward gap (02:30 → 03:30) would otherwise shift every
+        // subsequent occurrence permanently. Sub-day intervals (hourly etc.)
+        // keep duration semantics and are left untouched.
+        let dayAligned: Bool = switch intervalComponent {
+        case .day, .weekOfYear, .month, .year: true
+        default: false
+        }
+        let timeOfDay = calendar.dateComponents([.hour, .minute, .second], from: scheduledDate)
+        func pinnedToTimeOfDay(_ d: Date) -> Date {
+            guard dayAligned else { return d }
+            var c = calendar.dateComponents([.year, .month, .day], from: d)
+            c.hour = timeOfDay.hour
+            c.minute = timeOfDay.minute
+            c.second = timeOfDay.second
+            // On a gap day the pinned time may not exist; Calendar resolves it
+            // forward, so that day fires at the adjusted time and the schedule
+            // returns to the configured time the next day.
+            return calendar.date(from: c) ?? d
+        }
+
         // If scheduled date is still in the future, use it
         if scheduledDate > date {
             if repeatType == .weekdays {
-                return nextWeekday(from: scheduledDate, calendar: calendar)
+                return nextWeekday(from: scheduledDate, calendar: calendar).map(pinnedToTimeOfDay)
             } else if repeatType == .weekends {
-                return nextWeekend(from: scheduledDate, calendar: calendar)
+                return nextWeekend(from: scheduledDate, calendar: calendar).map(pinnedToTimeOfDay)
             }
             return scheduledDate
         }
 
-        // Compute next occurrence by stepping forward from scheduledDate
+        // Compute next occurrence by stepping forward from scheduledDate.
+        // Termination: every step advances the civil day (day-aligned) or the
+        // instant (sub-day), and pinning only adjusts within the stepped day.
         var candidate = scheduledDate
         while candidate <= date {
             guard let next = calendar.date(byAdding: intervalComponent, value: intervalValue, to: candidate) else {
                 return nil
             }
-            candidate = next
+            candidate = pinnedToTimeOfDay(next)
         }
 
-        // For weekdays/weekends, skip to valid day
+        // For weekdays/weekends, skip to valid day (re-pin: the day walk can
+        // itself cross a DST gap)
         if repeatType == .weekdays {
-            candidate = nextWeekday(from: candidate, calendar: calendar) ?? candidate
+            candidate = (nextWeekday(from: candidate, calendar: calendar).map(pinnedToTimeOfDay)) ?? candidate
         } else if repeatType == .weekends {
-            candidate = nextWeekend(from: candidate, calendar: calendar) ?? candidate
+            candidate = (nextWeekend(from: candidate, calendar: calendar).map(pinnedToTimeOfDay)) ?? candidate
         }
 
         // Check end conditions

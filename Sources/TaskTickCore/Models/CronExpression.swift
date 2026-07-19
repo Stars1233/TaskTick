@@ -143,9 +143,10 @@ public struct CronExpression: Sendable {
         }
     }
 
-    /// Calculate the next fire date after the given date
-    public func nextFireDate(after date: Date = Date()) -> Date? {
-        let calendar = Calendar.current
+    /// Calculate the next fire date after the given date.
+    /// `calendar` controls the time zone the cron fields are interpreted in;
+    /// defaults to the system calendar (issue #41).
+    public func nextFireDate(after date: Date = Date(), calendar: Calendar = Calendar.current) -> Date? {
 
         // 6-field expressions: the current minute may still contain a matching
         // second — check it before falling into the minute-by-minute scan.

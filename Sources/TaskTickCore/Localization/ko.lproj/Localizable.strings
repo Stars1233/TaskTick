@@ -143,6 +143,9 @@
 "schedule.additional_time.add" = "시간 추가";
 "schedule.additional_time.remove" = "이 시간 삭제";
 "schedule.additional_time.help" = "반복 주기의 각 실행일에 위에 나열된 모든 시간마다 작업이 한 번씩 실행됩니다.";
+"schedule.timezone" = "시간대";
+"schedule.timezone.system" = "시스템 따르기 (%@)";
+"schedule.timezone.search" = "시간대 검색";
 "schedule.launch_section" = "시작";
 "schedule.run_on_launch" = "앱이 시작될 때마다 한 번 실행";
 "schedule.run_on_launch.help" = "일정 설정 여부와 관계없이 실행됩니다";

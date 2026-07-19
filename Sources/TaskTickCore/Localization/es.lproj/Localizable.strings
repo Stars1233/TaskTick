@@ -143,6 +143,9 @@
 "schedule.additional_time.add" = "Añadir hora";
 "schedule.additional_time.remove" = "Eliminar esta hora";
 "schedule.additional_time.help" = "En cada día programado, la tarea se ejecuta a cada una de las horas indicadas arriba.";
+"schedule.timezone" = "Zona horaria";
+"schedule.timezone.system" = "Sistema (%@)";
+"schedule.timezone.search" = "Buscar zona horaria";
 "schedule.launch_section" = "Inicio";
 "schedule.run_on_launch" = "Ejecutar una vez cada vez que se abre la app";
 "schedule.run_on_launch.help" = "Se ejecuta exista o no una programación";

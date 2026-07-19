@@ -143,6 +143,9 @@
 "schedule.additional_time.add" = "Aggiungi orario";
 "schedule.additional_time.remove" = "Rimuovi questo orario";
 "schedule.additional_time.help" = "In ogni giorno pianificato, l'attività viene eseguita a ciascuno degli orari elencati sopra.";
+"schedule.timezone" = "Fuso orario";
+"schedule.timezone.system" = "Sistema (%@)";
+"schedule.timezone.search" = "Cerca fuso orario";
 "schedule.launch_section" = "Avvio";
 "schedule.run_on_launch" = "Esegui una volta a ogni avvio dell'app";
 "schedule.run_on_launch.help" = "Viene eseguita anche se non è impostata alcuna pianificazione";

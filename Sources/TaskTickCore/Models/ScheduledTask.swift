@@ -224,6 +224,10 @@ public final class ScheduledTask {
     /// delay so repeats don't hit machine-precise instants. Default 0 keeps
     /// existing tasks unchanged on SwiftData migration.
     public var jitterSeconds: Int = 0
+    /// IANA time zone identifier (e.g. "Asia/Shanghai") the schedule's wall-clock
+    /// times are interpreted in — issue #41. nil (default) follows the system
+    /// time zone, preserving pre-existing behavior on SwiftData migration.
+    public var timeZoneIdentifier: String? = nil
 
     @Relationship(deleteRule: .cascade, inverse: \ExecutionLog.task)
     public var executionLogs: [ExecutionLog]
@@ -292,6 +296,27 @@ public final class ScheduledTask {
     public var customIntervalUnit: CustomRepeatUnit {
         get { CustomRepeatUnit(rawValue: customIntervalUnitRaw) ?? .day }
         set { customIntervalUnitRaw = newValue.rawValue }
+    }
+
+    /// The task's schedule time zone, or nil to follow the system time zone.
+    /// An identifier the current tz database no longer recognizes degrades to
+    /// nil (system) rather than crashing or silently freezing the schedule.
+    public var scheduleTimeZone: TimeZone? {
+        get {
+            guard let id = timeZoneIdentifier else { return nil }
+            return TimeZone(identifier: id)
+        }
+        set { timeZoneIdentifier = newValue?.identifier }
+    }
+
+    /// Calendar for interpreting this task's schedule: system calendar, with
+    /// the task's time zone applied when one is set.
+    public var scheduleCalendar: Calendar {
+        var calendar = Calendar.current
+        if let tz = scheduleTimeZone {
+            calendar.timeZone = tz
+        }
+        return calendar
     }
 
     /// Extra time-of-day points decoded from `additionalTimesJSON`. Each entry
@@ -374,7 +399,15 @@ public final class ScheduledTask {
             let formatter = DateFormatter()
             formatter.dateStyle = .medium
             formatter.timeStyle = .short
-            parts.append(formatter.string(from: date))
+            if let tz = scheduleTimeZone {
+                // Custom-zone schedule (issue #41): show the configured
+                // wall-clock and flag the zone so it isn't read as local time.
+                formatter.timeZone = tz
+                let offset = tz.abbreviation(for: date) ?? tz.identifier
+                parts.append("\(formatter.string(from: date)) (\(offset))")
+            } else {
+                parts.append(formatter.string(from: date))
+            }
         }
 
         parts.append(repeatDisplayName)

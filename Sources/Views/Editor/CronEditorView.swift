@@ -3,6 +3,9 @@ import TaskTickCore
 
 struct CronEditorView: View {
     @Binding var expression: String
+    /// Task schedule time zone (issue #41); nil = system. Only affects the
+    /// next-fire preview — actual scheduling reads the task model.
+    var timeZoneID: String? = nil
     /// Picker state, decoupled from `expression`: driving the picker off the
     /// expression itself made "Custom" unselectable — its onChange rewrote the
     /// expression to a value that collided with the "Every Minute" preset and
@@ -27,8 +30,12 @@ struct CronEditorView: View {
     ]
 
     var nextFireDescription: String {
+        var calendar = Calendar.current
+        if let id = timeZoneID, let tz = TimeZone(identifier: id) {
+            calendar.timeZone = tz
+        }
         guard let cron = try? CronExpression(parsing: expression),
-              let nextDate = cron.nextFireDate() else {
+              let nextDate = cron.nextFireDate(calendar: calendar) else {
             return L10n.tr("cron.cannot_compute")
         }
         return nextDate.formatted(date: .abbreviated, time: .standard)

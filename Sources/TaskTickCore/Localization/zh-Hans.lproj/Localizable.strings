@@ -143,6 +143,9 @@
 "schedule.additional_time.add" = "添加时间";
 "schedule.additional_time.remove" = "删除该时间点";
 "schedule.additional_time.help" = "在重复周期的每个触发日，任务会按上方所有时间各执行一次。";
+"schedule.timezone" = "时区";
+"schedule.timezone.system" = "跟随系统（%@）";
+"schedule.timezone.search" = "搜索时区";
 "schedule.launch_section" = "启动";
 "schedule.run_on_launch" = "每次 App 启动时执行一次";
 "schedule.run_on_launch.help" = "无论是否有定时计划，每次 App 启动都会运行";
