@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <!-- TaskTick app icon — medium detail level (64 / 128px slots).
+       Differences from icon.svg: the 3 and 9 o'clock markers are dropped (at
+       64px they are under a pixel of visible length and just muddy the rim),
+       drop shadows are gone (a blur that small turns into grey haze), and the
+       badge's prompt is thickened so it still reads. See scripts/make-icon.sh. -->
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f2f3f6"/>
+    </linearGradient>
+    <linearGradient id="dial" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#77839a"/>
+      <stop offset="100%" stop-color="#525d72"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1024" height="1024" rx="230" fill="url(#bg)"/>
+  <rect width="1024" height="1024" rx="230" fill="none" stroke="rgba(70,75,110,0.10)" stroke-width="6"/>
+
+  <circle cx="512" cy="490" r="326" fill="url(#dial)"/>
+
+  <path d="M 512 208 L 512 258" stroke="#ffffff" stroke-width="32" stroke-linecap="round" opacity="0.9"/>
+
+  <path d="M 512 490 L 512 332" stroke="#ffffff" stroke-width="40" stroke-linecap="round"/>
+  <path d="M 512 490 L 646 410" stroke="#86efac" stroke-width="32" stroke-linecap="round"/>
+  <circle cx="512" cy="490" r="28" fill="#86efac"/>
+
+  <circle cx="774" cy="766" r="162" fill="url(#bg)"/>
+  <circle cx="774" cy="766" r="132" fill="#22c55e"/>
+  <path d="M 724 722 L 786 766 L 724 810" fill="none" stroke="#ffffff" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 814 812 L 848 812" stroke="#ffffff" stroke-width="32" stroke-linecap="round"/>
+</svg>

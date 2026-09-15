@@ -1,38 +1,28 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <!-- TaskTick app icon — small detail level (16 / 32px slots: menu bar, Finder
+       list view, Spotlight rows).
+       At 16px one SVG unit is 1/64 of a pixel, so everything that isn't a large
+       filled shape disappears. What's left: the dial, two hands, and the badge.
+       Markers, gradients and shadows are all dropped — gradients band and
+       shadows smear at this size — and the badge keeps only the chevron, since
+       the underscore would collide with it inside 4 pixels. The badge is also
+       enlarged relative to the dial: at 16px it is the only thing that
+       distinguishes this icon from any other clock. See scripts/make-icon.sh. -->
   <defs>
     <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
       <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="100%" stop-color="#f3f4f8"/>
+      <stop offset="100%" stop-color="#f4f5f8"/>
     </linearGradient>
-    <filter id="bgShadow" x="-5%" y="-5%" width="110%" height="115%">
-      <feDropShadow dx="0" dy="8" stdDeviation="14" flood-color="#0f1224" flood-opacity="0.10"/>
-    </filter>
-    <filter id="badgeShadow" x="-30%" y="-30%" width="160%" height="160%">
-      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#0d6c2f" flood-opacity="0.32"/>
-    </filter>
   </defs>
 
-  <!-- Rounded-square background -->
-  <rect width="1024" height="1024" rx="230" fill="url(#bg)" filter="url(#bgShadow)"/>
+  <rect width="1024" height="1024" rx="230" fill="url(#bg)"/>
 
-  <!-- Clock outer ring — bold so it survives heavy downscaling -->
-  <circle cx="512" cy="512" r="320" fill="none" stroke="#7d85a8" stroke-width="22"/>
+  <circle cx="486" cy="470" r="330" fill="#616c82"/>
 
-  <!-- Just 4 cardinal markers (12 / 3 / 6 / 9) — drop the small hour dots for legibility -->
-  <circle cx="512" cy="232" r="26" fill="#5b76e8"/>
-  <circle cx="792" cy="512" r="26" fill="#7c66f0"/>
-  <circle cx="512" cy="792" r="26" fill="#9476f5"/>
-  <circle cx="232" cy="512" r="26" fill="#5b76e8"/>
+  <path d="M 486 470 L 486 296" stroke="#ffffff" stroke-width="52" stroke-linecap="round"/>
+  <path d="M 486 470 L 630 384" stroke="#a7f3c4" stroke-width="44" stroke-linecap="round"/>
 
-  <!-- Hands — chunky -->
-  <line x1="512" y1="512" x2="512" y2="350" stroke="#1f2240" stroke-width="38" stroke-linecap="round"/>
-  <line x1="512" y1="512" x2="650" y2="410" stroke="#4661e0" stroke-width="28" stroke-linecap="round"/>
-
-  <!-- Center pivot -->
-  <circle cx="512" cy="512" r="34" fill="#4661e0"/>
-  <circle cx="512" cy="512" r="14" fill="white"/>
-
-  <!-- Green check — stays so the brand cue carries across sizes -->
-  <circle cx="724" cy="724" r="118" fill="#22c55e" filter="url(#badgeShadow)"/>
-  <polyline points="668,724 706,762 776,690" fill="none" stroke="white" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="770" cy="768" r="196" fill="url(#bg)"/>
+  <circle cx="770" cy="768" r="166" fill="#22c55e"/>
+  <path d="M 724 712 L 800 768 L 724 824" fill="none" stroke="#ffffff" stroke-width="48" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

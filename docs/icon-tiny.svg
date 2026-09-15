@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <!-- TaskTick app icon — 16px slot only (Finder list view, Spotlight rows).
+       At 16px the badge is about 5 pixels across, which is not enough to draw a
+       chevron in: it renders as a white smear. So the badge drops to a plain
+       green dot — at this size it is a colour cue, not a symbol, and the green
+       dot in the bottom-right is itself the thing people recognise. The dial
+       grows to fill the space the symbol gave up.
+       See scripts/make-icon.sh. -->
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f4f5f8"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1024" height="1024" rx="230" fill="url(#bg)"/>
+
+  <circle cx="466" cy="452" r="356" fill="#616c82"/>
+
+  <path d="M 466 452 L 466 244" stroke="#ffffff" stroke-width="62" stroke-linecap="round"/>
+  <path d="M 466 452 L 636 350" stroke="#a7f3c4" stroke-width="54" stroke-linecap="round"/>
+
+  <circle cx="790" cy="788" r="212" fill="url(#bg)"/>
+  <circle cx="790" cy="788" r="176" fill="#22c55e"/>
+</svg>
