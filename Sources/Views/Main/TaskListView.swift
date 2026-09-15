@@ -52,12 +52,20 @@ struct TaskListView: View {
         VStack(spacing: 0) {
             // Filter bar
             HStack(spacing: 8) {
-                Picker("", selection: $filter) {
-                    ForEach(TaskFilter.allCases, id: \.self) { f in
-                        Text(f.label).tag(f)
+                if #available(macOS 26.0, *) {
+                    GlassSegmentedControl(
+                        options: TaskFilter.allCases,
+                        label: { $0.label },
+                        selection: $filter
+                    )
+                } else {
+                    Picker("", selection: $filter) {
+                        ForEach(TaskFilter.allCases, id: \.self) { f in
+                            Text(f.label).tag(f)
+                        }
                     }
+                    .pickerStyle(.segmented)
                 }
-                .pickerStyle(.segmented)
                 sortMenu
             }
             .padding(.horizontal, 12)
@@ -141,25 +149,26 @@ struct TaskListView: View {
             }
         }
         .searchable(text: $searchText, prompt: Text(L10n.tr("task.search.prompt")))
+        // No divider and no background of its own: the row sits directly on the
+        // sidebar's material, which is what makes it read as part of the sidebar
+        // rather than a footer bar stuck to the bottom. Anything drawn here —
+        // even `.sidebar` material — composites *over* the sidebar's own and
+        // comes out a shade lighter, which is exactly the seam this removes.
         .safeAreaInset(edge: .bottom) {
-            VStack(spacing: 0) {
-                Divider()
-                Link(destination: URL(string: "https://www.lifedever.com/sponsor/")!) {
-                    HStack(spacing: 4) {
-                        Image(systemName: "heart.fill")
-                            .font(.caption2)
-                            .foregroundStyle(.red)
-                        Text(L10n.tr("command.sponsor"))
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 8)
+            Link(destination: URL(string: "https://www.lifedever.com/sponsor/")!) {
+                HStack(spacing: 4) {
+                    Image(systemName: "heart.fill")
+                        .font(.caption2)
+                        .foregroundStyle(.red)
+                    Text(L10n.tr("command.sponsor"))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                 }
-                .buttonStyle(.plain)
-                .pointerCursor()
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 8)
             }
-            .background(.bar)
+            .buttonStyle(.plain)
+            .pointerCursor()
         }
     }
 
@@ -365,9 +374,17 @@ struct TaskListRow: View {
                         .font(.system(size: 13))
                         .foregroundStyle(.gray)
                 } else {
-                    Circle()
-                        .fill(statusDotFill)
-                        .frame(width: 10, height: 10)
+                    // Same symbol family and point size as the execution-status
+                    // icons above. Those are all `<mark>.circle.fill`, so a bare
+                    // `circle.fill` is the natural "no outcome yet" member of
+                    // the set — and drawing it at 13pt like the rest keeps the
+                    // Scheduled and Manual sections on one visual rhythm. The
+                    // old 10pt `Circle()` shape was a quarter smaller than its
+                    // neighbours, which broke the left alignment line between
+                    // the two groups.
+                    Image(systemName: "circle.fill")
+                        .font(.system(size: 13))
+                        .foregroundStyle(statusDotFill)
                 }
             }
             // Height is the measured line height of `.body` (16pt) so the icon
@@ -390,9 +407,19 @@ struct TaskListRow: View {
 
                 HStack(spacing: 4) {
                     if task.serialNumber > 0 {
-                        Text("#\(task.serialNumber)")
+                        // `verbatim:` — an interpolated literal is a
+                        // LocalizedStringKey, and the Int goes through a
+                        // FormatStyle that adds grouping separators. Task #1558
+                        // was rendering as "#1,558".
+                        Text(verbatim: "#\(task.serialNumber)")
                             .font(.caption2)
                             .monospacedDigit()
+                            // A rank quieter than the rest of the subtitle. The
+                            // number is the least-consulted thing on the row —
+                            // it also sits in the detail pane — while "every
+                            // day · 1 week ago" is what the eye is actually
+                            // scanning for.
+                            .foregroundStyle(.tertiary)
                     }
                     if task.isManualOnly {
                         Image(systemName: "hand.tap")
@@ -452,7 +479,10 @@ struct TaskListRow: View {
                     .tint(isSelected ? Color.white : Color.accentColor)
             }
         }
-        .padding(.vertical, 3)
+        // 3pt was set against the pre-26 sidebar metrics. macOS 27 opened up
+        // the spacing in its own sidebars, and a two-line row at the old value
+        // now reads cramped next to them.
+        .padding(.vertical, 5)
         // List paints its selection highlight without a SwiftUI animation
         // transaction, but `Circle().fill(Color)` will use SwiftUI's default
         // colour-interpolation animation when the colour binding changes.

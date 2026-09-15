@@ -202,6 +202,11 @@ struct TaskEditorView: View {
                 .padding(.vertical, 12)
             }
         }
+        // The window's own title (TaskTickApp.swift) is evaluated once when the
+        // Scene is declared, so it keeps saying "New Task" even when opened via
+        // Edit. Setting it from inside the view re-evaluates with `editorState`,
+        // which is observed here.
+        .navigationTitle(task == nil ? L10n.tr("editor.title.new") : L10n.tr("editor.title.edit"))
         .onAppear { loadTask() }
         .onChange(of: editorState.openTrigger) { _, _ in
             loadTask()
@@ -262,6 +267,7 @@ struct TaskEditorView: View {
             }
         }
         .formStyle(.grouped)
+        .groupedFormSizing(minHeight: 237)
     }
 
     // MARK: - Schedule Tab
@@ -491,6 +497,7 @@ struct TaskEditorView: View {
             } // end !isManualOnly
         }
         .formStyle(.grouped)
+        .groupedFormSizing(minHeight: 428)
         // Schedule DatePickers read wall-clock values in the task's zone —
         // "09:00" with tz Asia/Shanghai means 09:00 Shanghai (issue #41).
         .environment(\.timeZone, editorTimeZone)
@@ -603,6 +610,7 @@ struct TaskEditorView: View {
 
         }
         .formStyle(.grouped)
+        .groupedFormSizing(minHeight: 388)
         .alert(L10n.tr("template.overwrite.title"), isPresented: $showingTemplateOverwriteConfirm) {
             Button(L10n.tr("editor.cancel"), role: .cancel) {
                 pendingTemplate = nil
@@ -661,6 +669,7 @@ struct TaskEditorView: View {
             }
         }
         .formStyle(.grouped)
+        .groupedFormSizing(minHeight: 337)
     }
 
     // MARK: - Template Picker
@@ -996,6 +1005,7 @@ struct TaskEditorView: View {
             }
         }
         .formStyle(.grouped)
+        .groupedFormSizing(minHeight: 638)
         .onChange(of: shell) { _, newShell in
             if scriptSource == .inline {
                 let newShebang = "#!\(newShell)"

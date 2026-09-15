@@ -355,6 +355,12 @@ private struct LogDetailContent: View {
                 .frame(maxHeight: .infinity)
             }
         }
+        // Pin to the top. A log with no captured output (a timeout that died
+        // before writing anything, a bare `exit 0`) has nothing here to absorb
+        // the leftover height, and NavigationSplitView centres a detail pane
+        // that doesn't fill — leaving the metadata card marooned in the middle
+        // of the window with empty space above and below it.
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
 
     private func row(_ label: String, value: String) -> some View {

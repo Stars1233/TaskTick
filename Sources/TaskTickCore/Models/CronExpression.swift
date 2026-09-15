@@ -238,13 +238,26 @@ public struct CronExpression: Sendable {
 
     /// Human-readable description of the expression
     public var humanReadable: String {
-        switch raw {
-        case "* * * * *": return L10n.tr("cron.human.every_minute")
+        // Normalise whitespace first: "*/5   *  * * *" parses fine, and falling
+        // through to the raw string just because of the extra spaces would put
+        // an expression in the sidebar where a phrase belongs.
+        let normalized = raw.split(whereSeparator: \.isWhitespace).joined(separator: " ")
+        switch normalized {
+        // Every entry the built-in preset menu offers is covered here, plus the
+        // step forms that mean the same thing ("*/1" is "*"). These reuse the
+        // preset menu's own strings rather than adding a parallel set — same
+        // phrase, and they are already translated in every language.
+        case "* * * * *", "*/1 * * * *": return L10n.tr("cron.human.every_minute")
+        case "*/5 * * * *": return L10n.tr("cron.every_5_minutes")
+        case "*/15 * * * *": return L10n.tr("cron.every_15_minutes")
+        case "*/30 * * * *": return L10n.tr("cron.every_30_minutes")
         case "0 * * * *": return L10n.tr("cron.human.every_hour")
         case "0 0 * * *": return L10n.tr("cron.human.daily_midnight")
+        case "0 8 * * *": return L10n.tr("cron.daily_8am")
         case "0 0 * * 0": return L10n.tr("cron.human.weekly_sunday")
+        case "0 9 * * 1": return L10n.tr("cron.weekly_monday")
         case "0 0 1 * *": return L10n.tr("cron.human.monthly_first")
-        default: return raw
+        default: return normalized
         }
     }
 }

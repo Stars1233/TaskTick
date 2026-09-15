@@ -16,8 +16,13 @@ struct GlassCard<Content: View>: View {
             .padding(padding)
             .background {
                 if #available(macOS 26.0, *) {
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(.ultraThinMaterial)
+                    // Glass only — no material underneath it. `.ultraThinMaterial`
+                    // is itself an opaque-ish grey blur, and glass composited on
+                    // top of it loses the translucency it exists for: the card
+                    // reads as flat grey instead of glass. This showed up as
+                    // "everything looks grey" once macOS 27 lightened the
+                    // surrounding window chrome and the dull cards stood out.
+                    Color.clear
                         .glassEffect(.regular.interactive(), in: .rect(cornerRadius: 12))
                 } else {
                     RoundedRectangle(cornerRadius: 12)

@@ -197,6 +197,7 @@ struct SettingsView: View {
             }
         }
         .formStyle(.grouped)
+        .groupedFormSizing(minHeight: 370)
     }
 
     // MARK: - Notifications
@@ -220,6 +221,7 @@ struct SettingsView: View {
             PushChannelsSection()
         }
         .formStyle(.grouped)
+        .groupedFormSizing(minHeight: 305)
         // The launch-time Bark→channel migration writes straight to
         // UserDefaults, possibly before PushChannelSettings was ever created.
         .onAppear { PushChannelSettings.shared.reload() }
@@ -256,6 +258,7 @@ struct SettingsView: View {
             }
         }
         .formStyle(.grouped)
+        .groupedFormSizing(minHeight: 247)
     }
 
     // MARK: - Command Line
@@ -266,6 +269,7 @@ struct SettingsView: View {
             RaycastExtensionSection()
         }
         .formStyle(.grouped)
+        .groupedFormSizing(minHeight: 275)
     }
 
     // MARK: - Backup
@@ -344,6 +348,7 @@ struct SettingsView: View {
             }
         }
         .formStyle(.grouped)
+        .groupedFormSizing(minHeight: 352)
         .alert(L10n.tr("settings.backup.success"), isPresented: $showBackupSuccess) {
             Button("OK") {}
         } message: {
@@ -633,6 +638,7 @@ struct SettingsView: View {
             }
         }
         .formStyle(.grouped)
+        .groupedFormSizing(minHeight: 431)
         .alert(L10n.tr("settings.logs.cleanup.confirm.title"), isPresented: $showCleanupConfirm) {
             Button(L10n.tr("settings.logs.cleanup.cancel"), role: .cancel) {}
             Button(L10n.tr("settings.logs.cleanup.confirm"), role: .destructive) {
@@ -703,6 +709,7 @@ struct SettingsView: View {
             }
         }
         .formStyle(.grouped)
+        .groupedFormSizing(minHeight: 198)
     }
 
     // MARK: - About
@@ -736,6 +743,7 @@ struct SettingsView: View {
             }
         }
         .formStyle(.grouped)
+        .groupedFormSizing(minHeight: 409)
     }
 
     private func applyAppearance(_ mode: String) {

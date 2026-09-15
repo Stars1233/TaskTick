@@ -136,7 +136,9 @@ struct TaskDetailView: View {
 
                     HStack(spacing: 12) {
                         if task.serialNumber > 0 {
-                            Text("#\(task.serialNumber)")
+                            // See TaskListView: `verbatim:` keeps the grouping
+                            // separator out of the task number.
+                            Text(verbatim: "#\(task.serialNumber)")
                                 .font(.subheadline)
                                 .foregroundStyle(.tertiary)
                                 .monospacedDigit()

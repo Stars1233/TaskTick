@@ -132,6 +132,22 @@ cat > "${APP_BUNDLE}/Contents/Info.plist" <<PLIST
 </plist>
 PLIST
 
+# Restamp the SDK version in LC_BUILD_VERSION.
+#
+# SwiftPM writes the *deployment target* (14.0) into the load command's sdk
+# field, not the SDK it actually compiled against. macOS reads that field to
+# pick which design generation to draw the app in, so a 14.0 stamp silently
+# opts the whole app out of the current look — toolbars, sidebar and controls
+# all fall back to the pre-Liquid-Glass compatibility rendering.
+#
+# Must run before codesign: vtool rewrites the binary and invalidates any
+# signature already on it.
+SDK_VERSION=$(xcrun --show-sdk-version)
+vtool -set-build-version macos "${MIN_MACOS}" "${SDK_VERSION}" -replace \
+  -output "${APP_BUNDLE}/Contents/MacOS/${DEV_APP_NAME}" \
+  "${APP_BUNDLE}/Contents/MacOS/${DEV_APP_NAME}" >/dev/null
+echo "  SDK stamp: ${SDK_VERSION}"
+
 # Sign (--no-strict to allow resource bundle at app root for SPM Bundle.module)
 codesign --force --deep --no-strict --sign - "${APP_BUNDLE}"
 
