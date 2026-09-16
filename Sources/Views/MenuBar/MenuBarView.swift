@@ -48,8 +48,7 @@ struct MenuBarView: View {
             // the old footer "Open" item).
             Button(action: openMainWindow) {
                 HStack {
-                    Image(systemName: "clock.badge.checkmark")
-                        .foregroundStyle(.tint)
+                    BrandMark(size: 14, tint: .accentColor)
                     Text(L10n.tr("app.name"))
                         .font(.headline)
                     Spacer()

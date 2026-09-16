@@ -146,15 +146,12 @@ struct TaskTickApp: App {
             // running indicator is purely a different glyph (no animation,
             // matches the system pattern: battery icon also just changes
             // glyph between charging / discharging without animating).
-            if scheduler.runningTaskIDs.isEmpty {
-                Image(nsImage: Self.menuBarIdleSymbol())
-            } else {
-                // Same clock body, badge glyph only swaps from outline
-                // checkmark to filled checkmark stamp. Apple's matched
-                // metrics across `clock.badge.checkmark` /
-                // `clock.badge.checkmark.fill` mean zero positional drift.
-                Image(nsImage: Self.menuBarRunningSymbol())
-            }
+            // Idle and running differ only by the glyph in the badge — see
+            // BrandMarkRenderer. Same silhouette, so the icon never jumps.
+            Image(nsImage: BrandMarkRenderer.image(
+                pointSize: Self.menuBarPointSize,
+                running: !scheduler.runningTaskIDs.isEmpty
+            ))
         }
         .menuBarExtraStyle(.window)
 
@@ -209,55 +206,6 @@ struct TaskTickApp: App {
 
 
     private static let menuBarPointSize: CGFloat = 15
-
-    /// Idle state: pristine SF Symbol, then re-anchored on a fixed canvas
-    /// (see `anchoredOnCanvas`) so AppKit's status-item layout uses the
-    /// canvas extent, not the visible-content bounding box.
-    private static func menuBarIdleSymbol() -> NSImage {
-        let config = NSImage.SymbolConfiguration(pointSize: menuBarPointSize, weight: .medium)
-        let raw = NSImage(systemSymbolName: "clock.badge.checkmark", accessibilityDescription: nil)?
-            .withSymbolConfiguration(config) ?? NSImage()
-        return anchoredOnCanvas(raw, canvasSize: raw.size)
-    }
-
-    /// Running state: same `clock.badge.<X>` family as idle, ONLY the badge
-    /// glyph in the bottom-right slot changes. Keeps the clock body
-    /// untouched (matching idle pixel-for-pixel) so the menu bar icon
-    /// doesn't drift — neither sideways nor vertically — on state change.
-    /// `.checkmark.fill` swaps the outline checkmark for a filled-circle
-    /// stamp, reading clearly as "active" while staying within Apple's
-    /// matched glyph metrics.
-    private static func menuBarRunningSymbol() -> NSImage {
-        let config = NSImage.SymbolConfiguration(pointSize: menuBarPointSize, weight: .medium)
-        let raw = NSImage(systemSymbolName: "clock.badge.checkmark.fill", accessibilityDescription: nil)?
-            .withSymbolConfiguration(config)
-            // Fallback if Apple ever drops this variant. `clock.badge.exclamationmark`
-            // shares the same canvas metrics and gives a clear visual swap.
-            ?? NSImage(systemSymbolName: "clock.badge.exclamationmark", accessibilityDescription: nil)?
-                .withSymbolConfiguration(config)
-            ?? NSImage()
-        return anchoredOnCanvas(raw, canvasSize: raw.size)
-    }
-
-    /// Pin the four corners of the canvas with near-invisible (alpha 1/100)
-    /// pixels so AppKit treats the full canvas as the image's bounding box.
-    /// Without this, status-item layout uses the visible-content bbox of
-    /// each NSImage, which differs between checkmark (idle) and play.fill
-    /// (running) badges — making the icon visibly drift sideways on state
-    /// changes even when canvas sizes match.
-    private static func anchoredOnCanvas(_ image: NSImage, canvasSize: NSSize) -> NSImage {
-        let anchored = NSImage(size: canvasSize)
-        anchored.lockFocus()
-        NSColor(white: 0, alpha: 0.01).setFill()
-        NSRect(x: 0, y: 0, width: 1, height: 1).fill()
-        NSRect(x: canvasSize.width - 1, y: 0, width: 1, height: 1).fill()
-        NSRect(x: 0, y: canvasSize.height - 1, width: 1, height: 1).fill()
-        NSRect(x: canvasSize.width - 1, y: canvasSize.height - 1, width: 1, height: 1).fill()
-        image.draw(in: NSRect(origin: .zero, size: image.size))
-        anchored.unlockFocus()
-        anchored.isTemplate = true
-        return anchored
-    }
 
     @CommandsBuilder
     private var appCommands: some Commands {

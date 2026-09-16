@@ -219,10 +219,8 @@ struct QuickLauncherView: View {
                 .onChange(of: searchText) { _, _ in selectedIndex = 0 }
                 .onSubmit { runSelected() }
 
-            Image(systemName: "clock.badge.checkmark")
-                .font(.system(size: 12, weight: .medium))
-                .foregroundStyle(Color.accentColor)
-                .padding(4)
+            BrandMark(size: 12, tint: .accentColor)
+                .padding(5)
                 .background(Circle().fill(Color.accentColor.opacity(0.15)))
         }
         .padding(.horizontal, 11)
