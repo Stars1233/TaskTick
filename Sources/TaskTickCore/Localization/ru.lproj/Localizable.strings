@@ -251,6 +251,10 @@
 "notification.denied.message" = "TaskTick хочет отправлять результаты выполнения задач, но уведомления отключены в Системных настройках. Включите их снова, чтобы получать уведомления о задачах.";
 "notification.denied.open_settings" = "Открыть Системные настройки";
 "notification.denied.later" = "Позже";
+"notification.hidden.title" = "TaskTick свёрнут в строку меню";
+"notification.hidden.body" = "Запланированные задачи продолжают выполняться.";
+"notification.hidden.no_icon.title" = "TaskTick продолжает работать";
+"notification.hidden.no_icon.body" = "Значок в строке меню отключён — откройте окно через Launchpad.";
 
 /* Quick Launcher */
 "quick_launcher.placeholder" = "Поиск задач...";
@@ -361,6 +365,7 @@
 "settings.general.startup" = "Запуск";
 "settings.general.launch_at_login" = "Запускать при входе в систему";
 "settings.general.show_menubar_icon" = "Показывать значок в строке меню";
+"settings.general.notify_on_hide" = "Уведомлять при сворачивании в строку меню";
 "settings.general.defaults" = "Значения по умолчанию";
 "settings.general.default_shell" = "Shell по умолчанию";
 "settings.general.default_timeout" = "Тайм-аут по умолчанию";

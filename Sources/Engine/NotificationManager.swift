@@ -8,6 +8,9 @@ final class NotificationManager: NSObject, @unchecked Sendable {
 
     static let shared = NotificationManager()
 
+    /// userInfo flag: tapping this banner should bring the main window back.
+    static let openMainWindowKey = "tasktick.openMainWindow"
+
     private var isAvailable = false
 
     private override init() { super.init() }
@@ -33,13 +36,16 @@ final class NotificationManager: NSObject, @unchecked Sendable {
         }
     }
 
-    func sendNotification(title: String, body: String) {
+    /// `userInfo` rides along so the tap handler below knows what the banner was
+    /// about — currently only `openMainWindowKey`, set by the hide-to-menu-bar notice.
+    func sendNotification(title: String, body: String, userInfo: [String: Any] = [:]) {
         guard isAvailable else { return }
 
         let content = UNMutableNotificationContent()
         content.title = title
         content.body = body
         content.sound = .default
+        content.userInfo = userInfo
 
         let request = UNNotificationRequest(
             identifier: UUID().uuidString,
@@ -98,5 +104,20 @@ extension NotificationManager: UNUserNotificationCenterDelegate {
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.banner, .sound])
+    }
+
+    /// A banner that says "TaskTick is still running" is only useful if tapping it
+    /// gets the user back to the window.
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping () -> Void) {
+        let wantsMainWindow = response.notification.request.content
+            .userInfo[Self.openMainWindowKey] as? Bool ?? false
+        if wantsMainWindow, response.actionIdentifier == UNNotificationDefaultActionIdentifier {
+            DispatchQueue.main.async {
+                AppDelegate.bringMainWindowForward()
+            }
+        }
+        completionHandler()
     }
 }

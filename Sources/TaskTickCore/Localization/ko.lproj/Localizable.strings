@@ -251,6 +251,10 @@
 "notification.denied.message" = "TaskTick이 작업 결과를 알려드리려 하지만 시스템 설정에서 알림이 꺼져 있습니다. 작업 알림을 받으려면 다시 활성화해 주세요.";
 "notification.denied.open_settings" = "시스템 설정 열기";
 "notification.denied.later" = "나중에";
+"notification.hidden.title" = "TaskTick을 메뉴 막대로 숨겼습니다";
+"notification.hidden.body" = "예약된 작업은 계속 실행됩니다.";
+"notification.hidden.no_icon.title" = "TaskTick이 백그라운드에서 실행 중입니다";
+"notification.hidden.no_icon.body" = "메뉴 막대 아이콘이 꺼져 있습니다. Launchpad에서 창을 다시 열 수 있습니다.";
 
 /* Quick Launcher */
 "quick_launcher.placeholder" = "작업 검색...";
@@ -361,6 +365,7 @@
 "settings.general.startup" = "시작";
 "settings.general.launch_at_login" = "로그인 시 실행";
 "settings.general.show_menubar_icon" = "메뉴 막대 아이콘 표시";
+"settings.general.notify_on_hide" = "메뉴 막대로 숨길 때 알림";
 "settings.general.defaults" = "기본값";
 "settings.general.default_shell" = "기본 셸";
 "settings.general.default_timeout" = "기본 시간 제한";

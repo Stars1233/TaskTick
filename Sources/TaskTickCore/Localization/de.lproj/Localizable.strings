@@ -251,6 +251,10 @@
 "notification.denied.message" = "TaskTick möchte Aufgabenergebnisse zustellen, aber Benachrichtigungen sind in den Systemeinstellungen deaktiviert. Bitte aktiviere sie wieder, um Aufgabenbenachrichtigungen zu erhalten.";
 "notification.denied.open_settings" = "Systemeinstellungen öffnen";
 "notification.denied.later" = "Später";
+"notification.hidden.title" = "TaskTick ist jetzt in der Menüleiste";
+"notification.hidden.body" = "Geplante Aufgaben laufen weiter.";
+"notification.hidden.no_icon.title" = "TaskTick läuft weiter";
+"notification.hidden.no_icon.body" = "Das Menüleistensymbol ist aus – öffne das Fenster über das Launchpad.";
 
 /* Quick Launcher */
 "quick_launcher.placeholder" = "Aufgaben suchen...";
@@ -361,6 +365,7 @@
 "settings.general.startup" = "Autostart";
 "settings.general.launch_at_login" = "Beim Anmelden starten";
 "settings.general.show_menubar_icon" = "Menüleistensymbol anzeigen";
+"settings.general.notify_on_hide" = "Benachrichtigen, wenn in der Menüleiste ausgeblendet";
 "settings.general.defaults" = "Standardwerte";
 "settings.general.default_shell" = "Standard-Shell";
 "settings.general.default_timeout" = "Standard-Zeitlimit";

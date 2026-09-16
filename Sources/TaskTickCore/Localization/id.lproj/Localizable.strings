@@ -251,6 +251,10 @@
 "notification.denied.message" = "TaskTick ingin mengirimkan hasil tugas, tetapi notifikasi telah dimatikan di Pengaturan Sistem. Silakan aktifkan kembali untuk menerima notifikasi tugas.";
 "notification.denied.open_settings" = "Buka Pengaturan Sistem";
 "notification.denied.later" = "Nanti";
+"notification.hidden.title" = "TaskTick disembunyikan di bar menu";
+"notification.hidden.body" = "Tugas terjadwal tetap berjalan.";
+"notification.hidden.no_icon.title" = "TaskTick masih berjalan";
+"notification.hidden.no_icon.body" = "Ikon bar menu dimatikan — buka jendela lagi dari Launchpad.";
 
 /* Quick Launcher */
 "quick_launcher.placeholder" = "Cari tugas...";
@@ -361,6 +365,7 @@
 "settings.general.startup" = "Mulai Otomatis";
 "settings.general.launch_at_login" = "Jalankan saat Login";
 "settings.general.show_menubar_icon" = "Tampilkan ikon bilah menu";
+"settings.general.notify_on_hide" = "Beri tahu saat disembunyikan di bar menu";
 "settings.general.defaults" = "Bawaan";
 "settings.general.default_shell" = "Shell Bawaan";
 "settings.general.default_timeout" = "Batas Waktu Bawaan";

@@ -251,6 +251,10 @@
 "notification.denied.message" = "TaskTick quiere enviarte los resultados de las tareas, pero las notificaciones están desactivadas en Ajustes del Sistema. Vuelve a activarlas para recibir notificaciones de tareas.";
 "notification.denied.open_settings" = "Abrir Ajustes del Sistema";
 "notification.denied.later" = "Más tarde";
+"notification.hidden.title" = "TaskTick se ocultó en la barra de menús";
+"notification.hidden.body" = "Las tareas programadas siguen ejecutándose.";
+"notification.hidden.no_icon.title" = "TaskTick sigue en ejecución";
+"notification.hidden.no_icon.body" = "El icono de la barra de menús está desactivado; abre la ventana desde Launchpad.";
 
 /* Quick Launcher */
 "quick_launcher.placeholder" = "Buscar tareas...";
@@ -361,6 +365,7 @@
 "settings.general.startup" = "Inicio";
 "settings.general.launch_at_login" = "Iniciar al iniciar sesión";
 "settings.general.show_menubar_icon" = "Mostrar icono en la barra de menú";
+"settings.general.notify_on_hide" = "Avisar al ocultar en la barra de menús";
 "settings.general.defaults" = "Valores predeterminados";
 "settings.general.default_shell" = "Shell predeterminado";
 "settings.general.default_timeout" = "Tiempo límite predeterminado";

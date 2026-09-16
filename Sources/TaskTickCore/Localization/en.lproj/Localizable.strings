@@ -251,6 +251,10 @@
 "notification.denied.message" = "TaskTick wants to deliver task results, but notifications are turned off in System Settings. Please re-enable them to receive task notifications.";
 "notification.denied.open_settings" = "Open System Settings";
 "notification.denied.later" = "Later";
+"notification.hidden.title" = "TaskTick moved to the menu bar";
+"notification.hidden.body" = "Scheduled tasks keep running.";
+"notification.hidden.no_icon.title" = "TaskTick is still running";
+"notification.hidden.no_icon.body" = "The menu bar icon is off — reopen the window from Launchpad.";
 
 /* Quick Launcher */
 "quick_launcher.placeholder" = "Search tasks...";
@@ -361,6 +365,7 @@
 "settings.general.startup" = "Startup";
 "settings.general.launch_at_login" = "Launch at Login";
 "settings.general.show_menubar_icon" = "Show menu bar icon";
+"settings.general.notify_on_hide" = "Notify when hidden in the menu bar";
 "settings.general.defaults" = "Defaults";
 "settings.general.default_shell" = "Default Shell";
 "settings.general.default_timeout" = "Default Timeout";

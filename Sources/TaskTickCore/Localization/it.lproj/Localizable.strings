@@ -251,6 +251,10 @@
 "notification.denied.message" = "TaskTick vorrebbe inviare i risultati delle attività, ma le notifiche sono disattivate in Impostazioni di Sistema. Riattivale per ricevere le notifiche delle attività.";
 "notification.denied.open_settings" = "Apri Impostazioni di Sistema";
 "notification.denied.later" = "Più tardi";
+"notification.hidden.title" = "TaskTick è nella barra dei menu";
+"notification.hidden.body" = "Le attività pianificate continuano a essere eseguite.";
+"notification.hidden.no_icon.title" = "TaskTick è ancora in esecuzione";
+"notification.hidden.no_icon.body" = "L'icona nella barra dei menu è disattivata: riapri la finestra dal Launchpad.";
 
 /* Quick Launcher */
 "quick_launcher.placeholder" = "Cerca attività...";
@@ -361,6 +365,7 @@
 "settings.general.startup" = "Avvio";
 "settings.general.launch_at_login" = "Avvia al login";
 "settings.general.show_menubar_icon" = "Mostra icona nella barra dei menu";
+"settings.general.notify_on_hide" = "Avvisa quando è nascosto nella barra dei menu";
 "settings.general.defaults" = "Predefiniti";
 "settings.general.default_shell" = "Shell predefinita";
 "settings.general.default_timeout" = "Timeout predefinito";

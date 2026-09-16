@@ -14,6 +14,7 @@ struct SettingsView: View {
 
     // Notifications
     @AppStorage("notificationsEnabled") private var notificationsEnabled = true
+    @AppStorage(MenuBarHideNotice.settingKey) private var notifyOnHideToMenuBar = true
 
     // Logs
     @AppStorage(ExecutionLogRetentionPolicy.automaticCleanupKey)
@@ -175,6 +176,8 @@ struct SettingsView: View {
                     }
 
                 Toggle(L10n.tr("settings.general.show_menubar_icon"), isOn: $showMenuBarIcon)
+
+                Toggle(L10n.tr("settings.general.notify_on_hide"), isOn: $notifyOnHideToMenuBar)
             }
 
             Section(L10n.tr("settings.general.defaults")) {

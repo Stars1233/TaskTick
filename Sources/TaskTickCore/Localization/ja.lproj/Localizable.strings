@@ -251,6 +251,10 @@
 "notification.denied.message" = "TaskTick はタスクの実行結果を通知したいのですが、システム設定で通知がオフになっています。タスクの通知を受け取るには再度有効にしてください。";
 "notification.denied.open_settings" = "システム設定を開く";
 "notification.denied.later" = "後で";
+"notification.hidden.title" = "TaskTick をメニューバーに隠しました";
+"notification.hidden.body" = "予定されたタスクはそのまま実行されます。";
+"notification.hidden.no_icon.title" = "TaskTick はバックグラウンドで動作中です";
+"notification.hidden.no_icon.body" = "メニューバーアイコンはオフです。Launchpad からウインドウを開けます。";
 
 /* Quick Launcher */
 "quick_launcher.placeholder" = "タスクを検索...";
@@ -361,6 +365,7 @@
 "settings.general.startup" = "起動";
 "settings.general.launch_at_login" = "ログイン時に起動";
 "settings.general.show_menubar_icon" = "メニューバーアイコンを表示";
+"settings.general.notify_on_hide" = "メニューバーに隠したときに通知";
 "settings.general.defaults" = "デフォルト";
 "settings.general.default_shell" = "デフォルトシェル";
 "settings.general.default_timeout" = "デフォルトタイムアウト";

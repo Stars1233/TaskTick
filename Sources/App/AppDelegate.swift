@@ -287,6 +287,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         case .quit:
             return .terminateNow
         case .hide:
+            // The user just picked "Hide in Menu Bar" — telling them it's hidden
+            // would be noise. Closing the windows below reaches
+            // applicationShouldTerminateAfterLastWindowClosed, so suppress first.
+            MenuBarHideNotice.suppressBriefly()
             for window in sender.windows where window.isVisible && window.canBecomeMain {
                 window.close()
             }
@@ -375,7 +379,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         // Switch to accessory mode (menu bar only) when all windows are closed
+        let wasVisibleApp = NSApp.activationPolicy() == .regular
         NSApp.setActivationPolicy(.accessory)
+        // Only announce the transition itself. Already an accessory app means this
+        // was a stray panel closing, not the app leaving the Dock; an armed
+        // shouldReallyQuit means we're on our way out for an update restart.
+        if wasVisibleApp && !AppDelegate.shouldReallyQuit {
+            MenuBarHideNotice.fire()
+        }
         return false
     }
 
