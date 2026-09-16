@@ -170,7 +170,18 @@ struct MenuBarView: View {
                 }
 
                 MenuBarFooterButton(title: L10n.tr("command.check_updates")) {
-                    Task { await UpdateChecker.shared.checkForUpdates(userInitiated: true) }
+                    Task {
+                        await UpdateChecker.shared.checkForUpdates(userInitiated: true)
+                        // The update dialog is a sheet on the main window, and
+                        // this menu is reachable precisely when that window is
+                        // closed — a sheet with no host is dropped silently, so
+                        // the click appeared to do nothing. Only open the window
+                        // when there is a dialog to host: the up-to-date case
+                        // uses an NSAlert and stands on its own.
+                        if UpdateChecker.shared.showUpdateDialog {
+                            openMainWindow()
+                        }
+                    }
                 }
 
                 MenuBarFooterButton(title: L10n.tr("menubar.quit")) {

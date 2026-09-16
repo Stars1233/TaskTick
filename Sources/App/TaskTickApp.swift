@@ -220,7 +220,19 @@ struct TaskTickApp: App {
 
         CommandGroup(after: .appInfo) {
             Button(L10n.tr("command.check_updates")) {
-                Task { await updateChecker.checkForUpdates(userInitiated: true) }
+                Task {
+                    await updateChecker.checkForUpdates(userInitiated: true)
+                    // The update dialog is a sheet on the main window. Closing
+                    // that window doesn't hide it, it destroys it (AppDelegate
+                    // calls `window.close()` on "hide in menu bar"), and a sheet
+                    // with no host is dropped without a word — the user clicks
+                    // Check for Updates and nothing happens. Bring the window
+                    // back, but only when there is actually something to show:
+                    // the up-to-date case uses an NSAlert and needs no host.
+                    if updateChecker.showUpdateDialog {
+                        openWindow(id: "main")
+                    }
+                }
             }
 
             Divider()
