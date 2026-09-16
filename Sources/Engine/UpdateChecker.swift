@@ -1,5 +1,6 @@
 import AppKit
 import Foundation
+import SwiftUI
 import TaskTickCore
 
 /// Checks GitHub Releases API for app updates, downloads and installs.
@@ -116,7 +117,7 @@ final class UpdateChecker: ObservableObject {
         UserDefaults.standard.set(Date(), forKey: "lastUpdateCheck")
 
         if updateAvailable {
-            showUpdateDialog = true
+            presentUpdateDialog()
         } else if userInitiated {
             showUpToDateAlert()
         }
@@ -139,7 +140,73 @@ final class UpdateChecker: ObservableObject {
     func skipVersion(_ version: String) {
         UserDefaults.standard.set(version, forKey: "skippedVersion")
         updateAvailable = false
+        dismissUpdateDialog()
+    }
+
+    /// Window hosting the update dialog.
+    ///
+    /// The dialog used to be a sheet on the main window. "Hide in menu bar"
+    /// *closes* that window rather than hiding it (see AppDelegate), and a
+    /// sheet with no host is discarded silently — so whenever the app was
+    /// living in the menu bar, an available update simply never surfaced.
+    ///
+    /// The manual entry points could paper over it by reopening the main
+    /// window first, but the 24-hour background check cannot: yanking the main
+    /// window onto screen unprompted is not acceptable, so updates found that
+    /// way were lost with nothing shown and nothing logged. Owning a window
+    /// makes presentation independent of whatever else is on screen.
+    private var updateWindow: NSWindow?
+
+    private func presentUpdateDialog() {
+        showUpdateDialog = true
+
+        if let window = updateWindow {
+            bringToFront(window)
+            return
+        }
+
+        let hosting = NSHostingController(rootView: UpdateDialogView(updater: self))
+        let window = NSWindow(contentViewController: hosting)
+        window.title = L10n.tr("update.available.title")
+        window.styleMask = [.titled, .closable]
+        window.isReleasedWhenClosed = false
+        // Resolve the SwiftUI content's size before centring. `center()` works
+        // off the window's current frame, and a freshly created host has not
+        // laid out yet — centring an empty shell and letting the content expand
+        // afterwards is what pinned the window to the top of the screen.
+        window.setContentSize(hosting.view.fittingSize)
+        window.center()
+        updateWindow = window
+        bringToFront(window)
+    }
+
+    /// Closes the dialog, whichever way it is on screen.
+    ///
+    /// `UpdateDialogView` calls this instead of `@Environment(\.dismiss)`,
+    /// which only works for sheets and SwiftUI window scenes — not for a view
+    /// hosted in an `NSHostingController`.
+    func dismissUpdateDialog() {
         showUpdateDialog = false
+        updateWindow?.close()
+    }
+
+    private func bringToFront(_ window: NSWindow) {
+        // The menu bar popover is an NSPanel and floats above ordinary windows.
+        // If the check was started from there it is still up, and would bury
+        // the dialog. Callers dismiss it, but close it here too — the dialog
+        // can also appear unprompted from the background check, with the
+        // popover open for unrelated reasons.
+        for panel in NSApp.windows where panel is NSPanel && panel.isVisible {
+            panel.orderOut(nil)
+        }
+        // In menu-bar-only mode the app is `.accessory`, where windows cannot
+        // become key. Promote to `.regular` so the dialog is actually usable;
+        // AppDelegate drops back to `.accessory` once the last window closes.
+        if NSApp.activationPolicy() != .regular {
+            NSApp.setActivationPolicy(.regular)
+        }
+        window.makeKeyAndOrderFront(nil)
+        NSApp.activate(ignoringOtherApps: true)
     }
 
     func downloadUpdate() {

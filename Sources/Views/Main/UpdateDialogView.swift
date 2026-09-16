@@ -148,7 +148,6 @@ struct MarkdownWebView: NSViewRepresentable {
 
 struct UpdateDialogView: View {
     @ObservedObject var updater: UpdateChecker
-    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         Group {
@@ -202,14 +201,14 @@ struct UpdateDialogView: View {
                     if let version = updater.latestVersion {
                         updater.skipVersion(version)
                     }
-                    dismiss()
+                    updater.dismissUpdateDialog()
                 }
                 .pointerCursor()
 
                 Spacer()
 
                 Button(L10n.tr("update.remind_later")) {
-                    dismiss()
+                    updater.dismissUpdateDialog()
                 }
                 .pointerCursor()
 
@@ -262,7 +261,7 @@ struct UpdateDialogView: View {
                 Spacer()
                 if updater.downloadComplete {
                     Button(L10n.tr("update.install_restart")) {
-                        dismiss()
+                        updater.dismissUpdateDialog()
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                             updater.installAndRestart()
                         }
@@ -272,7 +271,7 @@ struct UpdateDialogView: View {
                 } else {
                     Button(L10n.tr("update.cancel")) {
                         updater.cancelDownload()
-                        dismiss()
+                        updater.dismissUpdateDialog()
                     }
                     .pointerCursor()
                 }
