@@ -166,7 +166,7 @@ tasktick list</code></pre>
           <tr><td><code>tasktick list</code></td><td data-i18n="cli_d_list">List tasks. Flags: --filter all|manual|scheduled|running, --json.</td></tr>
           <tr><td><code>tasktick status [task]</code></td><td data-i18n="cli_d_status">Global summary, or one task's status when given an identifier. Flag: --json.</td></tr>
           <tr><td><code>tasktick logs &lt;task&gt;</code></td><td data-i18n="cli_d_logs">Show the most recent execution log. Flags: --lines N (0 = all), --json.</td></tr>
-          <tr><td><code>tasktick create &lt;name&gt;</code></td><td data-i18n="cli_d_create">Create a task from a script file. --script PATH is required, plus --shell, --cwd, --timeout, --manual, --repeat, --at HH:MM.</td></tr>
+          <tr><td><code>tasktick create &lt;name&gt;</code></td><td data-i18n="cli_d_create">Create a task from a script file. --script PATH is required, plus --shell, --cwd, --timeout, --manual, --repeat, --at HH:MM, --cron EXPR.</td></tr>
           <tr><td><code>tasktick run &lt;task&gt;</code></td><td data-i18n="cli_d_run">Start a task (wakes the app if needed). --wait streams output and mirrors the exit code.</td></tr>
           <tr><td><code>tasktick stop &lt;task&gt;</code></td><td data-i18n="cli_d_stop">Stop a running task.</td></tr>
           <tr><td><code>tasktick restart &lt;task&gt;</code></td><td data-i18n="cli_d_restart">Stop and immediately re-run a task.</td></tr>
@@ -180,6 +180,7 @@ tasktick list</code></pre>
       <h3 data-i18n="cli_ex_h">Examples</h3>
       <pre><code>tasktick list --filter running --json
 tasktick create "Backup" --script ~/backup.sh --repeat daily --at 02:00
+tasktick create "Sync" --script ~/sync.sh --cron '*/10 9-19 * * 1-5'
 tasktick run deploy --wait
 tasktick wait deploy --timeout 300</code></pre>
     </section>
@@ -241,7 +242,7 @@ const T = {
     cli_d_list: 'List tasks. Flags: --filter all|manual|scheduled|running, --json.',
     cli_d_status: "Global summary, or one task's status when given an identifier. Flag: --json.",
     cli_d_logs: 'Show the most recent execution log. Flags: --lines N (0 = all), --json.',
-    cli_d_create: 'Create a task from a script file. --script PATH is required, plus --shell, --cwd, --timeout, --manual, --repeat, --at HH:MM.',
+    cli_d_create: 'Create a task from a script file. --script PATH is required, plus --shell, --cwd, --timeout, --manual, --repeat, --at HH:MM, --cron EXPR.',
     cli_d_run: 'Start a task (wakes the app if needed). --wait streams output and mirrors the exit code.',
     cli_d_stop: 'Stop a running task.',
     cli_d_restart: 'Stop and immediately re-run a task.',
@@ -277,7 +278,7 @@ const T = {
     cli_d_list: '列出任务。选项：--filter all|manual|scheduled|running、--json。',
     cli_d_status: '全局摘要；带标识符时显示单个任务状态。选项：--json。',
     cli_d_logs: '显示最近一次执行日志。选项：--lines N（0 = 全部）、--json。',
-    cli_d_create: '从脚本文件创建任务。--script PATH 必填，以及 --shell、--cwd、--timeout、--manual、--repeat、--at HH:MM。',
+    cli_d_create: '从脚本文件创建任务。--script PATH 必填，以及 --shell、--cwd、--timeout、--manual、--repeat、--at HH:MM、--cron 表达式。',
     cli_d_run: '启动任务（必要时唤醒 app）。--wait 实时输出并沿用退出码。',
     cli_d_stop: '停止运行中的任务。',
     cli_d_restart: '停止并立即重新运行任务。',

@@ -143,7 +143,8 @@ final class CLIBridge {
                 isManual: info["manual"] as? Bool,
                 isEnabled: info["enabled"] as? Bool,
                 repeatRaw: info["repeat"] as? String,
-                scheduledAt: info["scheduled_at"] as? Double
+                scheduledAt: info["scheduled_at"] as? Double,
+                cronExpression: info["cron"] as? String
             )
             Task { @MainActor in self?.handleCreate(spec: spec) }
         }
@@ -162,6 +163,10 @@ final class CLIBridge {
         let isEnabled: Bool?
         let repeatRaw: String?
         let scheduledAt: Double?
+        /// Set by `create --cron`. Routes the task down the legacy cron channel
+        /// (`scheduleType` + `cronExpression`), which TaskScheduler prefers over
+        /// the RepeatType system — same path the editor's Cron mode uses.
+        let cronExpression: String?
     }
 
     /// Build a ScheduledTask from the CLI-supplied payload, persist it, and
@@ -207,6 +212,15 @@ final class CLIBridge {
         task.id = id
         task.scriptFilePath = scriptPath
         task.isManualOnly = isManual
+
+        // The CLI already rejected malformed expressions, but re-check rather
+        // than trust the payload — an unparseable one here would leave a task
+        // that silently never fires.
+        if let expr = spec.cronExpression, !expr.isEmpty,
+           (try? CronExpression(parsing: expr)) != nil {
+            task.schedule = .cron
+            task.cronExpression = expr
+        }
 
         context.insert(task)
         do {

@@ -35,7 +35,7 @@
 ## Features
 
 - **Menu Bar Resident** — runs in background, always accessible from menu bar
-- **Flexible Scheduling** — date, time, repeat cycle with intuitive UI (like Reminders)
+- **Flexible Scheduling** — date, time, repeat cycle with intuitive UI (like Reminders), or write a cron expression
 - **Script Execution** — inline scripts or local files (.sh, .py, .rb, .js)
 - **Script Templates** — built-in templates (DB backup, log cleanup, health check, etc.) + create and manage your own
 - **Execution Logs** — stdout/stderr capture, exit codes, duration tracking

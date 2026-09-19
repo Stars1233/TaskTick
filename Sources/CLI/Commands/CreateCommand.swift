@@ -23,7 +23,7 @@ struct CreateCommand: AsyncParsableCommand {
     @Option(name: .long, help: "Timeout in seconds. Use -1 for unlimited. Default: -1")
     var timeout: Int = -1
 
-    @Flag(name: .long, help: "Manual-only task (skip scheduler). Mutually exclusive with --repeat/--at.")
+    @Flag(name: .long, help: "Manual-only task (skip scheduler). Mutually exclusive with --repeat/--at/--cron.")
     var manual: Bool = false
 
     @Option(name: .customLong("repeat"),
@@ -32,6 +32,10 @@ struct CreateCommand: AsyncParsableCommand {
 
     @Option(name: .long, help: "First run time as HH:MM (24-hour). Implies a scheduled task.")
     var at: String?
+
+    @Option(name: .long,
+            help: "Cron expression, 5 fields (m h dom mon dow) or 6 with leading seconds. Example: '*/10 9-19 * * 1-5'. Mutually exclusive with --repeat/--at.")
+    var cron: String?
 
     @Flag(name: .customLong("no-enable"), help: "Create the task but don't enable it.")
     var noEnable: Bool = false
@@ -52,8 +56,19 @@ struct CreateCommand: AsyncParsableCommand {
         }
 
         // 2. Mutually-exclusive scheduling flags
-        if manual && (repeatType != nil || at != nil) {
-            FileHandle.standardError.write(Data("tasktick: --manual is mutually exclusive with --repeat/--at\n".utf8))
+        if manual && (repeatType != nil || at != nil || cron != nil) {
+            FileHandle.standardError.write(Data("tasktick: --manual is mutually exclusive with --repeat/--at/--cron\n".utf8))
+            throw ExitCode(1)
+        }
+        if cron != nil && (repeatType != nil || at != nil) {
+            FileHandle.standardError.write(Data("tasktick: --cron is mutually exclusive with --repeat/--at\n".utf8))
+            throw ExitCode(1)
+        }
+
+        // Parse the expression here so a typo fails on the spot, instead of
+        // handing the GUI a task the scheduler would silently never fire.
+        if let cron, (try? CronExpression(parsing: cron)) == nil {
+            FileHandle.standardError.write(Data("tasktick: invalid --cron expression: \(cron)\n".utf8))
             throw ExitCode(1)
         }
 
@@ -97,7 +112,7 @@ struct CreateCommand: AsyncParsableCommand {
 
         // 5. Determine isManualOnly. Default to manual when no schedule given —
         // matches the common "I just want to register this script" use case.
-        let isManualOnly = manual || (repeatType == nil && at == nil)
+        let isManualOnly = manual || (repeatType == nil && at == nil && cron == nil)
         let isEnabled = !noEnable
 
         // 6. Build the payload. Plist-serializable types only (DistributedNotificationCenter).
@@ -114,6 +129,9 @@ struct CreateCommand: AsyncParsableCommand {
         ]
         if let cwd, !cwd.isEmpty {
             payload["cwd"] = cwd
+        }
+        if let cron {
+            payload["cron"] = cron
         }
         if let scheduledAt {
             payload["scheduled_at"] = scheduledAt.timeIntervalSince1970
