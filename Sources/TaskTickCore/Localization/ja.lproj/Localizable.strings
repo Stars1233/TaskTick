@@ -380,12 +380,19 @@
 "push.kind.bark" = "Bark";
 "push.kind.gotify" = "Gotify";
 "push.kind.webhook" = "カスタム Webhook";
+"push.kind.wecom_app" = "WeCom アプリ";
 "push.error.empty_url" = "サーバー URL を入力してください。";
 "push.error.invalid_url" = "URL の形式が正しくありません。";
 "push.error.missing_token" = "アプリケーショントークンを入力してください。";
 "push.error.invalid_headers" = "ヘッダーは JSON オブジェクトで指定してください。例: {\"Authorization\": \"Bearer …\"}";
 "push.error.invalid_body" = "リクエストボディを生成できませんでした。";
 "push.error.http" = "サーバーが HTTP %d を返しました。";
+"push.error.missing_corp_id" = "企業 ID を入力してください。";
+"push.error.missing_secret" = "アプリの Secret を入力してください。";
+"push.error.invalid_agent_id" = "AgentId は数字で入力してください。";
+"push.error.missing_recipient" = "宛先を入力してください。全員なら @all。";
+"push.error.wecom_invalid_user" = "この宛先には届きませんでした：%@。アプリの利用範囲内メンバーの UserID を入力してください。";
+"push.error.internal" = "送信経路が正しくありません。";
 "settings.push" = "プッシュ送信先";
 "settings.push.hint" = "リモートプッシュの送信先です。すべてのタスクで共有され、タスクごとにどの送信先へ通知するかを選べます。空にするとリモートプッシュは無効になります。";
 "settings.push.empty" = "送信先がまだ設定されていません。";
@@ -413,6 +420,11 @@
 "settings.push.webhook.headers" = "ヘッダー（JSON）";
 "settings.push.webhook.body" = "ボディ";
 "settings.push.webhook.hint" = "URL とボディの {{title}} / {{body}} が置換され、Content-Type に応じてエスケープされます。ntfy、Telegram、Slack、Discord など HTTP リクエストを受け付けるサービスで利用できます。";
+"settings.push.wecom.corp_id" = "企業 ID";
+"settings.push.wecom.secret" = "アプリ Secret";
+"settings.push.wecom.agent_id" = "AgentId";
+"settings.push.wecom.to_user" = "宛先";
+"settings.push.wecom.hint" = "WeCom 管理画面の「アプリ管理」で自社アプリを作成し、企業 ID・Secret・AgentId を取得します。宛先はメンバーの UserID を | で区切って入力、@all でアプリの利用範囲内全員に送信します。";
 
 /* Backup */
 "settings.backup" = "バックアップ";

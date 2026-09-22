@@ -380,12 +380,19 @@
 "push.kind.bark" = "Bark";
 "push.kind.gotify" = "Gotify";
 "push.kind.webhook" = "Webhook Kustom";
+"push.kind.wecom_app" = "Aplikasi WeCom";
 "push.error.empty_url" = "Isi URL server terlebih dahulu.";
 "push.error.invalid_url" = "URL tampaknya tidak valid.";
 "push.error.missing_token" = "Masukkan token aplikasi.";
 "push.error.invalid_headers" = "Header harus berupa objek JSON, mis. {\"Authorization\": \"Bearer …\"}.";
 "push.error.invalid_body" = "Body permintaan tidak dapat dibuat.";
 "push.error.http" = "Server mengembalikan HTTP %d.";
+"push.error.missing_corp_id" = "Masukkan ID perusahaan.";
+"push.error.missing_secret" = "Masukkan secret aplikasi.";
+"push.error.invalid_agent_id" = "AgentId harus berupa angka.";
+"push.error.missing_recipient" = "Masukkan penerima, atau @all untuk semua.";
+"push.error.wecom_invalid_user" = "Penerima ini tidak menerima apa pun: %@. Gunakan UserID anggota yang terlihat oleh aplikasi.";
+"push.error.internal" = "Kanal ini mengambil jalur pengiriman yang salah.";
 "settings.push" = "Saluran Push";
 "settings.push.hint" = "Tujuan push jarak jauh, dipakai bersama oleh semua tugas. Setiap tugas memilih sendiri saluran mana yang dikirimi. Kosongkan daftar untuk menonaktifkan push jarak jauh sepenuhnya.";
 "settings.push.empty" = "Belum ada saluran yang dikonfigurasi.";
@@ -413,6 +420,11 @@
 "settings.push.webhook.headers" = "Header (JSON)";
 "settings.push.webhook.body" = "Body";
 "settings.push.webhook.hint" = "{{title}} dan {{body}} disubstitusikan di URL dan body, dengan escape sesuai Content-Type. Cocok untuk ntfy, Telegram, Slack, Discord, dan layanan apa pun yang menerima permintaan HTTP.";
+"settings.push.wecom.corp_id" = "ID Perusahaan";
+"settings.push.wecom.secret" = "Secret Aplikasi";
+"settings.push.wecom.agent_id" = "AgentId";
+"settings.push.wecom.to_user" = "Penerima";
+"settings.push.wecom.hint" = "Buat aplikasi sendiri di Manajemen Aplikasi pada konsol admin WeCom, lalu salin ID perusahaan, secret, dan AgentId. Penerima diisi UserID anggota dipisahkan |, atau @all untuk semua yang terlihat oleh aplikasi.";
 
 /* Backup */
 "settings.backup" = "Cadangan";

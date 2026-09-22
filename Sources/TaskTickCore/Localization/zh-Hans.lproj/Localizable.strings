@@ -380,12 +380,19 @@
 "push.kind.bark" = "Bark";
 "push.kind.gotify" = "Gotify";
 "push.kind.webhook" = "自定义 Webhook";
+"push.kind.wecom_app" = "企业微信应用";
 "push.error.empty_url" = "请先填写服务器地址。";
 "push.error.invalid_url" = "地址格式不正确。";
 "push.error.missing_token" = "请填写应用 Token。";
 "push.error.invalid_headers" = "请求头必须是 JSON 对象，例如 {\"Authorization\": \"Bearer …\"}。";
 "push.error.invalid_body" = "无法构造请求体。";
 "push.error.http" = "服务器返回 HTTP %d。";
+"push.error.missing_corp_id" = "请填写企业 ID。";
+"push.error.missing_secret" = "请填写应用 Secret。";
+"push.error.invalid_agent_id" = "AgentId 必须是数字。";
+"push.error.missing_recipient" = "请填写接收人，全员填 @all。";
+"push.error.wecom_invalid_user" = "这些接收人收不到：%@。填应用可见范围内成员的 UserID。";
+"push.error.internal" = "发送路径不对。";
 "settings.push" = "推送渠道";
 "settings.push.hint" = "远程推送地址，所有任务共用。每个任务可自行选择推送到其中哪几个。列表为空则完全关闭远程推送。";
 "settings.push.empty" = "尚未配置任何渠道。";
@@ -413,6 +420,11 @@
 "settings.push.webhook.headers" = "请求头（JSON）";
 "settings.push.webhook.body" = "请求体";
 "settings.push.webhook.hint" = "URL 和请求体里的 {{title}}、{{body}} 会被替换，并按 Content-Type 自动转义。可对接 ntfy、Telegram、Slack、Discord 等任何接受 HTTP 请求的服务。";
+"settings.push.wecom.corp_id" = "企业 ID";
+"settings.push.wecom.secret" = "应用 Secret";
+"settings.push.wecom.agent_id" = "AgentId";
+"settings.push.wecom.to_user" = "接收人";
+"settings.push.wecom.hint" = "在企业微信管理后台「应用管理」里建一个自建应用，取企业 ID、Secret 和 AgentId。接收人填成员的 UserID，多个用 | 隔开，@all 发给应用可见范围内全员。";
 
 /* 备份 */
 "settings.backup" = "备份";

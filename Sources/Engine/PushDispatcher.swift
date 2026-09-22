@@ -65,6 +65,13 @@ final class PushDispatcher: @unchecked Sendable {
     }
 
     static func post(channel: PushChannel, title: String, body: String) async -> Result<Void, PushError> {
+        // 企业微信自建应用 is two requests, not one — it has to fetch and cache
+        // an access_token before it can send. Everything else is a single
+        // request `PushRequestBuilder` can build up front.
+        if channel.kind == .wecomApp {
+            return await WeComSender.send(channel: channel, title: title, body: body)
+        }
+
         let request: URLRequest
         switch PushRequestBuilder.makeRequest(for: channel, title: title, body: body) {
         case .success(let built): request = built

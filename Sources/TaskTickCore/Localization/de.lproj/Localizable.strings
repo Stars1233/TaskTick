@@ -380,12 +380,19 @@
 "push.kind.bark" = "Bark";
 "push.kind.gotify" = "Gotify";
 "push.kind.webhook" = "Eigener Webhook";
+"push.kind.wecom_app" = "WeCom-App";
 "push.error.empty_url" = "Bitte zuerst eine Server-URL eingeben.";
 "push.error.invalid_url" = "Diese URL sieht ungültig aus.";
 "push.error.missing_token" = "Bitte den Anwendungs-Token eingeben.";
 "push.error.invalid_headers" = "Header müssen ein JSON-Objekt sein, z. B. {\"Authorization\": \"Bearer …\"}.";
 "push.error.invalid_body" = "Der Anfrage-Body konnte nicht erstellt werden.";
 "push.error.http" = "Server hat HTTP %d zurückgegeben.";
+"push.error.missing_corp_id" = "Unternehmens-ID eingeben.";
+"push.error.missing_secret" = "App-Secret eingeben.";
+"push.error.invalid_agent_id" = "AgentId muss eine Zahl sein.";
+"push.error.missing_recipient" = "Empfänger eingeben, @all für alle.";
+"push.error.wecom_invalid_user" = "Diese Empfänger haben nichts bekommen: %@. UserID eines Mitglieds verwenden, das die App sehen kann.";
+"push.error.internal" = "Falscher Sendeweg für diesen Kanal.";
 "settings.push" = "Push-Kanäle";
 "settings.push.hint" = "Ziele für Remote-Push, gemeinsam für alle Aufgaben. Jede Aufgabe wählt selbst, welche davon sie benachrichtigt. Eine leere Liste deaktiviert Remote-Push vollständig.";
 "settings.push.empty" = "Noch kein Kanal eingerichtet.";
@@ -413,6 +420,11 @@
 "settings.push.webhook.headers" = "Header (JSON)";
 "settings.push.webhook.body" = "Body";
 "settings.push.webhook.hint" = "{{title}} und {{body}} werden in URL und Body ersetzt und passend zum Content-Type escaped. Funktioniert mit ntfy, Telegram, Slack, Discord und allem anderen, das eine HTTP-Anfrage annimmt.";
+"settings.push.wecom.corp_id" = "Unternehmens-ID";
+"settings.push.wecom.secret" = "App-Secret";
+"settings.push.wecom.agent_id" = "AgentId";
+"settings.push.wecom.to_user" = "Empfänger";
+"settings.push.wecom.hint" = "Lege in der WeCom-Verwaltung unter App-Verwaltung eine eigene App an und übernimm Unternehmens-ID, Secret und AgentId. Empfänger sind UserIDs von Mitgliedern, mit | getrennt; @all geht an alle, die die App sieht.";
 
 /* Backup */
 "settings.backup" = "Backup";

@@ -227,6 +227,7 @@ struct PushChannelEditorSheet: View {
                 case .bark: barkFields
                 case .gotify: gotifyFields
                 case .webhook: webhookFields
+                case .wecomApp: wecomAppFields
                 }
             }
             .formStyle(.grouped)
@@ -339,6 +340,25 @@ struct PushChannelEditorSheet: View {
             Text(PushProviderKind.webhook.displayName)
         } footer: {
             Text(L10n.tr("settings.push.webhook.hint"))
+                .fixedSize(horizontal: false, vertical: true)
+        }
+    }
+
+    private var wecomAppFields: some View {
+        Section {
+            TextField(L10n.tr("settings.push.wecom.corp_id"), text: $channel.corpID,
+                      prompt: Text("ww1234567890abcdef"))
+            // App secret, not the 通讯录 secret: every 自建应用 has its own, and
+            // the token minted from one app's secret can't send as another.
+            SecureField(L10n.tr("settings.push.wecom.secret"), text: $channel.token)
+            TextField(L10n.tr("settings.push.wecom.agent_id"), text: $channel.agentID,
+                      prompt: Text("1000002"))
+            TextField(L10n.tr("settings.push.wecom.to_user"), text: $channel.toUser,
+                      prompt: Text(PushChannel.defaultWeComRecipient))
+        } header: {
+            Text(PushProviderKind.wecomApp.displayName)
+        } footer: {
+            Text(L10n.tr("settings.push.wecom.hint"))
                 .fixedSize(horizontal: false, vertical: true)
         }
     }

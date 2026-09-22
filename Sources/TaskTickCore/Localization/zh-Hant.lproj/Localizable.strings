@@ -380,12 +380,19 @@
 "push.kind.bark" = "Bark";
 "push.kind.gotify" = "Gotify";
 "push.kind.webhook" = "自訂 Webhook";
+"push.kind.wecom_app" = "企業微信應用";
 "push.error.empty_url" = "請先填寫伺服器位址。";
 "push.error.invalid_url" = "位址格式不正確。";
 "push.error.missing_token" = "請填寫應用程式 Token。";
 "push.error.invalid_headers" = "請求標頭必須是 JSON 物件，例如 {\"Authorization\": \"Bearer …\"}。";
 "push.error.invalid_body" = "無法建構請求內容。";
 "push.error.http" = "伺服器回傳 HTTP %d。";
+"push.error.missing_corp_id" = "請填寫企業 ID。";
+"push.error.missing_secret" = "請填寫應用 Secret。";
+"push.error.invalid_agent_id" = "AgentId 必須是數字。";
+"push.error.missing_recipient" = "請填寫接收人，全員填 @all。";
+"push.error.wecom_invalid_user" = "這些接收人收不到：%@。填應用可見範圍內成員的 UserID。";
+"push.error.internal" = "傳送路徑不對。";
 "settings.push" = "推播管道";
 "settings.push.hint" = "遠端推播位址，所有任務共用。每個任務可自行選擇推播到其中哪幾個。清單為空則完全關閉遠端推播。";
 "settings.push.empty" = "尚未設定任何管道。";
@@ -413,6 +420,11 @@
 "settings.push.webhook.headers" = "請求標頭（JSON）";
 "settings.push.webhook.body" = "請求內容";
 "settings.push.webhook.hint" = "URL 與請求內容中的 {{title}}、{{body}} 會被替換，並依 Content-Type 自動轉義。可對接 ntfy、Telegram、Slack、Discord 等任何接受 HTTP 請求的服務。";
+"settings.push.wecom.corp_id" = "企業 ID";
+"settings.push.wecom.secret" = "應用 Secret";
+"settings.push.wecom.agent_id" = "AgentId";
+"settings.push.wecom.to_user" = "接收人";
+"settings.push.wecom.hint" = "在企業微信管理後台「應用管理」中建立一個自建應用，取得企業 ID、Secret 與 AgentId。接收人填成員的 UserID，多個以 | 分隔，@all 發給應用可見範圍內全員。";
 
 /* Backup */
 "settings.backup" = "備份";

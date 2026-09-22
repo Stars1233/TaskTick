@@ -19,6 +19,12 @@ enum PushRequestBuilder {
             return gotifyRequest(channel: channel, title: title, body: body)
         case .webhook:
             return webhookRequest(channel: channel, title: title, body: body)
+        case .wecomApp:
+            // Unreachable: 企业微信 needs an access_token fetched first, so
+            // `PushDispatcher.post` routes this kind to `WeComSender` before it
+            // gets here. Kept as a real error rather than a trap — a future
+            // call site that forgets the routing should fail visibly, not crash.
+            return .failure(.network(L10n.tr("push.error.internal")))
         }
     }
 
@@ -41,6 +47,12 @@ enum PushRequestBuilder {
         case .webhook:
             // Arbitrary receiver — the status code is all we can trust.
             break
+        case .wecomApp:
+            // Always HTTP 200; the verdict is in {"errcode":…,"errmsg":…}, and
+            // errcode 0 can still mean "delivered to nobody".
+            if let server = try? JSONDecoder().decode(WeComAPIResponse.self, from: data) {
+                return server.pushError
+            }
         }
         return status >= 400 ? .httpStatus(status) : nil
     }

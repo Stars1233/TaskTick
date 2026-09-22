@@ -380,12 +380,19 @@
 "push.kind.bark" = "Bark";
 "push.kind.gotify" = "Gotify";
 "push.kind.webhook" = "Свой вебхук";
+"push.kind.wecom_app" = "Приложение WeCom";
 "push.error.empty_url" = "Сначала укажите адрес сервера.";
 "push.error.invalid_url" = "Адрес выглядит некорректным.";
 "push.error.missing_token" = "Укажите токен приложения.";
 "push.error.invalid_headers" = "Заголовки должны быть JSON-объектом, например {\"Authorization\": \"Bearer …\"}.";
 "push.error.invalid_body" = "Не удалось сформировать тело запроса.";
 "push.error.http" = "Сервер вернул HTTP %d.";
+"push.error.missing_corp_id" = "Укажите ID компании.";
+"push.error.missing_secret" = "Укажите secret приложения.";
+"push.error.invalid_agent_id" = "AgentId должен быть числом.";
+"push.error.missing_recipient" = "Укажите получателя или @all для всех.";
+"push.error.wecom_invalid_user" = "Эти получатели ничего не получили: %@. Укажите UserID участника, доступного приложению.";
+"push.error.internal" = "Неверный путь отправки для этого канала.";
 "settings.push" = "Каналы push";
 "settings.push.hint" = "Адреса для удалённых push-уведомлений, общие для всех задач. Каждая задача сама выбирает, в какие из них отправлять. Пустой список полностью отключает удалённые уведомления.";
 "settings.push.empty" = "Каналы ещё не настроены.";
@@ -413,6 +420,11 @@
 "settings.push.webhook.headers" = "Заголовки (JSON)";
 "settings.push.webhook.body" = "Тело запроса";
 "settings.push.webhook.hint" = "{{title}} и {{body}} подставляются в адрес и тело запроса с экранированием по Content-Type. Подходит для ntfy, Telegram, Slack, Discord и любого сервиса, принимающего HTTP-запрос.";
+"settings.push.wecom.corp_id" = "ID компании";
+"settings.push.wecom.secret" = "Secret приложения";
+"settings.push.wecom.agent_id" = "AgentId";
+"settings.push.wecom.to_user" = "Получатели";
+"settings.push.wecom.hint" = "Создайте собственное приложение в разделе «Управление приложениями» консоли WeCom и скопируйте ID компании, secret и AgentId. Получатели — UserID участников через |, либо @all для всех, кого видит приложение.";
 
 /* Backup */
 "settings.backup" = "Резервное копирование";

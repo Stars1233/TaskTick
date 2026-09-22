@@ -380,12 +380,19 @@
 "push.kind.bark" = "Bark";
 "push.kind.gotify" = "Gotify";
 "push.kind.webhook" = "Webhook personalizado";
+"push.kind.wecom_app" = "App de WeCom";
 "push.error.empty_url" = "Introduce primero la URL del servidor.";
 "push.error.invalid_url" = "La URL no parece válida.";
 "push.error.missing_token" = "Introduce el token de la aplicación.";
 "push.error.invalid_headers" = "Las cabeceras deben ser un objeto JSON, p. ej. {\"Authorization\": \"Bearer …\"}.";
 "push.error.invalid_body" = "No se pudo construir el cuerpo de la petición.";
 "push.error.http" = "El servidor devolvió HTTP %d.";
+"push.error.missing_corp_id" = "Introduce el ID de empresa.";
+"push.error.missing_secret" = "Introduce el secret de la app.";
+"push.error.invalid_agent_id" = "El AgentId debe ser un número.";
+"push.error.missing_recipient" = "Introduce un destinatario, o @all para todos.";
+"push.error.wecom_invalid_user" = "Estos destinatarios no recibieron nada: %@. Usa el UserID de un miembro visible para la app.";
+"push.error.internal" = "Este canal tomó la ruta de envío equivocada.";
 "settings.push" = "Canales de envío";
 "settings.push.hint" = "Destinos de envío remoto, compartidos por todas las tareas. Cada tarea elige a cuáles notifica. Deja la lista vacía para desactivar el envío remoto por completo.";
 "settings.push.empty" = "Aún no hay ningún canal configurado.";
@@ -413,6 +420,11 @@
 "settings.push.webhook.headers" = "Cabeceras (JSON)";
 "settings.push.webhook.body" = "Cuerpo";
 "settings.push.webhook.hint" = "{{title}} y {{body}} se sustituyen en la URL y en el cuerpo, con el escape que corresponde al Content-Type. Sirve para ntfy, Telegram, Slack, Discord y cualquier servicio que acepte una petición HTTP.";
+"settings.push.wecom.corp_id" = "ID de empresa";
+"settings.push.wecom.secret" = "Secret de la app";
+"settings.push.wecom.agent_id" = "AgentId";
+"settings.push.wecom.to_user" = "Destinatarios";
+"settings.push.wecom.hint" = "Crea una app propia en Gestión de aplicaciones de la consola de WeCom y copia su ID de empresa, secret y AgentId. Los destinatarios son UserIDs de miembros separados por |, o @all para todos los que la app puede ver.";
 
 /* Backup */
 "settings.backup" = "Copia de seguridad";
