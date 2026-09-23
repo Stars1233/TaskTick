@@ -70,15 +70,16 @@ final class CLIBridge {
                 // other entry point already shows the running state on screen.
                 if forceBanner {
                     ActionToast.notify(.failed(taskName: task.name,
-                                               reason: L10n.tr("toast.action.failed.alreadyRunning")))
+                                               reason: L10n.tr("toast.action.failed.alreadyRunning")),
+                                       taskId: task.id)
                 }
                 return
             }
             Task { _ = await ScriptExecutor.shared.execute(task: task, modelContext: context) }
-            ActionToast.notify(.started(taskName: task.name), wantsBanner: wantsBanner)
+            ActionToast.notify(.started(taskName: task.name), taskId: task.id, wantsBanner: wantsBanner)
         case .stop:
             ScriptExecutor.shared.cancel(taskId: task.id)
-            ActionToast.notify(.stopped(taskName: task.name), wantsBanner: wantsBanner)
+            ActionToast.notify(.stopped(taskName: task.name), taskId: task.id, wantsBanner: wantsBanner)
         case .restart:
             let wasRunning = TaskScheduler.shared.runningTaskIDs.contains(task.id)
             if wasRunning { ScriptExecutor.shared.cancel(taskId: task.id) }
@@ -86,7 +87,7 @@ final class CLIBridge {
                 if wasRunning { try? await Task.sleep(for: .milliseconds(200)) }
                 _ = await ScriptExecutor.shared.execute(task: task, modelContext: context)
             }
-            ActionToast.notify(.restarted(taskName: task.name), wantsBanner: wantsBanner)
+            ActionToast.notify(.restarted(taskName: task.name), taskId: task.id, wantsBanner: wantsBanner)
         case .reveal:
             MainWindowSelection.shared.taskToReveal = task
             NotificationCenter.default.post(name: .revealTaskInMain, object: nil)

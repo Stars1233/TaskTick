@@ -1,5 +1,6 @@
 import AppKit
 import Foundation
+import SwiftData
 import UserNotifications
 import TaskTickCore
 
@@ -10,6 +11,20 @@ final class NotificationManager: NSObject, @unchecked Sendable {
 
     /// userInfo flag: tapping this banner should bring the main window back.
     static let openMainWindowKey = "tasktick.openMainWindow"
+
+    /// userInfo value (UUID string): tapping this banner should open the main
+    /// window with that task selected.
+    static let taskIdKey = "tasktick.taskId"
+
+    /// userInfo for a banner about one task.
+    static func userInfo(taskId: UUID) -> [String: Any] {
+        [taskIdKey: taskId.uuidString]
+    }
+
+    /// Inverse of `userInfo(taskId:)`, for the tap handler.
+    static func taskId(from userInfo: [AnyHashable: Any]) -> UUID? {
+        (userInfo[taskIdKey] as? String).flatMap(UUID.init(uuidString:))
+    }
 
     private var isAvailable = false
 
@@ -37,7 +52,8 @@ final class NotificationManager: NSObject, @unchecked Sendable {
     }
 
     /// `userInfo` rides along so the tap handler below knows what the banner was
-    /// about — currently only `openMainWindowKey`, set by the hide-to-menu-bar notice.
+    /// about — `openMainWindowKey` (hide-to-menu-bar notice) or `taskIdKey`
+    /// (anything about a single task).
     func sendNotification(title: String, body: String, userInfo: [String: Any] = [:]) {
         guard isAvailable else { return }
 
@@ -107,17 +123,31 @@ extension NotificationManager: UNUserNotificationCenterDelegate {
     }
 
     /// A banner that says "TaskTick is still running" is only useful if tapping it
-    /// gets the user back to the window.
+    /// gets the user back to the window; one about a task should land on that task.
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
-        let wantsMainWindow = response.notification.request.content
-            .userInfo[Self.openMainWindowKey] as? Bool ?? false
-        if wantsMainWindow, response.actionIdentifier == UNNotificationDefaultActionIdentifier {
+        let userInfo = response.notification.request.content.userInfo
+        let taskId = Self.taskId(from: userInfo)
+        let wantsMainWindow = userInfo[Self.openMainWindowKey] as? Bool ?? false
+        if taskId != nil || wantsMainWindow,
+           response.actionIdentifier == UNNotificationDefaultActionIdentifier {
             DispatchQueue.main.async {
+                if let taskId { Self.selectInMainWindow(taskId: taskId) }
                 AppDelegate.bringMainWindowForward()
             }
         }
         completionHandler()
+    }
+
+    /// Same rendezvous the Quick Launcher's ⌘O uses: the main window picks the
+    /// task up on appear (fresh window) or on change (already open). A task
+    /// deleted since the banner fired finds nothing — the window still opens.
+    @MainActor
+    private static func selectInMainWindow(taskId: UUID) {
+        let context = TaskTickApp._sharedModelContainer.mainContext
+        let descriptor = FetchDescriptor<ScheduledTask>(predicate: #Predicate { $0.id == taskId })
+        guard let task = try? context.fetch(descriptor).first else { return }
+        MainWindowSelection.shared.taskToReveal = task
     }
 }

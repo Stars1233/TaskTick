@@ -281,7 +281,9 @@ final class ScriptExecutor: ObservableObject {
                 ?? [exitInfo, durationText, stderrLine].filter { !$0.isEmpty }.joined(separator: " · ")
             let title = "[\(L10n.tr("notification.failed"))] \(taskName)"
             if globalNotificationsEnabled && notifyOnFailure {
-                NotificationManager.shared.sendNotification(title: title, body: body)
+                NotificationManager.shared.sendNotification(
+                    title: title, body: body, userInfo: NotificationManager.userInfo(taskId: taskId)
+                )
             }
             sendPushIfNeeded(
                 enabled: pushEnabled,
@@ -309,7 +311,9 @@ final class ScriptExecutor: ObservableObject {
                 let resolvedBody = customPushBody
                     ?? (body.isEmpty ? L10n.tr("notification.success") : body)
                 if globalNotificationsEnabled && notifyOnSuccess {
-                    NotificationManager.shared.sendNotification(title: title, body: resolvedBody)
+                    NotificationManager.shared.sendNotification(
+                        title: title, body: resolvedBody, userInfo: NotificationManager.userInfo(taskId: taskId)
+                    )
                 }
                 sendPushIfNeeded(
                     enabled: pushEnabled,
@@ -747,7 +751,11 @@ final class ScriptExecutor: ObservableObject {
                         let enabled = UserDefaults.standard.object(forKey: "notificationsEnabled") as? Bool ?? true
                         guard enabled else { return }
                         directiveGate.count += 1
-                        NotificationManager.shared.sendNotification(title: directive.title, body: directive.body ?? "")
+                        NotificationManager.shared.sendNotification(
+                            title: directive.title,
+                            body: directive.body ?? "",
+                            userInfo: NotificationManager.userInfo(taskId: taskId)
+                        )
                     }
                 }
 

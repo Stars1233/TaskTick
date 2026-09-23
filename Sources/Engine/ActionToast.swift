@@ -25,11 +25,15 @@ enum ActionToast {
 
     /// Fire an action-feedback banner if enabled. `wantsBanner` is the task's
     /// per-task opt-in (`notifyOnAction`); defaults to true for task-less
-    /// failure events.
-    static func notify(_ event: Event, wantsBanner: Bool = true) {
+    /// failure events. `taskId` makes tapping the banner select that task.
+    static func notify(_ event: Event, taskId: UUID? = nil, wantsBanner: Bool = true) {
         guard isEnabled(wantsBanner: wantsBanner) else { return }
         let (title, body) = previewContent(for: event)
-        NotificationManager.shared.sendNotification(title: title, body: body)
+        NotificationManager.shared.sendNotification(
+            title: title,
+            body: body,
+            userInfo: taskId.map(NotificationManager.userInfo(taskId:)) ?? [:]
+        )
     }
 
     /// Pure helper used by tests — renders the strings without sending.

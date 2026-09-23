@@ -211,14 +211,14 @@ struct TaskListView: View {
             if scheduler.runningTaskIDs.contains(task.id) {
                 Button(L10n.tr("task.detail.stop"), systemImage: "stop.fill") {
                     ScriptExecutor.shared.cancel(taskId: task.id)
-                    ActionToast.notify(.stopped(taskName: task.name), wantsBanner: task.notifyOnAction)
+                    ActionToast.notify(.stopped(taskName: task.name), taskId: task.id, wantsBanner: task.notifyOnAction)
                 }
             } else {
                 Button(L10n.tr("task.detail.run"), systemImage: "play.fill") {
                     Task {
                         _ = await ScriptExecutor.shared.execute(task: task, modelContext: modelContext)
                     }
-                    ActionToast.notify(.started(taskName: task.name), wantsBanner: task.notifyOnAction)
+                    ActionToast.notify(.started(taskName: task.name), taskId: task.id, wantsBanner: task.notifyOnAction)
                 }
             }
             Button(task.isEnabled ? L10n.tr("task.detail.disable") : L10n.tr("task.detail.enable"),

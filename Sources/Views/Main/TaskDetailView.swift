@@ -178,7 +178,7 @@ struct TaskDetailView: View {
                             if isRunning {
                                 Button {
                                     ScriptExecutor.shared.cancel(taskId: task.id)
-                                    ActionToast.notify(.stopped(taskName: task.name), wantsBanner: task.notifyOnAction)
+                                    ActionToast.notify(.stopped(taskName: task.name), taskId: task.id, wantsBanner: task.notifyOnAction)
                                 } label: {
                                     Label(L10n.tr("task.detail.stop"), systemImage: "stop.fill")
                                 }
@@ -189,7 +189,7 @@ struct TaskDetailView: View {
                                     Task {
                                         _ = await ScriptExecutor.shared.execute(task: task, modelContext: modelContext)
                                     }
-                                    ActionToast.notify(.started(taskName: task.name), wantsBanner: task.notifyOnAction)
+                                    ActionToast.notify(.started(taskName: task.name), taskId: task.id, wantsBanner: task.notifyOnAction)
                                 } label: {
                                     Label(L10n.tr("task.detail.run"), systemImage: "play.fill")
                                 }
@@ -808,7 +808,7 @@ struct TaskDetailView: View {
         guard let taskId = log.task?.id else { return }
         if scheduler.runningTaskIDs.contains(taskId) {
             ScriptExecutor.shared.cancel(taskId: taskId)
-            ActionToast.notify(.stopped(taskName: task.name), wantsBanner: task.notifyOnAction)
+            ActionToast.notify(.stopped(taskName: task.name), taskId: task.id, wantsBanner: task.notifyOnAction)
             ToastCenter.shared.stopped(L10n.tr("toast.task.stopped", task.name))
         } else {
             log.status = .cancelled
