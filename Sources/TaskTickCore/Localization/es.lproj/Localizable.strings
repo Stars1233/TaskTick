@@ -68,6 +68,7 @@
 "editor.tab.script" = "Comando";
 "editor.tab.settings" = "Ajustes";
 "editor.tab.notification" = "Notificaciones";
+"editor.tab.push" = "Push";
 
 /* Task Editor */
 "editor.title.new" = "Nueva tarea";
@@ -127,7 +128,7 @@
 "editor.notify_only_when_output.hint" = "Al activarse, una ejecución exitosa sin stdout no genera notificación. Usa `echo` solo cuando ocurra algo que valga la pena notificar.";
 "editor.notify_template" = "Contenido del recordatorio";
 "editor.notify_template.enable" = "Personalizar el contenido de la notificación";
-"editor.notify_template.hint" = "Sustituye el resumen de la salida del script por tu propio texto. Se aplica a todos los recordatorios: notificación del sistema, envío remoto y recordatorio destacado.";
+"editor.notify_template.hint" = "Sustituye el resumen de la salida del script por tu propio texto. Aparece en la notificación del sistema y en el recordatorio destacado.";
 "editor.notify_template.placeholders" = "Variables: {{output}} salida · {{firstLine}} primera línea · {{lastLine}} última línea · {{name}} nombre de la tarea · {{duration}} duración · {{exitCode}} código de salida · {{status}} éxito/fallo";
 "editor.notify_hint" = "Las notificaciones se envían a través del sistema de notificaciones de macOS cuando una tarea finaliza.";
 "editor.notify_push" = "Envío remoto";
@@ -138,6 +139,13 @@
 "editor.notify_push.channel_off" = "desactivado";
 "editor.notify_push.on_output_change" = "Solo cuando cambie la salida";
 "editor.notify_push.on_output_change.hint" = "Compara la salida del script de esta ejecución con la anterior. Si es igual, no se envía nada.";
+"editor.push_success" = "Enviar al completar";
+"editor.push_failure" = "Enviar al fallar";
+"editor.push_only_when_output" = "Enviar solo si hay salida";
+"editor.push_only_when_output.hint" = "Una ejecución exitosa sin stdout no envía nada.";
+"editor.push_template" = "Contenido del envío";
+"editor.push_template.enable" = "Personalizar el contenido del envío";
+"editor.push_template.hint" = "Sustituye el resumen de la salida del script por tu propio texto.";
 "editor.strong_reminder" = "Recordatorio destacado al completar";
 "editor.strong_reminder_hint" = "Muestra un panel flotante cuando la tarea termina con éxito, con el contenido del recordatorio anterior. Si está vacío, muestra la salida completa.";
 "editor.strong_reminder_short" = " Recordatorio destacado";

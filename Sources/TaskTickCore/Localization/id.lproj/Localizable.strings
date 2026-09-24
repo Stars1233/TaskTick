@@ -68,6 +68,7 @@
 "editor.tab.script" = "Perintah";
 "editor.tab.settings" = "Pengaturan";
 "editor.tab.notification" = "Notifikasi";
+"editor.tab.push" = "Push";
 
 /* Task Editor */
 "editor.title.new" = "Tugas Baru";
@@ -127,7 +128,7 @@
 "editor.notify_only_when_output.hint" = "Jika diaktifkan, eksekusi yang berhasil tanpa stdout akan tetap senyap. Gunakan `echo` hanya saat ada sesuatu yang benar-benar layak diberitahukan.";
 "editor.notify_template" = "Isi Pengingat";
 "editor.notify_template.enable" = "Sesuaikan Isi Notifikasi";
-"editor.notify_template.hint" = "Mengganti ringkasan keluaran skrip dengan teks Anda sendiri. Berlaku untuk semua pengingat — notifikasi sistem, push jarak jauh, dan pengingat kuat.";
+"editor.notify_template.hint" = "Mengganti ringkasan keluaran skrip dengan teks Anda sendiri. Ditampilkan di notifikasi sistem dan pengingat kuat.";
 "editor.notify_template.placeholders" = "Variabel: {{output}} keluaran · {{firstLine}} baris pertama · {{lastLine}} baris terakhir · {{name}} nama tugas · {{duration}} durasi · {{exitCode}} kode keluar · {{status}} berhasil/gagal";
 "editor.notify_hint" = "Notifikasi dikirim melalui notifikasi sistem macOS saat tugas selesai.";
 "editor.notify_push" = "Push Jarak Jauh";
@@ -138,6 +139,13 @@
 "editor.notify_push.channel_off" = "nonaktif";
 "editor.notify_push.on_output_change" = "Hanya Saat Keluaran Berubah";
 "editor.notify_push.on_output_change.hint" = "Membandingkan keluaran skrip kali ini dengan sebelumnya. Jika sama, tidak ada push.";
+"editor.push_success" = "Push saat Berhasil";
+"editor.push_failure" = "Push saat Gagal";
+"editor.push_only_when_output" = "Push Hanya Jika Ada Output";
+"editor.push_only_when_output.hint" = "Eksekusi berhasil tanpa stdout tidak mengirim push.";
+"editor.push_template" = "Isi Push";
+"editor.push_template.enable" = "Sesuaikan Isi Push";
+"editor.push_template.hint" = "Mengganti ringkasan keluaran skrip dengan teks Anda sendiri.";
 "editor.strong_reminder" = "Pengingat Kuat saat Berhasil";
 "editor.strong_reminder_hint" = "Menampilkan panel mengambang saat tugas berhasil, berisi isi pengingat di atas. Jika kosong, seluruh keluaran ditampilkan.";
 "editor.strong_reminder_short" = " Pengingat Kuat";

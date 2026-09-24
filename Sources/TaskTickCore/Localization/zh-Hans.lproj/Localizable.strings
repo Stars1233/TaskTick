@@ -68,6 +68,7 @@
 "editor.tab.script" = "命令";
 "editor.tab.settings" = "设置";
 "editor.tab.notification" = "通知";
+"editor.tab.push" = "推送";
 
 /* Task Editor */
 "editor.title.new" = "新建任务";
@@ -127,17 +128,24 @@
 "editor.notify_only_when_output.hint" = "开启后，执行成功但脚本没有任何 stdout 输出（例如轮询空跑）将不弹通知；只在脚本通过 `echo` 主动打印业务信息时才通知。";
 "editor.notify_template" = "提醒内容";
 "editor.notify_template.enable" = "自定义通知内容";
-"editor.notify_template.hint" = "用你写的内容取代脚本输出摘要，系统通知、远程推送、强提醒都会显示它。";
+"editor.notify_template.hint" = "用你写的内容取代脚本输出摘要，系统通知和强提醒都会显示它。";
 "editor.notify_template.placeholders" = "可用变量：{{output}} 脚本输出 · {{firstLine}} 首行 · {{lastLine}} 末行 · {{name}} 任务名 · {{duration}} 耗时 · {{exitCode}} 退出码 · {{status}} 成功/失败";
-"editor.notify_hint" = "任务完成时通过 macOS 系统通知推送。";
+"editor.notify_hint" = "任务完成时弹出 macOS 系统通知。";
 "editor.notify_push" = "远程推送";
 "editor.notify_push.hint" = "开启后，该任务完成时会推送到下面选中的渠道。";
 "editor.notify_push.no_channel" = "尚未配置推送渠道，请先到设置中添加。";
 "editor.notify_push.none_selected" = "未选中任何渠道，该任务不会推送。";
 "editor.notify_push.channel_invalid" = "未配置完成";
 "editor.notify_push.channel_off" = "已停用";
-"editor.notify_push.on_output_change" = "仅在输出有变动时通知";
+"editor.notify_push.on_output_change" = "仅在输出有变动时推送";
 "editor.notify_push.on_output_change.hint" = "对比本次与上次的脚本输出。输出相同则不推送。";
+"editor.push_success" = "成功时推送";
+"editor.push_failure" = "失败时推送";
+"editor.push_only_when_output" = "仅在有输出时推送";
+"editor.push_only_when_output.hint" = "执行成功但脚本没有 stdout 输出（例如轮询空跑）时不推送。";
+"editor.push_template" = "推送内容";
+"editor.push_template.enable" = "自定义推送内容";
+"editor.push_template.hint" = "用你写的内容取代脚本输出摘要。";
 "editor.strong_reminder" = "成功时强提醒";
 "editor.strong_reminder_hint" = "任务成功后弹出浮动面板，显示上方的提醒内容；未填写时显示完整输出。";
 "editor.strong_reminder_short" = "强提醒";

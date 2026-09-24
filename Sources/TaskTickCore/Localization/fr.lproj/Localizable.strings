@@ -62,6 +62,7 @@
 "editor.tab.script" = "Commande";
 "editor.tab.settings" = "Paramètres";
 "editor.tab.notification" = "Notifications";
+"editor.tab.push" = "Push";
 "editor.title.new" = "Nouvelle tâche";
 "editor.title.edit" = "Modifier la tâche";
 "editor.cancel" = "Annuler";
@@ -119,7 +120,7 @@
 "editor.notify_only_when_output.hint" = "Lorsque cette option est activée, une exécution réussie sans sortie standard reste silencieuse. Utilisez `echo` uniquement lorsqu'un événement mérite réellement une notification.";
 "editor.notify_template" = "Contenu du rappel";
 "editor.notify_template.enable" = "Personnaliser le contenu des notifications";
-"editor.notify_template.hint" = "Remplace le résumé de la sortie du script par votre propre texte. S'applique à tous les rappels — notification système, notification distante et rappel visuel.";
+"editor.notify_template.hint" = "Remplace le résumé de la sortie du script par votre propre texte. S'affiche dans la notification système et le rappel visuel.";
 "editor.notify_template.placeholders" = "Variables : {{output}} sortie · {{firstLine}} première ligne · {{lastLine}} dernière ligne · {{name}} nom de la tâche · {{duration}} durée · {{exitCode}} code de sortie · {{status}} réussite/échec";
 "editor.notify_hint" = "Les notifications sont envoyées via les notifications système de macOS lorsqu'une tâche se termine.";
 "editor.notify_push" = "Notification distante";
@@ -130,6 +131,13 @@
 "editor.notify_push.channel_off" = "désactivé";
 "editor.notify_push.on_output_change" = "Seulement si la sortie change";
 "editor.notify_push.on_output_change.hint" = "Compare la sortie du script de cette exécution à la précédente. Sortie identique → aucune notification.";
+"editor.push_success" = "Envoyer en cas de succès";
+"editor.push_failure" = "Envoyer en cas d'échec";
+"editor.push_only_when_output" = "Envoyer uniquement en cas de sortie";
+"editor.push_only_when_output.hint" = "Une exécution réussie sans sortie standard n'envoie rien.";
+"editor.push_template" = "Contenu du push";
+"editor.push_template.enable" = "Personnaliser le contenu du push";
+"editor.push_template.hint" = "Remplace le résumé de la sortie du script par votre propre texte.";
 "editor.strong_reminder" = "Rappel fort en cas de succès";
 "editor.strong_reminder_hint" = "Affiche une fenêtre flottante en cas de réussite, avec le contenu du rappel ci-dessus. Si celui-ci est vide, la sortie complète est affichée.";
 "editor.strong_reminder_short" = " Rappel fort";

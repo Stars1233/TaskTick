@@ -63,6 +63,15 @@ struct TaskExporter {
         /// older exports still decode; nil restores as "default wording".
         let notificationTemplateEnabled: Bool?
         let notificationTemplate: String?
+        /// Push-side switches and template, split from the notification ones
+        /// (issue #55). Optional so older exports still decode. The last three
+        /// carry the task's raw override: nil restores as "follow the
+        /// notification side", which is how a pre-split task behaves.
+        let pushOnSuccess: Bool?
+        let pushOnFailure: Bool?
+        let pushOnlyWhenOutput: Bool?
+        let pushTemplateEnabled: Bool?
+        let pushTemplate: String?
     }
 
     /// Export all tasks to a JSON file
@@ -201,7 +210,12 @@ struct TaskExporter {
             barkNotifyOnOutputChange: task.barkNotifyOnOutputChange,
             pushChannelIDs: task.pushChannelIDs?.map(\.uuidString),
             notificationTemplateEnabled: task.notificationTemplateEnabled ? true : nil,
-            notificationTemplate: task.notificationTemplate.isEmpty ? nil : task.notificationTemplate
+            notificationTemplate: task.notificationTemplate.isEmpty ? nil : task.notificationTemplate,
+            pushOnSuccess: task.pushOnSuccess,
+            pushOnFailure: task.pushOnFailure,
+            pushOnlyWhenOutput: task.pushOnlyWhenOutputOverride,
+            pushTemplateEnabled: task.pushTemplateEnabledOverride,
+            pushTemplate: task.pushTemplateOverride
         )
     }
 
@@ -271,6 +285,11 @@ struct TaskExporter {
         task.pushChannelIDs = restoredChannelIDs(from: item.pushChannelIDs)
         if let v = item.notificationTemplateEnabled { task.notificationTemplateEnabled = v }
         if let v = item.notificationTemplate { task.notificationTemplate = v }
+        if let v = item.pushOnSuccess { task.pushOnSuccess = v }
+        if let v = item.pushOnFailure { task.pushOnFailure = v }
+        task.pushOnlyWhenOutputOverride = item.pushOnlyWhenOutput
+        task.pushTemplateEnabledOverride = item.pushTemplateEnabled
+        task.pushTemplateOverride = item.pushTemplate
         if let v = item.isManualOnly { task.isManualOnly = v }
         if let strings = item.additionalTimes, !strings.isEmpty {
             let comps = strings.compactMap { s -> DateComponents? in

@@ -68,6 +68,7 @@
 "editor.tab.script" = "명령";
 "editor.tab.settings" = "설정";
 "editor.tab.notification" = "알림";
+"editor.tab.push" = "푸시";
 
 /* Task Editor */
 "editor.title.new" = "새 작업";
@@ -127,7 +128,7 @@
 "editor.notify_only_when_output.hint" = "활성화하면 실행에 성공했지만 stdout 출력이 없는 경우 알림을 보내지 않습니다. 스크립트가 `echo`로 알릴 만한 정보를 실제로 출력했을 때만 알림이 전송됩니다.";
 "editor.notify_template" = "알림 내용";
 "editor.notify_template.enable" = "알림 내용 사용자 지정";
-"editor.notify_template.hint" = "스크립트 출력 요약 대신 직접 작성한 내용을 표시합니다. 시스템 알림, 원격 푸시, 강조 알림에 모두 적용됩니다.";
+"editor.notify_template.hint" = "스크립트 출력 요약 대신 직접 작성한 내용을 표시합니다. 시스템 알림과 강조 알림에 적용됩니다.";
 "editor.notify_template.placeholders" = "사용 가능한 변수: {{output}} 출력 · {{firstLine}} 첫 줄 · {{lastLine}} 마지막 줄 · {{name}} 작업 이름 · {{duration}} 소요 시간 · {{exitCode}} 종료 코드 · {{status}} 성공/실패";
 "editor.notify_hint" = "작업 완료 시 macOS 시스템 알림으로 전송됩니다.";
 "editor.notify_push" = "원격 푸시";
@@ -136,8 +137,15 @@
 "editor.notify_push.none_selected" = "선택된 채널이 없어 이 작업은 푸시하지 않습니다.";
 "editor.notify_push.channel_invalid" = "설정 미완료";
 "editor.notify_push.channel_off" = "사용 안 함";
-"editor.notify_push.on_output_change" = "출력이 변경된 경우에만 알림";
+"editor.notify_push.on_output_change" = "출력이 변경된 경우에만 푸시";
 "editor.notify_push.on_output_change.hint" = "이번 스크립트 출력을 지난번과 비교합니다. 동일하면 푸시하지 않습니다.";
+"editor.push_success" = "성공 시 푸시";
+"editor.push_failure" = "실패 시 푸시";
+"editor.push_only_when_output" = "출력이 있을 때만 푸시";
+"editor.push_only_when_output.hint" = "실행에 성공해도 stdout 출력이 없으면 푸시하지 않습니다.";
+"editor.push_template" = "푸시 내용";
+"editor.push_template.enable" = "푸시 내용 사용자 지정";
+"editor.push_template.hint" = "스크립트 출력 요약 대신 직접 작성한 내용을 표시합니다.";
 "editor.strong_reminder" = "성공 시 강조 알림";
 "editor.strong_reminder_hint" = "작업이 성공하면 플로팅 패널을 띄워 위의 알림 내용을 표시합니다. 비어 있으면 전체 출력을 표시합니다.";
 "editor.strong_reminder_short" = " 강조 알림";

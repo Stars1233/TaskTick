@@ -214,9 +214,9 @@ public final class ScheduledTask {
     /// Kept separate from the text itself so switching back to the default
     /// wording doesn't throw away a template the user wrote.
     public var notificationTemplateEnabled: Bool = false
-    /// Custom reminder body, shared by every delivery channel — system
-    /// notification, Bark push and the strong-reminder panel. The channel
-    /// decides *how* the reminder shows up; this decides *what* it says.
+    /// Custom reminder body for the system notification and the
+    /// strong-reminder panel. Remote push has its own (`pushTemplate`), which
+    /// falls back to this one until the push side is set (issue #55).
     /// Supports `{{output}}`, `{{firstLine}}`, `{{lastLine}}`, `{{name}}`,
     /// `{{duration}}`, `{{exitCode}}` and `{{status}}` placeholders. Only
     /// consulted when `notificationTemplateEnabled` is on.
@@ -231,9 +231,9 @@ public final class ScheduledTask {
     /// "action feedback" banner (Started/Stopped/Restarted). Default `false`
     /// keeps these banners off unless the user opts in per task.
     public var notifyOnAction: Bool = false
-    /// When true, this task sends a remote push on completion (success and
-    /// failure). Default `false` keeps existing tasks unchanged on SwiftData
-    /// migration.
+    /// When true, this task sends a remote push on completion — on success
+    /// and/or failure per `pushOnSuccess` / `pushOnFailure`. Default `false`
+    /// keeps existing tasks unchanged on SwiftData migration.
     ///
     /// The `bark` prefix on this and the two properties below is legacy
     /// storage: they predate issue #51, when Bark was the only endpoint.
@@ -253,6 +253,22 @@ public final class ScheduledTask {
     /// the pre-#51 behavior and the sane default for a task the user hasn't
     /// narrowed down. Resolution lives in `PushChannelStore.resolve`.
     public var pushChannelIDsJSON: String? = nil
+    /// Remote push has its own success/failure switches (issue #55) — the
+    /// notification ones only ever gated the macOS banner, which users read as
+    /// "push ignores my settings". Default `true` matches what push did before
+    /// the split: it went out on every completion.
+    public var pushOnSuccess: Bool = true
+    public var pushOnFailure: Bool = true
+    /// Push-side counterparts of `notifyOnlyWhenOutput` and the notification
+    /// template (issue #55). Before the split those notification fields drove
+    /// push as well, so `nil` means "not set on the push side yet — keep
+    /// following the notification one": an upgraded task pushes exactly as it
+    /// did. The editor writes a concrete value on save, after which the two
+    /// sides are independent. Read them through `pushOnlyWhenOutput`,
+    /// `pushTemplateEnabled` and `pushTemplate`.
+    public var pushOnlyWhenOutputOverride: Bool? = nil
+    public var pushTemplateEnabledOverride: Bool? = nil
+    public var pushTemplateOverride: String? = nil
     /// Upper bound (seconds) for random scheduling jitter — issue #38. When > 0
     /// every computed fire time gets a deterministic pseudo-random 0...N second
     /// delay so repeats don't hit machine-precise instants. Default 0 keeps
@@ -452,6 +468,24 @@ public final class ScheduledTask {
             }
             pushChannelIDsJSON = String(data: data, encoding: .utf8)
         }
+    }
+
+    /// Suppress a successful run's push when the script printed nothing.
+    /// Falls back to the notification setting until the push side has its own
+    /// (see `pushOnlyWhenOutputOverride`).
+    public var pushOnlyWhenOutput: Bool {
+        get { pushOnlyWhenOutputOverride ?? notifyOnlyWhenOutput }
+        set { pushOnlyWhenOutputOverride = newValue }
+    }
+
+    public var pushTemplateEnabled: Bool {
+        get { pushTemplateEnabledOverride ?? notificationTemplateEnabled }
+        set { pushTemplateEnabledOverride = newValue }
+    }
+
+    public var pushTemplate: String {
+        get { pushTemplateOverride ?? notificationTemplate }
+        set { pushTemplateOverride = newValue }
     }
 
     /// Repeat cadence for display, cron-aware: cron tasks describe their

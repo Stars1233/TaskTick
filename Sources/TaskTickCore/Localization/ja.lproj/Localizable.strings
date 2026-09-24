@@ -68,6 +68,7 @@
 "editor.tab.script" = "コマンド";
 "editor.tab.settings" = "設定";
 "editor.tab.notification" = "通知";
+"editor.tab.push" = "プッシュ";
 
 /* Task Editor */
 "editor.title.new" = "新規タスク";
@@ -127,7 +128,7 @@
 "editor.notify_only_when_output.hint" = "有効にすると、実行が成功しても stdout に出力がない場合は通知されません。`echo` で実際に通知する価値のある内容が出力されたときのみ通知されます。";
 "editor.notify_template" = "リマインダー内容";
 "editor.notify_template.enable" = "通知内容をカスタマイズ";
-"editor.notify_template.hint" = "スクリプト出力の要約の代わりに、入力した内容を表示します。システム通知・リモートプッシュ・強調リマインダーのすべてに適用されます。";
+"editor.notify_template.hint" = "スクリプト出力の要約の代わりに、入力した内容を表示します。システム通知と強調リマインダーに適用されます。";
 "editor.notify_template.placeholders" = "使用できる変数：{{output}} 出力 · {{firstLine}} 最初の行 · {{lastLine}} 最後の行 · {{name}} タスク名 · {{duration}} 実行時間 · {{exitCode}} 終了コード · {{status}} 成功/失敗";
 "editor.notify_hint" = "タスク完了時にmacOSのシステム通知で通知されます。";
 "editor.notify_push" = "リモートプッシュ";
@@ -136,8 +137,15 @@
 "editor.notify_push.none_selected" = "送信先が選択されていないため、このタスクはプッシュしません。";
 "editor.notify_push.channel_invalid" = "設定が未完了";
 "editor.notify_push.channel_off" = "無効";
-"editor.notify_push.on_output_change" = "出力が変化したときのみ通知";
+"editor.notify_push.on_output_change" = "出力が変化したときのみプッシュ";
 "editor.notify_push.on_output_change.hint" = "今回のスクリプト出力を前回と比較します。同じ場合はプッシュしません。";
+"editor.push_success" = "成功時にプッシュ";
+"editor.push_failure" = "失敗時にプッシュ";
+"editor.push_only_when_output" = "出力がある場合のみプッシュ";
+"editor.push_only_when_output.hint" = "実行が成功しても stdout に出力がなければプッシュしません。";
+"editor.push_template" = "プッシュ内容";
+"editor.push_template.enable" = "プッシュ内容をカスタマイズ";
+"editor.push_template.hint" = "スクリプト出力の要約の代わりに、入力した内容を表示します。";
 "editor.strong_reminder" = "成功時に強調リマインダー";
 "editor.strong_reminder_hint" = "タスク成功時にフローティングパネルを表示し、上のリマインダー内容を示します。未入力の場合は出力全文を表示します。";
 "editor.strong_reminder_short" = " 強調リマインダー";

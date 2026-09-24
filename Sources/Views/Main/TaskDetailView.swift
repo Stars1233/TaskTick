@@ -322,18 +322,8 @@ struct TaskDetailView: View {
                     }
 
                     // Notification status
-                    let notifyLabel: String = {
-                        if task.notifyOnSuccess && task.notifyOnFailure {
-                            return L10n.tr("notify.both_short")
-                        } else if task.notifyOnSuccess {
-                            return L10n.tr("notify.success_short")
-                        } else if task.notifyOnFailure {
-                            return L10n.tr("notify.failure_short")
-                        } else {
-                            return L10n.tr("notify.off")
-                        }
-                    }()
-                    detailRow(L10n.tr("editor.section.notification"), value: notifyLabel)
+                    detailRow(L10n.tr("editor.section.notification"),
+                              value: Self.whenLabel(onSuccess: task.notifyOnSuccess, onFailure: task.notifyOnFailure))
                     if task.pushEnabled {
                         detailRow(L10n.tr("settings.push"), value: pushSummary)
                     }
@@ -343,16 +333,32 @@ struct TaskDetailView: View {
         }
     }
 
-    /// "Bark, Gotify · Only when output changes", or an explicit warning when
-    /// the task's push switch is on but nothing will actually receive it —
-    /// the one state a user would otherwise have to discover by not getting
-    /// notified.
+    /// "All" / "Success" / "Failure" / "Off" for a pair of success/failure switches.
+    private static func whenLabel(onSuccess: Bool, onFailure: Bool) -> String {
+        switch (onSuccess, onFailure) {
+        case (true, true): L10n.tr("notify.both_short")
+        case (true, false): L10n.tr("notify.success_short")
+        case (false, true): L10n.tr("notify.failure_short")
+        case (false, false): L10n.tr("notify.off")
+        }
+    }
+
+    /// "Bark, Gotify · Failure · Only when output changes", or an explicit
+    /// warning when the task's push switch is on but nothing will actually
+    /// receive it — the one state a user would otherwise have to discover by
+    /// not getting notified. "All" is the default and stays implied.
     private var pushSummary: String {
         let channels = PushChannelStore.resolve(for: task)
         guard !channels.isEmpty else { return L10n.tr("task.detail.push.no_channel") }
-        let names = channels.map(\.displayName).joined(separator: ", ")
-        guard task.pushOnlyWhenOutputChanged else { return names }
-        return "\(names) · \(L10n.tr("editor.notify_push.on_output_change"))"
+        guard task.pushOnSuccess || task.pushOnFailure else { return L10n.tr("notify.off") }
+        var parts = [channels.map(\.displayName).joined(separator: ", ")]
+        if !(task.pushOnSuccess && task.pushOnFailure) {
+            parts.append(Self.whenLabel(onSuccess: task.pushOnSuccess, onFailure: task.pushOnFailure))
+        }
+        if task.pushOnlyWhenOutputChanged {
+            parts.append(L10n.tr("editor.notify_push.on_output_change"))
+        }
+        return parts.joined(separator: " · ")
     }
 
     // MARK: - Script Card

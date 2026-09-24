@@ -68,6 +68,7 @@
 "editor.tab.script" = "Команда";
 "editor.tab.settings" = "Настройки";
 "editor.tab.notification" = "Уведомления";
+"editor.tab.push" = "Push";
 
 /* Task Editor */
 "editor.title.new" = "Новая задача";
@@ -127,7 +128,7 @@
 "editor.notify_only_when_output.hint" = "Если включено, успешный запуск без вывода в stdout остаётся беззвучным. Используйте `echo` только тогда, когда действительно произошло что-то, о чём стоит уведомить.";
 "editor.notify_template" = "Текст напоминания";
 "editor.notify_template.enable" = "Свой текст уведомления";
-"editor.notify_template.hint" = "Заменяет сводку вывода скрипта вашим текстом. Действует для всех напоминаний — системного уведомления, удалённого push и усиленного напоминания.";
+"editor.notify_template.hint" = "Заменяет сводку вывода скрипта вашим текстом. Показывается в системном уведомлении и усиленном напоминании.";
 "editor.notify_template.placeholders" = "Переменные: {{output}} вывод · {{firstLine}} первая строка · {{lastLine}} последняя строка · {{name}} имя задачи · {{duration}} длительность · {{exitCode}} код выхода · {{status}} успех/ошибка";
 "editor.notify_hint" = "Уведомления отправляются через системные уведомления macOS по завершении задачи.";
 "editor.notify_push" = "Удалённый push";
@@ -138,6 +139,13 @@
 "editor.notify_push.channel_off" = "выключен";
 "editor.notify_push.on_output_change" = "Только при изменении вывода";
 "editor.notify_push.on_output_change.hint" = "Сравнивает вывод скрипта с предыдущим запуском. Если вывод тот же — уведомление не отправляется.";
+"editor.push_success" = "Отправлять при успехе";
+"editor.push_failure" = "Отправлять при ошибке";
+"editor.push_only_when_output" = "Отправлять только при наличии вывода";
+"editor.push_only_when_output.hint" = "Успешный запуск без вывода в stdout ничего не отправляет.";
+"editor.push_template" = "Текст push";
+"editor.push_template.enable" = "Свой текст push";
+"editor.push_template.hint" = "Заменяет сводку вывода скрипта вашим текстом.";
 "editor.strong_reminder" = "Усиленное напоминание при успехе";
 "editor.strong_reminder_hint" = "Показывает плавающее окно при успешном выполнении с текстом напоминания выше. Если он пуст, выводится полный вывод скрипта.";
 "editor.strong_reminder_short" = " Усиленное напоминание";

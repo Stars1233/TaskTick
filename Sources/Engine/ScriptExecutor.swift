@@ -120,19 +120,18 @@ final class ScriptExecutor: ObservableObject {
         let taskId = task.id
         let ignoreExitCode = task.ignoreExitCode
         let taskName = task.name
-        let notifyOnSuccess = task.notifyOnSuccess
-        let notifyOnFailure = task.notifyOnFailure
-        let notifyOnlyWhenOutput = task.notifyOnlyWhenOutput
-        let pushEnabled = task.pushEnabled
+        let alertRules = CompletionAlertRules(task: task)
         let pushOnlyWhenOutputChanged = task.pushOnlyWhenOutputChanged
         // Resolved up front, alongside every other captured property: the task
         // can be deleted mid-run, and the completion push should still reach
         // the channels the user picked for it.
-        let pushChannels = pushEnabled ? PushChannelStore.resolve(for: task) : []
+        let pushChannels = task.pushEnabled ? PushChannelStore.resolve(for: task) : []
         let strongReminder = task.strongReminder
-        // Switch off → empty template → every channel keeps its default wording,
-        // while the text the user wrote stays on the task for later.
+        // Switch off → empty template → the channel keeps its default wording,
+        // while the text the user wrote stays on the task for later. Push has
+        // its own template since issue #55.
         let notificationTemplate = task.notificationTemplateEnabled ? task.notificationTemplate : ""
+        let pushTemplate = task.pushTemplateEnabled ? task.pushTemplate : ""
         let logId = log.id
 
         // Shortcut tasks bypass the shell pipeline entirely. The editor blocks
@@ -257,76 +256,59 @@ final class ScriptExecutor: ObservableObject {
         let globalNotificationsEnabled = UserDefaults.standard.object(forKey: "notificationsEnabled") as? Bool ?? true
         let durationText = "\(L10n.tr("notification.duration")) \(ExecutionLog.formatDuration(durationMs))"
 
-        // A task's custom reminder text (issue #48) is rendered once and shared
-        // by all three channels below — notification, remote push, strong reminder —
-        // so the same run reads identically wherever the user sees it. nil
-        // means "no template configured": each channel keeps its own wording.
-        let customBody = NotificationTemplate.render(
-            notificationTemplate,
-            context: NotificationTemplate.Context(
-                taskName: taskName,
-                stdout: result.stdout,
-                stderr: result.stderr,
-                exitCode: result.exitCode,
-                durationMs: durationMs,
-                succeeded: result.status == .success
-            )
+        // A task's custom reminder text (issue #48). The notification template
+        // feeds the macOS banner and the strong reminder; push renders its own
+        // (issue #55). nil means "no template configured": the channel keeps
+        // its default wording.
+        let templateContext = NotificationTemplate.Context(
+            taskName: taskName,
+            stdout: result.stdout,
+            stderr: result.stderr,
+            exitCode: result.exitCode,
+            durationMs: durationMs,
+            succeeded: result.status == .success
         )
-        let customPushBody = customBody.map(NotificationTemplate.clampForPush)
+        let customBody = NotificationTemplate.render(notificationTemplate, context: templateContext)
+        let customNotificationBody = customBody.map(NotificationTemplate.clampForPush)
+        let customPushBody = NotificationTemplate.render(pushTemplate, context: templateContext)
+            .map(NotificationTemplate.clampForPush)
 
-        if result.status != .success {
+        let succeeded = result.status == .success
+        let hasOutput = CompletionAlertRules.hasOutput(stdout: result.stdout)
+        let title: String
+        let defaultBody: String
+        if succeeded {
+            // Prefer stdout, fall back to stderr when stdout has no meaningful content
+            let outputSource = ScriptExecutor.hasMeaningfulContent(result.stdout) ? result.stdout : result.stderr
+            let outputLine = NotificationTemplate.firstMeaningfulLine(of: outputSource)
+            let body = [durationText, outputLine].filter { !$0.isEmpty }.joined(separator: " · ")
+            title = "[\(L10n.tr("notification.succeeded"))] \(taskName)"
+            defaultBody = body.isEmpty ? L10n.tr("notification.success") : body
+        } else {
             let exitInfo = "Exit code: \(result.exitCode ?? -1)"
             let stderrLine = result.stderr.components(separatedBy: .newlines).first(where: { !$0.trimmingCharacters(in: .whitespaces).isEmpty }) ?? ""
-            let body = customPushBody
-                ?? [exitInfo, durationText, stderrLine].filter { !$0.isEmpty }.joined(separator: " · ")
-            let title = "[\(L10n.tr("notification.failed"))] \(taskName)"
-            if globalNotificationsEnabled && notifyOnFailure {
-                NotificationManager.shared.sendNotification(
-                    title: title, body: body, userInfo: NotificationManager.userInfo(taskId: taskId)
-                )
-            }
+            title = "[\(L10n.tr("notification.failed"))] \(taskName)"
+            defaultBody = [exitInfo, durationText, stderrLine].filter { !$0.isEmpty }.joined(separator: " · ")
+        }
+
+        if globalNotificationsEnabled && alertRules.notification.fires(succeeded: succeeded, hasOutput: hasOutput) {
+            NotificationManager.shared.sendNotification(
+                title: title,
+                body: customNotificationBody ?? defaultBody,
+                userInfo: NotificationManager.userInfo(taskId: taskId)
+            )
+        }
+        if alertRules.push?.fires(succeeded: succeeded, hasOutput: hasOutput) == true {
             sendPushIfNeeded(
-                enabled: pushEnabled,
                 onlyOnChange: pushOnlyWhenOutputChanged,
                 channels: pushChannels,
                 title: title,
-                body: body,
+                body: customPushBody ?? defaultBody,
                 stdout: result.stdout,
                 stderr: result.stderr,
                 task: fetchedTask,
                 modelContext: modelContext
             )
-        } else {
-            // "Notify only when output present" mode: polling scripts stay silent on
-            // empty runs and only chirp when they `echo` something meaningful.
-            // Whitespace-only stdout counts as no output (a script ending in a stray
-            // newline shouldn't fire a notification).
-            let trimmedStdout = result.stdout.trimmingCharacters(in: .whitespacesAndNewlines)
-            if !(notifyOnlyWhenOutput && trimmedStdout.isEmpty) {
-                // Prefer stdout, fall back to stderr when stdout has no meaningful content
-                let outputSource = ScriptExecutor.hasMeaningfulContent(result.stdout) ? result.stdout : result.stderr
-                let outputLine = NotificationTemplate.firstMeaningfulLine(of: outputSource)
-                let body = [durationText, outputLine].filter { !$0.isEmpty }.joined(separator: " · ")
-                let title = "[\(L10n.tr("notification.succeeded"))] \(taskName)"
-                let resolvedBody = customPushBody
-                    ?? (body.isEmpty ? L10n.tr("notification.success") : body)
-                if globalNotificationsEnabled && notifyOnSuccess {
-                    NotificationManager.shared.sendNotification(
-                        title: title, body: resolvedBody, userInfo: NotificationManager.userInfo(taskId: taskId)
-                    )
-                }
-                sendPushIfNeeded(
-                    enabled: pushEnabled,
-                    onlyOnChange: pushOnlyWhenOutputChanged,
-                    channels: pushChannels,
-                    title: title,
-                    body: resolvedBody,
-                    stdout: result.stdout,
-                    stderr: result.stderr,
-                    task: fetchedTask,
-                    modelContext: modelContext
-                )
-            }
         }
 
         // Strong reminder: show floating panel with the custom reminder text, or
@@ -346,15 +328,14 @@ final class ScriptExecutor: ObservableObject {
         return log
     }
 
-    /// Remote push is independent of the macOS notification switch. When
-    /// `onlyOnChange` is on, compare this run's output to the last
-    /// fingerprinted run and stay silent if nothing changed.
+    /// Whether this run pushes at all is decided by `CompletionAlertRules`
+    /// before we get here. When `onlyOnChange` is on, compare this run's output
+    /// to the last fingerprinted run and stay silent if nothing changed.
     ///
     /// `channels` is resolved before the run rather than here: the task may
     /// have been deleted while the script was running, and the user's channel
     /// choice shouldn't disappear with it.
     private func sendPushIfNeeded(
-        enabled: Bool,
         onlyOnChange: Bool,
         channels: [PushChannel],
         title: String,
@@ -364,7 +345,7 @@ final class ScriptExecutor: ObservableObject {
         task: ScheduledTask?,
         modelContext: ModelContext
     ) {
-        guard enabled, !channels.isEmpty else { return }
+        guard !channels.isEmpty else { return }
         if onlyOnChange {
             let fingerprint = PushDispatcher.outputFingerprint(stdout: stdout, stderr: stderr)
             let shouldSend = PushDispatcher.shouldNotifyOnOutputChange(

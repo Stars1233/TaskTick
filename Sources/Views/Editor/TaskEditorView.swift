@@ -93,14 +93,19 @@ struct TaskEditorView: View {
     @State private var notificationTemplateEnabled = false
     @State private var notificationTemplate = ""
     @State private var pushEnabled = false
+    @State private var pushOnSuccess = true
+    @State private var pushOnFailure = true
+    @State private var pushOnlyWhenOutput = false
     @State private var pushOnlyWhenOutputChanged = false
+    @State private var pushTemplateEnabled = false
+    @State private var pushTemplate = ""
     /// nil = "every enabled channel" (see `selectedChannelIDs`).
     @State private var pushChannelIDs: [UUID]?
     @ObservedObject private var pushSettings = PushChannelSettings.shared
     @State private var strongReminder = false
     @State private var ignoreExitCode = false
 
-    @State private var selectedTab = 0
+    @State private var selectedTab: Tab = .basic
     @State private var loadedTrigger = -1
 
     // Script validation
@@ -153,32 +158,55 @@ struct TaskEditorView: View {
         )
     }
 
+    enum Tab: String, CaseIterable {
+        case basic = "editor.tab.basic"
+        case script = "editor.tab.script"
+        case schedule = "editor.tab.schedule"
+        case settings = "editor.tab.settings"
+        case notification = "editor.tab.notification"
+        case push = "editor.tab.push"
+
+        var title: String { L10n.tr(rawValue) }
+
+        var symbol: String {
+            switch self {
+            case .basic: return "square.and.pencil"
+            case .script: return "terminal"
+            case .schedule: return "calendar.badge.clock"
+            case .settings: return "gearshape"
+            case .notification: return "bell"
+            case .push: return "paperplane"
+            }
+        }
+    }
+
     var body: some View {
         TabView(selection: $selectedTab) {
             basicTab
-                .tabItem { Label(L10n.tr("editor.tab.basic"), systemImage: "square.and.pencil") }
-                .tag(0)
+                .tabItem { Label(Tab.basic.title, systemImage: Tab.basic.symbol) }
+                .tag(Tab.basic)
 
             scriptContentTab
-                .tabItem { Label(L10n.tr("editor.tab.script"), systemImage: "terminal") }
-                .tag(1)
+                .tabItem { Label(Tab.script.title, systemImage: Tab.script.symbol) }
+                .tag(Tab.script)
 
             scheduleTab
-                .tabItem { Label(L10n.tr("editor.tab.schedule"), systemImage: "calendar.badge.clock") }
-                .tag(2)
+                .tabItem { Label(Tab.schedule.title, systemImage: Tab.schedule.symbol) }
+                .tag(Tab.schedule)
 
             scriptSettingsTab
-                .tabItem { Label(L10n.tr("editor.tab.settings"), systemImage: "gearshape") }
-                .tag(3)
+                .tabItem { Label(Tab.settings.title, systemImage: Tab.settings.symbol) }
+                .tag(Tab.settings)
 
             notificationTab
-                .tabItem { Label(L10n.tr("editor.tab.notification"), systemImage: "bell") }
-                .tag(4)
+                .tabItem { Label(Tab.notification.title, systemImage: Tab.notification.symbol) }
+                .tag(Tab.notification)
+
+            pushTab
+                .tabItem { Label(Tab.push.title, systemImage: Tab.push.symbol) }
+                .tag(Tab.push)
         }
-        // Wide enough that the macOS 15+ toolbar-style tab bar fits all five
-        // tabs even in German (longest labels) instead of collapsing into the
-        // "»" overflow menu (issue #39 item 1).
-        .frame(width: 720)
+        .frame(width: Self.windowWidth())
         .fixedSize(horizontal: true, vertical: true)
         .safeAreaInset(edge: .bottom) {
             VStack(spacing: 0) {
@@ -201,6 +229,11 @@ struct TaskEditorView: View {
                 .padding(.horizontal, 20)
                 .padding(.vertical, 12)
             }
+            // A tab taller than the screen now scrolls (issue #55), and its
+            // rows pass underneath this bar — without a fill they show through
+            // the buttons. The window's own background keeps it seamless with
+            // the form at rest, white in light mode and dark in dark mode.
+            .background(Color(nsColor: .windowBackgroundColor))
         }
         // The window's own title (TaskTickApp.swift) is evaluated once when the
         // Scene is declared, so it keeps saying "New Task" even when opened via
@@ -218,6 +251,42 @@ struct TaskEditorView: View {
             TaskHotkeyManager.shared.discardDraft()
         }
     }
+
+    /// How wide the editor has to be for its whole tab bar to stay visible.
+    ///
+    /// Since macOS 15 the tab bar sits in the title bar, centered, with the
+    /// traffic lights to its left; when it doesn't fit, macOS folds tabs into a
+    /// "»" overflow menu and the `.contentSize` window can't be dragged wider
+    /// (issue #39 item 1). A fixed 720 held five tabs in German with little to
+    /// spare; the Push tab (issue #55) made that a coin toss, so — as
+    /// `SettingsView.windowWidth` does — measure the titles about to be drawn.
+    static func windowWidth(screenWidth: CGFloat? = nil) -> CGFloat {
+        windowWidth(titles: Tab.allCases.map(\.title), screenWidth: screenWidth)
+    }
+
+    /// Split out so tests can feed it every language's titles straight from the
+    /// `.strings` files.
+    static func windowWidth(titles: [String], screenWidth: CGFloat? = nil) -> CGFloat {
+        let bar = tabBarWidth(titles: titles)
+        // Never below the familiar 720; never wider than the display either —
+        // "»" is the lesser evil next to a window that runs off screen.
+        let available = (screenWidth ?? NSScreen.main?.visibleFrame.width ?? 1440) - 80
+        return min(max(720, ceil(bar) + 2 * titleBarReserve), max(720, available))
+    }
+
+    static func tabBarWidth(titles: [String]) -> CGFloat {
+        let font = NSFont.systemFont(ofSize: NSFont.systemFontSize)
+        return titles.reduce(CGFloat.zero) { total, title in
+            total + ceil((title as NSString).size(withAttributes: [.font: font]).width) + tabItemPadding
+        }
+    }
+
+    /// Measured on the live macOS 27 tab bar: each item is its 13pt title plus
+    /// ~23pt of padding.
+    static let tabItemPadding: CGFloat = 24
+    /// Room the centered bar needs on each side: the traffic lights end ~80pt
+    /// in, plus a gap before the first tab.
+    static let titleBarReserve: CGFloat = 96
 
     // MARK: - Basic Tab
 
@@ -873,35 +942,6 @@ struct TaskEditorView: View {
 
     private var notificationTab: some View {
         Form {
-            // Content first, delivery channels below: the sections that follow
-            // pick *how* a reminder shows up, this one picks *what* it says —
-            // and it feeds all three of them (issue #48). Off by default, so
-            // the notification wording only changes when the user asks for it.
-            Section {
-                Toggle(isOn: $notificationTemplateEnabled) {
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(L10n.tr("editor.notify_template.enable"))
-                        Text(L10n.tr("editor.notify_template.hint"))
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                            .fixedSize(horizontal: false, vertical: true)
-                    }
-                }
-                if notificationTemplateEnabled {
-                    TextEditor(text: $notificationTemplate)
-                        .font(.system(size: 12, design: .monospaced))
-                        .frame(minHeight: 60)
-                        .scrollContentBackground(.hidden)
-                }
-            } header: {
-                Text(L10n.tr("editor.notify_template"))
-            } footer: {
-                if notificationTemplateEnabled {
-                    Text(L10n.tr("editor.notify_template.placeholders"))
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-            }
-
             Section {
                 Toggle(L10n.tr("editor.notify_success"), isOn: $notifyOnSuccess)
                 Toggle(L10n.tr("editor.notify_failure"), isOn: $notifyOnFailure)
@@ -937,6 +977,68 @@ struct TaskEditorView: View {
                 Text(L10n.tr("editor.notify_hint"))
             }
 
+            // *What* the banner and the strong reminder say (issue #48), below
+            // the section that picks *when* — the Push tab is laid out the same
+            // way, so the two read as a pair. Off by default, so the wording
+            // only changes when the user asks for it. Remote push has its own
+            // template on its own tab (issue #55) — nothing here reaches it.
+            Section {
+                Toggle(isOn: $notificationTemplateEnabled) {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(L10n.tr("editor.notify_template.enable"))
+                        Text(L10n.tr("editor.notify_template.hint"))
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                }
+                if notificationTemplateEnabled {
+                    TextEditor(text: $notificationTemplate)
+                        .font(.system(size: 12, design: .monospaced))
+                        .frame(minHeight: 60)
+                        .scrollContentBackground(.hidden)
+                }
+            } header: {
+                Text(L10n.tr("editor.notify_template"))
+            } footer: {
+                if notificationTemplateEnabled {
+                    Text(L10n.tr("editor.notify_template.placeholders"))
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+
+            Section {
+                Toggle(L10n.tr("editor.strong_reminder"), isOn: $strongReminder)
+            } footer: {
+                Text(L10n.tr("editor.strong_reminder_hint"))
+            }
+        }
+        .formStyle(.grouped)
+        .groupedFormSizing(minHeight: 471)
+        .onChange(of: shell) { _, newShell in
+            if scriptSource == .inline {
+                let newShebang = "#!\(newShell)"
+                if scriptBody.hasPrefix("#!") {
+                    // Replace existing shebang line
+                    if let firstNewline = scriptBody.firstIndex(of: "\n") {
+                        scriptBody = newShebang + scriptBody[firstNewline...]
+                    } else {
+                        scriptBody = newShebang + "\n"
+                    }
+                } else if scriptBody.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    scriptBody = newShebang + "\n"
+                }
+            }
+        }
+    }
+
+    // MARK: - Push Tab
+
+    /// Remote push, set up on its own (issue #55): where it goes, when, and
+    /// what it says. Before the split these rows shared the Notification tab,
+    /// where the success/failure switches only ever reached the macOS banner.
+    private var pushTab: some View {
+        Form {
             Section {
                 Toggle(isOn: $pushEnabled) {
                     VStack(alignment: .leading, spacing: 2) {
@@ -981,7 +1083,25 @@ struct TaskEditorView: View {
                             .fixedSize(horizontal: false, vertical: true)
                     }
                 }
+            } header: {
+                Text(L10n.tr("settings.push"))
+            }
 
+            Section {
+                Toggle(L10n.tr("editor.push_success"), isOn: $pushOnSuccess)
+                Toggle(L10n.tr("editor.push_failure"), isOn: $pushOnFailure)
+                Toggle(isOn: $pushOnlyWhenOutput) {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(L10n.tr("editor.push_only_when_output"))
+                        if pushEnabled && pushOnSuccess && pushOnlyWhenOutput {
+                            Text(L10n.tr("editor.push_only_when_output.hint"))
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                    }
+                }
+                .disabled(!pushOnSuccess)
                 Toggle(isOn: $pushOnlyWhenOutputChanged) {
                     VStack(alignment: .leading, spacing: 2) {
                         Text(L10n.tr("editor.notify_push.on_output_change"))
@@ -993,34 +1113,37 @@ struct TaskEditorView: View {
                         }
                     }
                 }
-                .disabled(!pushEnabled)
-            } header: {
-                Text(L10n.tr("settings.push"))
             }
+            .disabled(!pushEnabled)
 
             Section {
-                Toggle(L10n.tr("editor.strong_reminder"), isOn: $strongReminder)
-            } footer: {
-                Text(L10n.tr("editor.strong_reminder_hint"))
-            }
-        }
-        .formStyle(.grouped)
-        .groupedFormSizing(minHeight: 638)
-        .onChange(of: shell) { _, newShell in
-            if scriptSource == .inline {
-                let newShebang = "#!\(newShell)"
-                if scriptBody.hasPrefix("#!") {
-                    // Replace existing shebang line
-                    if let firstNewline = scriptBody.firstIndex(of: "\n") {
-                        scriptBody = newShebang + scriptBody[firstNewline...]
-                    } else {
-                        scriptBody = newShebang + "\n"
+                Toggle(isOn: $pushTemplateEnabled) {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(L10n.tr("editor.push_template.enable"))
+                        Text(L10n.tr("editor.push_template.hint"))
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
                     }
-                } else if scriptBody.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                    scriptBody = newShebang + "\n"
+                }
+                if pushTemplateEnabled {
+                    TextEditor(text: $pushTemplate)
+                        .font(.system(size: 12, design: .monospaced))
+                        .frame(minHeight: 60)
+                        .scrollContentBackground(.hidden)
+                }
+            } header: {
+                Text(L10n.tr("editor.push_template"))
+            } footer: {
+                if pushTemplateEnabled {
+                    Text(L10n.tr("editor.notify_template.placeholders"))
+                        .fixedSize(horizontal: false, vertical: true)
                 }
             }
+            .disabled(!pushEnabled)
         }
+        .formStyle(.grouped)
+        .groupedFormSizing(minHeight: 423)
     }
 
     /// `nil` on the task means "every channel". The editor materializes that
@@ -1256,11 +1379,16 @@ struct TaskEditorView: View {
         notificationTemplateEnabled = false
         notificationTemplate = ""
         pushEnabled = false
+        pushOnSuccess = true
+        pushOnFailure = true
+        pushOnlyWhenOutput = false
         pushOnlyWhenOutputChanged = false
+        pushTemplateEnabled = false
+        pushTemplate = ""
         pushChannelIDs = nil
         strongReminder = false
         ignoreExitCode = false
-        selectedTab = 0
+        selectedTab = .basic
 
         // Apply template if present (for new task from template)
         if let template = editorState.pendingTemplate, task == nil {
@@ -1294,7 +1422,14 @@ struct TaskEditorView: View {
         notificationTemplateEnabled = task.notificationTemplateEnabled
         notificationTemplate = task.notificationTemplate
         pushEnabled = task.pushEnabled
+        pushOnSuccess = task.pushOnSuccess
+        pushOnFailure = task.pushOnFailure
+        // Falls back to the notification side on a task saved before the push
+        // tab existed, so the tab opens showing what the task actually does.
+        pushOnlyWhenOutput = task.pushOnlyWhenOutput
         pushOnlyWhenOutputChanged = task.pushOnlyWhenOutputChanged
+        pushTemplateEnabled = task.pushTemplateEnabled
+        pushTemplate = task.pushTemplate
         pushChannelIDs = task.pushChannelIDs
         strongReminder = task.strongReminder
         ignoreExitCode = task.ignoreExitCode
@@ -1361,7 +1496,14 @@ struct TaskEditorView: View {
         target.notificationTemplateEnabled = notificationTemplateEnabled
         target.notificationTemplate = notificationTemplate.trimmingCharacters(in: .whitespacesAndNewlines)
         target.pushEnabled = pushEnabled
+        // Written unconditionally: from the first save on, the push side stops
+        // following the notification side (issue #55).
+        target.pushOnSuccess = pushOnSuccess
+        target.pushOnFailure = pushOnFailure
+        target.pushOnlyWhenOutput = pushOnlyWhenOutput
         target.pushOnlyWhenOutputChanged = pushOnlyWhenOutputChanged
+        target.pushTemplateEnabled = pushTemplateEnabled
+        target.pushTemplate = pushTemplate.trimmingCharacters(in: .whitespacesAndNewlines)
         // Persist the materialized selection (see `selectedChannelIDs`) so the
         // saved task means exactly what the checkboxes showed. With no channels
         // configured there are no checkboxes to be faithful to — pinning the

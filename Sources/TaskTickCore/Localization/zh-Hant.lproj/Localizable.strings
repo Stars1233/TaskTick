@@ -68,6 +68,7 @@
 "editor.tab.script" = "命令";
 "editor.tab.settings" = "設定";
 "editor.tab.notification" = "通知";
+"editor.tab.push" = "推播";
 
 /* Task Editor */
 "editor.title.new" = "新增任務";
@@ -127,17 +128,24 @@
 "editor.notify_only_when_output.hint" = "啟用後，執行成功但指令稿沒有任何 stdout 輸出（例如輪詢空跑）將不彈出通知；只在指令稿透過 `echo` 主動印出業務資訊時才會通知。";
 "editor.notify_template" = "提醒內容";
 "editor.notify_template.enable" = "自訂通知內容";
-"editor.notify_template.hint" = "用你撰寫的內容取代指令稿輸出摘要，系統通知、遠端推播、強提醒都會顯示它。";
+"editor.notify_template.hint" = "用你撰寫的內容取代指令稿輸出摘要，系統通知和強提醒都會顯示它。";
 "editor.notify_template.placeholders" = "可用變數：{{output}} 指令稿輸出 · {{firstLine}} 首行 · {{lastLine}} 末行 · {{name}} 任務名稱 · {{duration}} 耗時 · {{exitCode}} 結束代碼 · {{status}} 成功/失敗";
-"editor.notify_hint" = "任務完成時透過 macOS 系統通知推播。";
+"editor.notify_hint" = "任務完成時跳出 macOS 系統通知。";
 "editor.notify_push" = "遠端推播";
 "editor.notify_push.hint" = "開啟後，該任務完成時會推播到下方選取的管道。";
 "editor.notify_push.no_channel" = "尚未設定推播管道，請先到設定中新增。";
 "editor.notify_push.none_selected" = "未選取任何管道，此任務不會推播。";
 "editor.notify_push.channel_invalid" = "尚未設定完成";
 "editor.notify_push.channel_off" = "已停用";
-"editor.notify_push.on_output_change" = "僅在輸出有變動時通知";
+"editor.notify_push.on_output_change" = "僅在輸出有變動時推播";
 "editor.notify_push.on_output_change.hint" = "比對本次與上次的指令稿輸出。輸出相同則不推播。";
+"editor.push_success" = "成功時推播";
+"editor.push_failure" = "失敗時推播";
+"editor.push_only_when_output" = "僅在有輸出時推播";
+"editor.push_only_when_output.hint" = "執行成功但指令稿沒有 stdout 輸出（例如輪詢空跑）時不推播。";
+"editor.push_template" = "推播內容";
+"editor.push_template.enable" = "自訂推播內容";
+"editor.push_template.hint" = "用你撰寫的內容取代指令稿輸出摘要。";
 "editor.strong_reminder" = "成功時強提醒";
 "editor.strong_reminder_hint" = "任務成功後彈出浮動面板，顯示上方的提醒內容；未填寫時顯示完整輸出。";
 "editor.strong_reminder_short" = "強提醒";

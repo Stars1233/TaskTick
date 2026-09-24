@@ -68,6 +68,7 @@
 "editor.tab.script" = "Befehl";
 "editor.tab.settings" = "Einstellungen";
 "editor.tab.notification" = "Benachrichtigungen";
+"editor.tab.push" = "Push";
 
 /* Task Editor */
 "editor.title.new" = "Neue Aufgabe";
@@ -127,7 +128,7 @@
 "editor.notify_only_when_output.hint" = "Wenn aktiviert, bleibt ein erfolgreicher Lauf ohne stdout-Ausgabe stumm. Verwende `echo` nur dann, wenn tatsächlich etwas Meldenswertes passiert ist.";
 "editor.notify_template" = "Erinnerungstext";
 "editor.notify_template.enable" = "Benachrichtigungstext anpassen";
-"editor.notify_template.hint" = "Ersetzt die Zusammenfassung der Skriptausgabe durch deinen eigenen Text. Gilt für alle Erinnerungen — Systembenachrichtigung, Remote-Push und starke Erinnerung.";
+"editor.notify_template.hint" = "Ersetzt die Zusammenfassung der Skriptausgabe durch deinen eigenen Text. Erscheint in der Systembenachrichtigung und der starken Erinnerung.";
 "editor.notify_template.placeholders" = "Variablen: {{output}} Ausgabe · {{firstLine}} erste Zeile · {{lastLine}} letzte Zeile · {{name}} Aufgabenname · {{duration}} Dauer · {{exitCode}} Exit-Code · {{status}} Erfolg/Fehler";
 "editor.notify_hint" = "Benachrichtigungen werden über macOS-Systembenachrichtigungen gesendet, wenn eine Aufgabe abgeschlossen ist.";
 "editor.notify_push" = "Remote-Push";
@@ -138,6 +139,13 @@
 "editor.notify_push.channel_off" = "aus";
 "editor.notify_push.on_output_change" = "Nur bei geänderter Ausgabe";
 "editor.notify_push.on_output_change.hint" = "Vergleicht die Skriptausgabe dieses Laufs mit der des letzten. Gleiche Ausgabe → kein Push.";
+"editor.push_success" = "Bei Erfolg Push senden";
+"editor.push_failure" = "Bei Fehler Push senden";
+"editor.push_only_when_output" = "Nur bei Ausgabe Push senden";
+"editor.push_only_when_output.hint" = "Ein erfolgreicher Lauf ohne stdout-Ausgabe sendet keinen Push.";
+"editor.push_template" = "Push-Text";
+"editor.push_template.enable" = "Push-Text anpassen";
+"editor.push_template.hint" = "Ersetzt die Zusammenfassung der Skriptausgabe durch deinen eigenen Text.";
 "editor.strong_reminder" = "Starke Erinnerung bei Erfolg";
 "editor.strong_reminder_hint" = "Zeigt bei Erfolg ein schwebendes Fenster mit dem Erinnerungstext von oben. Ist dieser leer, wird die vollständige Ausgabe angezeigt.";
 "editor.strong_reminder_short" = " Starke Erinnerung";

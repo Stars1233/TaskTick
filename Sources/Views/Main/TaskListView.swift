@@ -289,6 +289,11 @@ struct TaskListView: View {
         copy.pushEnabled = task.pushEnabled
         copy.pushOnlyWhenOutputChanged = task.pushOnlyWhenOutputChanged
         copy.pushChannelIDsJSON = task.pushChannelIDsJSON
+        copy.pushOnSuccess = task.pushOnSuccess
+        copy.pushOnFailure = task.pushOnFailure
+        copy.pushOnlyWhenOutputOverride = task.pushOnlyWhenOutputOverride
+        copy.pushTemplateEnabledOverride = task.pushTemplateEnabledOverride
+        copy.pushTemplateOverride = task.pushTemplateOverride
         copy.strongReminder = task.strongReminder
         copy.ignoreExitCode = task.ignoreExitCode
         copy.isManualOnly = task.isManualOnly

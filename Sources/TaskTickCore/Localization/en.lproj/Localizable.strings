@@ -68,6 +68,7 @@
 "editor.tab.script" = "Command";
 "editor.tab.settings" = "Settings";
 "editor.tab.notification" = "Notifications";
+"editor.tab.push" = "Push";
 
 /* Task Editor */
 "editor.title.new" = "New Task";
@@ -127,7 +128,7 @@
 "editor.notify_only_when_output.hint" = "When enabled, a successful run with no stdout stays silent. Use `echo` only when something worth notifying actually happened.";
 "editor.notify_template" = "Reminder Content";
 "editor.notify_template.enable" = "Custom Notification Content";
-"editor.notify_template.hint" = "Replace the script-output summary with your own text. Applies to every reminder — system notification, remote push and strong reminder.";
+"editor.notify_template.hint" = "Replace the script-output summary with your own text. Shown in the system notification and the strong reminder.";
 "editor.notify_template.placeholders" = "Variables: {{output}} script output · {{firstLine}} first line · {{lastLine}} last line · {{name}} task name · {{duration}} elapsed · {{exitCode}} exit code · {{status}} succeeded/failed";
 "editor.notify_hint" = "Notifications are sent via macOS system notifications when a task finishes.";
 "editor.notify_push" = "Remote Push";
@@ -138,6 +139,13 @@
 "editor.notify_push.channel_off" = "off";
 "editor.notify_push.on_output_change" = "Only When Output Changes";
 "editor.notify_push.on_output_change.hint" = "Compare this run's script output with the last run. Same output → no push.";
+"editor.push_success" = "Push on Success";
+"editor.push_failure" = "Push on Failure";
+"editor.push_only_when_output" = "Push Only When Output Exists";
+"editor.push_only_when_output.hint" = "A successful run with no stdout doesn't push.";
+"editor.push_template" = "Push Content";
+"editor.push_template.enable" = "Custom Push Content";
+"editor.push_template.hint" = "Replace the script-output summary with your own text.";
 "editor.strong_reminder" = "Strong Reminder on Success";
 "editor.strong_reminder_hint" = "Show a floating panel when the task succeeds. It shows the reminder content above, or the full output when that is empty.";
 "editor.strong_reminder_short" = " Strong Reminder";
